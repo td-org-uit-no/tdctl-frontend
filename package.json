@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "env-cmd": "^10.1.0",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
@@ -19,8 +20,10 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd -f environments/.env.development react-scripts start",
+    "start:local": "env-cmd -f environments/.env.local-development react-scripts start",
+    "build": "env-cmd -f environments/.env.production react-scripts build",
+    "build:development": "env-cmd -f environments/.env.development react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
