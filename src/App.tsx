@@ -1,10 +1,13 @@
 import React from 'react';
-
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import RootPage from './components/pages/Root';
 const App: React.FC = () => {
   return (
-    <div>
-      <h1> TDCTL-FRONTEND</h1>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" component={RootPage}></Route>
+      </Switch>
+    </Router>
   );
 };
 
