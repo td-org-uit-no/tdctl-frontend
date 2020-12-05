@@ -8,7 +8,7 @@ const LoginForm = () => {
     console.log(fields['email']);
   };
 
-  const { fields, onFieldChange, onSubmitEvent, hasErrors } = useForm(onSubmit);
+  const { fields, onFieldChange, onSubmitEvent } = useForm(onSubmit);
 
   return (
     <form onSubmit={onSubmitEvent}>
@@ -27,9 +27,7 @@ const LoginForm = () => {
         onChange={onFieldChange}
       />
 
-      <Button type="submit" disabled={hasErrors}>
-        Logg inn
-      </Button>
+      <Button type="submit">Logg inn</Button>
     </form>
   );
 };
