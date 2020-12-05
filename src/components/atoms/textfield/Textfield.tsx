@@ -15,7 +15,7 @@ const TextField: React.FC<Props> = ({ error, maxWidth, label, ...rest }) => {
         style={{ maxWidth: maxWidth ? maxWidth + 'ch' : '' }}>
         <label>{label}</label>
         <input className={styles.textField} {...rest} />
-        {error && <div>{error.map((error) => error)}</div>}
+        {error && <div>{error.map((err, index:number) => error.length > 1 ? <li key={index}>{err}</li> : err )}</div>}
       </div>
     );
   }
