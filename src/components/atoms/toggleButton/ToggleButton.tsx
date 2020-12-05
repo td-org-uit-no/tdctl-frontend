@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './toggle.module.scss';
+import styles from './ToggleButton.module.scss';
 interface Props {
   checked: boolean;
   onChange: () => any;
 }
-const Toggle: React.FC<Props> = ({ checked, onChange }) => {
+const ToggleButton: React.FC<Props> = ({ checked, onChange }) => {
   return (
     <label className={styles.switch}>
       <input type="checkbox" className={styles.toggle} onChange={onChange} />
@@ -13,4 +13,4 @@ const Toggle: React.FC<Props> = ({ checked, onChange }) => {
   );
 };
 
-export default Toggle;	
+export default ToggleButton;
