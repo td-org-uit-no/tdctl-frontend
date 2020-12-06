@@ -1,5 +1,5 @@
-import { accessTokenKey, refreshTokenKey } from '../constants/apiConstants';
-import { TokenPair } from '../models/apiModels';
+import { accessTokenKey, refreshTokenKey } from 'constants/apiConstants';
+import { TokenPair } from 'models/apiModels';
 import { authenticate, getMemberAssociatedWithToken } from './api';
 
 const getTokens = (): TokenPair => {

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Authenticated } from '../../../../contexts';
-import useForm from '../../../../hooks/useForm';
-import { login } from '../../../../utils/auth';
-import Button from '../../../atoms/button/Button';
-import TextField from '../../../atoms/textfield/Textfield';
+import { Authenticated } from 'contexts';
+import useForm from 'hooks/useForm';
+import { login } from 'utils/auth';
+import Button from 'components/atoms/button/Button';
+import TextField from 'components/atoms/textfield/Textfield';
 
 const LoginForm = () => {
   const { setAuthenticated } = useContext(Authenticated);

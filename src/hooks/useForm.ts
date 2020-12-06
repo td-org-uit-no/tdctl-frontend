@@ -1,5 +1,5 @@
-import react, { useEffect, useState } from 'react';
-import { dictFromArray } from '../utils/general';
+import { useEffect, useState } from 'react';
+import { dictFromArray } from 'utils/general';
 
 interface Field {
   value: string;
@@ -8,7 +8,6 @@ interface Field {
 interface Fields {
   [name: string]: Field;
 }
-
 interface Validators {
   [key: string]: (value: string) => string[] | undefined;
 }

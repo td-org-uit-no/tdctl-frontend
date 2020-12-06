@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { RegistrerPage, RootPage, LoginPage } from './components/pages';
-import Navbar from './components/molecules/Navbar/Navbar';
-import { Authenticated } from './contexts';
-import { verifyAuthentication } from './utils/auth';
+import { RegistrerPage, RootPage, LoginPage } from 'components/pages';
+import Navbar from 'components/molecules/Navbar/Navbar';
+import { Authenticated } from 'contexts';
+import { verifyAuthentication } from 'utils/auth';
 
 const App: React.FC = () => {
   const [authenticated, setAuthenticated] = useState(false);

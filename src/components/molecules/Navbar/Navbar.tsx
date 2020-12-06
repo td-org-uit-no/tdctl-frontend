@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Authenticated } from '../../../contexts';
+import { Authenticated } from 'contexts';
 import styles from './navbar.module.scss';
 
 const Navbar: React.FC = () => {
