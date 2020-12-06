@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navbar from './components/molecules/Navbar/Navbar';
-import { RegistrerPage, RootPage } from './components/pages';
-import LoginPage from './components/pages/Login';
+
+import { RegistrerPage, RootPage, LoginPage } from 'components/pages';
+import Navbar from 'components/molecules/Navbar/Navbar';
+import { Authenticated } from 'contexts';
+import { verifyAuthentication } from 'utils/auth';
 
 const App: React.FC = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    verifyAuthentication().then((res) => {
+      setAuthenticated(res);
+      setIsLoading(false);
+    });
+  }, []);
+
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/registrer" component={RegistrerPage} />
-        <Route path="/" component={RootPage} />
-      </Switch>
-    </Router>
+    <Authenticated.Provider
+      value={{
+        authenticated,
+        setAuthenticated: (authenticated) => setAuthenticated(authenticated),
+      }}>
+      {!isLoading && (
+        <Router>
+          <Navbar />
+          <Switch>
+            {!authenticated && (
+              <Route path="/registrer" component={RegistrerPage} />
+            )}
+            {!authenticated && <Route path="/login" component={LoginPage} />}
+            <Route path="/" component={RootPage} />
+          </Switch>
+        </Router>
+      )}
+    </Authenticated.Provider>
   );
 };
 
