@@ -3,7 +3,7 @@ import { PartialMember, Member, TokenPair } from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
 /* Http error */
-class HttpError extends Error {
+export class HttpError extends Error {
   statusCode: number;
   constructor(message: string, statusCode: number) {
     super(message);

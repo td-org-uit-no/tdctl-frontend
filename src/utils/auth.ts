@@ -12,15 +12,10 @@ const setTokens = (accessToken: string, refreshToken: string) => {
   sessionStorage.setItem(refreshTokenKey, refreshToken);
 };
 
-const login = async (email: string, password: string) => {
-  try {
-    const { accessToken, refreshToken } = await authenticate(email, password);
-    setTokens(accessToken, refreshToken);
-  } catch (error) {
-    throw error;
-  }
-};
-
+const login = async (email: string, password: string) =>
+  authenticate(email, password).then((tokens) =>
+    setTokens(tokens.accessToken, tokens.refreshToken)
+  );
 /* Deeply checks if user is authenticated by 
    performing a query to the API */
 const verifyAuthentication = async () => {
