@@ -36,7 +36,9 @@ const LoginForm = () => {
         onChange={onFieldChange}
       />
 
-      <Button type="submit">Logg inn</Button>
+      <Button version={'primary'} type="submit">
+        Logg inn
+      </Button>
     </form>
   );
 };
