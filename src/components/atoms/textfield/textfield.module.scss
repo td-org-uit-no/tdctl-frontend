@@ -1,24 +1,26 @@
 @import 'src/styles/colors.scss';
 
-.fieldWrapper{
-    display: flex;
-    flex-direction: column;
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
 }
 
 .textField {
-    padding: 1rem;
-    min-width: 40ch;
+  padding: 1rem;
+  min-width: 40ch;
 
-    background: transparent;
-    border: 1px solid $white;
-    color: $white;
-    
-    &:active, &:focus {
-        outline: none;
-    }
+  background: transparent;
+  border: 1px solid $white;
+  color: $white;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
 }
 
-.label{
-    position: absolute;
-    transform: translate(0, 26px) scale(1);
+.label {
+  position: absolute;
+  transform: translate(0, 26px) scale(1);
 }

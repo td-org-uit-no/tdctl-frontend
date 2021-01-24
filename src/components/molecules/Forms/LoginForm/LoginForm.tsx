@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Authenticated } from 'contexts';
 import useForm from 'hooks/useForm';
 import { login } from 'utils/auth';
@@ -7,13 +7,24 @@ import TextField from 'components/atoms/textfield/Textfield';
 
 const LoginForm = () => {
   const { setAuthenticated } = useContext(Authenticated);
-
+  const [error, setError] = useState('');
   const onSubmit = async () => {
     try {
+      if (!fields['email']?.value || !fields['password']?.value) {
+        setError('Du må fylle ut e-post og passord');
+        return;
+      }
+
       await login(fields['email'].value, fields['password'].value);
       setAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      // Unauthorized
+      if (error.statusCode === 401) {
+        setError('E-post eller passord er feil. Prøv igjen.');
+      } else {
+        // TODO: 422 Unprocessable entity
+        setError('En ukjent feil skjedde.');
+      }
     }
   };
 
@@ -35,7 +46,7 @@ const LoginForm = () => {
         type={'password'}
         onChange={onFieldChange}
       />
-
+      {error !== '' && <p>{error}</p>}
       <Button version={'primary'} type="submit">
         Logg inn
       </Button>
