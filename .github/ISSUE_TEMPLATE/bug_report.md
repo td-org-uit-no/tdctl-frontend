@@ -4,20 +4,23 @@ about: "Oisann! Fant du en bug? \U0001F41B"
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
-**Beskriv buggen**
+:rotating_light: **Beskriv buggen**
 
-**Kan du reprodusere den?**
-Forklar stegene for å reprodusere!
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+:mag: **Kan du reprodusere den?**
+<!-- Forklar stegene for å reprodusere!
+1. Gå til '...'
+2. Klikk på '....'
+3. Scroll til '....'
+4. Se feilen error
+-->
 
-**Forventet oppførsel**
+:sparkles: **Forventet oppførsel**
+<!-- Forklar gjerne hvordan du forventer at det funker -->
 
-**📸 Skjermbilder av buggen **
+:camera_flash: **Skjermbilder av buggen**
+<!-- Det holder å kopiere bildet og lime dett inn her, så lastes det opp automatisk! -->
 
-**📝 Andre ting?**
+:memo: **Andre ting?**
+<!-- Er det noen andre ting du tenker på som kan være nyttig? -->

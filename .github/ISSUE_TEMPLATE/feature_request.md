@@ -4,13 +4,16 @@ about: Foreslå en ny feature!
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
-**Er featuren din relatert til et problem?**
+:sparkles: **Er featuren din relatert til et problem?**
+<!-- Mangler det noe viktig? Har du et problem? Forklar!-->
 
-**Forklar løsningen din som du vil ha det**
+:dizzy: **Forklar løsningen din som du vil ha det**
+<!-- Tegn gjerne ett lite bilde, eller forklar med bare ord! -->
 
-**Har du noen andre alternativer?**
+:twisted_rightwards_arrows: **Har du noen andre alternativer?**
+<!-- Finnes det andre løsninger som kan funke?-->
 
-**Andre ting!**
+:speech_balloon: **Andre ting!**
+<!-- Har du noe annet på hjerte? -->
