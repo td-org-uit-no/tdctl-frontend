@@ -5,8 +5,8 @@ import cx from 'classnames';
 
 interface Props {
     items: {
-        lable: string,
-        ref: string, 
+        label: string,
+        url: string, 
     }[];
 }
 const Dropdown: React.FC<Props> = ({ items }) => {
@@ -20,7 +20,7 @@ const Dropdown: React.FC<Props> = ({ items }) => {
             <nav className={cx(styles.menu, {[styles.active]: active})}>
                 <ul>
                     {items.map((item, index:number) => (
-                        <li key={index}><a href={item.ref}>{item.lable}</a></li>
+                        <li key={index}><a href={item.url}>{item.label}</a></li>
                     ))}
                 </ul>
             </nav>
