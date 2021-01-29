@@ -8,6 +8,7 @@ const Navbar: React.FC = () => {
   return (
     <div className={styles.navbar}>
       {!authenticated && <Link to="/login"> Logg inn</Link>}
+      {!authenticated && <Link to="/registrer">Registrer</Link>}
     </div>
   );
 };

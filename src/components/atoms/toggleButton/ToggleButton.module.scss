@@ -1,9 +1,14 @@
+
+// TODO: Less hard coded css
+.toggleContainer{
+	display: flex;
+}
+
 .switch{
 	position: relative;
 	display: inline-block;
 	top : 21.5%;
 	width: 60px;
-	margin-right: 2%;
 	height: 34px;
 	text-align: center;
 	outline: none;
@@ -46,4 +51,14 @@ input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+
+.text{
+	position: relative;
+	margin: 0;
+	margin-top: 0.75%;
+	padding: 0;
+	margin-right: 2%;
+	text-align: center;
+	height: 34px;
 }
