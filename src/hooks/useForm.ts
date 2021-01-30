@@ -32,9 +32,7 @@ const useForm = (onSubmit: () => any, validators?: Validators) => {
     setErrors(isThereErrors(Object.keys(fields).map((field) => fields[field])));
   }, [fields]);
 
-  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    const fieldError = validators?.[name](value);
+  const setFieldError = (name: string, value: string, fieldError: string[] | undefined) => {
     setFields({
       ...fields,
       [name]: {
@@ -42,6 +40,13 @@ const useForm = (onSubmit: () => any, validators?: Validators) => {
         error: fieldError,
       },
     });
+
+  }
+
+  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const fieldError = validators?.[name](value);
+	setFieldError(name, value, fieldError);
   };
 
   const onSubmitEvent = (event: any) => {
@@ -51,7 +56,7 @@ const useForm = (onSubmit: () => any, validators?: Validators) => {
     onSubmit();
   };
 
-  return { fields, onFieldChange, onSubmitEvent, hasErrors };
+  return { fields, onFieldChange, onSubmitEvent, hasErrors, setFieldError };
 };
 
 export default useForm;
