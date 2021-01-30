@@ -19,6 +19,8 @@ export const get = async <T>(url: string, auth = false) => {
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
+/*TODO : Post request with no body response: quick fix done*/
+
 export const post = async <T>(url: string, data: any, auth = false) => {
   const request = new Request(baseUrl + url, {
     method: 'POST',
@@ -31,7 +33,7 @@ export const post = async <T>(url: string, data: any, auth = false) => {
   if (auth) {
     return authFetch<T>(request);
   }
-  return fetch(request).then((res) => handleResponse<T>(res));
+  return fetch(request).then((res) => handleResponse<T>(res))
 };
 
 const authFetch = <T>(request: Request) => {
@@ -54,7 +56,11 @@ function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new HttpError(response.statusText, response.status);
   }
-  return response.json() as Promise<T>;
+  const length = response.headers.get('content-length');
+  if (length === null){
+	  return {} as Promise<T>
+  }
+  return response.json() as Promise<T>
 }
 
 const renewAndRetry = async <T>(request: Request): Promise<T> => {
@@ -82,3 +88,6 @@ export const renewToken = (refreshToken: string): Promise<TokenPair> =>
 
 export const getMemberAssociatedWithToken = (): Promise<any> =>
   get<Member>('member/', true);
+
+export const authLogout = (refreshToken: string): Promise<null> =>
+  post<null>('auth/logout', { refreshToken: refreshToken });
