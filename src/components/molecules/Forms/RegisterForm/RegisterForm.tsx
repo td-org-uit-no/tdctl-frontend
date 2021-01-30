@@ -58,23 +58,20 @@ const RegisterForm = () => {
     } catch (error) {
       switch (error.statusCode) {
         case 422:
-          console.log('422 error');
           setMsg('Alle feltene må fylles ut');
-          setErrors(error);
+          setErrors(true);
           break;
 
         case 409:
-          console.log('422 error');
-          setMsg('Epost er allerede i bruk');
-          setErrors(error);
+          setFieldError('email', fields['email'].value, ['Epost er allerede i bruk']);
           break;
 
         case 400:
-          console.log('422 error');
-          setMsg('Passordet må oppfylle alle kravene');
-          setErrors(error);
+			setFieldError('password', fields['password'].value, 
+						  ['Passordet må oppfylle alle kravene']);
           break;
       }
+	  return;
     }
     try {
       await login(fields['email'].value, fields['password'].value);
@@ -93,7 +90,7 @@ const RegisterForm = () => {
     history.push('/');
   };
 
-  const { fields, onFieldChange, onSubmitEvent, hasErrors } = useForm(
+  const { fields, onFieldChange, onSubmitEvent, hasErrors, setFieldError } = useForm(
     onSubmit,
     validators
   );
