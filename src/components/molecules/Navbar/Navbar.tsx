@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
-import { Authenticated } from 'contexts';
-import styles from './navbar.module.scss';
 import { Link } from 'react-router-dom';
-import { logout } from './../../../utils/auth';
+import { Authenticated } from 'contexts';
+import { logout } from 'utils/auth';
+import styles from './navbar.module.scss';
 
 const Navbar: React.FC = () => {
   const { authenticated, setAuthenticated } = useContext(Authenticated);
 
-  const _logout = async () => {
+  const onLogout = async () => {
     try {
       await logout();
       setAuthenticated(false);
     } catch (errro) {
+      console.log(errro);
       if (errro.statusCode === 401) {
         /* Gracefully ignore it */
         console.log('401');
@@ -24,7 +25,7 @@ const Navbar: React.FC = () => {
       {!authenticated && <Link to="/login"> Logg inn</Link>}
       {!authenticated && <Link to="/registrer">Registrer</Link>}
       {authenticated && (
-        <Link to="/" onClick={_logout}>
+        <Link to="/" onClick={onLogout}>
           Logout
         </Link>
       )}
