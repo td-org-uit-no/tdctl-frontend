@@ -1,6 +1,6 @@
 import { baseUrl } from 'constants/apiConstants';
 import { PartialMember, Member, TokenPair } from 'models/apiModels';
-import { setTokens, getTokens, login } from './auth';
+import { setTokens, getTokens } from './auth';
 
 /* Http error */
 export class HttpError extends Error {
