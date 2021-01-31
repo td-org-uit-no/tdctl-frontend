@@ -1,4 +1,4 @@
-import RegistrerPage from './Registrer';
+import RegistrerPage from './Register';
 import RootPage from './Root';
 import LoginPage from './login/Login';
 

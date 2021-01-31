@@ -1,6 +1,6 @@
 import { baseUrl } from 'constants/apiConstants';
 import { PartialMember, Member, TokenPair } from 'models/apiModels';
-import { setTokens, getTokens } from './auth';
+import { setTokens, getTokens, login } from './auth';
 
 /* Http error */
 export class HttpError extends Error {
@@ -71,8 +71,8 @@ const renewAndRetry = async <T>(request: Request): Promise<T> => {
 
 /* Endpoints */
 
-export const registerMember = (partialMember: PartialMember): Promise<Member> =>
-  post<Member>('member/', partialMember);
+export const registerMember = (partialMember: PartialMember) =>
+  post<string>('member/', partialMember);
 
 export const authenticate = (email: string, password: string) =>
   post<TokenPair>('auth/login', { email, password });

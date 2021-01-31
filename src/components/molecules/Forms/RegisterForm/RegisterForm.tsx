@@ -1,77 +1,66 @@
 import React, { useState, useContext } from 'react';
 import useForm from 'hooks/useForm';
-import {
-  nameValidator,
-  passwordValidator,
-  emailValidator,
-  phoneValidator,
-  classOfValidator,
-} from 'utils/validators';
-import TextField from 'components/atoms/textfield/Textfield';
-import Button from 'components/atoms/button/Button';
-import { registerMember } from './../../../../utils/api';
-import { PartialMember } from './../../../../models/apiModels';
-import ToggleButton from './../../../atoms/toggleButton/ToggleButton';
-import { createBrowserHistory } from 'history';
 import { Authenticated } from 'contexts';
 import { login } from 'utils/auth';
+import { registerMember } from 'utils/api';
+import * as v from 'utils/validators';
+import { createBrowserHistory } from 'history';
+import Button from 'components/atoms/button/Button';
+import TextField from 'components/atoms/textfield/Textfield';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 
 const RegisterForm = () => {
   const { setAuthenticated } = useContext(Authenticated);
-  const [errors, setErrors] = useState(false);
-  const [msg, setMsg] = useState('Alle feltene må fylles ut');
+  const [errors, setErrors] = useState<string | undefined>(undefined);
   const [graduated, setGraduated] = useState(false);
 
   const validators = {
-    name: nameValidator,
-    email: emailValidator,
-    password: passwordValidator,
-    classof: classOfValidator,
-    phone: phoneValidator,
+    name: v.nameValidator,
+    email: v.emailValidator,
+    password: v.passwordValidator,
+    classof: v.classOfValidator,
+    phone: v.phoneValidator,
   };
 
   const onSubmit = async () => {
-    let _error = false;
-    const keys = Object.keys(fields);
-    keys.forEach((key) => {
-      if (!fields[key].value.length){
-        _error = true;
-        return;
-      }
-    });
-    setErrors(_error);
-    if (hasErrors || _error) {
+    // Check that all fields are filled
+    const isNotFilled = !Object.keys(fields).filter(
+      (key) => !fields[key].value.length
+    );
+    isNotFilled ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
+
+    if (hasErrors || isNotFilled) {
       return;
     }
 
-    let value = {
-      realName: fields['name'].value,
-      email: fields['email'].value,
-      password: fields['password'].value,
-      classof: fields['classof'].value,
-      graduated: graduated,
-      phone: fields['phone'].value,
-    } as PartialMember;
-
     try {
-      await registerMember(value);
+      const validationCode = await registerMember({
+        realName: fields['name'].value,
+        email: fields['email'].value,
+        password: fields['password'].value,
+        classof: fields['classof'].value,
+        graduated: graduated,
+        phone: fields['phone'].value,
+      });
     } catch (error) {
       switch (error.statusCode) {
-        case 422:
-          setMsg('Alle feltene må fylles ut');
-          setErrors(true);
-          break;
-
-        case 409:
-          setFieldError('email', fields['email'].value, ['Epost er allerede i bruk']);
-          break;
-
         case 400:
-			setFieldError('password', fields['password'].value, 
-						  ['Passordet må oppfylle alle kravene']);
-          break;
+          setFieldError('password', fields['password'].value, [
+            'Passordet må oppfylle alle kravene',
+          ]);
+          return;
+        case 409:
+          setFieldError('email', fields['email'].value, [
+            'Epost er allerede i bruk',
+          ]);
+          return;
+        case 422:
+          setErrors('Alle feltene må fylles ut');
+          return;
+        default:
+          setErrors('Noe gikk galt');
+          return;
       }
-	  return;
     }
     try {
       await login(fields['email'].value, fields['password'].value);
@@ -79,10 +68,10 @@ const RegisterForm = () => {
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {
-        setMsg('E-post eller passord er feil. Prøv igjen.');
+        setErrors('E-post eller passord er feil. Prøv igjen.');
       } else {
         // TODO: 422 Unprocessable entity
-        setMsg('En ukjent feil skjedde.');
+        setErrors('En ukjent feil skjedde.');
       }
     }
 
@@ -90,10 +79,13 @@ const RegisterForm = () => {
     history.push('/');
   };
 
-  const { fields, onFieldChange, onSubmitEvent, hasErrors, setFieldError } = useForm(
-    onSubmit,
-    validators
-  );
+  const {
+    fields,
+    onFieldChange,
+    onSubmitEvent,
+    hasErrors,
+    setFieldError,
+  } = useForm(onSubmit, validators);
 
   return (
     <form onSubmit={onSubmitEvent}>
@@ -102,8 +94,8 @@ const RegisterForm = () => {
         maxWidth={40}
         label={'Navn'}
         onChange={onFieldChange}
+        error={fields['name'].error}
       />
-      {fields['name'].error !== undefined && <p>{fields['name'].error}</p>}
 
       <TextField
         name={'email'}
@@ -111,8 +103,8 @@ const RegisterForm = () => {
         maxWidth={40}
         label={'E-post'}
         onChange={onFieldChange}
+        error={fields['email'].error}
       />
-      {fields['email'].error !== undefined && <p>{fields['email'].error}</p>}
 
       <TextField
         name={'password'}
@@ -120,15 +112,8 @@ const RegisterForm = () => {
         maxWidth={40}
         label={'Passord'}
         onChange={onFieldChange}
+        error={fields['password'].error}
       />
-      {fields['password'].error !== undefined && (
-        <ul>
-          {' '}
-          {fields['password'].error.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      )}
 
       <TextField
         name={'classof'}
@@ -153,7 +138,7 @@ const RegisterForm = () => {
         label={'Graduated'}
       />
 
-      {errors && <p>{msg}</p>}
+      {errors && <p>{errors}</p>}
 
       <Button version={'primary'} type="submit">
         Registrer
