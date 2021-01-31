@@ -45,6 +45,7 @@ export const nameValidator = (name: string): string[] | undefined => {
 };
 
 export const classOfValidator = (year: string): string[] | undefined => {
+  /* Reactivate when backend has a proper validation
   if (year.length > 4) {
     return ['Årskull: YYYY'];
   }
@@ -52,6 +53,7 @@ export const classOfValidator = (year: string): string[] | undefined => {
   if (Number(year) > currentYear || Number(year) < 1968) {
     return ['Ikke godkjent årskull'];
   }
+  */
   return undefined;
 };
 
