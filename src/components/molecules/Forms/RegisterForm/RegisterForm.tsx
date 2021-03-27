@@ -4,15 +4,16 @@ import { Authenticated } from 'contexts';
 import { login } from 'utils/auth';
 import { registerMember } from 'utils/api';
 import * as v from 'utils/validators';
-import { createBrowserHistory } from 'history';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
+import { useHistory } from 'react-router-dom';
 
 const RegisterForm = () => {
   const { setAuthenticated } = useContext(Authenticated);
   const [errors, setErrors] = useState<string | undefined>(undefined);
   const [graduated, setGraduated] = useState(false);
+  const history = useHistory();
 
   const validators = {
     name: v.nameValidator,
@@ -74,8 +75,6 @@ const RegisterForm = () => {
         setErrors('En ukjent feil skjedde.');
       }
     }
-
-    const history = createBrowserHistory();
     history.push('/');
   };
 
@@ -133,7 +132,6 @@ const RegisterForm = () => {
       {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
 
       <ToggleButton
-        checked={graduated}
         onChange={() => setGraduated(!graduated)}
         label={'Graduated'}
       />
