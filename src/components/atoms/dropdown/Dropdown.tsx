@@ -1,31 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './dropdown.module.scss';
-import Button from '../button/Button';
-import cx from 'classnames';
 
-interface Props {
-    items: {
-        label: string,
-        url: string, 
-    }[];
+interface Props{
+	expanded: boolean;
 }
-const Dropdown: React.FC<Props> = ({ items }) => {
-    const [active, setActive] = useState(false);
 
-    return(
-        <div className={styles.menuContainer}>
-            <Button version = {'secondary'} onClick={() => setActive(!active)}>
-                Menu
-            </Button>
-            <nav className={cx(styles.menu, {[styles.active]: active})}>
-                <ul>
-                    {items.map((item, index:number) => (
-                        <li key={index}><a href={item.url}>{item.label}</a></li>
-                    ))}
-                </ul>
-            </nav>
-        </div>
-    );
-};
-
-export default Dropdown
+const Dropdown: React.FC<Props> = ( { expanded, children } ) => {
+	return(
+		<div className={styles.container}>
+		  	{expanded && children}
+		</div>
+	)
+}
+export default Dropdown;
