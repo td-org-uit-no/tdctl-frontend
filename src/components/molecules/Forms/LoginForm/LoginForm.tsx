@@ -4,10 +4,12 @@ import useForm from 'hooks/useForm';
 import { login } from 'utils/auth';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
+import { useHistory } from 'react-router-dom';
 
 const LoginForm = () => {
   const { setAuthenticated } = useContext(Authenticated);
   const [error, setError] = useState('');
+  const history = useHistory();
   const onSubmit = async () => {
     try {
       if (!fields['email']?.value || !fields['password']?.value) {
@@ -26,6 +28,7 @@ const LoginForm = () => {
         setError('En ukjent feil skjedde.');
       }
     }
+    history.push('/');
   };
 
   const { fields, onFieldChange, onSubmitEvent } = useForm(onSubmit);
