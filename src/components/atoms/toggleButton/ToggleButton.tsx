@@ -1,11 +1,10 @@
 import React from 'react';
-import styles from './ToggleButton.module.scss';
+import styles from './toggleButton.module.scss';
 interface Props {
-  checked: boolean;
   onChange: () => any;
   label: string;
 }
-const ToggleButton: React.FC<Props> = ({ checked, onChange, label }) => {
+const ToggleButton: React.FC<Props> = ({ onChange, label }) => {
   return (
     <div className={styles.toggleContainer}>
       <p className={styles.text}>{label}</p>
