@@ -13,7 +13,6 @@ const Navbar: React.FC = () => {
       await logout();
       setAuthenticated(false);
     } catch (errro) {
-      console.log(errro);
       if (errro.statusCode === 401) {
         /* Gracefully ignore it */
         console.log('401');
