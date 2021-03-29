@@ -12,10 +12,12 @@
     align-items: center;
     background-color: $background-color;
     opacity: 0;
+    visibility: hidden;
     transition: opacity 0.5s, visibility 0.5s;
 
     &.open {
         opacity: 1;
+        visibility: visible;
     }
 }
 
