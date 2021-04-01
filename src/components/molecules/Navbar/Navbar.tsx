@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Authenticated } from 'contexts';
 import { logout } from 'utils/auth';
 import styles from './navbar.module.scss';
+import Menu, { MenuItem } from 'components/molecules/Menu/Menu';
 
 const Navbar: React.FC = () => {
   const { authenticated, setAuthenticated } = useContext(Authenticated);
@@ -22,13 +23,15 @@ const Navbar: React.FC = () => {
 
   return (
     <div className={styles.navbar}>
-      {!authenticated && <Link to="/login"> Logg inn</Link>}
-      {!authenticated && <Link to="/registrer">Registrer</Link>}
-      {authenticated && (
-        <Link to="/" onClick={onLogout}>
-          Logout
-        </Link>
-      )}
+      <Menu>
+        {!authenticated && <MenuItem label={'Logg inn'} path={'/login'} />}
+        {!authenticated && (
+          <MenuItem label={'Bli medlem'} path={'/registrer'} />
+        )}
+        {authenticated && (
+          <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
+        )}
+      </Menu>
     </div>
   );
 };

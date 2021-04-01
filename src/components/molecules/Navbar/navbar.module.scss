@@ -1,8 +1,9 @@
 .navbar {
-  height: 4rem;
-  width: 100%;
-  border-bottom: 2px solid white;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  box-sizing: border-box;
+  padding: 1rem;
+  width: 100vw;
+  border-bottom: 2px solid white;
 }
