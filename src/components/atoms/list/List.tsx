@@ -3,7 +3,7 @@ import styles from './list.module.scss';
 
 interface Props extends LiHTMLAttributes<HTMLElement> {
   items: {
-    lable: string;
+    label: string;
     data: string;
   }[];
 }
@@ -15,7 +15,7 @@ const List: React.FC<Props> = ({ items, ...rest }) => {
         {items.map((item, index: number) => (
           <li key={index} {...rest}>
             <p>
-              {item.lable} : {item.data}
+              {item.label} : {item.data}
             </p>
           </li>
         ))}
