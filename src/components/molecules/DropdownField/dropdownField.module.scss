@@ -1,32 +1,15 @@
-.container{
-	display: flex;
-	justify-content: center;
-	margin-bottom: 25px;
-	margin-top: 25px;
+.container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    margin-top: 25px;
 }
 
-.box{
-	height: 100%;
-	width: 600px;
+.box {
+    height: 100%;
+    width: 600px;
     border-radius: 40px;
-	border: 1px solid #DDDDDD;
-	display: flex;
-	flex-direction: column;
-}
-
-.icon{
-	height: 10px;
-	width: 10px;
-}
-
-.expand{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-}
-.base{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    border: 1px solid #dddddd;
+    display: flex;
+    flex-direction: column;
 }

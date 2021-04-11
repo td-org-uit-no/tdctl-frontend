@@ -23,9 +23,9 @@ const ProfilePage = () => {
           {data !== undefined && (
             <List
               items={[
-                { lable: 'Navn', data: data['realName'] },
-                { lable: 'E-post', data: data['email'] },
-                { lable: 'Mobil', data: data['phone'] ?? '' },
+                { label: 'Navn', data: data['realName'] },
+                { label: 'E-post', data: data['email'] },
+                { label: 'Mobil', data: data['phone'] ?? '' },
               ]}
             />
           )}
