@@ -6,7 +6,7 @@ const RegistrerPage = () => {
   useTitle('Bli medlem - Tromsøstudentenes Dataforening');
   return (
     <div>
-      <h1> Registrer deg og bli medlem!</h1>
+      <h1> Bli medlem!</h1>
       <div>
         <RegistrerForm />
       </div>

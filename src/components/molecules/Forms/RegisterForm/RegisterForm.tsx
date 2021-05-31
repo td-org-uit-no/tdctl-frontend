@@ -14,7 +14,8 @@ const RegisterForm = () => {
   const [errors, setErrors] = useState<string | undefined>(undefined);
   const [graduated, setGraduated] = useState(false);
   const history = useHistory();
-
+  //easier if we want more optional keys
+  const optionalKeys = ['phone'];
   const validators = {
     name: v.nameValidator,
     email: v.emailValidator,
@@ -25,15 +26,14 @@ const RegisterForm = () => {
 
   const onSubmit = async () => {
     // Check that all fields are filled
-    const isNotFilled = !Object.keys(fields).filter(
-      (key) => !fields[key].value.length
-    );
-    isNotFilled ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
+    const isNotFilled = Object.keys(fields).filter((key) => {
+      return !fields[key].value.length && !optionalKeys.includes(key);
+    }).length;
 
+    isNotFilled ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
     if (hasErrors || isNotFilled) {
       return;
     }
-
     try {
       const validationCode = await registerMember({
         realName: fields['name'].value,
@@ -66,6 +66,7 @@ const RegisterForm = () => {
     try {
       await login(fields['email'].value, fields['password'].value);
       setAuthenticated(true);
+      history.push('/');
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {
@@ -75,7 +76,6 @@ const RegisterForm = () => {
         setErrors('En ukjent feil skjedde.');
       }
     }
-    history.push('/');
   };
 
   const {
@@ -87,61 +87,62 @@ const RegisterForm = () => {
   } = useForm(onSubmit, validators);
 
   return (
-    <form onSubmit={onSubmitEvent}>
-      <TextField
-        name={'name'}
-        maxWidth={40}
-        label={'Navn'}
-        onChange={onFieldChange}
-        error={fields['name'].error}
-      />
+    <div>
+      <form
+        onSubmit={onSubmitEvent}>
+        <TextField
+          name={'name'}
+          maxWidth={40}
+          label={'Navn'}
+          onChange={onFieldChange}
+          error={fields['name'].error}
+        />
 
-      <TextField
-        name={'email'}
-        type="email"
-        maxWidth={40}
-        label={'E-post'}
-        onChange={onFieldChange}
-        error={fields['email'].error}
-      />
+        <TextField
+          name={'email'}
+          type="email"
+          maxWidth={40}
+          label={'E-post'}
+          onChange={onFieldChange}
+          error={fields['email'].error}
+        />
 
-      <TextField
-        name={'password'}
-        type="password"
-        maxWidth={40}
-        label={'Passord'}
-        onChange={onFieldChange}
-        error={fields['password'].error}
-      />
+        <TextField
+          name={'password'}
+          type="password"
+          maxWidth={40}
+          label={'Passord'}
+          onChange={onFieldChange}
+          error={fields['password'].error}
+        />
 
-      <TextField
-        name={'classof'}
-        type="number"
-        maxWidth={40}
-        label={'Årskull'}
-        onChange={onFieldChange}
-      />
+        <TextField
+          name={'classof'}
+          type="number"
+          maxWidth={40}
+          label={'Årskull'}
+          onChange={onFieldChange}
+        />
 
-      <TextField
-        name={'phone'}
-        type="number"
-        maxWidth={40}
-        label={'Telefon'}
-        onChange={onFieldChange}
-      />
-      {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
+        <TextField
+          name={'phone'}
+          type="number"
+          maxWidth={40}
+          label={'Telefon'}
+          onChange={onFieldChange}
+        />
+        {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
+      </form>
+        <ToggleButton
+          onChange={() => setGraduated(!graduated)}
+          label={'Graduated'}
+        />
+        {errors && <p>{errors}</p>}
 
-      <ToggleButton
-        onChange={() => setGraduated(!graduated)}
-        label={'Graduated'}
-      />
-
-      {errors && <p>{errors}</p>}
-
-      <Button version={'primary'} type="submit">
-        Registrer
-      </Button>
-    </form>
+        <Button version={'primary'} onClick={onSubmit} type="submit">
+          Registrer
+        </Button>
+    </div>
   );
 };
 
