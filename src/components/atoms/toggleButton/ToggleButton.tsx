@@ -6,12 +6,20 @@ interface Props {
 }
 const ToggleButton: React.FC<Props> = ({ onChange, label }) => {
   return (
-    <div className={styles.toggleContainer}>
-      <p className={styles.text}>{label}</p>
-      <label className={styles.switch}>
-        <input type="checkbox" className={styles.toggle} onChange={onChange} />
-        <div className={styles.slider}></div>
-      </label>
+    <div className={styles.container}>
+      <div className={styles.textContainer}>
+        <p className={styles.text}>{label}</p>
+      </div>
+      <div className={styles.toggleContainer}>
+        <label className={styles.switch}>
+          <input
+            type="checkbox"
+            className={styles.toggle}
+            onChange={onChange}
+          />
+          <div className={styles.slider}></div>
+        </label>
+      </div>
     </div>
   );
 };
