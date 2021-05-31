@@ -1,5 +1,11 @@
 import { baseUrl } from 'constants/apiConstants';
-import { PartialMember, Member, TokenPair } from 'models/apiModels';
+import {
+  PartialMember,
+  MemberUpdate,
+  Member,
+  TokenPair,
+  ChangePasswordPayload,
+} from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
 /* Http error */
@@ -19,9 +25,14 @@ export const get = async <T>(url: string, auth = false) => {
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
-/*TODO : Post request with no body response: quick fix done*/
+//Put and post are basicly equal :/
+//could be moved into same function(PostOrPut) however its not pretty
 
-export const post = async <T>(url: string, data: any, auth = false) => {
+export const post = async <T>(
+  url: string,
+  data: any,
+  auth = false,
+) => {
   const request = new Request(baseUrl + url, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -35,6 +46,26 @@ export const post = async <T>(url: string, data: any, auth = false) => {
   }
   return fetch(request).then((res) => handleResponse<T>(res));
 };
+
+export const put = async <T>(
+  url: string,
+  data: any,
+  auth = false,
+) => {
+  const request = new Request(baseUrl + url, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+  if (auth) {
+    return authFetch<T>(request);
+  }
+  return fetch(request).then((res) => handleResponse<T>(res));
+};
+
 
 const authFetch = <T>(request: Request) => {
   const { accessToken } = getTokens();
@@ -88,8 +119,16 @@ export const authenticate = (email: string, password: string) =>
 export const renewToken = (refreshToken: string): Promise<TokenPair> =>
   post<TokenPair>('auth/renew', { refreshToken: refreshToken });
 
-export const getMemberAssociatedWithToken = (): Promise<any> =>
+export const getMemberAssociatedWithToken = (): Promise<Member> =>
   get<Member>('member/', true);
 
 export const authLogout = (refreshToken: string) =>
   post<{}>('auth/logout', { refreshToken: refreshToken });
+
+export const updateMember = (memberUpdate: MemberUpdate) =>
+  put<MemberUpdate>('member/', memberUpdate, true);
+
+export const activateUser = () => post<{}>('member/activate', {}, true);
+
+export const changePassword = (passwordPayload: ChangePasswordPayload) =>
+  post<ChangePasswordPayload>('auth/password', passwordPayload, true);

@@ -19,3 +19,15 @@ export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface ChangePasswordPayload {
+  password: string,
+  newPassword: string,
+}
+
+export interface MemberUpdate {
+	realName?: string;
+	email?: string;
+	classof?: string;
+	phone?: string;
+}
