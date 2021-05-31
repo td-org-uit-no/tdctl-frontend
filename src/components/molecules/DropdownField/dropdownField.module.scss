@@ -1,15 +1,30 @@
 .container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-    margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 .box {
-    height: 100%;
-    width: 600px;
-    border-radius: 40px;
-    border: 1px solid #dddddd;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  border-radius: 40px;
+  border: 1px solid #DDDDDD;
+}
+
+.base{
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  align-items: center;
+}
+.item2 {
+  grid-column: 2 / span 2;
+  text-align: center;
+}
+.item3 {
+  grid-column: 4 / span 1;
+  align-items: center;
 }
