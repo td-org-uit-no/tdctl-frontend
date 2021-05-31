@@ -19,6 +19,7 @@ const LoginForm = () => {
 
       await login(fields['email'].value, fields['password'].value);
       setAuthenticated(true);
+      history.push('/');
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {
@@ -28,10 +29,9 @@ const LoginForm = () => {
         setError('En ukjent feil skjedde.');
       }
     }
-    history.push('/');
   };
 
-  const { fields, onFieldChange, onSubmitEvent } = useForm(onSubmit);
+  const { fields, onFieldChange, onSubmitEvent } = useForm({onSubmit: onSubmit});
 
   return (
     <form onSubmit={onSubmitEvent}>
