@@ -21,7 +21,7 @@ const RegisterForm = () => {
     email: v.emailValidator,
     password: v.passwordValidator,
     classof: v.classOfValidator,
-    phone: v.phoneValidator,
+    phone: v.notRequiredPhoneValidator,
   };
 
   const onSubmit = async () => {
@@ -84,12 +84,11 @@ const RegisterForm = () => {
     onSubmitEvent,
     hasErrors,
     setFieldError,
-  } = useForm(onSubmit, validators);
+  } = useForm({ onSubmit: onSubmit, validators: validators });
 
   return (
     <div>
-      <form
-        onSubmit={onSubmitEvent}>
+      <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
           maxWidth={40}
@@ -97,7 +96,6 @@ const RegisterForm = () => {
           onChange={onFieldChange}
           error={fields['name'].error}
         />
-
         <TextField
           name={'email'}
           type="email"
@@ -133,15 +131,15 @@ const RegisterForm = () => {
         />
         {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
       </form>
-        <ToggleButton
-          onChange={() => setGraduated(!graduated)}
-          label={'Graduated'}
-        />
-        {errors && <p>{errors}</p>}
+      <ToggleButton
+        onChange={() => setGraduated(!graduated)}
+        label={'Graduated'}
+      />
+      {errors && <p>{errors}</p>}
 
-        <Button version={'primary'} onClick={onSubmit} type="submit">
-          Registrer
-        </Button>
+      <Button version={'primary'} onClick={onSubmit} type="submit">
+        Registrer
+      </Button>
     </div>
   );
 };

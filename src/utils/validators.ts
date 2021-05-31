@@ -33,7 +33,7 @@ export const passwordValidator = (password: string): string[] | undefined => {
 };
 
 export const nameValidator = (name: string): string[] | undefined => {
-  const nameReg = /^[a-zæøå]/gi;
+  const nameReg = /^[a-zæøåA-ZÆØÅ]+$/
 
   if (name.length === 0) {
     return ['Navn er påkrevd'];
@@ -44,7 +44,19 @@ export const nameValidator = (name: string): string[] | undefined => {
   return undefined;
 };
 
+export const notRequiredNameValidator = (name: string): string[] | undefined =>
+  !name.length ? undefined : nameValidator(name);
+
 export const classOfValidator = (year: string): string[] | undefined => {
+  const numbReg = /^[0-9]*$/
+
+  if (year.length !== 4){
+    return['Årskull: YYYY']
+  }
+
+  if (!new RegExp(numbReg).test(year)) {
+    return ['Årskull kan kun inneholde tall'];
+  }
   /* Reactivate when backend has a proper validation
   if (year.length > 4) {
     return ['Årskull: YYYY'];
@@ -56,6 +68,9 @@ export const classOfValidator = (year: string): string[] | undefined => {
   */
   return undefined;
 };
+
+export const notRequiredPhoneValidator = (phone: string): string[] | undefined =>
+  !phone.length ? undefined : phoneValidator(phone)
 
 export const phoneValidator = (num: string): string[] | undefined => {
   if (num.length !== 8) {
