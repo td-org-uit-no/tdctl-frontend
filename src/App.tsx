@@ -6,6 +6,7 @@ import {
   RootPage,
   LoginPage,
   ProfilePage,
+  SettingsPage,
 } from 'components/pages';
 import Navbar from 'components/molecules/Navbar/Navbar';
 import { Authenticated } from 'contexts';
@@ -36,7 +37,11 @@ const App: React.FC = () => {
               <Route path="/registrer" component={RegistrerPage} />
             )}
             {!authenticated && <Route path="/login" component={LoginPage} />}
+            {authenticated && (
+              <Route path="/settings" component={SettingsPage} />
+            )}
             {authenticated && <Route path="/profile" component={ProfilePage} />}
+            {authenticated && <Route path="/settings" component={SettingsPage} />}
             <Route path="/" component={RootPage} />
           </Switch>
         </Router>
