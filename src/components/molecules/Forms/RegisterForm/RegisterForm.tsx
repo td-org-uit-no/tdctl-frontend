@@ -31,9 +31,11 @@ const RegisterForm = () => {
     }).length;
 
     isNotFilled ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
+
     if (hasErrors || isNotFilled) {
       return;
     }
+
     try {
       const validationCode = await registerMember({
         realName: fields['name'].value,
@@ -77,6 +79,8 @@ const RegisterForm = () => {
       }
     }
   };
+
+  const onGraduateToggle = () => setGraduated(!graduated);
 
   const {
     fields,
@@ -131,10 +135,7 @@ const RegisterForm = () => {
         />
         {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
       </form>
-      <ToggleButton
-        onChange={() => setGraduated(!graduated)}
-        label={'Graduated'}
-      />
+      <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
       {errors && <p>{errors}</p>}
 
       <Button version={'primary'} onClick={onSubmit} type="submit">

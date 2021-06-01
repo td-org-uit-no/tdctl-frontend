@@ -10,10 +10,12 @@ interface Props {
 const DropdownHeader: React.FC<Props> = ({ title, children }) => {
   const [expanded, setExpanded] = useState(false);
 
+  const onExpand = () => setExpanded(!expanded);
+
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <div className={styles.base} onClick={() => setExpanded(!expanded)}>
+        <div className={styles.base} onClick={onExpand}>
           <div className={styles.item2}>
             <p>{title}</p>
           </div>
