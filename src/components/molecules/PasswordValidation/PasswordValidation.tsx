@@ -30,14 +30,17 @@ const PasswordValidation = () => {
       setError('Begge feltene må fylles ut');
       return;
     }
+
     if (fields['password']?.value === fields['newPassword']?.value) {
       setError('Det gamle og nye passordet kan ikke være likt');
       return;
     }
+
     const passwordPayload = {
       password: fields['password'].value,
       newPassword: fields['newPassword'].value,
     };
+
     try {
       await changePassword(passwordPayload);
       history.push('/');

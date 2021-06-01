@@ -22,18 +22,19 @@ const Navbar: React.FC = () => {
 
   return (
     <div className={styles.navbar}>
-      <Menu>
-        <MenuItem label={'Home'} path={'/'} />
-        {!authenticated && <MenuItem label={'Logg inn'} path={'/login'} />}
-        {!authenticated && (
-          <MenuItem label={'Bli medlem'} path={'/registrer'} />
-        )}
-        {authenticated && <MenuItem label={'Profile'} path={'/profile'} />}
-        {authenticated && <MenuItem label={'Settings'} path={'/settings'} />}
-        {authenticated && (
+      {authenticated ? (
+        <Menu>
+          <MenuItem label={'Home'} path={'/'} />
+          <MenuItem label={'Profile'} path={'/profile'} />
+          <MenuItem label={'Settings'} path={'/settings'} />
           <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
-        )}
-      </Menu>
+        </Menu>
+      ) : (
+        <Menu>
+          <MenuItem label={'Logg inn'} path={'/login'} />
+          <MenuItem label={'Bli medlem'} path={'/registrer'} />
+        </Menu>
+      )}
     </div>
   );
 };

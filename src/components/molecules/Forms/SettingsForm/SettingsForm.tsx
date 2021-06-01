@@ -8,6 +8,7 @@ import TextField from 'components/atoms/textfield/Textfield';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import DropDown from 'components/atoms/dropdown/Dropdown';
 import * as v from 'utils/validators';
+import { fieldStyle } from 'styles/settingsField'
 
 interface Props {
   init: { [key: string]: string } | undefined;
@@ -27,10 +28,10 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
   };
 
   const submit = async () => {
-    console.log(hasErrors);
     if (hasErrors) {
       return;
     }
+
     //only adds fields that contains data
     const data = {
       ...(fields['name']?.value !== init?.name && {
@@ -46,10 +47,12 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
         phone: fields['phone']?.value,
       }),
     };
+
     if (!Object.keys(data).length) {
       setError('Minst et felt må endres');
       return;
     }
+
     try {
       await updateMember(data);
       history.push('/profile');
@@ -61,6 +64,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
       if (error.statusCode === 422) {
         //422 only returns on error in email
         setError('Ikke gyldig epost');
+        return;
       }
       if (error.statusCode === 500) {
         setError('Internal server error');
@@ -75,16 +79,9 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
     initalValue: init,
   });
 
-  const fieldStyle = {
-    borderRadius: '40px',
-    border: '1px solid #DDDDDD',
-    marginBottom: '.75em',
-  };
-
   const updatePhoneData = () => {
     setPhoneExpanded(!phoneExpanded);
     const phoneTxt = !phoneExpanded ? "Fjern " : "Legg til";
-    console.log(phoneTxt);
     setButtonTxt(phoneTxt);
   }
   return (
@@ -132,7 +129,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             />
           ) : (
             <div>
-              <Button version="secondary" onClick={() => updatePhoneData()}>{phoneBtnTxt} Mobil</Button>
+              <Button version="secondary" onClick={updatePhoneData}>{phoneBtnTxt} Mobil</Button>
               <DropDown expanded={phoneExpanded}>
                 <TextField
                   name={'phone'}
