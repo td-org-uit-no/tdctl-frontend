@@ -1,13 +1,20 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { Authenticated } from 'contexts';
 import { logout } from 'utils/auth';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/Menu/Menu';
 
-const Navbar: React.FC = () => {
-  const { authenticated, setAuthenticated } = useContext(Authenticated);
+const DefaultNavbar = () => {
+  return (
+    <Menu>
+      <MenuItem label={'Login'} path={'/login'} />
+      <MenuItem label={'Bli medlem'} path={'registrer'} />
+    </Menu>
+  );
+};
 
+const AuthNavbar = () => {
+  const { setAuthenticated } = useContext(Authenticated);
   const onLogout = async () => {
     try {
       await logout();
@@ -21,20 +28,21 @@ const Navbar: React.FC = () => {
   };
 
   return (
+    <Menu>
+      <MenuItem label={'Home'} path={'/'} />
+      <MenuItem label={'Profile'} path={'/profile'} />
+      <MenuItem label={'Settings'} path={'/settings'} />
+      <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
+    </Menu>
+  );
+};
+
+const Navbar: React.FC = () => {
+  const { authenticated } = useContext(Authenticated);
+
+  return (
     <div className={styles.navbar}>
-      {authenticated ? (
-        <Menu>
-          <MenuItem label={'Home'} path={'/'} />
-          <MenuItem label={'Profile'} path={'/profile'} />
-          <MenuItem label={'Settings'} path={'/settings'} />
-          <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
-        </Menu>
-      ) : (
-        <Menu>
-          <MenuItem label={'Logg inn'} path={'/login'} />
-          <MenuItem label={'Bli medlem'} path={'/registrer'} />
-        </Menu>
-      )}
+      {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
     </div>
   );
 };
