@@ -30,9 +30,10 @@
     border-bottom: 2px solid $off-primary;
     a {
         text-decoration: none;
+        color: inherit;
 
         &:visited {
-            color: inherit
+            color: inherit;
         }
     }
 
