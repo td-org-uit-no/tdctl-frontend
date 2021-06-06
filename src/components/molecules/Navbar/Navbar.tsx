@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Authenticated } from 'contexts';
+import { AuthenticateContext } from 'contexts/authProvider';
 import { logout } from 'utils/auth';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/Menu/Menu';
@@ -14,7 +14,7 @@ const DefaultNavbar = () => {
 };
 
 const AuthNavbar = () => {
-  const { setAuthenticated } = useContext(Authenticated);
+  const { setAuthenticated } = useContext(AuthenticateContext);
   const onLogout = async () => {
     try {
       await logout();
@@ -38,7 +38,7 @@ const AuthNavbar = () => {
 };
 
 const Navbar: React.FC = () => {
-  const { authenticated } = useContext(Authenticated);
+  const { authenticated } = useContext(AuthenticateContext);
 
   return (
     <div className={styles.navbar}>
