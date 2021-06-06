@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Authenticated } from 'contexts';
+import { AuthenticateContext } from 'contexts/authProvider';
 import useForm from 'hooks/useForm';
 import { login } from 'utils/auth';
 import Button from 'components/atoms/button/Button';
@@ -7,7 +7,7 @@ import TextField from 'components/atoms/textfield/Textfield';
 import { useHistory } from 'react-router-dom';
 
 const LoginForm = () => {
-  const { setAuthenticated } = useContext(Authenticated);
+  const { setAuthenticated } = useContext(AuthenticateContext);
   const [error, setError] = useState('');
   const history = useHistory();
   const onSubmit = async () => {

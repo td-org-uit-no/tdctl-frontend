@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import useForm from 'hooks/useForm';
-import { Authenticated } from 'contexts';
+import { AuthenticateContext } from 'contexts/authProvider';
 import { login } from 'utils/auth';
 import { registerMember } from 'utils/api';
 import * as v from 'utils/validators';
@@ -10,7 +10,7 @@ import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { useHistory } from 'react-router-dom';
 
 const RegisterForm = () => {
-  const { setAuthenticated } = useContext(Authenticated);
+  const { setAuthenticated } = useContext(AuthenticateContext);
   const [errors, setErrors] = useState<string | undefined>(undefined);
   const [graduated, setGraduated] = useState(false);
   const history = useHistory();
