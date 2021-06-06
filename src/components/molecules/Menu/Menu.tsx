@@ -15,12 +15,13 @@ const MenuIcon: React.FC<MenuIconProps> = ({ open, onClick }) => (
   </span>
 );
 
-interface MenuItem {
+interface MenuItemProps {
   label: string;
   path: string;
   onClick?: () => void;
 }
-export const MenuItem: React.FC<MenuItem> = ({
+
+export const MenuItem: React.FC<MenuItemProps> = ({
   label,
   path,
   onClick = () => {},
