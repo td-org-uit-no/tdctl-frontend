@@ -28,11 +28,7 @@ export const get = async <T>(url: string, auth = false) => {
 //Put and post are basicly equal :/
 //could be moved into same function(PostOrPut) however its not pretty
 
-export const post = async <T>(
-  url: string,
-  data: any,
-  auth = false,
-) => {
+export const post = async <T>(url: string, data: any, auth = false) => {
   const request = new Request(baseUrl + url, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -47,11 +43,7 @@ export const post = async <T>(
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
-export const put = async <T>(
-  url: string,
-  data: any,
-  auth = false,
-) => {
+export const put = async <T>(url: string, data: any, auth = false) => {
   const request = new Request(baseUrl + url, {
     method: 'PUT',
     body: JSON.stringify(data),
@@ -65,7 +57,6 @@ export const put = async <T>(
   }
   return fetch(request).then((res) => handleResponse<T>(res));
 };
-
 
 const authFetch = <T>(request: Request) => {
   const { accessToken } = getTokens();
@@ -132,3 +123,6 @@ export const activateUser = () => post<{}>('member/activate', {}, true);
 
 export const changePassword = (passwordPayload: ChangePasswordPayload) =>
   post<ChangePasswordPayload>('auth/password', passwordPayload, true);
+
+export const confirmMember = (code: string) =>
+  post<{}>(`/member/confirm/${code}`, {});
