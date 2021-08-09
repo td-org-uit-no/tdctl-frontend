@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 import styles from './textfield.module.scss';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   maxWidth?: number;
   error?: string[] | undefined;
