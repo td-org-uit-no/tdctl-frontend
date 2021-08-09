@@ -29,9 +29,10 @@ const AuthNavbar = () => {
 
   return (
     <Menu>
-      <MenuItem label={'Home'} path={'/'} />
-      <MenuItem label={'Profile'} path={'/profile'} />
-      <MenuItem label={'Settings'} path={'/settings'} />
+      <MenuItem label={'Hjem'} path={'/'} />
+      <MenuItem label={'Arrangement'} path={'/events'} />
+      <MenuItem label={'Profil'} path={'/profile'} />
+      <MenuItem label={'Endre profile'} path={'/settings'} />
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>
   );
