@@ -5,7 +5,7 @@ interface Field {
   value: string;
   error: string[] | undefined;
 }
-interface Fields {
+export interface Fields {
   [name: string]: Field;
 }
 interface Validators {
