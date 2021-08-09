@@ -1,0 +1,14 @@
+.eventPage{
+  display: flex;
+  width : 100%;
+  justify-content: center;
+}
+
+.eventContainer{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
