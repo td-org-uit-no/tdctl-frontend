@@ -1,0 +1,29 @@
+@import '../../../atoms//textfield/textfield.module.scss';
+
+.eventForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.dateTimeWrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.dateTimeInput {
+  @extend .textField;
+  min-width: 20ch;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(1);
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(1);
+}
