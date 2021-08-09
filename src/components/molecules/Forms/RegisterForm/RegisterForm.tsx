@@ -26,13 +26,11 @@ const RegisterForm = () => {
 
   const onSubmit = async () => {
     // Check that all fields are filled
-    const isNotFilled = Object.keys(fields).filter((key) => {
-      return !fields[key].value.length && !optionalKeys.includes(key);
-    }).length;
+    const emptyFields = v.emptyFields({fields: fields, optFields: optionalKeys})
 
-    isNotFilled ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
-
-    if (hasErrors || isNotFilled) {
+    emptyFields ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
+    
+    if (hasErrors || emptyFields) {
       return;
     }
 

@@ -1,3 +1,5 @@
+import {Fields} from 'hooks/useForm';
+
 export const emailValidator = (email: string) => {
   const errors: string[] = [];
   const emailReg = /.+@.+\.[A-Za-z]+$/;
@@ -33,7 +35,7 @@ export const passwordValidator = (password: string): string[] | undefined => {
 };
 
 export const nameValidator = (name: string): string[] | undefined => {
-  const nameReg = /^[a-zæøåA-ZÆØÅ]+$/
+  const nameReg = /^[a-zæøåA-ZÆØÅ ]+$/ //! note the last space
 
   if (name.length === 0) {
     return ['Navn er påkrevd'];
@@ -77,4 +79,32 @@ export const phoneValidator = (num: string): string[] | undefined => {
     return ['Telefon nummer må inneholde 8 tall'];
   }
   return undefined;
+};
+
+export const addressValidator = (address: string) => {
+  return address.length ? undefined : ['Adresse må fylles ut'];
+}
+
+export const dateValidator = (date: string) => {
+  return date.length ? undefined : ['Dato må fylles ut'];
+}
+
+export const timeValidator = (time: string) => {
+  return time.length ? undefined : ['Tidspunkt må fylles ut'];
+}
+
+// description length constraint
+export const descriptionValidator = (description: string) => {
+  return description.length >= 250 ? ['Beskrivelse er for lang'] : undefined;
+}
+
+interface InputFields {
+  fields: Fields;
+  optFields?: string[];
+}
+
+export const emptyFields = ({ fields, optFields }: InputFields) => {
+  return Object.keys(fields).filter((key) => {
+    return !fields[key].value.length && !optFields?.includes(key);
+  }).length !== 0;
 };
