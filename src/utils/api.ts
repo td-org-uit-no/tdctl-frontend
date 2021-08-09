@@ -5,6 +5,7 @@ import {
   Member,
   TokenPair,
   ChangePasswordPayload,
+  Event
 } from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
@@ -132,3 +133,6 @@ export const activateUser = () => post<{}>('member/activate', {}, true);
 
 export const changePassword = (passwordPayload: ChangePasswordPayload) =>
   post<ChangePasswordPayload>('auth/password', passwordPayload, true);
+
+export const createEvent = (event: Event): Promise<{ id : string}> =>
+  post<{ id : string}>('event/', event, true);
