@@ -31,3 +31,10 @@ export interface MemberUpdate {
 	classof?: string;
 	phone?: string;
 }
+
+export interface Event {
+  title: string;
+  description?: string;
+  date: string;
+  address: string;
+}
