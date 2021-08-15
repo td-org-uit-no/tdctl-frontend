@@ -103,7 +103,7 @@ interface InputFields {
   optFields?: string[];
 }
 
-export const emptyFields = ({ fields, optFields }: InputFields) => {
+export const emptyFieldsValidator = ({ fields, optFields }: InputFields) => {
   return Object.keys(fields).filter((key) => {
     return !fields[key].value.length && !optFields?.includes(key);
   }).length !== 0;

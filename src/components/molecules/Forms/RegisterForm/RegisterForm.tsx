@@ -3,7 +3,7 @@ import useForm from 'hooks/useForm';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { login } from 'utils/auth';
 import { registerMember } from 'utils/api';
-import * as v from 'utils/validators';
+import { nameValidator, emailValidator, passwordValidator, classOfValidator, notRequiredPhoneValidator, emptyFieldsValidator } from 'utils/validators';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
@@ -17,16 +17,16 @@ const RegisterForm = () => {
   //easier if we want more optional keys
   const optionalKeys = ['phone'];
   const validators = {
-    name: v.nameValidator,
-    email: v.emailValidator,
-    password: v.passwordValidator,
-    classof: v.classOfValidator,
-    phone: v.notRequiredPhoneValidator,
+    name: nameValidator,
+    email: emailValidator,
+    password: passwordValidator,
+    classof: classOfValidator,
+    phone: notRequiredPhoneValidator,
   };
 
   const onSubmit = async () => {
     // Check that all fields are filled
-    const emptyFields = v.emptyFields({fields: fields, optFields: optionalKeys})
+    const emptyFields = emptyFieldsValidator({fields: fields, optFields: optionalKeys})
 
     emptyFields ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
     
