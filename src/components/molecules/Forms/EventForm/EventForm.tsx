@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
-import * as v from 'utils/validators';
+import {
+  nameValidator,
+  descriptionValidator,
+  dateValidator,
+  timeValidator,
+  addressValidator,
+  emptyFieldsValidator,
+} from 'utils/validators';
 import styles from './eventForm.module.scss';
 import Button from 'components/atoms/button/Button';
 import { createEvent } from 'utils/api';
@@ -11,16 +18,16 @@ const EventForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const validators = {
-    title: v.nameValidator,
-    description: v.descriptionValidator,
-    date: v.dateValidator,
-    time: v.timeValidator,
-    address: v.addressValidator,
+    title: nameValidator,
+    description: descriptionValidator,
+    date: dateValidator,
+    time: timeValidator,
+    address: addressValidator,
   };
   const optionalKeys = ['description'];
 
   const submit = async () => {
-    const emptyFields = v.emptyFields({
+    const emptyFields = emptyFieldsValidator({
       fields: fields,
       optFields: optionalKeys,
     });
