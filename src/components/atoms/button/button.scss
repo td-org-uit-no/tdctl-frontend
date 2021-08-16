@@ -9,6 +9,7 @@ button {
   border-radius: 0.5rem;
   border: 1px solid;
   font-weight: 700;
+  transition: 0.25s;
 
   &:hover {
     cursor: pointer;
@@ -27,11 +28,20 @@ button {
 }
 
 .primary {
-  color: $td-red;
-  border-color: $td-red;
+  color: $primary;
+  border-color: $off-primary;
+}
+
+.primary:hover {
+  background-color: $off-primary;
 }
 
 .secondary {
-  color: $primary;
-  border-color: $primary;
+  color: $secondary;
+  border-color: $secondary;
+}
+
+.secondary:hover {
+  background-color: $secondary;
+  color: black;
 }
