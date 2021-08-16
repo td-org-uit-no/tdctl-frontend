@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { logout } from 'utils/auth';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/Menu/Menu';
+import logo from 'assets/td-logo.png';
 
 const DefaultNavbar = () => {
   return (
@@ -40,10 +42,22 @@ const AuthNavbar = () => {
 
 const Navbar: React.FC = () => {
   const { authenticated } = useContext(AuthenticateContext);
+  const history = useHistory();
+
+  const moveToHomePage = () => {
+    history.push('/');
+  }
 
   return (
     <div className={styles.navbar}>
-      {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
+      <div className={styles.logoContainer}>
+        <div className={styles.logo}>
+          <img src={logo} alt="logo" onClick={moveToHomePage}/>          
+        </div>
+      </div>
+      <div className={styles.menuContainer}>
+        {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
+      </div>
     </div>
   );
 };
