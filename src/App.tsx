@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import {
   RegistrerPage,
-  RootPage,
+  HomePage,
   LoginPage,
   ProfilePage,
   SettingsPage,
@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <PrivateRoute path="/profile" component={ProfilePage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
         <PrivateRoute path="/events" component={CreateEvent} />
-        <Route path="/" component={RootPage} />
+        <Route path="/" component={HomePage} />
       </Switch>
     </Router>
   );
