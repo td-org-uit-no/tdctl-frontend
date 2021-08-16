@@ -1,0 +1,21 @@
+.logosContainer {
+  display: inline-block;
+  width: 40%;
+  align-items: center;
+}
+
+.logosWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.wrapper {
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+  border-bottom: 1px solid;
+}
+
+.logoItem {
+  margin-bottom: .25rem;
+}
