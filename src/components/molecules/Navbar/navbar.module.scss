@@ -1,9 +1,34 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-  box-sizing: border-box;
-  padding: 1rem;
   width: 100vw;
   border-bottom: 2px solid white;
 }
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  width: 5%;
+}
+
+.logo {
+  display: flex;
+  margin: .5rem;
+  img {
+    object-fit: contain;
+    width: 50px;
+    height: 50px;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+.menuContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 1rem;
+  width: 95%;
+}
+
