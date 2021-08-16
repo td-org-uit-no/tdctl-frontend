@@ -6,9 +6,9 @@ import RegistrerForm from 'components/molecules/Forms/RegisterForm/RegisterForm'
 const RegistrerPage = () => {
   useTitle('Bli medlem - Tromsøstudentenes Dataforening');
   return (
-    <div>
+    <div className={styles.registerPage}>
       <h1> Bli medlem!</h1>
-      <div>
+      <div className={styles.from}>
         <RegistrerForm />
       </div>
     </div>
