@@ -136,3 +136,18 @@ export const changePassword = (passwordPayload: ChangePasswordPayload) =>
 
 export const createEvent = (event: Event): Promise<{ id : string}> =>
   post<{ id : string}>('event/', event, true);
+
+export const getEventById = (id: string): Promise<Event> => 
+  get<Event>('event/' + id + '/', true);
+
+export const joinEvent = (id: string): Promise<{}> =>
+  post<{}>('event/' + id + '/join', {}, true)
+
+export const leaveEvent = (id: string): Promise<{}> =>
+  post<{}>('event/' + id + '/leave', {}, true)
+
+export const isJoinedEvent = (id: string): Promise<{joined: boolean}> =>
+  get<{joined: boolean}>('event/' + id + '/joined', true);
+
+
+

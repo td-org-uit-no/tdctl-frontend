@@ -8,6 +8,7 @@ import {
   ProfilePage,
   SettingsPage,
   CreateEvent,
+  EventPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute } from 'routes';
 import Navbar from 'components/molecules/Navbar/Navbar';
@@ -20,8 +21,9 @@ const App: React.FC = () => {
         <AuthorizationRoute path="/registrer" component={RegistrerPage} />
         <AuthorizationRoute path="/login" component={LoginPage} />
         <PrivateRoute path="/profile" component={ProfilePage} />
-        <PrivateRoute path="/settings" component={SettingsPage} />
-        <PrivateRoute path="/events" component={CreateEvent} />
+        <PrivateRoute path="/update_profile" component={SettingsPage} />
+        <PrivateRoute path="/create_event" component={CreateEvent} />
+        <Route path="/event/:id" children={<EventPage />} />
         <Route path="/" component={HomePage} />
       </Switch>
     </Router>

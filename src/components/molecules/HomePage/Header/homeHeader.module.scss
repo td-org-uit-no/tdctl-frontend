@@ -1,28 +1,27 @@
-.headerContainer{
+.headerContainer {
   margin-top: 2em;
-  width : 100%;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }
 
-.headerWrapper{
+.headerWrapper {
   width: 100%;
   align-items: center;
   justify-content: center;
 }
 
-img{
-  object-fit: scale-down;
-}
-
-.imageContainer{
+.imageContainer {
   display: flex;
   justify-content: center;
   height: 20vh;
   width: 100%;
+  img {
+    object-fit: scale-down;
+  }
 }
 
-.buttonWrapper{
+.buttonWrapper {
   display: flex;
   margin-top: 1em;
   justify-content: center;

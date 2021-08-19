@@ -4,22 +4,26 @@ import useForm from 'hooks/useForm';
 import { login } from 'utils/auth';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+
+interface LocationState {
+  from: { pathname: string };
+}
 
 const LoginForm = () => {
   const { setAuthenticated } = useContext(AuthenticateContext);
   const [error, setError] = useState('');
   const history = useHistory();
+  const location = useLocation<LocationState | null>();
   const onSubmit = async () => {
     try {
       if (!fields['email']?.value || !fields['password']?.value) {
         setError('Du må fylle ut e-post og passord');
         return;
       }
-
       await login(fields['email'].value, fields['password'].value);
       setAuthenticated(true);
-      history.push('/');
+      history.push(location.state?.from.pathname ?? '/');
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {

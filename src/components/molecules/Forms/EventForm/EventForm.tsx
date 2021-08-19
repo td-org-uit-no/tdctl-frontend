@@ -38,12 +38,13 @@ const EventForm = () => {
       return;
     }
     try {
-      await createEvent({
+      const id = await createEvent({
         title: fields['title']?.value,
         description: fields['description']?.value,
         date: fields['date']?.value + ' ' + fields['time']?.value,
         address: fields['address']?.value,
       });
+      console.log(id);
     } catch (error) {
       switch (error.statusCode) {
         case 400:
