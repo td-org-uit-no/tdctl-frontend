@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'components/atoms/button/Button';
 import logo from 'assets/td-full-logo.png';
 import styles from './homeHeader.module.scss';
 import { useHistory } from 'react-router-dom';
+import { AuthenticateContext } from 'contexts/authProvider';
 
 const HomeHeader = () => {
   const history = useHistory();
+  const { authenticated } = useContext(AuthenticateContext);
 
   const moveToLoginPage = () => {
     history.push('/login');
@@ -21,14 +23,16 @@ const HomeHeader = () => {
         <div className={styles.imageContainer}>
           <img src={logo} alt="" />
         </div>
-        <div className={styles.buttonWrapper}>
-          <Button version="primary" onClick={moveToLoginPage}>
-            Logg inn
-          </Button>
-          <Button version="secondary" onClick={moveToRegisterPage}>
-            Bli medlem
-          </Button>
-        </div>
+        {!authenticated && (
+          <div className={styles.buttonWrapper}>
+            <Button version="primary" onClick={moveToLoginPage}>
+              Logg inn
+            </Button>
+            <Button version="secondary" onClick={moveToRegisterPage}>
+              Bli medlem
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

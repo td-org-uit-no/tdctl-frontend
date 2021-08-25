@@ -5,7 +5,8 @@ import {
   Member,
   TokenPair,
   ChangePasswordPayload,
-  Event
+  Event,
+  Post
 } from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
@@ -88,13 +89,15 @@ function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new HttpError(response.statusText, response.status);
   }
-
   // Handle no response bodies.
+  console.log(response.headers.get('content-length'))
   if (!response.headers.get('content-length')) {
+    console.log("empty?")
     return {} as Promise<T>;
   }
-
-  return response.json() as Promise<T>;
+  const j = response.json()
+  //const j = response.json()
+  return j as Promise<T>;
 }
 
 const renewAndRetry = async <T>(request: Request): Promise<T> => {
@@ -148,6 +151,12 @@ export const leaveEvent = (id: string): Promise<{}> =>
 
 export const isJoinedEvent = (id: string): Promise<{joined: boolean}> =>
   get<{joined: boolean}>('event/' + id + '/joined', true);
+
+export const postToEvent = (eid: string, postText: {message: string}): Promise<{}> => 
+  post<{}>('event/' + eid + '/post', postText, true);
+
+export const getEventPosts = (eid: string): Promise<Post[]> =>
+  get<Post[]>('event/' + eid + '/posts', true);
 
 
 

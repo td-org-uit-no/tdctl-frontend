@@ -1,8 +1,17 @@
 import React from 'react';
+import styles from './eventDetails.module.scss';
 
-const EventDetails = () => {
+interface EventInfo {
+  date: string;
+  address : string;
+}
+
+const EventDetails: React.FC<EventInfo> = ( {date, address} ) => {
   return(
-    <div>a</div>
+    <div className={styles.eventDetails}>
+      <div> {date} </div>
+      <div> {address} </div>
+    </div>
   )
 };
 

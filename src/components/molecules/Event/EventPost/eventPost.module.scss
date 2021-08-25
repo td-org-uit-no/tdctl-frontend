@@ -1,0 +1,51 @@
+.postContainer{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.postHeader {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
+  height: 10vh;
+}
+
+.messageField {
+  display: flex;
+  width: 30%;
+  height: 100%;
+  textarea {
+    transition: all .4s ease-out;
+    background-color: #d9b2b2;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 1px 1px 1px black;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    letter-spacing: 1px;
+
+    &:focus {
+      background-color: white;
+    }
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  height: 100%;
+  width: 10%;
+}
+
+.button {
+  display: flex;
+  height: 40%;
+}

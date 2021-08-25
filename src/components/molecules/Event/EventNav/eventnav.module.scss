@@ -1,0 +1,21 @@
+.navContainer {
+  display: flex;
+  width: 100%;
+  border-bottom: 0.1rem solid;
+  border-top: 0.1rem solid;
+  border-color: #666a7d;
+  justify-content: center;
+
+  li {
+    margin: 0.25rem;
+    margin-left: 1rem;
+    display: inline-block;
+    // color: #666A7D;
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
