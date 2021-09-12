@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import useTitle  from 'hooks/useTitle';
 import styles from './validEvent.module.scss';
+import InfoSection from 'components/molecules/Event/InfoSection/InfoSection';
 import EventButton from 'components/molecules/Event/EventButton/Eventbutton';
-import EventDetails from 'components/molecules/Event/EventDetails/EventDetails';
 import logo from 'assets/td-logo-blue.png';
 import { ValidEventLayout } from '../eventPage';
 import EventNav from 'components/molecules/Event/EventNav/EventNav';
-import EventPosts from 'components/molecules/Event/EventPost/EventPost';
+import AnnouncementSection from 'components/molecules/Event/AnnouncementSection/AnnouncementSection';
+import { Event } from 'models/apiModels';
 
 const EventHeader: React.FC<{
   title: string;
@@ -24,7 +26,7 @@ const EventHeader: React.FC<{
       <div className={styles.descriptionContainer}>
         <div className={styles.description}>
           <h3>{title}</h3>
-          <div>{description}</div>
+          <p>{description}</p>
         </div>
       </div>
       <div className={styles.buttonContainer}>
@@ -37,26 +39,33 @@ const EventHeader: React.FC<{
 };
 
 const ValidEvent: React.FC<ValidEventLayout> = ({ eventData, id }) => {
-  const [renderDiscussion, setRender] = useState(false);
+  return(
+    <div>
+    { eventData !== undefined  && (
+      <EventLayout event={eventData} eid={id} />
+    )}
+    </div>
+  )
+}
 
+const EventLayout: React.FC<{event: Event, eid: string}> = ({ event, eid }) => {
+  const [renderDiscussion, setRender] = useState(false);
+  useTitle(event.title);
   return (
     <div>
       <EventHeader
-        description={eventData?.description ?? ''}
-        title={eventData?.title ?? ''}
-        id={id}
+        description={event.description}
+        title={event.title}
+        id={eid}
       />
       <div>
         <EventNav renderDiscussion={renderDiscussion} setRender={setRender} />
       </div>
       <div className={styles.eventBody}>
         {!renderDiscussion ? (
-          <EventDetails
-            date={eventData?.date ?? ''}
-            address={eventData?.address ?? ''}
-          />
+          <InfoSection event={event} eid={eid} />
         ) : (
-          <EventPosts eid={id}/>
+          <AnnouncementSection event={event} eid={eid} />
         )}
       </div>
     </div>

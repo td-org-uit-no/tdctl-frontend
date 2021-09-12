@@ -19,10 +19,6 @@ const EventNav: React.FC<NavProps> = ({ renderDiscussion, setRender }) => {
     }
   };
 
-  useEffect(() => {
-    console.log('render : ' + renderDiscussion );
-  }, [renderDiscussion]);
-
   return (
     <div className={styles.navContainer}>
       <li onClick={renderInfo}>Info</li>

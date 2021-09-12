@@ -15,6 +15,8 @@ export interface PartialMember {
   phone?: string;
 }
 
+export type Participant = Pick<Member, "_id" | "realName">
+
 export interface TokenPair {
   accessToken: string;
   refreshToken: string;
@@ -34,9 +36,15 @@ export interface MemberUpdate {
 
 export interface Event {
   title: string;
-  description?: string;
+  description: string;
   date: string;
   address: string;
+  price: number;
+  duration?: number;
+  extraInformation?: string;
+  maxParticipants?: number;
+  romNumber?: string;
+  building?: string;
 }
 
 export interface Comment {

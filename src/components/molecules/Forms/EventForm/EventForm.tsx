@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
-  nameValidator,
+  titleValidator,
   descriptionValidator,
   dateValidator,
   timeValidator,
   addressValidator,
   emptyFieldsValidator,
+  priceValidator,
 } from 'utils/validators';
 import styles from './eventForm.module.scss';
 import Button from 'components/atoms/button/Button';
@@ -18,18 +19,18 @@ const EventForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const validators = {
-    title: nameValidator,
+    title: titleValidator,
     description: descriptionValidator,
     date: dateValidator,
     time: timeValidator,
     address: addressValidator,
+    price: priceValidator,
   };
-  const optionalKeys = ['description'];
+  // const optionalKeys = ['description'];
 
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
       fields: fields,
-      optFields: optionalKeys,
     });
 
     emptyFields ? setError('Alle feltene må fylles ut') : setError(undefined);
@@ -38,11 +39,13 @@ const EventForm = () => {
       return;
     }
     try {
+      const price = parseInt(fields['price']?.value)
       const id = await createEvent({
         title: fields['title']?.value,
         description: fields['description']?.value,
         date: fields['date']?.value + ' ' + fields['time']?.value,
         address: fields['address']?.value,
+        price: price
       });
       console.log(id);
     } catch (error) {
@@ -76,11 +79,13 @@ const EventForm = () => {
           onChange={onFieldChange}
           error={fields['title'].error}
         />
+
         <TextField
           name={'description'}
           maxWidth={40}
           label={'Beskrivelse'}
           onChange={onFieldChange}
+          error={fields['description'].error}
         />
 
         <div className={styles.dateTimeWrapper}>
@@ -109,6 +114,15 @@ const EventForm = () => {
           onChange={onFieldChange}
           error={fields['address'].error}
         />
+        <TextField
+          name={'price'}
+          maxWidth={40}
+          label={'Pris'}
+          type={"number"}
+          onChange={onFieldChange}
+          error={fields['price'].error}
+        />
+
       </form>
       <div>
         {error && <p>{error}</p>}

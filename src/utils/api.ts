@@ -6,7 +6,8 @@ import {
   TokenPair,
   ChangePasswordPayload,
   Event,
-  Post
+  Post,
+  Participant
 } from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
@@ -89,15 +90,11 @@ function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new HttpError(response.statusText, response.status);
   }
-  // Handle no response bodies.
-  console.log(response.headers.get('content-length'))
-  if (!response.headers.get('content-length')) {
-    console.log("empty?")
+  // Handle empty responses and missing content-lenght header when the response is encoded
+  if (!response.headers.get('content-length') && response.headers.get('content-encoding') === null) {
     return {} as Promise<T>;
   }
-  const j = response.json()
-  //const j = response.json()
-  return j as Promise<T>;
+  return response.json() as Promise<T>;
 }
 
 const renewAndRetry = async <T>(request: Request): Promise<T> => {
@@ -125,6 +122,9 @@ export const renewToken = (refreshToken: string): Promise<TokenPair> =>
 
 export const getMemberAssociatedWithToken = (): Promise<Member> =>
   get<Member>('member/', true);
+
+export const getMemberById = (uid: string): Promise<PartialMember> =>
+  get<PartialMember>('member/' + uid, true);
 
 export const authLogout = (refreshToken: string) =>
   post<{}>('auth/logout', { refreshToken: refreshToken });
@@ -158,5 +158,6 @@ export const postToEvent = (eid: string, postText: {message: string}): Promise<{
 export const getEventPosts = (eid: string): Promise<Post[]> =>
   get<Post[]>('event/' + eid + '/posts', true);
 
-
+export const getParticipants = (eid: string): Promise<Participant[]> =>
+  get<Participant[]>('event/' + eid + '/participants');
 

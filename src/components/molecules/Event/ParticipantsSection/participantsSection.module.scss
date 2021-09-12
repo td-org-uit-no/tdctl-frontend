@@ -1,0 +1,48 @@
+.participantsContainer {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.participantsList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cardContainer{
+  display: flex;
+  width: 80%;
+  min-height: 2.5vh;
+  background-color: #161926;
+  border-radius: 5px;
+  box-shadow: rgb(22, 25, 38) 0px 2px 8px 0px;
+  margin: .75rem 0 .75rem 0;
+  // color: $secondary;
+}
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: auto;
+  max-height: 5vh;
+}
+
+.pictureWrapper{
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  height: 80%;
+  img {
+    border-radius: 50%;
+    object-fit: cover; 
+  }
+}
+
+.nameContainer {
+  margin: .25rem;
+  width: 70%;
+}

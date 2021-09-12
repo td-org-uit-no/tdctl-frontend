@@ -2,10 +2,10 @@
 
 .headerContainer {
   display: flex;
-  height: 40vh;
+  height: 30vh;
   width: 100%;
-  // background: linear-gradient(180deg, hsla(229, 27%, 12%, 1) 32%, hsla(230, 26%, 17%, 1) 100%);
-
+  // background: linear-gradient(180deg, hsla(259, 67%, 8%, 1) 0%, hsla(289, 73%, 7%, 1) 100%);
+  // background: linear-gradient(180deg, hsla(259, 67%, 8%, 1) 0%, hsla(289, 73%, 12%, 1) 100%);
   background: url('../../../../../assets/Wave.svg') no-repeat;
   background-size: 100% 100%;
 }
@@ -68,5 +68,5 @@
 .eventBody{
   display: flex;
   width: 100%;
-  justify-content: center;
+  // justify-content: center;
 }

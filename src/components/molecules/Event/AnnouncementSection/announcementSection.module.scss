@@ -1,0 +1,29 @@
+.announcementContainer{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.sectionWrapper {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  align-items: center;
+  width: 75%;
+}
+
+.announcementWrapper{
+  grid-column: 1 / span 6;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailsWrapper{
+  position: relative;
+  height: 100%;
+  grid-column: 7 / span 3;
+}
+
+.test{
+  position: absolute;
+}

@@ -46,6 +46,18 @@ export const nameValidator = (name: string): string[] | undefined => {
   return undefined;
 };
 
+export const titleValidator = (name: string): string[] | undefined => {
+  const nameReg = /^[a-zæøåA-ZÆØÅ ]+$/ //! note the last space
+
+  if (name.length === 0) {
+    return ['Tittel er påkrevd'];
+  }
+  if (!new RegExp(nameReg).test(name)) {
+    return ['Kun bokstavene A-Å'];
+  }
+  return undefined;
+};
+
 export const notRequiredNameValidator = (name: string): string[] | undefined =>
   !name.length ? undefined : nameValidator(name);
 
@@ -83,6 +95,10 @@ export const phoneValidator = (num: string): string[] | undefined => {
 
 export const addressValidator = (address: string) => {
   return address.length ? undefined : ['Adresse må fylles ut'];
+}
+
+export const priceValidator = (price: string) => {
+  return price.length ? undefined : ['Arrangement pris må fylles ut'];
 }
 
 export const dateValidator = (date: string) => {

@@ -1,0 +1,32 @@
+.infoContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  height: 40vh;
+}
+
+.itemsWrapper {
+  display: flex;
+  width: 50%;
+  // justify-content: space-around;
+}
+
+.infoItemContainer {
+  display: flex;
+  margin: 1rem;
+  background-color: #161926;
+  border-radius: 5px;
+  box-shadow: rgb(22, 25, 38) 0px 2px 8px 0px;
+}
+
+.detailContainer {
+  @extend .infoItemContainer;
+  width: 100%;
+}
+.participantsContainer {
+  @extend .infoItemContainer;
+  width: 35%;
+}
+
+
