@@ -38,7 +38,7 @@ const EventPage = () => {
   }, []);
 
   return (
-    <div>{isValid !== undefined && <EventLayout eventData={event} id={id} />}</div>
+    <div style={{ maxHeight: '92.5vh' }}>{isValid !== undefined && <EventLayout eventData={event} id={id} />}</div>
   );
 };
 

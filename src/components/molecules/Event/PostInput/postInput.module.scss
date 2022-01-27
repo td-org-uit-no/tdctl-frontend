@@ -1,19 +1,31 @@
 @import '../../../../styles/colors.scss';
 
 .inputContainer {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(1, 1fr);
+  display: flex;
+  margin-top: .75rem;
   width: 100%;
-  background-color: #161926;
-  border-radius:10px;
-  padding: .75rem;
+  height: 100%;
+  max-height: 7.5vh;
+  border-radius: 10px;
+  background-color: #2e3140;
 }
 
-.pictureContainer {
+.inputWrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  justify-items: center;
+  align-items: center;
+}
+
+.pictureContainer{
   display: flex;
-  grid-column: 1 / span 1;
-  max-height: 4vh;
+  grid-column: 1 / span 1; 
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  max-height: 7.5vh;
 }
 
 .pictureWrapper {
@@ -29,155 +41,39 @@
   }
 }
 
-.buttonContainer {
-  grid-column: 2 / span 3;
-
-  button{
-    background-color: $secondary;
-    width: 100%;
-    height: 100%;
-    font-size: .75rem;
-
-    &:hover {
-      background-color: #c29c96;
-    }
-  }
-}
-
-.modalInputContainer{
+.userInfo{
   display: flex;
-  justify-content: center;
+  grid-column: 2 / span 3; 
   width: 100%;
-  z-index: 1337;
-  height: 100vh;
-}
-
-.modalInputWrapper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: auto;
-}
-
-.modalPostDisplay{
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-
-  background: rgba(19, 20, 28, 1);
-  width: 80%;
-  height: 40%;
-  border-radius: 10px;
-}
-
-.header {
-  grid-row: 1 / span 1;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  justify-content: center;
-  border-bottom: 1px white solid;
-}
-
-.userHeader {
-  grid-row: 2 / span 1;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  justify-items: center;
-  align-items: center;
-}
-
-.userInfo {
-  grid-column: 2 / span 4;
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-}
-
-.userPictureContainer{
-  grid-column: 1 / span 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50%;
-  img {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: scale-down; 
-  }
-}
-
-.input{
-  grid-row: 3 / span 3;
-  textarea{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    border-style: none;
-    background-color: inherit;
-    overflow: auto;
-    border: None;
-    color: white;
-    font-size: 1.5rem;
-    resize: none;
-
-    &:focus{
-      outline: none;
-    }
-  }
-}
-
-.publishBtn {
-  grid-row: 6 / span 1;
-  display: flex;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   button{
-    width: 50%;
+    width: 75%;
   }
-}
 
-.headerText{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  grid-column: 2 / span 4;
-}
-
-.exitIcon{
-  grid-column: 6 / span 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .commentContainer{
   display: flex;
+  height: 7.5vh;
+  margin: .75rem 0 .75rem 0;
   justify-content: center;
-  width: 70%;
-  padding: .5rem;
-
-}
-
-.commentWrapper{
   width: 100%;
 }
 
-.comment {
-  margin-top: .5rem;
+.commentWrapper{
   display: flex;
-  padding: .5rem;
+  width: 100%;
+  height: 100%;
+}
+
+.comment {
+  display: flex;
   justify-content: center;
-  background-color: #161926;
-  border-radius:10px;
+  border-radius: 10px;
   width: 70%;
+  height: 100%;
+
   button{
     font-size: .5rem;
   }

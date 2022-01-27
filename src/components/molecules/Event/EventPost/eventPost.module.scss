@@ -1,14 +1,12 @@
 .postsContainer{
-  display: flex;
+  // display: flex;
   width: 100%;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .posts{
   display: flex;
-  width: 80%;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -17,5 +15,5 @@
 .post{
   margin: .75rem;
   justify-content: center;
-  width: 90%;
+  width: 100%;
 }

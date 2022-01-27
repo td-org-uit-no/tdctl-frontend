@@ -1,6 +1,8 @@
 .navbar {
   display: flex;
+  position: relative;
   width: 100vw;
+  max-height: 7.5vh;
   border-bottom: 2px solid white;
 }
 

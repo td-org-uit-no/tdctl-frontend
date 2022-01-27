@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './eventPost.module.scss'
 import PostInput from 'components/molecules/Event/PostInput/PostInput';
 import EventPostCard from 'components/molecules/Event/EventPostCard/EventPostsCard';
 import { Post } from 'models/apiModels';
 import { getEventPosts } from 'utils/api';
+import { EventContext } from 'components/pages/events/EventPage/ValidEvent/validEvent';
 
 const PostField: React.FC<{ posts: Post[] }> = ({ posts }) => {
   return (
     <div className={styles.posts}>
-      {posts.length && ( <p>Nylig aktivitet</p> )}
       {posts.map((post) => (
         <div key={post.id} className={styles.post}>
           <EventPostCard {...post} />
@@ -18,8 +18,9 @@ const PostField: React.FC<{ posts: Post[] }> = ({ posts }) => {
   );
 };
 
-const EventPosts: React.FC<{ eid: string }> = ({ eid }) => {
+const EventPosts: React.FC = () => {
   const [posts, setPosts] = useState<Post[] | undefined>(undefined);
+  const { eid } = useContext(EventContext);
 
   const fetchPosts = async () => {
     try {

@@ -1,0 +1,121 @@
+.modalInputContainer{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 1337;
+  height: 100vh;
+}
+
+.modalInputWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: auto;
+}
+
+.modalPostDisplay{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+
+  background: rgba(19, 20, 28, 1);
+  width: 80%;
+  height: 40%;
+  border-radius: 10px;
+}
+
+.header {
+  grid-row: 1 / span 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-content: center;
+  border-bottom: 1px white solid;
+}
+
+.headerText{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 2 / span 4;
+}
+
+.exitIcon{
+  grid-column: 6 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.userHeader {
+  grid-row: 2 / span 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.userPictureContainer{
+  grid-column: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+}
+
+.pictureWrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  img {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: scale-down; 
+  }
+}
+
+.userInfo {
+  grid-column: 2 / span 4;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+
+.input{
+  grid-row: 3 / span 3;
+  textarea{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-style: none;
+    background-color: inherit;
+    overflow: auto;
+    border: None;
+    color: white;
+    font-size: 1.5rem;
+    resize: none;
+
+    &:focus{
+      outline: none;
+    }
+  }
+}
+
+.publishBtn {
+  grid-row: 6 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button{
+    width: 50%;
+  }
+}
+

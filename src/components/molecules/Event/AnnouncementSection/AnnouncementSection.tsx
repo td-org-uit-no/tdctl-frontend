@@ -21,7 +21,7 @@ const Announcement:React.FC<{event: Event, eid: string}> = ({eid, event}) => {
       <div className={styles.sectionWrapper}>
         <div className={styles.announcementWrapper}>
           <div className={styles.annoucments}>
-            <EventPosts eid={eid} />
+            <EventPosts />
           </div>
         </div>
         <div className={styles.detailsWrapper}>

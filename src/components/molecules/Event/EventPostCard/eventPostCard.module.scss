@@ -1,74 +1,55 @@
 @import '../../../../styles/colors.scss';
-.wrapper {
-  display: flex;
-  flex-direction: row;
-}
 
-.postContainer{
-  display: flex;
-  width: 100%;
-  min-height: 5vh;
-  background-color: #161926;
-  // background: linear-gradient(180deg, hsla(259, 67%, 8%, 1) 0%, hsla(289, 73%, 12%, 1) 100%);
-  border-radius: 5px;
-  box-shadow: rgb(22, 25, 38) 0px 2px 8px 0px;
-  // color: $secondary;
-}
-.header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
-  height: auto;
-  max-height: 10vh;
-}
-
-.pictureWrapper{
-  display: flex;
-  justify-content: center;
-  width: 80%;
-  height: 80%;
-  img {
-    border-radius: 50%;
-    object-fit: cover; 
-  }
-}
-
-.textHeader {
-  display: flex;
-  align-items: flex-end; //align text bottom
-  width: 100%;
-  height: fit-content;
-  text-align: center;
-
-  small{
-    font-size: .6rem;
-    margin-left: .25rem;
-  }
-
-  p {
-    margin: 0; 
-  }
-  
-}
-
-.postMessageContainer {
-  margin: .25rem;
-  width: 70%;
-}
-
-.commentField {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: .25rem;
-  width: 80%;
-}
-
-.buttonContainer {
+// .postContainer{
+//   display: flex;
+//   min-height: 35vh;
+//   width: 100%;
+//   border-radius: 10px;
+//   background-color: #2e3140;
+// }
+.navn{
   display: flex;
   width: 100%;
-  justify-content: center;
+  background-color: blue;
 }
+.hallo{
+  width: 100%;
+  background-color: red;
+}
+// .postWrapper {
+//   display: grid;
+//   width: 100%;
+//   grid-template-rows: repeat(5, 1fr);
+// }
+
+// .postHeaderContainer{
+//   grid-row: 1 / span 1;
+// }
+
+// .postFieldContainer {
+//   grid-row: 2 / span 2;
+// }
+
+
+// .pictureContainer {
+//   display: flex;
+//   grid-column: 1 / span 1;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   height: 50%;
+//   max-height: 7.5vh;
+// }
+
+// .pictureWrapper {
+//   display: flex;
+//   width: 100%;
+//   height: 100%;
+//   img {
+//     display: flex;
+//     width: 100%;
+//     height: 100%;
+//     border-radius: 50%;
+//     object-fit: scale-down; 
+//   }
+// }
