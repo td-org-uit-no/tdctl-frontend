@@ -32,9 +32,9 @@ const AuthNavbar = () => {
   return (
     <Menu>
       <MenuItem label={'Hjem'} path={'/'} />
-      <MenuItem label={'Arrangement'} path={'/events'} />
+      <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
       <MenuItem label={'Profil'} path={'/profile'} />
-      <MenuItem label={'Endre profile'} path={'/settings'} />
+      <MenuItem label={'Endre profil'} path={'/settings'} />
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>
   );

@@ -1,0 +1,12 @@
+.headerContainer {
+  display: flex;
+  min-height: 35vh;
+  background-color: white;
+  border-radius: 20px 20px 0px 0px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+  }
+}

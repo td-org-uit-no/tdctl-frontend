@@ -5,7 +5,11 @@ import {
   Member,
   TokenPair,
   ChangePasswordPayload,
-  Event
+  Event,
+  Participant,
+  EventUpdate,
+  // Post,
+  // Participant
 } from 'models/apiModels';
 import { setTokens, getTokens } from './auth';
 
@@ -18,8 +22,12 @@ export class HttpError extends Error {
   }
 }
 
-export const get = async <T>(url: string, auth = false) => {
-  const request = new Request(baseUrl + url);
+export const get = async <T>(url: string, auth = false, content_type='application/json') => {
+  const request = new Request(baseUrl + url, {
+    headers: {
+      'accept': 'application/json'
+    }
+  });
   if (auth) {
     return authFetch<T>(request);
   }
@@ -33,15 +41,20 @@ export const post = async <T>(
   url: string,
   data: any,
   auth = false,
+  content_type = 'application/json'
 ) => {
   const request = new Request(baseUrl + url, {
+    ...(content_type === 'application/json' && {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify(data),
+    }),
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
+    ...(content_type === 'multipart/form-data' && { body: data }),
   });
+
   if (auth) {
     return authFetch<T>(request);
   }
@@ -88,9 +101,8 @@ function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new HttpError(response.statusText, response.status);
   }
-
-  // Handle no response bodies.
-  if (!response.headers.get('content-length')) {
+  // Handle empty responses and missing content-lenght header when the response is encoded
+  if (!response.headers.get('content-length') && response.headers.get('content-encoding') === null) {
     return {} as Promise<T>;
   }
 
@@ -123,6 +135,9 @@ export const renewToken = (refreshToken: string): Promise<TokenPair> =>
 export const getMemberAssociatedWithToken = (): Promise<Member> =>
   get<Member>('member/', true);
 
+export const getMemberById = (uid: string): Promise<PartialMember> =>
+  get<PartialMember>('member/' + uid, true);
+
 export const authLogout = (refreshToken: string) =>
   post<{}>('auth/logout', { refreshToken: refreshToken });
 
@@ -136,3 +151,33 @@ export const changePassword = (passwordPayload: ChangePasswordPayload) =>
 
 export const createEvent = (event: Event): Promise<{ id : string}> =>
   post<{ id : string}>('event/', event, true);
+
+export const uploadEventPicture = (id: string, eventImage: any) => 
+  post<{}>('event/'+id+'/image', eventImage, true, 'multipart/form-data');
+
+export const getEventById = (id: string): Promise<Event> => 
+  get<Event>('event/' + id + '/', true);
+
+export const joinEvent = (id: string): Promise<{}> =>
+  post<{}>('event/' + id + '/join', {}, true)
+
+export const leaveEvent = (id: string): Promise<{}> =>
+  post<{}>('event/' + id + '/leave', {}, true)
+
+export const isJoinedEvent = (id: string): Promise<{joined: boolean}> =>
+  get<{joined: boolean}>('event/' + id + '/joined', true);
+
+export const postToEvent = (eid: string, postText: {message: string}): Promise<{}> => 
+  post<{}>('event/' + eid + '/post', postText, true);
+
+export const getEventImage = (eid: string): Promise<{image: any}> =>
+  get<{image: any}>('event/'+eid+'/image', true);
+
+export const getJoinedParticipants = (eid: string): Promise<Participant[]> => 
+  get<Participant[]>("event/"+eid+"/participants", true);
+
+export const updateEvent = (eid: string, eventUpdate:EventUpdate) => 
+  put<EventUpdate>("event/"+eid+"/", eventUpdate, true);
+
+// export const getEventPosts = (eid: string): Promise<Post[]> =>
+//   get<Post[]>('event/' + eid + '/posts', true);

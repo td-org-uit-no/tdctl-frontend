@@ -8,7 +8,7 @@ const RegistrerPage = () => {
   return (
     <div className={styles.registerPage}>
       <h1> Bli medlem!</h1>
-      <div className={styles.from}>
+      <div className={styles.registerForm}>
         <RegistrerForm />
       </div>
     </div>
