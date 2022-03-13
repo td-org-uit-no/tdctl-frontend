@@ -57,7 +57,10 @@ const EditEvent: React.FC<{ eid: string; event: Event; setEdit: () => void }> =
         ...(fields['address']?.value !== event.address && {
           address: fields['address']?.value,
         }),
-      };
+        ...(event.maxParticipants  && fields['maxParticipants']?.value !== event.maxParticipants?.toString() && {
+            maxParticipants: fields['maxParticipants']?.value,
+        }),
+      } as Event;
 
       if (!Object.keys(updatePayload).length) {
         setError('Minst et felt må endres');
@@ -119,6 +122,15 @@ const EditEvent: React.FC<{ eid: string; event: Event; setEdit: () => void }> =
                   />
                   <p> Dato </p>
                   {transformDate(new Date(event.date))}
+
+                  <TextField
+                    name={'maxParticipants'}
+                    type={'number'}
+                    maxWidth={60}
+                    onChange={onFieldChange}
+                    label={'Max antall påmeldte'}
+                    value={fields['maxParticipants']?.value ?? event.maxParticipants}
+                  />
                 </div>
               </div>
             </div>
@@ -143,12 +155,11 @@ const EditEvent: React.FC<{ eid: string; event: Event; setEdit: () => void }> =
     );
   };
 
-const EventInfo: React.FC<eventPagePropos> = ({ eid, event }) => {
+const EventInfo: React.FC<eventPagePropos> = ({ eid, event, role }) => {
   const [participantsText, setParticipantText] = useState('');
 
   const getNumberOfParticipants = async () => {
     const resp = await getJoinedParticipants(eid);
-    console.log(event.maxParticipants)
     const str =
       event.maxParticipants === null
         ? `${resp.length} skal`
@@ -182,6 +193,15 @@ const EventInfo: React.FC<eventPagePropos> = ({ eid, event }) => {
               {transformDate(new Date(event.date))}
               <p> Antall deltakere </p>
               {participantsText}
+              {role === "admin" &&
+                <ol>
+                    {event.participants?.map((p,i)=>{
+                        return(
+                            <li key={i} style={{color:(event.maxParticipants??0) < i+1?"red":"none"}}>{p.realName}</li>
+                        )
+                    })}
+                </ol>
+              }
             </div>
           </div>
         </div>
@@ -202,7 +222,7 @@ const EventBody: React.FC<eventPagePropos> = ({ eid, event }) => {
     <div className={styles.eventBody}>
       <EventHeader id={eid} className={styles.header}/>
       {!edit ? (
-        <EventInfo eid={eid} event={event} />
+        <EventInfo eid={eid} event={event} role={role ?? "unconfirmed"} />
       ) : (
         <EditEvent eid={eid} event={event} setEdit={setEventEdit} />
       )}

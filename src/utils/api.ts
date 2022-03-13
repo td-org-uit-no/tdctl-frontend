@@ -180,8 +180,8 @@ export const getEventImage = (eid: string): Promise<{ image: any }> =>
 export const getJoinedParticipants = (eid: string): Promise<Participant[]> =>
   get<Participant[]>('event/' + eid + '/participants', true);
 
-export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
-  put<EventUpdate>('event/' + eid + '/', eventUpdate, true);
+export const updateEvent = (eid: string, eventUpdate: Event) =>
+  put<Event>('event/' + eid + '/', eventUpdate, true);
 
 // export const getEventPosts = (eid: string): Promise<Post[]> =>
 //   get<Post[]>('event/' + eid + '/posts', true);

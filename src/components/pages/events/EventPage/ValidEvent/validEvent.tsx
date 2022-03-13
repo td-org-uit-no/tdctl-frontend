@@ -4,7 +4,7 @@ import styles from './validEvent.module.scss';
 import { ValidEventLayout } from '../eventPage';
 import { Event } from 'models/apiModels';
 import EventBody from 'components/molecules/Event/EventBody/eventBody';
-
+import {RoleOptions} from 'contexts/authProvider'
 const ValidEvent: React.FC<ValidEventLayout> = ({ eventData, eid }) => {
   return (
     <div>
@@ -16,6 +16,7 @@ const ValidEvent: React.FC<ValidEventLayout> = ({ eventData, eid }) => {
 export interface eventPagePropos {
   eid: string;
   event: Event;
+  role?: RoleOptions; 
 }
 
 const EventLayout: React.FC<eventPagePropos> = ({

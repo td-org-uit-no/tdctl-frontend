@@ -54,6 +54,7 @@ export interface Event {
   maxParticipants?: number;
   romNumber?: string;
   building?: string;
+  participants?:Participant[]; 
 }
 
 export type EventUpdate = Partial<Pick<Event, "title" | "description" | "date" | "address">> 

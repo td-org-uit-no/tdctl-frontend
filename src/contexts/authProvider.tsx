@@ -5,11 +5,11 @@ export const AuthenticateContext = createContext({
   authenticated: false,
   setAuthenticated: (authenticated: boolean) => {},
   isValidating: true,
-  role: "unconfirmed",
+  role: "unconfirmed" as RoleOptions,
   updateCredentials: () => {}
 });
 
-type RoleOptions = 'unconfirmed' | 'member' | 'admin';
+export type RoleOptions = 'unconfirmed' | 'member' | 'admin';
 
 const AuthenticateProvider: React.FC = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(true);
