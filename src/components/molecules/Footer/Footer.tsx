@@ -42,12 +42,12 @@ const Footer = () => {
       <div className={styles.footerWrapper}>
         <FooterList header={'Om oss'}>
           <FooterItem label={'Kontakt oss'} path={''} />
-          <FooterItem label={'For nye studenter'} path={''} />
-          <FooterItem label={'For nye studenter'} path={''} />
+          <FooterItem label={'For nye studenter'} path={'/for-studenter'} />
+          <FooterItem label={'For nye studenter'} path={'/for-studenter'} />
           <FooterItem label={'Styret'} path={''} />
         </FooterList>
         <FooterList header={'Ressurser'}>
-          <FooterItem label={'For nye studener'} path={''} />
+          <FooterItem label={'For nye studener'} path={'/for-studenter'} />
           <FooterItem label={'For bedrifter'} path={''} />
           <FooterItem label={'Stillingsutlysninger'} path={''} />
         </FooterList>
