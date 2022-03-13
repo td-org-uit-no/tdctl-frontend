@@ -13,8 +13,12 @@ const RootPage = () => {
   useTitle('Tromsøstudentenes-Dataforening');
 
   const fetchEvents = async () => {
-    const eventData = await getUpcomingEvents();
-    setEvents(eventData);
+    try {
+      const eventData = await getUpcomingEvents();
+      setEvents(eventData);
+    } catch(error){
+
+    }
   }
 
   useEffect(() => {
