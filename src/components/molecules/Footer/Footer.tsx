@@ -44,7 +44,7 @@ const Footer = () => {
           <FooterItem label={'Kontakt oss'} path={''} />
           <FooterItem label={'For nye studenter'} path={'/for-studenter'} />
           <FooterItem label={'For nye studenter'} path={'/for-studenter'} />
-          <FooterItem label={'Styret'} path={''} />
+          <FooterItem label={'Om oss'} path={'/om-oss'} />
         </FooterList>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'For nye studener'} path={'/for-studenter'} />

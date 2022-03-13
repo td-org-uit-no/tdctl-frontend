@@ -10,6 +10,7 @@ import {
   CreateEvent,
   EventPage,
   StudentPage,
+  AboutPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute } from 'routes';
 import Navbar from 'components/molecules/Navbar/Navbar';
@@ -26,8 +27,8 @@ const App: React.FC = () => {
         <PrivateRoute path="/create-event" component={CreateEvent} />
         <Route path="/event/:id" children={<EventPage />} />
         <Route path="/for-studenter" component={StudentPage}/> 
+        <Route path="/om-oss" component={AboutPage}/> 
         <Route path="/" component={HomePage} />
-        
       </Switch>
     </Router>
   );
