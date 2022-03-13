@@ -66,11 +66,16 @@
   }
   button {
     width: 95%;
-    margin-bottom: 7.5%;
+    margin: 10% 0px 5% 0px;
   }
 }
 
 .adminButtons {
   margin: 1%;
   width: 25%;
+}
+
+.header {
+  min-height: 35vh;
+  border-radius: 20px 20px 0px 0px;
 }

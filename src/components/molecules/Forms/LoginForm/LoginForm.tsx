@@ -43,14 +43,16 @@ const LoginForm = () => {
     <form onSubmit={onSubmitEvent}>
       <TextField
         name={'email'}
-        maxWidth={40}
+        minWidth={30}
+        maxWidth={45}
         label={'E-post'}
         onChange={onFieldChange}
       />
 
       <TextField
         name={'password'}
-        maxWidth={40}
+        minWidth={30}
+        maxWidth={45}
         label={'Passord'}
         type={'password'}
         onChange={onFieldChange}

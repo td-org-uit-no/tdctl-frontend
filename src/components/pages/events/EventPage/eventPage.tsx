@@ -6,13 +6,13 @@ import { getEventById } from 'utils/api';
 
 export interface ValidEventLayout {
   eventData: Event | undefined;
-  id : string;
+  eid : string;
 }
 
-const EventLayout: React.FC<ValidEventLayout> = ({ eventData, id}) => {
+const EventLayout: React.FC<ValidEventLayout> = ({ eventData, eid}) => {
   return (
     <div>
-      {eventData !== undefined ? <ValidEvent eventData={eventData} id={id} /> : <p> 404 event not found!</p>}
+      {eventData !== undefined ? <ValidEvent eventData={eventData} eid={eid} /> : <p> 404 event not found!</p>}
     </div>
   );
 };
@@ -38,7 +38,7 @@ const EventPage = () => {
   }, []);
 
   return (
-    <div style={{ width: '100vw', maxWidth: '100%'}}>{isValid !== undefined && <EventLayout eventData={event} id={id} />}</div>
+    <div style={{ width: '100vw', maxWidth: '100%'}}>{isValid !== undefined && <EventLayout eventData={event} eid={id} />}</div>
   );
 };
 

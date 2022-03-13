@@ -1,0 +1,29 @@
+.eventPreview {
+  background: #2B2C3D;
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 10%;
+  justify-content: center;
+  text-align: center;
+}
+
+.previewContainer {
+  width: 80%;
+  height: 100%;
+}
+
+.info {
+  padding-top: .5em;
+  text-align: left;
+}
+
+.infoText {
+  text-align: center;
+  align-items: center;
+  display: flex;
+  p {
+    margin: 0;
+  }
+}

@@ -16,7 +16,7 @@ import {
   titleValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
 
 // TODO extend the admin features
@@ -150,7 +150,7 @@ const EventInfo: React.FC<eventPagePropos> = ({ eid, event }) => {
     const resp = await getJoinedParticipants(eid);
     console.log(event.maxParticipants)
     const str =
-      event.maxParticipants === undefined
+      event.maxParticipants === null
         ? `${resp.length} skal`
         : `${resp.length} / ${event.maxParticipants} påmeldt`;
     setParticipantText(str);
@@ -191,7 +191,7 @@ const EventInfo: React.FC<eventPagePropos> = ({ eid, event }) => {
 };
 
 const EventBody: React.FC<eventPagePropos> = ({ eid, event }) => {
-  const { isValidating, role } = useContext(AuthenticateContext);
+  const { role } = useContext(AuthenticateContext);
   const [edit, setEdit] = useState(false);
 
   const setEventEdit = () => {
@@ -200,7 +200,7 @@ const EventBody: React.FC<eventPagePropos> = ({ eid, event }) => {
 
   return (
     <div className={styles.eventBody}>
-      <EventHeader id={eid} />
+      <EventHeader id={eid} className={styles.header}/>
       {!edit ? (
         <EventInfo eid={eid} event={event} />
       ) : (

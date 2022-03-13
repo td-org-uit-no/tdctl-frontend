@@ -93,7 +93,8 @@ const RegisterForm = () => {
       <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Navn'}
           onChange={onFieldChange}
           error={fields['name'].error}
@@ -101,7 +102,8 @@ const RegisterForm = () => {
         <TextField
           name={'email'}
           type="email"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'E-post'}
           onChange={onFieldChange}
           error={fields['email'].error}
@@ -110,7 +112,8 @@ const RegisterForm = () => {
         <TextField
           name={'password'}
           type="password"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Passord'}
           onChange={onFieldChange}
           error={fields['password'].error}
@@ -119,7 +122,8 @@ const RegisterForm = () => {
         <TextField
           name={'classof'}
           type="number"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Årskull'}
           onChange={onFieldChange}
         />
@@ -127,7 +131,8 @@ const RegisterForm = () => {
         <TextField
           name={'phone'}
           type="number"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Telefon'}
           onChange={onFieldChange}
         />

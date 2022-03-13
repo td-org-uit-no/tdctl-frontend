@@ -1,9 +1,14 @@
 import {baseUrl} from 'constants/apiConstants';
+import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { getEventImage } from 'utils/api';
-import styles from './eventHeader.module.scss';
+import './eventHeader.scss';
 
-const EventHeader: React.FC<{ id: string }> = ({ id }) => {
+interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
+  id: string;
+}
+
+const EventHeader: React.FC<Props> = ({ id, className }) => {
+  const classes = classnames('base', className);
   const [imgUrl, setImgUrl] = useState<any>();
   const url = baseUrl + 'event/'+id+'/image'
 
@@ -19,15 +24,15 @@ const EventHeader: React.FC<{ id: string }> = ({ id }) => {
   };
 
   const fetchEventImage = async () => {
-    const resp = await getImg();
+    await getImg();
   };
 
   useEffect(() => {
     fetchEventImage();
   }, []);
 
-  return <div className={styles.headerContainer}>
-      <img src={imgUrl} />
+  return <div className={classes}>
+      <img src={imgUrl} alt="" />
   </div>;
 };
 

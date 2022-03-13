@@ -60,7 +60,7 @@ const EventForm = () => {
         data.append('image', file, file.name);
         await uploadEventPicture(resp.id, data);
       }
-      console.log(resp);
+      history.push('/event/'+resp.id);
     } catch (error) {
       switch (error.statusCode) {
         case 400:
@@ -74,7 +74,6 @@ const EventForm = () => {
           return;
       }
     }
-    history.push('/');
   };
 
   const { fields, onFieldChange, hasErrors, onSubmitEvent } = useForm({

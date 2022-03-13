@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext } from 'react';
-import {useLocation} from 'react-router-dom';
 import { getRole, verifyAuthentication } from 'utils/auth';
 
 export const AuthenticateContext = createContext({
