@@ -5,5 +5,6 @@ import LoginPage from './login/Login';
 import SettingsPage from './settings/Settings'
 import CreateEvent from './events/CreateEvent/createEvent';
 import EventPage from './events/EventPage/eventPage';
+import BuisnessPage from './buisnesspage/BuisnessInfo';
 
-export { RegistrerPage, HomePage, LoginPage, ProfilePage, SettingsPage, CreateEvent, EventPage};
+export { RegistrerPage, HomePage, LoginPage, ProfilePage, SettingsPage, CreateEvent, EventPage, BuisnessPage};
