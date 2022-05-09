@@ -1,0 +1,18 @@
+.eventPageBody{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  // background-color: black;
+  justify-content: center;
+  align-items: center;
+}
+
+.eventContainer {
+  display: flex;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+  width: 80%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

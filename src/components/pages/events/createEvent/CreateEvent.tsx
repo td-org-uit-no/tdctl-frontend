@@ -1,5 +1,5 @@
 import React from 'react';
-import EventForm from 'components/molecules/Forms/EventForm/EventForm';
+import EventForm from 'components/molecules/forms/eventForm/EventForm';
 import styles from './createEvent.module.scss';
 
 const EventPage = () => {
