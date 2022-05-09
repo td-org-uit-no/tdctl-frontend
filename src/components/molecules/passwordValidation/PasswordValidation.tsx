@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './passwordValidation.module.scss';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import useForm from 'hooks/useForm';
 import { passwordValidator } from 'utils/validators';
-import { changePassword } from 'utils/api';
+import { changePassword } from 'api';
 import { useHistory } from 'react-router-dom';
 import { fieldStyle } from 'styles/settingsField';
 

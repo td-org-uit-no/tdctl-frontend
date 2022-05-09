@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthenticateContext } from 'contexts/authProvider';
-import { logout } from 'utils/auth';
+import { logout } from 'api';
 import styles from './navbar.module.scss';
-import Menu, { MenuItem } from 'components/molecules/Menu/Menu';
+import Menu, { MenuItem } from 'components/molecules/menu/Menu';
 import logo from 'assets/td-logo.png';
 
 const DefaultNavbar = () => {
@@ -16,7 +16,7 @@ const DefaultNavbar = () => {
 };
 
 const AuthNavbar = () => {
-  const { setAuthenticated } = useContext(AuthenticateContext);
+  const { setAuthenticated, role } = useContext(AuthenticateContext);
   const onLogout = async () => {
     try {
       await logout();
@@ -32,9 +32,11 @@ const AuthNavbar = () => {
   return (
     <Menu>
       <MenuItem label={'Hjem'} path={'/'} />
-      <MenuItem label={'Arrangement'} path={'/events'} />
       <MenuItem label={'Profil'} path={'/profile'} />
-      <MenuItem label={'Endre profile'} path={'/settings'} />
+      <MenuItem label={'Endre profil'} path={'/settings'} />
+      {role === 'admin' && (
+        <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
+      )}
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>
   );
@@ -46,13 +48,13 @@ const Navbar: React.FC = () => {
 
   const moveToHomePage = () => {
     history.push('/');
-  }
+  };
 
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
-          <img src={logo} alt="logo" onClick={moveToHomePage}/>          
+          <img src={logo} alt="logo" onClick={moveToHomePage} />
         </div>
       </div>
       <div className={styles.menuContainer}>
