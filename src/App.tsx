@@ -1,5 +1,5 @@
-import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
 
 import {
   RegistrerPage,
@@ -8,9 +8,10 @@ import {
   ProfilePage,
   SettingsPage,
   CreateEvent,
+  EventPage,
 } from 'components/pages';
-import { PrivateRoute, AuthorizationRoute } from 'routes';
-import Navbar from 'components/molecules/Navbar/Navbar';
+import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
+import Navbar from 'components/molecules/navbar/Navbar';
 
 const App: React.FC = () => {
   return (
@@ -21,7 +22,8 @@ const App: React.FC = () => {
         <AuthorizationRoute path="/login" component={LoginPage} />
         <PrivateRoute path="/profile" component={ProfilePage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
-        <PrivateRoute path="/events" component={CreateEvent} />
+        <AdminRoute path="/create-event" component={CreateEvent} />
+        <Route path="/event/:id" children={<EventPage />} />
         <Route path="/" component={HomePage} />
       </Switch>
     </Router>
