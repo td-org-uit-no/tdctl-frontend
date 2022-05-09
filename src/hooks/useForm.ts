@@ -65,7 +65,7 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
     });
   };
 
-  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     //Don't require all forms to have a validator
     const fieldError = validators?.hasOwnProperty(name) ? validators?.[name](value) : undefined;
