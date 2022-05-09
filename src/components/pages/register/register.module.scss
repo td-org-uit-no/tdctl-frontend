@@ -1,12 +1,17 @@
-.registerPage{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
+.registerPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 100%;
 }
 
-.form{
-    display: flex;
-    width: 40%;
+.registerForm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  input {
+    min-width: 30ch;
+  }
 }

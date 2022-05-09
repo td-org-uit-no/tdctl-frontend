@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './footer.module.scss';
 import { Link } from 'react-router-dom';
-import FooterLogos from './FooterLogos/FooterLogos';
+import FooterLogos from './footerLogos/FooterLogos';
 
 interface FooterListProps {
   header: string;

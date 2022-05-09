@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './settingsForm.module.scss';
 import Button from 'components/atoms/button/Button';
 import useForm from 'hooks/useForm';
-import { updateMember } from 'utils/api';
+import { updateMember } from 'api';
 import { useHistory } from 'react-router-dom';
 import TextField from 'components/atoms/textfield/Textfield';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
@@ -43,7 +43,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
       ...(fields['classof']?.value !== init?.classof && {
         classof: fields['classof']?.value,
       }),
-      ...(fields['phone']?.value !== init?.phone && {
+      ...((fields['phone']?.value !== init?.phone && phoneExpanded) && {
         phone: fields['phone']?.value,
       }),
     };

@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import useForm from 'hooks/useForm';
 import { AuthenticateContext } from 'contexts/authProvider';
-import { login } from 'utils/auth';
-import { registerMember } from 'utils/api';
+import { login, registerMember } from 'api';
 import { nameValidator, emailValidator, passwordValidator, classOfValidator, notRequiredPhoneValidator, emptyFieldsValidator } from 'utils/validators';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
@@ -93,7 +92,8 @@ const RegisterForm = () => {
       <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Navn'}
           onChange={onFieldChange}
           error={fields['name'].error}
@@ -101,7 +101,8 @@ const RegisterForm = () => {
         <TextField
           name={'email'}
           type="email"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'E-post'}
           onChange={onFieldChange}
           error={fields['email'].error}
@@ -110,7 +111,8 @@ const RegisterForm = () => {
         <TextField
           name={'password'}
           type="password"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Passord'}
           onChange={onFieldChange}
           error={fields['password'].error}
@@ -119,7 +121,8 @@ const RegisterForm = () => {
         <TextField
           name={'classof'}
           type="number"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Årskull'}
           onChange={onFieldChange}
         />
@@ -127,7 +130,8 @@ const RegisterForm = () => {
         <TextField
           name={'phone'}
           type="number"
-          maxWidth={40}
+          maxWidth={60}
+          minWidth={40}
           label={'Telefon'}
           onChange={onFieldChange}
         />

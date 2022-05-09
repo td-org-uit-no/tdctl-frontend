@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Icon from 'components/atoms/icons/icon';
 import { Link } from 'react-router-dom';
 import className from 'classnames';
-import './Menu.scss';
+import './menu.scss';
 
 interface MenuIconProps {
   open: boolean;

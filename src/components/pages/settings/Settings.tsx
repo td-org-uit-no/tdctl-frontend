@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './settings.module.scss';
-import { getMemberAssociatedWithToken, activateUser } from 'utils/api';
-import SettingsForm from 'components/molecules/Forms/SettingsForm/SettingsForm';
-import PasswordValidation from 'components/molecules/PasswordValidation/PasswordValidation';
+import { getMemberAssociatedWithToken, activateUser } from 'api';
+import { SettingsForm } from 'components/molecules/forms';
+import PasswordValidation from 'components/molecules/passwordValidation/PasswordValidation';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 
