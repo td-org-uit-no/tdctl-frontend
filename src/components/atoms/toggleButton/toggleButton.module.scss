@@ -8,6 +8,9 @@
 .toggleContainer {
   display: flex;
   height: 100%;
+  input {
+    min-width: 10%
+  }
 }
 .switch {
   position: relative;
