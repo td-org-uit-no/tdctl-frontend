@@ -4,9 +4,13 @@
 @import './typography.scss';
 
 html, body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   color: $primary;
   background: $background-color;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
