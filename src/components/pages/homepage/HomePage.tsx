@@ -12,10 +12,15 @@ const RootPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
   useTitle('Tromsøstudentenes-Dataforening');
 
+  const sortByDate = (a: Event, b: Event) => {
+    return Number(new Date(a.date)) - Number(new Date(b.date));
+  };
+
   const fetchEvents = async () => {
     try {
       const eventData = await getUpcomingEvents();
-      setEvents(eventData);
+      const sorted = [...eventData].sort(sortByDate)
+      setEvents(sorted);
     } catch (error) {
       console.log(error.statusCode);
     }
@@ -32,7 +37,7 @@ const RootPage = () => {
         <div className={styles.eventsWrapper}>
           <Carousel
             title="Arrangementer"
-            dir="column"
+            dir="row"
             viewItems={3}
             spacing={true}
             height={'42.5vh'}>
