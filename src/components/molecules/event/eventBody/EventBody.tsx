@@ -10,6 +10,7 @@ import {
   addressValidator,
   dateValidator,
   descriptionValidator,
+  maxParticipantsValidator,
   titleValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
@@ -30,6 +31,9 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     description: event.description,
     date: event.date,
     address: event.address,
+    ...(event?.maxParticipants !== undefined && {
+      maxParticipants: event.maxParticipants.toString()
+    })
   };
 
   const validators = {
@@ -37,6 +41,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     description: descriptionValidator,
     date: dateValidator,
     address: addressValidator,
+    maxParticipants: maxParticipantsValidator,
   };
 
   const submit = async () => {
@@ -57,18 +62,14 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       ...(fields['address']?.value !== event.address && {
         address: fields['address']?.value,
       }),
-      ...(event.maxParticipants &&
-        fields['maxParticipants']?.value !==
-          event.maxParticipants?.toString() && {
-          maxParticipants: fields['maxParticipants']?.value,
-        }),
+      ...(fields['maxParticipants']?.value !== event?.maxParticipants?.toString() && {
+        maxParticipants: fields['maxParticipants']?.value
+      })
     } as Event;
-
     if (!Object.keys(updatePayload).length) {
       setError('Minst et felt må endres');
       return;
     }
-
     try {
       await updateEvent(event.eid, updatePayload);
       // reload page
@@ -133,6 +134,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   value={
                     fields['maxParticipants']?.value ?? event.maxParticipants
                   }
+                  error={fields['maxParticipants']?.error}
                 />
               </div>
             </div>
