@@ -42,20 +42,26 @@
 .dateTimeWrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 100%;
+  gap: 5%;
+  // width: 100%;
+  justify-content: space-between;
+  align-content: space-around;
 }
 
 .date {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   grid-column: 1 / span 1;
+  width: 100%;
 }
 
 .time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   grid-column: 2 / span 1;
-}
-
-.dateTimeInput {
-  // @extend .textField;
-  // margin: 0rem .25rem 0rem .25rem;
+  width: 100%;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {

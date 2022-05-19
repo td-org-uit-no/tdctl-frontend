@@ -90,7 +90,6 @@ const EventForm = () => {
         <div className={styles.inputSection}>
           <TextField
             name={'title'}
-            maxWidth={80}
             label={'Tittel'}
             onChange={onFieldChange}
             error={fields['title'].error}
@@ -117,14 +116,12 @@ const EventForm = () => {
 
           <TextField
             name={'address'}
-            maxWidth={60}
             label={'Adresse'}
             onChange={onFieldChange}
             error={fields['address'].error}
           />
           <TextField
             name={'price'}
-            maxWidth={60}
             label={'Pris'}
             type={'number'}
             onChange={onFieldChange}
@@ -132,7 +129,6 @@ const EventForm = () => {
           />
           <Textarea
             name={'description'}
-            maxWidth={60}
             label={'Beskrivelse'}
             onChange={onFieldChange}
             error={fields['description'].error}
