@@ -29,7 +29,7 @@ export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
   put<EventUpdate>('event/' + eid + '/', eventUpdate, true);
 
 export const getUpcomingEvents = (): Promise<Event[]> =>
-  get<Event[]>('event/upcoming-events');
+  get<Event[]>('event/upcoming');
 
 // export const getEventPosts = (eid: string): Promise<Post[]> =>
 //   get<Post[]>('event/' + eid + '/posts', true);
