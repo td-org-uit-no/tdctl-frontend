@@ -13,6 +13,7 @@ import {
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
 import ToastProvider from 'contexts/toastProvider';
+import AdminStuff from 'components/pages/admin/AdminStuff';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <PrivateRoute path="/profile" component={ProfilePage} />
           <PrivateRoute path="/settings" component={SettingsPage} />
           <AdminRoute path="/create-event" component={CreateEvent} />
+          <AdminRoute path="/admin-stuff" component={AdminStuff} />
           <Route path="/event/:id" children={<EventPage />} />
           <Route path="/" component={HomePage} />
         </Switch>

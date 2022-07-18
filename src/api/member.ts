@@ -22,3 +22,5 @@ export const updateMember = (memberUpdate: MemberUpdate) =>
 
 export const changePassword = (passwordPayload: ChangePasswordPayload) =>
   post<ChangePasswordPayload>('auth/password', passwordPayload, true);
+
+export const getAllMembers = () => get<Array<Member>>('members/', true);
