@@ -12,6 +12,7 @@ import {
   // Participant
 } from 'models/apiModels';
 import { setTokens, getTokens } from 'utils/auth';
+import {renewToken} from './auth';
 
 /* Http error */
 export class HttpError extends Error {
@@ -122,68 +123,3 @@ const renewAndRetry = async <T>(request: Request): Promise<T> => {
     throw error;
   }
 };
-
-/* Endpoints */
-
-export const registerMember = (partialMember: PartialMember) =>
-  post<string>('member/', partialMember);
-
-export const authenticate = (email: string, password: string) =>
-  post<TokenPair>('auth/login', { email, password });
-
-export const renewToken = (refreshToken: string): Promise<TokenPair> =>
-  post<TokenPair>('auth/renew', { refreshToken: refreshToken });
-
-export const getMemberAssociatedWithToken = (): Promise<Member> =>
-  get<Member>('member/', true);
-
-export const getMemberById = (uid: string): Promise<PartialMember> =>
-  get<PartialMember>('member/' + uid, true);
-
-export const authLogout = (refreshToken: string) =>
-  post<{}>('auth/logout', { refreshToken: refreshToken });
-
-export const updateMember = (memberUpdate: MemberUpdate) =>
-  put<MemberUpdate>('member/', memberUpdate, true);
-
-export const activateUser = () => post<{}>('member/activate', {}, true);
-
-export const changePassword = (passwordPayload: ChangePasswordPayload) =>
-  post<ChangePasswordPayload>('auth/password', passwordPayload, true);
-
-export const createEvent = (event: Event): Promise<{ id: string }> =>
-  post<{ id: string }>('event/', event, true);
-
-export const uploadEventPicture = (id: string, eventImage: any) =>
-  post<{}>('event/' + id + '/image', eventImage, true, 'multipart/form-data');
-
-export const getEventById = (id: string): Promise<Event> =>
-  get<Event>('event/' + id + '/', true);
-
-export const joinEvent = (id: string): Promise<{}> =>
-  post<{}>('event/' + id + '/join', {}, true);
-
-export const leaveEvent = (id: string): Promise<{}> =>
-  post<{}>('event/' + id + '/leave', {}, true);
-
-export const isJoinedEvent = (id: string): Promise<{ joined: boolean }> =>
-  get<{ joined: boolean }>('event/' + id + '/joined', true);
-
-export const postToEvent = (
-  eid: string,
-  postText: { message: string }
-): Promise<{}> => post<{}>('event/' + eid + '/post', postText, true);
-
-export const getEventImage = (eid: string): Promise<{ image: any }> =>
-  get<{ image: any }>('event/' + eid + '/image', true);
-
-export const getJoinedParticipants = (eid: string): Promise<Participant[]> =>
-  get<Participant[]>('event/' + eid + '/participants', true);
-
-export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
-  put<EventUpdate>('event/' + eid + '/', eventUpdate, true);
-
-// export const getEventPosts = (eid: string): Promise<Post[]> =>
-//   get<Post[]>('event/' + eid + '/posts', true);
-export const getUpcomingEvents = (): Promise<Event[]> =>
-  get<Event[]>('event/upcoming-events');
