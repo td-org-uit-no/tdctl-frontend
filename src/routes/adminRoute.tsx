@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { AuthenticateContext } from 'contexts/authProvider';
+import { AuthenticateContext, Roles } from 'contexts/authProvider';
 
 interface PublicRouteProps extends RouteProps {
   component: any;
@@ -20,7 +20,7 @@ const AdminRoute: React.FC<PublicRouteProps> = ({
     <Route
       {...rest}
       render={(routeProps) =>
-        role === 'admin' ? (
+        role === Roles.admin ? (
           <Component {...routeProps} />
         ) : (
           <Redirect

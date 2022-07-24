@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { AuthenticateContext } from 'contexts/authProvider';
+import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import { logout } from 'api';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/menu/Menu';
@@ -34,7 +34,7 @@ const AuthNavbar = () => {
       <MenuItem label={'Hjem'} path={'/'} />
       <MenuItem label={'Profil'} path={'/profile'} />
       <MenuItem label={'Endre profil'} path={'/settings'} />
-      {role === 'admin' && (
+      {role === Roles.admin && (
         <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
       )}
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
