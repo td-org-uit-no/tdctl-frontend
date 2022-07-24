@@ -11,6 +11,16 @@ export const AuthenticateContext = createContext({
 
 export type RoleOptions = 'unconfirmed' | 'member' | 'admin';
 
+interface Role {
+  [key: string]: RoleOptions
+}
+
+export const Roles = {
+  admin: "admin",
+  member: "member",
+  unconfirmed: "unconfirmed",
+} as Role
+
 const AuthenticateProvider: React.FC = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(true);
   const [isValidating, setValidating] = useState(true);
