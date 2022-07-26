@@ -1,6 +1,7 @@
 import { getAllMembers } from 'api';
 import { Member } from 'models/apiModels';
 import { useEffect, useState } from 'react';
+import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
 import './admin.scss';
 
 const AdminForm = () => {
@@ -20,32 +21,18 @@ const AdminForm = () => {
     fetchMembers();
   }, []);
 
+  const columns: ColumnDefinitionType<Member, keyof Member>[] = [
+    { key: 'realName', header: 'Name' },
+    { key: 'email', header: 'Email' },
+    { key: 'classof', header: 'Class of' },
+    { key: 'role', header: 'Role' },
+  ];
+
   return (
     <div>
       <h1>Admin</h1>
       {members ? (
-        <table className="members-table">
-          <thead>
-            <tr>
-              <th>Navn</th>
-              <th>Email</th>
-              <th>Class of</th>
-              <th>Rolle</th>
-            </tr>
-          </thead>
-          {members.map((item, index) => {
-            return (
-              <tbody key={index}>
-                <tr>
-                  <th> {item.realName} </th>
-                  <th> {item.email} </th>
-                  <th> {item.classof} </th>
-                  <th> {item.role} </th>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
+        <Table className="members-table" columns={columns} data={members} />
       ) : (
         <h1>No members</h1>
       )}
