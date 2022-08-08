@@ -54,8 +54,6 @@ const EventForm = () => {
         address: fields['address']?.value,
         price: price,
       });
-      console.log(resp.eid)
-      
       // TODO handle image upload errors separately
       if (file) {
         const data = new FormData();
