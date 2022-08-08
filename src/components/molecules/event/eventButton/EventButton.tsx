@@ -58,8 +58,12 @@ const AuthButton: React.FC<{ id: string }> = ({ id }) => {
   const [isJoined, setIsJoined] = useState<boolean | undefined>();
 
   const checkIsJoined = async () => {
-    const response = await isJoinedEvent(id);
-    setIsJoined(response.joined);
+    try {
+      const response = await isJoinedEvent(id);
+      setIsJoined(response.joined);
+    } catch (error) {
+      setIsJoined(false);
+    }
   };
 
   useEffect(() => {

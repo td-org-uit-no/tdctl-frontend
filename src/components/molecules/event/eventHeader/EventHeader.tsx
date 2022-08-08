@@ -1,4 +1,4 @@
-import {baseUrl} from 'constants/apiConstants';
+import { baseUrl } from 'constants/apiConstants';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import './eventHeader.scss';
@@ -10,30 +10,27 @@ interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
 const EventHeader: React.FC<Props> = ({ id, className }) => {
   const classes = classnames('base', className);
   const [imgUrl, setImgUrl] = useState<any>();
-  const url = baseUrl + 'event/'+id+'/image'
-
-  const getImg = async () => {
-    const response = await fetch(url);
-    const imageBlob = await response.blob();
-    const reader = new FileReader();
-    reader.readAsDataURL(imageBlob);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      setImgUrl(base64data);
-    };
-  };
-
-  const fetchEventImage = async () => {
-    await getImg();
-  };
+  const url = baseUrl + 'event/' + id + '/image';
 
   useEffect(() => {
-    fetchEventImage();
+    const getImg = async () => {
+      const response = await fetch(url);
+      const imageBlob = await response.blob();
+      const reader = new FileReader();
+      reader.readAsDataURL(imageBlob);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        setImgUrl(base64data);
+      };
+    };
+    getImg();
   }, []);
 
-  return <div className={classes}>
+  return (
+    <div className={classes}>
       <img src={imgUrl} alt="" />
-  </div>;
+    </div>
+  );
 };
 
 export default EventHeader;
