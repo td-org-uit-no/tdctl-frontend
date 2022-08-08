@@ -1,7 +1,9 @@
+import {RoleOptions} from "contexts/authProvider";
+
 // Member model
 export interface Member extends PartialMember {
   _id: string;
-  role: string;
+  role: RoleOptions;
   status: string;
 }
 
@@ -15,7 +17,7 @@ export interface PartialMember {
   phone?: string;
 }
 
-export type Participant = Pick<Member, "_id" | "realName">
+export type Participant = Pick<Member, '_id' | 'realName'>;
 
 export interface TokenPair {
   accessToken: string;
@@ -26,20 +28,20 @@ export interface TokenPayload {
   accessToken: boolean;
   exp: number;
   iat: number;
-  role: string;
+  role: RoleOptions;
   user_id: string;
 }
 
 export interface ChangePasswordPayload {
-  password: string,
-  newPassword: string,
+  password: string;
+  newPassword: string;
 }
 
 export interface MemberUpdate {
-	realName?: string;
-	email?: string;
-	classof?: string;
-	phone?: string;
+  realName?: string;
+  email?: string;
+  classof?: string;
+  phone?: string;
 }
 
 export interface Event {
@@ -54,11 +56,13 @@ export interface Event {
   maxParticipants?: number;
   romNumber?: string;
   building?: string;
-  participants?:Participant[];
+  participants?: Participant[];
 }
 
-export type EventUpdate = Partial<Pick<Event, "title" | "description" | "date" | "address" | "participants">> 
-export type CreateEvent = Omit<Event, "eid">
+export type EventUpdate = Partial<
+  Pick<Event, 'title' | 'description' | 'date' | 'address' | 'participants'>
+>;
+export type CreateEvent = Omit<Event, 'eid'>;
 
 export interface Comment {
   comment: string;
@@ -71,5 +75,5 @@ export interface Post {
   message: string;
   author: string;
   created_at: string;
-  comments: Comment[] 
+  comments: Comment[];
 }
