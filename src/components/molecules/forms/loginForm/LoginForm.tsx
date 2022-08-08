@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthenticateContext } from 'contexts/authProvider';
 import useForm from 'hooks/useForm';
-// import { login } from 'utils/auth';
 import { login } from 'api';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';

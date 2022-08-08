@@ -5,7 +5,7 @@ import {
   EditEvent,
   EventInfo,
 } from 'components/molecules/event/eventBody/EventBody';
-import { AuthenticateContext } from 'contexts/authProvider';
+import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import EventHeader from 'components/molecules/event/eventHeader/EventHeader';
 import Button from 'components/atoms/button/Button';
 
@@ -30,7 +30,7 @@ const ValidEventLayout: React.FC<{ event: Event }> = ({ event }) => {
       ) : (
         <EditEvent event={event} setEdit={setEventEdit} />
       )}
-      {role === 'admin' && !edit && (
+      {role === Roles.admin && !edit && (
         <div className={styles.editContainer}>
           <Button
             version="primary"

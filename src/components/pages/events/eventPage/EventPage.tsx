@@ -30,6 +30,7 @@ const EventPage = () => {
   const isValidEventId = async () => {
     try {
       const res = await getEventById(id);
+      console.log(res);
       setEvent(res);
       setIsValid(true);
     } catch (error) {
