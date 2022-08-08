@@ -1,6 +1,8 @@
 // https://www.bekk.christmas/post/2020/22/create-a-generic-table-with-react-and-typescript
 export type ColumnDefinitionType<T, K extends keyof T> = {
-  key: K;
+  // Type can be the key of the object or a callback that takes in the
+  // row-values and returns an element
+  cell: K | ((values: any) => JSX.Element);
   header: string;
   width?: number;
 };
@@ -52,12 +54,18 @@ type TableRowsProps<T, K extends keyof T> = {
 const TableRows = <T, K extends keyof T>({
   data,
   columns,
-}: TableRowsProps<T, K>): JSX.Element => {
+}: TableRowsProps<T, K>) => {
   const rows = data.map((row, index) => {
     return (
       <tr key={`row-${index}`}>
         {columns.map((column, index2) => {
-          return <td key={`cell-${index2}`}>{row[column.key]}</td>;
+          return (
+            <td key={`cell-${index2}`}>
+              {typeof column.cell === 'function'
+                ? column.cell(row)
+                : row[column.cell]}
+            </td>
+          );
         })}
       </tr>
     );

@@ -3,9 +3,16 @@ import { Member } from 'models/apiModels';
 import { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
 import './admin.scss';
+import Button from 'components/atoms/button/Button';
+import { useHistory } from 'react-router-dom';
+
+interface TableMember extends Member {
+  delete: string;
+}
 
 const AdminForm = () => {
   const [members, setMembers] = useState<Array<Member> | undefined>();
+  const history = useHistory();
 
   const fetchMembers = async () => {
     try {
@@ -21,11 +28,40 @@ const AdminForm = () => {
     fetchMembers();
   }, []);
 
-  const columns: ColumnDefinitionType<Member, keyof Member>[] = [
-    { key: 'realName', header: 'Name' },
-    { key: 'email', header: 'Email' },
-    { key: 'classof', header: 'Class of' },
-    { key: 'role', header: 'Role' },
+  const columns: ColumnDefinitionType<TableMember, keyof Member>[] = [
+    { cell: 'realName', header: 'Name' },
+    { cell: 'email', header: 'Email' },
+    { cell: 'classof', header: 'Class of' },
+    { cell: 'role', header: 'Role' },
+    {
+      cell: (cellValues) => {
+        return (
+          <Button
+            version="secondary"
+            onClick={() => {
+              // TODO: Edit user
+            }}>
+            Edit
+          </Button>
+        );
+      },
+      header: 'Edit',
+    },
+    {
+      cell: (cellValues) => {
+        return (
+          <Button
+            version="secondary"
+            onClick={() => {
+              // TODO: Delete here
+              console.log('deleting: ', cellValues);
+            }}>
+            X
+          </Button>
+        );
+      },
+      header: 'Delete',
+    },
   ];
 
   return (
