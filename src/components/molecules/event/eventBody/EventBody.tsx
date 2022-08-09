@@ -94,15 +94,18 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
             <div>
               <TextField
                 name={'title'}
-                maxWidth={80}
+                maxWidth={81}
+                minWidth={81}
                 label={'Tittel'}
                 onChange={onFieldChange}
                 value={fields['title'].value ?? ''}
                 error={fields['title'].error}
               />
+              <br />
               <Textarea
                 name={'description'}
-                maxWidth={80}
+                maxWidth={75}
+                minWidth={75}
                 onChange={onFieldChange}
                 label={'Beskrivelse'}
                 value={fields['description'].value ?? ''}
@@ -120,7 +123,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   name={'address'}
                   maxWidth={80}
                   onChange={onFieldChange}
-                  label={'sted'}
+                  label={'Sted'}
                   value={fields['address'].value ?? ''}
                   error={fields['address'].error}
                 />

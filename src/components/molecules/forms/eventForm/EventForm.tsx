@@ -85,56 +85,62 @@ const EventForm = () => {
   return (
     <div className={styles.eventForm}>
       <form onSubmit={onSubmitEvent} className={styles.eventContainer}>
-        <div className={styles.inputSection}>
-          <TextField
-            name={'title'}
-            label={'Tittel'}
-            onChange={onFieldChange}
-            error={fields['title'].error}
-          />
-
-          <div className={styles.dateTimeWrapper}>
-            <div className={styles.date}>
-              <TextField
-                name={'date'}
-                label={'Dato'}
-                type={'date'}
-                onChange={onFieldChange}
-              />
-            </div>
-            <div className={styles.time}>
-              <TextField
-                name={'time'}
-                label={'Tid'}
-                type={'time'}
-                onChange={onFieldChange}
-              />
-            </div>
+        <TextField
+          minWidth={35}
+          name={'title'}
+          label={'Tittel'}
+          onChange={onFieldChange}
+          error={fields['title'].error}
+        />
+        <br />
+        <div className={styles.dateTimeWrapper}>
+          <div className={styles.date}>
+            <TextField
+              minWidth={14}
+              name={'date'}
+              label={'Dato'}
+              type={'date'}
+              onChange={onFieldChange}
+            />
           </div>
-
-          <TextField
-            name={'address'}
-            label={'Adresse'}
-            onChange={onFieldChange}
-            error={fields['address'].error}
-          />
-          <TextField
-            name={'price'}
-            label={'Pris'}
-            type={'number'}
-            onChange={onFieldChange}
-            error={fields['price'].error}
-          />
-          <Textarea
-            name={'description'}
-            label={'Beskrivelse'}
-            onChange={onFieldChange}
-            error={fields['description'].error}
-          />
-          <div className={styles.imgContainer}>
-            <label>Last opp bilde til arrangementet </label>
-            <input type="file" accept="image/*" onChange={handleFileUpload} />
+          <div className={styles.time}>
+            <TextField
+              minWidth={12}
+              name={'time'}
+              label={'Tid'}
+              type={'time'}
+              onChange={onFieldChange}
+            />
           </div>
+        </div>
+        <br />
+        <TextField
+          minWidth={35}
+          name={'address'}
+          label={'Adresse'}
+          onChange={onFieldChange}
+          error={fields['address'].error}
+        />
+        <br />
+        <TextField
+          minWidth={35}
+          name={'price'}
+          label={'Pris'}
+          type={'number'}
+          onChange={onFieldChange}
+          error={fields['price'].error}
+        />
+        <br />
+        <Textarea
+          minWidth={33}
+          name={'description'}
+          label={'Beskrivelse'}
+          onChange={onFieldChange}
+          error={fields['description'].error}
+        />
+        <div className={styles.imgContainer}>
+          <label>Last opp bilde til arrangementet </label>
+          <input type="file" accept="image/*" onChange={handleFileUpload} />
         </div>
       </form>
       <div>

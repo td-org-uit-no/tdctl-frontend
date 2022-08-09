@@ -1,27 +1,61 @@
-import React, { TextareaHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react';
+import { useState } from 'react';
 import styles from './textarea.module.scss';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   maxWidth?: number;
+  minWidth?: number;
   error?: string[] | undefined;
 }
 
-const Textarea: React.FC<TextareaProps> = ({ error, maxWidth, label, ...rest }) => {
-  if (label) {
-    return (
-      <div
-        className={styles.areaWrapper}
-        style={{ maxWidth: maxWidth ? maxWidth + 'ch' : '' }}>
-        <label>{label}</label>
-        <textarea className={styles.textarea} {...rest} />
-        {error && <div>{error.map((err, index:number) => error.length > 1 ? <li key={index}>{err}</li> : err )}</div>}
-      </div>
-    );
-  }
+const Textarea: React.FC<TextareaProps> = ({
+  error,
+  maxWidth,
+  minWidth,
+  label,
+  value,
+  onChange,
+  ...rest
+}) => {
+  const [input, setInput] = useState(value);
+  const [isFocused, setIsFocused] = useState(false);
 
-  return <textarea className={styles.textarea} {...rest} />;
+  const getLabelStyle = () => {
+    return !!input || isFocused
+      ? `${styles.label} ${styles.styledLabel}`
+      : styles.label;
+  };
+
+  return (
+    <div className={styles.container}>
+      <textarea
+        style={{
+          maxWidth: maxWidth ? maxWidth + 'ch' : '',
+          minWidth: minWidth ? minWidth + 'ch' : '',
+        }}
+        className={styles.text}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        value={value}
+        onChange={(e) => {
+          setInput(e.target.value);
+          onChange && onChange(e);
+        }}
+        {...rest}
+      />
+
+      {label && <label className={getLabelStyle()}>{label}</label>}
+
+      {error && (
+        <div>
+          {error.map((err, index: number) =>
+            error.length > 1 ? <li key={index}>{err}</li> : err
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Textarea;
-

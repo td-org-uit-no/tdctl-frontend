@@ -7,7 +7,6 @@ import useForm from 'hooks/useForm';
 import { passwordValidator } from 'utils/validators';
 import { changePassword } from 'api';
 import { useHistory } from 'react-router-dom';
-import { fieldStyle } from 'styles/settingsField';
 
 const PasswordValidation = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -74,8 +73,8 @@ const PasswordValidation = () => {
           value={fields['password']?.value ?? ''}
           error={fields['password']?.error}
           onChange={onFieldChange}
-          style={fieldStyle}
         />
+        <br />
         <TextField
           name={'newPassword'}
           maxWidth={40}
@@ -84,7 +83,6 @@ const PasswordValidation = () => {
           value={fields['newPassword']?.value ?? ''}
           error={fields['newPassword']?.error}
           onChange={onFieldChange}
-          style={fieldStyle}
         />
         {error !== undefined && <p>{error}</p>}
         <Button
