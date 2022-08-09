@@ -32,8 +32,8 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     date: event.date,
     address: event.address,
     ...(event?.maxParticipants !== undefined && {
-      maxParticipants: event.maxParticipants.toString()
-    })
+      maxParticipants: event.maxParticipants.toString(),
+    }),
   };
 
   const validators = {
@@ -62,9 +62,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       ...(fields['address']?.value !== event.address && {
         address: fields['address']?.value,
       }),
-      ...(fields['maxParticipants']?.value !== event?.maxParticipants?.toString() && {
-        maxParticipants: fields['maxParticipants']?.value
-      })
+      ...(fields['maxParticipants']?.value !==
+        event?.maxParticipants?.toString() && {
+        maxParticipants: fields['maxParticipants']?.value,
+      }),
     } as Event;
     if (!Object.keys(updatePayload).length) {
       setError('Minst et felt må endres');

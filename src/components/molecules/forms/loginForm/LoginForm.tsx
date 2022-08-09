@@ -37,7 +37,9 @@ const LoginForm = () => {
     }
   };
 
-  const { fields, onFieldChange, onSubmitEvent } = useForm({onSubmit: onSubmit});
+  const { fields, onFieldChange, onSubmitEvent } = useForm({
+    onSubmit: onSubmit,
+  });
 
   return (
     <form onSubmit={onSubmitEvent}>
