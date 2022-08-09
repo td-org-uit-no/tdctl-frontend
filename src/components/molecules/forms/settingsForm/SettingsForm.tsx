@@ -8,7 +8,6 @@ import TextField from 'components/atoms/textfield/Textfield';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import DropDown from 'components/atoms/dropdown/Dropdown';
 import * as v from 'utils/validators';
-import { fieldStyle } from 'styles/settingsField'
 
 interface Props {
   init: { [key: string]: string } | undefined;
@@ -96,8 +95,8 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             label={'Endre navn'}
             onChange={onFieldChange}
             error={fields['name'].error}
-            style={fieldStyle}
           />
+          <br />
           <TextField
             name={'email'}
             maxWidth={40}
@@ -105,8 +104,8 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             label={'Endre epost'}
             onChange={onFieldChange}
             error={fields['email'].error}
-            style={fieldStyle}
           />
+          <br />
           <TextField
             name={'classof'}
             maxWidth={40}
@@ -115,19 +114,20 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             type="number"
             onChange={onFieldChange}
             error={fields['classof'].error}
-            style={fieldStyle}
           />
           {init?.phone ? (
-            <TextField
-              name={'phone'}
-              maxWidth={40}
-              type="number"
-              value={fields['phone'].value}
-              label={'Endre mobilnummer'}
-              onChange={onFieldChange}
-              style={fieldStyle}
-              error={fields['phone'].error}
-            />
+            <>
+              <br />
+              <TextField
+                name={'phone'}
+                maxWidth={40}
+                type="number"
+                value={fields['phone'].value}
+                label={'Endre mobilnummer'}
+                onChange={onFieldChange}
+                error={fields['phone'].error}
+              />
+            </>
           ) : (
             <div>
               <Button version="secondary" onClick={updatePhoneData}>
@@ -141,7 +141,6 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
                   value={fields['phone'].value}
                   label={'Mobilnummer'}
                   onChange={onFieldChange}
-                  style={fieldStyle}
                   error={fields['phone'].error}
                 />
               </DropDown>

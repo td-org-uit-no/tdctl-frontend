@@ -17,26 +17,12 @@
   text-align: center;
 }
 
-.inputSection {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-}
-
 .imgContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 1rem;
-}
-
-.descriptionSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 65%;
 }
 
 .dateTimeWrapper {

@@ -43,6 +43,7 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={onSubmitEvent}>
+      <br />
       <TextField
         name={'email'}
         minWidth={30}
@@ -50,7 +51,7 @@ const LoginForm = () => {
         label={'E-post'}
         onChange={onFieldChange}
       />
-
+      <br />
       <TextField
         name={'password'}
         minWidth={30}
@@ -60,6 +61,7 @@ const LoginForm = () => {
         onChange={onFieldChange}
       />
       {error !== '' && <p>{error}</p>}
+      <br />
       <Button version={'primary'} type="submit">
         Logg inn
       </Button>
