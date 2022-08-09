@@ -60,7 +60,7 @@ const EventForm = () => {
         data.append('image', file, file.name);
         await uploadEventPicture(resp.eid, data);
       }
-      history.push('/event/'+resp.eid);
+      history.push('/event/' + resp.eid);
     } catch (error) {
       switch (error.statusCode) {
         case 400:

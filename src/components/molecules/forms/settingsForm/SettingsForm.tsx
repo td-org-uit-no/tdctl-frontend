@@ -17,7 +17,7 @@ interface Props {
 const SettingsForm: React.FC<Props> = ({ init }) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [phoneExpanded, setPhoneExpanded] = useState(false);
-  const [phoneBtnTxt, setButtonTxt] = useState("Legg til");
+  const [phoneBtnTxt, setButtonTxt] = useState('Legg til');
   const history = useHistory();
 
   const validators = {
@@ -43,9 +43,10 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
       ...(fields['classof']?.value !== init?.classof && {
         classof: fields['classof']?.value,
       }),
-      ...((fields['phone']?.value !== init?.phone && phoneExpanded) && {
-        phone: fields['phone']?.value,
-      }),
+      ...(fields['phone']?.value !== init?.phone &&
+        phoneExpanded && {
+          phone: fields['phone']?.value,
+        }),
     };
 
     if (!Object.keys(data).length) {
@@ -81,9 +82,9 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
 
   const updatePhoneData = () => {
     setPhoneExpanded(!phoneExpanded);
-    const phoneTxt = !phoneExpanded ? "Fjern " : "Legg til";
+    const phoneTxt = !phoneExpanded ? 'Fjern ' : 'Legg til';
     setButtonTxt(phoneTxt);
-  }
+  };
   return (
     <div className={styles.general}>
       <DropDownHeader title={'Generell info'}>
@@ -129,7 +130,9 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             />
           ) : (
             <div>
-              <Button version="secondary" onClick={updatePhoneData}>{phoneBtnTxt} Mobil</Button>
+              <Button version="secondary" onClick={updatePhoneData}>
+                {phoneBtnTxt} Mobil
+              </Button>
               <DropDown expanded={phoneExpanded}>
                 <TextField
                   name={'phone'}

@@ -19,7 +19,7 @@ const RootPage = () => {
   const fetchEvents = async () => {
     try {
       const eventData = await getUpcomingEvents();
-      const sorted = [...eventData].sort(sortByDate)
+      const sorted = [...eventData].sort(sortByDate);
       setEvents(sorted);
     } catch (error) {
       console.log(error.statusCode);
