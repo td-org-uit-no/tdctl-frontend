@@ -63,7 +63,8 @@ const MyToast = ({ toast }: { toast: InternalToast }) => {
 
   const getToastClass = () => {
     return (
-      `notification toast toast-${toast.status} fade-` + (fade ? 'out' : 'in')
+      `notification toast toast-${toast.status} fade-` +
+      (fade ? 'out-down' : 'in-up')
     );
   };
 
@@ -92,10 +93,12 @@ const MyToast = ({ toast }: { toast: InternalToast }) => {
 const ToastContainer: React.FC<Props> = ({ toasts }) => {
   return (
     <>
-      <div className={`notification-container fade-in`}>
-        {toasts.map((toast) => (
-          <MyToast key={toast.id} toast={toast} />
-        ))}
+      <div className="notification-wrapper">
+        <div className={`notification-container fade-in-up`}>
+          {toasts.map((toast) => (
+            <MyToast key={toast.id} toast={toast} />
+          ))}
+        </div>
       </div>
     </>
   );
