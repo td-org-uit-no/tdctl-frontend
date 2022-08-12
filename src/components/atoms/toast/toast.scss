@@ -1,83 +1,27 @@
 @import 'styles/colors.scss';
 
-.notification-container {
-  z-index: 10000;
-  box-sizing: border-box;
-  position: fixed;
-}
-
-.notification-wrapper {
+.toast-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.fade-in-up {
-  bottom: 12px;
-  transition: transform 0.6s ease-in-out;
-  animation: toast-up-bottom 0.6s;
-}
-
-.fade-out-down {
-  bottom: 12px;
-  transition: transform 0.6s ease-in-out;
-  visibility: hidden;
-  animation: toast-down-bottom 0.6s;
-}
-
-.notification {
-  background: $primary;
-  transition: 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  margin: 0 0 6px;
-  padding: 30px;
-  margin-bottom: 15px;
-  width: 300px;
-  max-height: 100px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px #999;
-  color: $primary;
-}
-
-.notification:hover {
-  box-shadow: 0 0 12px $primary;
-}
-
-.notification-title {
-  font-weight: bold;
-  font-size: 16px;
-  text-align: left;
-  margin-top: -10px;
-  margin-bottom: 6px;
-}
-
-.notification-message {
-  margin: 0;
-  font-size: 14px;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  // If we want to wrap the description after two lines
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-box-orient: vertical;
-  // -webkit-line-clamp: 2; /* number of lines to show */
-  // line-height: 18px; /* fallback */
-  // max-height: 36px; /* fallback */
-}
-
-.notification-icon {
-  margin-top: 6px;
-  float: left;
-  margin-right: 15px;
+.toast-container {
+  z-index: 10000;
+  box-sizing: border-box;
+  position: fixed;
 }
 
 .toast {
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #999;
+  color: $primary;
+
   height: 50px;
   width: 365px;
   color: $primary;
@@ -97,12 +41,61 @@
   }
 }
 
+.toast:hover {
+  box-shadow: 0 0 12px $primary;
+}
+
+.toast-title {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 6px;
+}
+
+.toast-message {
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  // If we want to wrap the description after two lines
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-box-orient: vertical;
+  // -webkit-line-clamp: 2; /* number of lines to show */
+  // line-height: 18px; /* fallback */
+  // max-height: 36px; /* fallback */
+}
+
+.toast-icon {
+  margin-top: 6px;
+  float: left;
+  margin-right: 15px;
+}
+
 .toast-close-icon {
   position: relative;
   right: -0.3em;
   top: -0.6em;
   float: right;
   cursor: pointer;
+}
+
+.fade-in-up {
+  bottom: 12px;
+  transition: transform 0.6s ease-in-out;
+  animation: toast-up-bottom 0.6s;
+}
+
+.fade-out-down {
+  bottom: 12px;
+  transition: transform 0.6s ease-in-out;
+  visibility: hidden;
+  animation: toast-down-bottom 0.6s;
 }
 
 @keyframes toast-up-bottom {
