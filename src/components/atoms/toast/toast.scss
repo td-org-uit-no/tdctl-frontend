@@ -1,0 +1,119 @@
+@import 'styles/colors.scss';
+
+.notification-container {
+  z-index: 10000;
+  box-sizing: border-box;
+  position: fixed;
+}
+
+.fade-in {
+  bottom: 12px;
+  right: 12px;
+  transition: transform 0.6s ease-in-out;
+  animation: toast-in-right 0.6s;
+}
+
+.fade-out {
+  bottom: 12px;
+  right: 12px;
+  transition: transform 0.6s ease-in-out;
+  visibility: hidden;
+  animation: toast-out-right 0.6s;
+}
+
+.notification {
+  background: $primary;
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 30px;
+  margin-bottom: 15px;
+  width: 300px;
+  max-height: 100px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #999;
+  color: $primary;
+}
+
+.notification:hover {
+  box-shadow: 0 0 12px $primary;
+}
+
+.notification-title {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 6px;
+}
+
+.notification-message {
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  // If we want to wrap the description after two lines
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // display: -webkit-box;
+  // -webkit-box-orient: vertical;
+  // -webkit-line-clamp: 2; /* number of lines to show */
+  // line-height: 18px; /* fallback */
+  // max-height: 36px; /* fallback */
+}
+
+.notification-icon {
+  margin-top: 6px;
+  float: left;
+  margin-right: 15px;
+}
+
+.toast {
+  height: 50px;
+  width: 365px;
+  color: $primary;
+  padding: 20px 15px 10px 10px;
+
+  &-error {
+    background-color: $error;
+  }
+  &-success {
+    background-color: $success;
+  }
+  &-info {
+    background-color: $info;
+  }
+  &-warning {
+    background-color: $warning;
+  }
+}
+
+.toast-close-icon {
+  position: relative;
+  right: -0.3em;
+  top: -0.6em;
+  float: right;
+  cursor: pointer;
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(130%);
+  }
+}
