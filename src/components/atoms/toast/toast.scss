@@ -6,19 +6,24 @@
   position: fixed;
 }
 
-.fade-in {
-  bottom: 12px;
-  right: 12px;
-  transition: transform 0.6s ease-in-out;
-  animation: toast-in-right 0.6s;
+.notification-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-.fade-out {
+.fade-in-up {
   bottom: 12px;
-  right: 12px;
+  transition: transform 0.6s ease-in-out;
+  animation: toast-up-bottom 0.6s;
+}
+
+.fade-out-down {
+  bottom: 12px;
   transition: transform 0.6s ease-in-out;
   visibility: hidden;
-  animation: toast-out-right 0.6s;
+  animation: toast-down-bottom 0.6s;
 }
 
 .notification {
@@ -100,20 +105,20 @@
   cursor: pointer;
 }
 
-@keyframes toast-in-right {
+@keyframes toast-up-bottom {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-@keyframes toast-out-right {
+@keyframes toast-down-bottom {
   from {
-    transform: translateX(0);
+    transform: translateY(0);
   }
   to {
-    transform: translateX(130%);
+    transform: translateY(150%);
   }
 }
