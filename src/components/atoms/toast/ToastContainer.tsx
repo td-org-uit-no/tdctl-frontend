@@ -25,14 +25,15 @@ interface ToastIconProps extends IconBaseProps {
 }
 
 const ToastIcon: React.FC<ToastIconProps> = ({ status, ...rest }) => {
-  if (status === 'success') {
-    return <VscPass {...rest} />;
-  } else if (status === 'error') {
-    return <VscError {...rest} />;
-  } else if (status === 'warning') {
-    return <VscWarning {...rest} />;
-  } else {
-    return <VscInfo {...rest} />;
+  switch (status) {
+    case 'success':
+      return <VscPass {...rest} />;
+    case 'error':
+      return <VscError {...rest} />;
+    case 'warning':
+      return <VscWarning {...rest} />;
+    case 'info':
+      return <VscInfo {...rest} />;
   }
 };
 
