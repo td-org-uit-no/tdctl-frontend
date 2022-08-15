@@ -136,13 +136,24 @@ const AdminForm = () => {
                 onChange={onFieldChange}
                 label="Class of"
               />
-              {/* TODO: Status should be a dropdown */}
               <br />
-              <TextField
-                minWidth={30}
+              <Select
                 name="status"
-                value={fields['status']?.value ?? ''}
-                onChange={onFieldChange}
+                value={fields['status']?.value}
+                onChange={onControlledFieldChange}
+                minWidth={26.5}
+                items={[
+                  {
+                    key: 'inactive',
+                    label: 'Inactive',
+                    value: 'INACTIVE',
+                  },
+                  {
+                    key: 'active',
+                    label: 'Active',
+                    value: 'ACTIVE',
+                  },
+                ]}
                 label="Status"
               />
               <br />
