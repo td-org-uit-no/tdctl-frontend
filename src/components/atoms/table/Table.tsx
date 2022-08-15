@@ -1,3 +1,4 @@
+import './table.scss';
 // https://www.bekk.christmas/post/2020/22/create-a-generic-table-with-react-and-typescript
 export type ColumnDefinitionType<T, K extends keyof T> = {
   // Type can be the key of the object or a callback that takes in the
@@ -10,16 +11,11 @@ export type ColumnDefinitionType<T, K extends keyof T> = {
 type TableProps<T, K extends keyof T> = {
   data: Array<T>;
   columns: Array<ColumnDefinitionType<T, K>>;
-  className: string;
 };
 
-const Table = <T, K extends keyof T>({
-  data,
-  columns,
-  className,
-}: TableProps<T, K>) => {
+const Table = <T, K extends keyof T>({ data, columns }: TableProps<T, K>) => {
   return (
-    <table className={className}>
+    <table className={'table'}>
       <TableHeader columns={columns} />
       <TableRows data={data} columns={columns} />
     </table>
