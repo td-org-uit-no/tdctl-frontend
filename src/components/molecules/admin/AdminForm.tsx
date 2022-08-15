@@ -1,10 +1,16 @@
 import { getAllMembers } from 'api';
-import { Member } from 'models/apiModels';
+import { AdminMemberUpdate, Member } from 'models/apiModels';
 import { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
-import './admin.scss';
 import Button from 'components/atoms/button/Button';
-import { useHistory } from 'react-router-dom';
+import Modal from '../modal/Modal';
+import TextField from 'components/atoms/textfield/Textfield';
+import useForm from 'hooks/useForm';
+import styles from './admin.module.scss';
+import Select from 'components/atoms/select/Select';
+import { adminUpdateMember } from 'api/admin';
+import { RoleOptions } from 'contexts/authProvider';
+import { useToast } from 'hooks/useToast';
 
 interface TableMember extends Member {
   delete: string;
@@ -12,15 +18,57 @@ interface TableMember extends Member {
 
 const AdminForm = () => {
   const [members, setMembers] = useState<Array<Member> | undefined>();
-  const history = useHistory();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { addToast } = useToast();
+
+  const submit = async () => {
+    try {
+      const id = fields['id'].value;
+      const member: AdminMemberUpdate = {
+        realName: fields['realName'].value,
+        email: fields['email'].value,
+        classof: fields['classof'].value,
+        phone: fields['phone'].value,
+        status: fields['status'].value,
+        role: fields['role'].value as RoleOptions,
+      };
+      await adminUpdateMember(id, member);
+      await fetchMembers();
+      addToast({
+        title: 'Success',
+        status: 'success',
+        description: 'Medlem er oppdatert',
+      });
+    } catch (error) {
+      addToast({
+        title: 'Error',
+        status: 'error',
+        description: 'En feil skjedde ved oppdatering av medlem',
+      });
+    }
+  };
+
+  const {
+    fields,
+    onSubmitEvent,
+    onFieldChange,
+    onControlledFieldChange,
+    resetForm,
+  } = useForm({
+    onSubmit: submit,
+  });
 
   const fetchMembers = async () => {
     try {
       const members = await getAllMembers();
       setMembers(members);
     } catch (error) {
-      // TODO: Handle error
-      console.log('error: ', error);
+      addToast({
+        title: 'Error',
+        status: 'error',
+        description: 'En feil skjedde ved innhenting av alle medlemmer',
+      });
     }
   };
 
@@ -39,7 +87,8 @@ const AdminForm = () => {
           <Button
             version="secondary"
             onClick={() => {
-              // TODO: Edit user
+              setIsOpen(true);
+              resetForm(cellValues);
             }}>
             Edit
           </Button>
@@ -47,28 +96,83 @@ const AdminForm = () => {
       },
       header: 'Edit',
     },
-    {
-      cell: (cellValues) => {
-        return (
-          <Button
-            version="secondary"
-            onClick={() => {
-              // TODO: Delete here
-              console.log('deleting: ', cellValues);
-            }}>
-            X
-          </Button>
-        );
-      },
-      header: 'Delete',
-    },
   ];
 
   return (
     <div>
       <h1>Admin</h1>
+      {isOpen && (
+        <form onSubmit={onSubmitEvent}>
+          <Modal minWidth={45} title="Endre bruker" setIsOpen={setIsOpen}>
+            <div className={styles.general}>
+              <TextField
+                minWidth={30}
+                label="Navn"
+                name="realName"
+                value={fields['realName']?.value ?? ''}
+                onChange={onFieldChange}
+              />
+              <br />
+              <TextField
+                minWidth={30}
+                name="email"
+                value={fields['email']?.value ?? ''}
+                onChange={onFieldChange}
+                label="Email"
+              />
+              <br />
+              <TextField
+                minWidth={30}
+                name="phone"
+                value={fields['phone']?.value ?? ''}
+                onChange={onFieldChange}
+                label="Phone"
+              />
+              <br />
+              <TextField
+                minWidth={30}
+                name="classof"
+                value={fields['classof']?.value ?? ''}
+                onChange={onFieldChange}
+                label="Class of"
+              />
+              {/* TODO: Status should be a dropdown */}
+              <br />
+              <TextField
+                minWidth={30}
+                name="status"
+                value={fields['status']?.value ?? ''}
+                onChange={onFieldChange}
+                label="Status"
+              />
+              <br />
+              <Select
+                name="role"
+                value={fields['role']?.value}
+                onChange={onControlledFieldChange}
+                minWidth={26.5}
+                items={[
+                  {
+                    key: 'admin',
+                    label: 'Admin',
+                    value: 'admin',
+                  },
+                  {
+                    key: 'member',
+                    label: 'Member',
+                    value: 'member',
+                  },
+                ]}
+                label="Role"
+              />
+              <br />
+              <Button version="primary">Submit</Button>
+            </div>
+          </Modal>
+        </form>
+      )}
       {members ? (
-        <Table className="members-table" columns={columns} data={members} />
+        <Table columns={columns} data={members} />
       ) : (
         <h1>No members</h1>
       )}

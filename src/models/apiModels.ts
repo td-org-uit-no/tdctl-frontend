@@ -1,4 +1,4 @@
-import {RoleOptions} from "contexts/authProvider";
+import { RoleOptions } from 'contexts/authProvider';
 
 // Member model
 export interface Member extends PartialMember {
@@ -42,6 +42,12 @@ export interface MemberUpdate {
   email?: string;
   classof?: string;
   phone?: string;
+}
+
+export interface AdminMemberUpdate extends MemberUpdate {
+  status?: string;
+  role?: RoleOptions;
+  graduated?: boolean;
 }
 
 export interface Event {

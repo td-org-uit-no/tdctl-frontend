@@ -12,7 +12,7 @@ import {
   // Participant
 } from 'models/apiModels';
 import { setTokens, getTokens } from 'utils/auth';
-import {renewToken} from './auth';
+import { renewToken } from './auth';
 
 /* Http error */
 export class HttpError extends Error {
