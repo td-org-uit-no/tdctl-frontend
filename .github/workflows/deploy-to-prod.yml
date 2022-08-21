@@ -1,17 +1,12 @@
 name: Deploy production image
 
-on:
-  push:
-    branches: 
-      - master
-
 # TODO add workflow run
 # To use workflow_run the file needs to be on master -> add in new pr
-# on:
-#   workflow_run:
-#     workflows: ['Frontend-build and push to production']
-#     types:
-#       - completed
+on:
+  workflow_run:
+    workflows: ['Frontend-build and push to production']
+    types:
+      - completed
 
 jobs:
   build:
