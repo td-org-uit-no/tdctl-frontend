@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+  frontend:
+    stdin_open: true
+    image: ghcr.io/td-org-uit-no/tdctl-frontend/frontend:latest
+    container_name: td_frontend_prod
+    ports:
+        - 80:80
