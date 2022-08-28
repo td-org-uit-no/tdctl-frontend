@@ -11,14 +11,12 @@ import Select from 'components/atoms/select/Select';
 import { adminUpdateMember } from 'api/admin';
 import { RoleOptions } from 'contexts/authProvider';
 import { useToast } from 'hooks/useToast';
-
-interface TableMember extends Member {
-  delete: string;
-}
+import { isDeepEqual } from 'utils/general';
 
 const AdminForm = () => {
   const [members, setMembers] = useState<Array<Member> | undefined>();
   const [isOpen, setIsOpen] = useState(false);
+  const [initialValues, setInitialValues] = useState<AdminMemberUpdate>();
 
   const { addToast } = useToast();
 
@@ -33,8 +31,10 @@ const AdminForm = () => {
         status: fields['status'].value,
         role: fields['role'].value as RoleOptions,
       };
-      await adminUpdateMember(id, member);
-      await fetchMembers();
+      if (!isDeepEqual(member, initialValues)) {
+        await adminUpdateMember(id, member);
+        await fetchMembers();
+      }
       addToast({
         title: 'Success',
         status: 'success',
@@ -76,7 +76,7 @@ const AdminForm = () => {
     fetchMembers();
   }, []);
 
-  const columns: ColumnDefinitionType<TableMember, keyof Member>[] = [
+  const columns: ColumnDefinitionType<Member, keyof Member>[] = [
     { cell: 'realName', header: 'Name' },
     { cell: 'email', header: 'Email' },
     { cell: 'classof', header: 'Class of' },
@@ -88,7 +88,18 @@ const AdminForm = () => {
             version="secondary"
             onClick={() => {
               setIsOpen(true);
-              resetForm(cellValues);
+              const { role, email, status, classof, realName, phone } =
+                cellValues;
+              const updateValues: AdminMemberUpdate = {
+                role,
+                email,
+                status,
+                classof,
+                realName,
+                phone,
+              };
+              resetForm(cellValues as any);
+              setInitialValues(updateValues);
             }}>
             Edit
           </Button>
