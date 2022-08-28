@@ -9,7 +9,7 @@ COPY . /app
 RUN yarn install
 
 #build production app
-RUN yarn run build
+RUN yarn run build:development
 
 FROM nginx:alpine
 
