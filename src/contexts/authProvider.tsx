@@ -47,6 +47,12 @@ const AuthenticateProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
+    if (authenticated === false) {
+      setRole(Roles.unconfirmed)
+    }
+  }, [authenticated]);
+
+  useEffect(() => {
     updateCredentials();
   }, []);
 

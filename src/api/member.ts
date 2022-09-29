@@ -17,6 +17,9 @@ export const activateUser = () => post<{}>('member/activate', {}, true);
 export const getMemberById = (uid: string): Promise<PartialMember> =>
   get<PartialMember>('member/' + uid, true);
 
+export const getMemberByEmail = (email: string): Promise<{id: string}> =>
+  get<{id: string}>('member/email/' + email, true);
+
 export const updateMember = (memberUpdate: MemberUpdate) =>
   put<MemberUpdate>('member/', memberUpdate, true);
 

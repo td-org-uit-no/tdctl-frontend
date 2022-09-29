@@ -11,21 +11,24 @@ const isDeepEqual = (object1: any, object2: any): boolean => {
   const objKeys2 = Object.keys(object2);
 
   if (objKeys1.length !== objKeys2.length) return false;
+  
+  let isEqual = true;
 
   objKeys1.forEach((key) => {
     const value1 = object1[key];
     const value2 = object2[key];
 
     const isObjects = isObject(value1) && isObject(value2);
-
     if (isObjects && !isDeepEqual(value1, value2)) {
-      return false;
+      isEqual = false;
+      return;
     }
     if (!isObjects && value1 !== value2) {
-      return false;
+      isEqual = false;
+      return;
     }
   });
-  return true;
+  return isEqual;
 };
 
 const isObject = (object: any) => {

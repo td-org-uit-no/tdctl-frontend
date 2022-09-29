@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './validEvent.module.scss';
 import { Event } from 'models/apiModels';
 import {

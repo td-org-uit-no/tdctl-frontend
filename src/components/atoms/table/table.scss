@@ -2,11 +2,13 @@
 
 .table {
   border-collapse: collapse;
-  margin: 25px 0;
+  // margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border: 0.1em #303342 solid;
+  overflow-x: auto;
 }
 
 $border-radius: 5px;
@@ -26,7 +28,8 @@ $border-radius: 5px;
 }
 
 .table thead tr {
-  background-color: $off-primary;
+  background-color: $background-color;
+  cursor: pointer;
   border-bottom: thin solid white;
   color: $primary;
   text-align: left;
@@ -34,13 +37,14 @@ $border-radius: 5px;
 
 .table th,
 .table td {
-  padding: 12px 15px;
+  padding: .5vw .75vw;
+  word-wrap: break-word;
 }
 
 .table tbody tr:nth-of-type(even) {
-  background-color: $off-primary;
+  background-color: $background-color;
 }
 
 .table tbody tr:nth-of-type(odd) {
-  background-color: $off-primary;
+  background-color: #1f2336;
 }

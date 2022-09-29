@@ -38,7 +38,7 @@ const AuthNavbar = () => {
         <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
       )}
       {role === 'admin' && (
-        <MenuItem label={'Admin stuff'} path={'/admin-stuff'} />
+        <MenuItem label={'Admin'} path={'/admin'} />
       )}
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>

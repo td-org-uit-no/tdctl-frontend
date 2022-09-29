@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 const Icon = ({ type, size = 1, onClick }: Props) => (
   <span
     className={`las la-${type}`}
-    style={{ fontSize: `${size}rem` }}
+    style={{ fontSize: `${size}rem`, cursor:"pointer" }}
     onClick={onClick}
   />
 );

@@ -81,6 +81,20 @@ export const put = async <T>(url: string, data: any, auth = false) => {
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
+export const Delete = async <T>(url: string, auth = false) => {
+  const request = new Request(baseUrl + url, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+  if (auth) {
+    return authFetch<T>(request);
+  }
+  return fetch(request).then((res) => handleResponse<T>(res));
+};
+
 const authFetch = <T>(request: Request) => {
   const { accessToken } = getTokens();
   request.headers.set('Authorization', `Bearer ${accessToken}`);

@@ -26,7 +26,7 @@ const App: React.FC = () => {
           <PrivateRoute path="/profile" component={ProfilePage} />
           <PrivateRoute path="/settings" component={SettingsPage} />
           <AdminRoute path="/create-event" component={CreateEvent} />
-          <AdminRoute path="/admin-stuff" component={AdminStuff} />
+          <AdminRoute path="/admin" component={AdminStuff} />
           <Route path="/event/:id" children={<EventPage />} />
           <Route path="/" component={HomePage} />
         </Switch>
