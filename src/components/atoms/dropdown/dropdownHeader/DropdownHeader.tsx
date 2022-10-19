@@ -30,9 +30,7 @@ const DropdownHeader: React.FC<Props> = ({ title, children }) => {
             />
           </div>
         </div>
-        <Dropdown expanded={expanded}>
-            {children}
-        </Dropdown>
+        <Dropdown expanded={expanded}>{children}</Dropdown>
       </div>
     </div>
   );

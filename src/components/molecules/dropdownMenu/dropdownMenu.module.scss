@@ -1,29 +1,29 @@
-menuContainer{
-    position: relative;
+menuContainer {
+  position: relative;
 }
-.menu{
-	background-color: white;
-    background: #ffffff;
-    border-radius: 8px;
-    position: absolute;
-    width: 125px;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+.menu {
+  background-color: white;
+  background: #ffffff;
+  border-radius: 8px;
+  position: absolute;
+  width: 125px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
 }
 
 .menu ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu li a {
-	text-decoration: none;
-	color: #333333;
-	padding: 15px 20px;
-	display: block;
+  text-decoration: none;
+  color: #333333;
+  padding: 15px 20px;
+  display: block;
 }
 
 .menu li {
-	border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
 }

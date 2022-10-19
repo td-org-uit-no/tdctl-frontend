@@ -1,17 +1,21 @@
-.root{
+.root {
   height: 100%;
 }
 
-.eventsContainer{
+.eventsContainer {
   display: flex;
   justify-content: center;
   width: 100%;
   height: 100%;
 }
 
-.eventsWrapper{
+.eventsWrapper {
   display: flex;
   justify-content: center;
   width: 70%;
 }
 
+// prevent movement when data is not loaded
+.wrapper {
+  min-height: 65vh;
+}

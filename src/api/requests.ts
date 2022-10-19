@@ -1,18 +1,6 @@
 import { baseUrl } from 'constants/apiConstants';
-import {
-  PartialMember,
-  MemberUpdate,
-  Member,
-  TokenPair,
-  ChangePasswordPayload,
-  Event,
-  Participant,
-  EventUpdate,
-  // Post,
-  // Participant
-} from 'models/apiModels';
 import { setTokens, getTokens } from 'utils/auth';
-import {renewToken} from './auth';
+import { renewToken } from './auth';
 
 /* Http error */
 export class HttpError extends Error {
@@ -70,6 +58,20 @@ export const put = async <T>(url: string, data: any, auth = false) => {
   const request = new Request(baseUrl + url, {
     method: 'PUT',
     body: JSON.stringify(data),
+    headers: {
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
+  if (auth) {
+    return authFetch<T>(request);
+  }
+  return fetch(request).then((res) => handleResponse<T>(res));
+};
+
+export const Delete = async <T>(url: string, auth = false) => {
+  const request = new Request(baseUrl + url, {
+    method: 'DELETE',
     headers: {
       'content-type': 'application/json',
       'Access-Control-Allow-Origin': '*',

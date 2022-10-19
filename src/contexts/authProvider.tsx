@@ -5,21 +5,21 @@ export const AuthenticateContext = createContext({
   authenticated: false,
   setAuthenticated: (authenticated: boolean) => {},
   isValidating: true,
-  role: "unconfirmed" as RoleOptions,
-  updateCredentials: () => {}
+  role: 'unconfirmed' as RoleOptions,
+  updateCredentials: () => {},
 });
 
 export type RoleOptions = 'unconfirmed' | 'member' | 'admin';
 
 interface Role {
-  [key: string]: RoleOptions
+  [key: string]: RoleOptions;
 }
 
 export const Roles = {
-  admin: "admin",
-  member: "member",
-  unconfirmed: "unconfirmed",
-} as Role
+  admin: 'admin',
+  member: 'member',
+  unconfirmed: 'unconfirmed',
+} as Role;
 
 const AuthenticateProvider: React.FC = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -33,18 +33,24 @@ const AuthenticateProvider: React.FC = ({ children }) => {
           const userRole = getRole() as RoleOptions;
           setRole(userRole);
         } catch (error) {
-          setRole("unconfirmed");
+          setRole('unconfirmed');
         }
         setAuthenticated(res);
         setValidating(false);
       } else {
         setValidating(true);
-        setRole("unconfirmed")
-        setAuthenticated(false)
+        setRole('unconfirmed');
+        setAuthenticated(false);
         setValidating(false);
       }
     });
   };
+
+  useEffect(() => {
+    if (authenticated === false) {
+      setRole(Roles.unconfirmed);
+    }
+  }, [authenticated]);
 
   useEffect(() => {
     updateCredentials();
@@ -52,7 +58,13 @@ const AuthenticateProvider: React.FC = ({ children }) => {
 
   return (
     <AuthenticateContext.Provider
-      value={{ authenticated, setAuthenticated, isValidating, role, updateCredentials}}>
+      value={{
+        authenticated,
+        setAuthenticated,
+        isValidating,
+        role,
+        updateCredentials,
+      }}>
       {children}
     </AuthenticateContext.Provider>
   );
