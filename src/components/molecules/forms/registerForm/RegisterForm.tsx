@@ -2,17 +2,27 @@ import { useState, useContext } from 'react';
 import useForm from 'hooks/useForm';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { login, registerMember } from 'api';
-import { nameValidator, emailValidator, passwordValidator, classOfValidator, notRequiredPhoneValidator, emptyFieldsValidator } from 'utils/validators';
+import {
+  nameValidator,
+  emailValidator,
+  passwordValidator,
+  classOfValidator,
+  notRequiredPhoneValidator,
+  emptyFieldsValidator,
+} from 'utils/validators';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { useHistory } from 'react-router-dom';
+import { useToast } from 'hooks/useToast';
 
 const RegisterForm = () => {
   const { setAuthenticated } = useContext(AuthenticateContext);
   const [errors, setErrors] = useState<string | undefined>(undefined);
   const [graduated, setGraduated] = useState(false);
   const history = useHistory();
+  const { addToast } = useToast();
+
   //easier if we want more optional keys
   const optionalKeys = ['phone'];
   const validators = {
@@ -25,10 +35,13 @@ const RegisterForm = () => {
 
   const onSubmit = async () => {
     // Check that all fields are filled
-    const emptyFields = emptyFieldsValidator({fields: fields, optFields: optionalKeys})
+    const emptyFields = emptyFieldsValidator({
+      fields: fields,
+      optFields: optionalKeys,
+    });
 
     emptyFields ? setErrors('Alle feltene må fylles ut') : setErrors(undefined);
-    
+
     if (hasErrors || emptyFields) {
       return;
     }
@@ -42,6 +55,7 @@ const RegisterForm = () => {
         graduated: graduated,
         phone: fields['phone'].value,
       });
+      console.log(validationCode);
     } catch (error) {
       switch (error.statusCode) {
         case 400:
@@ -66,12 +80,18 @@ const RegisterForm = () => {
       await login(fields['email'].value, fields['password'].value);
       setAuthenticated(true);
       history.push('/');
+      addToast({
+        title: 'Success',
+        status: 'success',
+        description: 'Du er registrert som bruker',
+      });
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {
         setErrors('E-post eller passord er feil. Prøv igjen.');
       } else {
         // TODO: 422 Unprocessable entity
+        history.push('/login');
         setErrors('En ukjent feil skjedde.');
       }
     }
@@ -79,16 +99,11 @@ const RegisterForm = () => {
 
   const onGraduateToggle = () => setGraduated(!graduated);
 
-  const {
-    fields,
-    onFieldChange,
-    onSubmitEvent,
-    hasErrors,
-    setFieldError,
-  } = useForm({ onSubmit: onSubmit, validators: validators });
+  const { fields, onFieldChange, onSubmitEvent, hasErrors, setFieldError } =
+    useForm({ onSubmit: onSubmit, validators: validators });
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
@@ -98,6 +113,7 @@ const RegisterForm = () => {
           onChange={onFieldChange}
           error={fields['name'].error}
         />
+        <br />
         <TextField
           name={'email'}
           type="email"
@@ -107,6 +123,7 @@ const RegisterForm = () => {
           onChange={onFieldChange}
           error={fields['email'].error}
         />
+        <br />
 
         <TextField
           name={'password'}
@@ -117,6 +134,7 @@ const RegisterForm = () => {
           onChange={onFieldChange}
           error={fields['password'].error}
         />
+        <br />
 
         <TextField
           name={'classof'}
@@ -126,6 +144,7 @@ const RegisterForm = () => {
           label={'Årskull'}
           onChange={onFieldChange}
         />
+        <br />
 
         <TextField
           name={'phone'}
@@ -135,14 +154,17 @@ const RegisterForm = () => {
           label={'Telefon'}
           onChange={onFieldChange}
         />
-        {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
+        <br />
       </form>
-      <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
-      {errors && <p>{errors}</p>}
+      <div>
+        {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
+        <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
+        {errors && <p>{errors}</p>}
 
-      <Button version={'primary'} onClick={onSubmit} type="submit">
-        Registrer
-      </Button>
+        <Button version={'primary'} onClick={onSubmit} type="submit">
+          Registrer
+        </Button>
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import useForm from 'hooks/useForm';
 import { passwordValidator } from 'utils/validators';
 import { changePassword } from 'api';
 import { useHistory } from 'react-router-dom';
+import { useToast } from 'hooks/useToast';
 
 const PasswordValidation = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -14,6 +15,7 @@ const PasswordValidation = () => {
   const validators = {
     newPassword: passwordValidator,
   };
+  const { addToast } = useToast();
   const submit = async () => {
     if (hasErrors) {
       return;
@@ -42,6 +44,11 @@ const PasswordValidation = () => {
 
     try {
       await changePassword(passwordPayload);
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Passordet er oppdatert',
+      });
       history.push('/');
     } catch (error) {
       if (error.statusCode === 403) {

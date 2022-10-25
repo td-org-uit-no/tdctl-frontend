@@ -8,6 +8,7 @@ import TextField from 'components/atoms/textfield/Textfield';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import DropDown from 'components/atoms/dropdown/Dropdown';
 import * as v from 'utils/validators';
+import { useToast } from 'hooks/useToast';
 
 interface Props {
   init: { [key: string]: string } | undefined;
@@ -18,6 +19,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
   const [phoneExpanded, setPhoneExpanded] = useState(false);
   const [phoneBtnTxt, setButtonTxt] = useState('Legg til');
   const history = useHistory();
+  const { addToast } = useToast();
 
   const validators = {
     name: v.notRequiredNameValidator,
@@ -56,6 +58,11 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
     try {
       await updateMember(data);
       history.push('/profile');
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Bruker oppdatert',
+      });
     } catch (error) {
       if (error.statusCode === 400) {
         setError('Minst et felt må fylles ut');
@@ -130,7 +137,10 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             </>
           ) : (
             <div>
-              <Button version="secondary" onClick={updatePhoneData}>
+              <Button
+                version="secondary"
+                onClick={updatePhoneData}
+                style={{ margin: '1rem 0 1rem 0' }}>
                 {phoneBtnTxt} Mobil
               </Button>
               <DropDown expanded={phoneExpanded}>

@@ -5,12 +5,14 @@ import { SettingsForm } from 'components/molecules/forms';
 import PasswordValidation from 'components/molecules/passwordValidation/PasswordValidation';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
+import { useToast } from 'hooks/useToast';
 
 const SettingsPage = () => {
   const [init, setInit] = useState<{ [key: string]: string } | undefined>(
     undefined
   );
   const [active, setActive] = useState('inactive');
+  const { addToast } = useToast();
 
   const getUserInfo = async () => {
     const response = await getMemberAssociatedWithToken();
@@ -29,8 +31,20 @@ const SettingsPage = () => {
   }, []);
 
   const activate = async () => {
-    await activateUser();
-    setActive('active');
+    try {
+      await activateUser();
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Brukeren er aktivert',
+      });
+      setActive('active');
+    } catch (error) {
+      addToast({
+        title: 'Feil under aktiveringen av brukeren',
+        status: 'error',
+      });
+    }
   };
 
   return (
