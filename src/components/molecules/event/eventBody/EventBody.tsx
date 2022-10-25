@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './eventBody.module.scss';
 import { transformDate } from 'utils/timeConverter';
 import EventButton from '../eventButton/EventButton';
@@ -25,14 +25,14 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
 }) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
-
   const initalValue = {
     title: event.title,
     description: event.description,
     date: event.date,
     address: event.address,
-    ...(event?.maxParticipants !== undefined && {
-      maxParticipants: event.maxParticipants.toString(),
+    // juggling-check, checks for both null and undefined
+    ...(event?.maxParticipants != null && {
+      maxParticipants: event?.maxParticipants.toString() ?? '',
     }),
   };
 
@@ -91,27 +91,23 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       <div className={styles.contentContainer}>
         <div className={styles.description}>
           <div className={styles.descriptionContainer}>
-            <div>
-              <TextField
-                name={'title'}
-                maxWidth={81}
-                minWidth={81}
-                label={'Tittel'}
-                onChange={onFieldChange}
-                value={fields['title'].value ?? ''}
-                error={fields['title'].error}
-              />
-              <br />
-              <Textarea
-                name={'description'}
-                maxWidth={75}
-                minWidth={75}
-                onChange={onFieldChange}
-                label={'Beskrivelse'}
-                value={fields['description'].value ?? ''}
-                error={fields['description'].error}
-              />
-            </div>
+            <TextField
+              name={'title'}
+              label={'Tittel'}
+              onChange={onFieldChange}
+              value={fields['title'].value ?? ''}
+              error={fields['title'].error}
+              style={{ boxSizing: 'border-box', width: '100%' }}
+            />
+            <br />
+            <Textarea
+              name={'description'}
+              onChange={onFieldChange}
+              label={'Beskrivelse'}
+              value={fields['description'].value ?? ''}
+              error={fields['description'].error}
+              style={{ boxSizing: 'border-box', width: '100%' }}
+            />
           </div>
         </div>
         <div className={styles.infoContainer}>
@@ -121,14 +117,19 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                 <EventButton id={event.eid} />
                 <TextField
                   name={'address'}
-                  maxWidth={80}
+                  maxWidth={60}
                   onChange={onFieldChange}
                   label={'Sted'}
                   value={fields['address'].value ?? ''}
                   error={fields['address'].error}
+                  style={{ boxSizing: 'border-box', width: '100%' }}
                 />
-                <p> Dato </p>
-                {transformDate(new Date(event.date))}
+                <p>
+                  Dato <br />
+                </p>
+                <p style={{ fontWeight: 'normal', marginBottom: '.5rem' }}>
+                  {transformDate(new Date(event.date))}
+                </p>
                 <TextField
                   name={'maxParticipants'}
                   type={'number'}
@@ -139,6 +140,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     fields['maxParticipants']?.value ?? event.maxParticipants
                   }
                   error={fields['maxParticipants']?.error}
+                  style={{
+                    boxSizing: 'border-box',
+                    width: '100%',
+                  }}
                 />
               </div>
             </div>
@@ -170,22 +175,34 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
 }) => {
   const [participantsText, setParticipantText] = useState('');
 
-  const getNumberOfParticipants = async () => {
+  function getParticipantsText(
+    maxParticipants: number | undefined,
+    participants: number
+  ) {
+    // juggling-check, checks for both null and undefined
+    if (maxParticipants == null) {
+      return `${participants} skal`;
+    }
+    if (participants >= maxParticipants) {
+      return 'Fult';
+    }
+    return `${participants} / ${maxParticipants} påmeldt`;
+  }
+
+  const getNumberOfParticipants = useCallback(async () => {
     try {
       const resp = await getJoinedParticipants(event.eid);
-      const str =
-        event.maxParticipants === null
-          ? `${resp.length} skal`
-          : `${resp.length} / ${event.maxParticipants} påmeldt`;
+      const str = getParticipantsText(event?.maxParticipants, resp.length);
       setParticipantText(str);
     } catch (error) {
-      // gracefully ignore the error
+      // Dont think users needs an error modal as its an API call the user should think about
+      setParticipantText('Unavailable');
     }
-  };
+  }, [event.eid, event?.maxParticipants]);
 
   useEffect(() => {
     getNumberOfParticipants();
-  });
+  }, [getNumberOfParticipants]);
 
   return (
     <div className={styles.contentContainer}>
@@ -202,7 +219,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
         <div className={styles.infoContainer}>
           <div className={styles.infoWrapper}>
             <div className={styles.infoSection}>
-              <EventButton id={event.eid} />
+              <EventButton id={event.eid} onClick={getNumberOfParticipants} />
               <p>Sted</p>
               {event.address}
               <p> Dato </p>

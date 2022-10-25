@@ -7,17 +7,19 @@
 .contentContainer {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .description {
-  width:100%;
-  grid-column: 1 / span 3;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  grid-column: 1 / span 5;
 }
 
 .infoContainer {
-  width:100%;
-  grid-column: 4 / span 1;
+  width: 100%;
+  grid-column: 6 / span 2;
 }
 
 .descriptionContainer {
@@ -28,16 +30,19 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   text-align: left;
-  padding: 1rem, 1rem, 1rem, 1.5rem;
+  // padding: 1rem, 1rem, 1rem, 1.5rem;
   h3 {
     margin-top: 0.5rem;
   }
+  textarea {
+    height: 15vh;
+    overflow: auto;
+  }
 }
+
 .infoContainer {
-  // padding-top: 1%;
   display: flex;
   width: 100%;
-  // margin: 1rem;
   justify-content: center;
 }
 
@@ -54,15 +59,23 @@
   justify-content: flex-start;
   text-align: left;
 
+  ol {
+    max-height: 15vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
   p {
     font-weight: bold;
     padding: 0px;
+    margin: 0px;
     font-size: 1rem;
-    line-height: 0.1rem;
+    // line-height: 0.1rem;
   }
   button {
-    width: 95%;
+    width: 80%;
     margin: 10% 0px 5% 0px;
+    align-self: center;
   }
 }
 
