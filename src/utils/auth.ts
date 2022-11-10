@@ -1,7 +1,7 @@
 import { accessTokenKey, refreshTokenKey } from 'constants/apiConstants';
 import { TokenPair, TokenPayload } from 'models/apiModels';
 import { getMemberAssociatedWithToken } from 'api';
-import jwt from 'jwt-decode'
+import jwt from 'jwt-decode';
 
 const getTokens = (): TokenPair => {
   const accessToken = sessionStorage.getItem(accessTokenKey) || '';
@@ -18,14 +18,14 @@ const clearTokens = () => {
 };
 
 const getRole = (): string => {
-  try{
+  try {
     const { accessToken } = getTokens();
     const payload = jwt(accessToken) as TokenPayload;
-    return payload["role"]
+    return payload['role'];
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 /* Deeply checks if user is authenticated by 
    performing a query to the API */
@@ -42,10 +42,4 @@ const verifyAuthentication = async () => {
   }
 };
 
-export {
-  setTokens,
-  getTokens,
-  clearTokens,
-  verifyAuthentication,
-  getRole,
-};
+export { setTokens, getTokens, clearTokens, verifyAuthentication, getRole };

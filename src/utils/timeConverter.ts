@@ -40,9 +40,7 @@ export const transformDate = (date: Date): string => {
   } else if (isYesterday(date)) {
     return 'I går' + time;
   }
-  return (
-    day + ' ' + date.getDate() + '.' + month + ' ' + time
-  );
+  return day + ' ' + date.getDate() + '.' + month + ' ' + time;
 };
 
 const isToday = (date: Date) => {

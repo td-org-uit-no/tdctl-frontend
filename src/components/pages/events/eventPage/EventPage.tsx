@@ -3,13 +3,13 @@ import { Event } from 'models/apiModels';
 import { useParams } from 'react-router-dom';
 import ValidEventLayout from './validEvent/ValidEvent';
 import { getEventById } from 'api';
-import styles from './eventPage.module.scss'
+import styles from './eventPage.module.scss';
 
-export interface ValidEventLayout {
+export interface IValidEventLayout {
   eventData: Event | undefined;
 }
 
-const ValidEvent: React.FC<ValidEventLayout> = ({ eventData }) => {
+const ValidEvent: React.FC<IValidEventLayout> = ({ eventData }) => {
   return (
     <div className={styles.eventPageBody}>
       {eventData !== undefined ? (
@@ -27,20 +27,18 @@ const EventPage = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const isValidEventId = async () => {
-    try {
-      const res = await getEventById(id);
-      console.log(res);
-      setEvent(res);
-      setIsValid(true);
-    } catch (error) {
-      setIsValid(false);
-    }
-  };
-
   useEffect(() => {
-    isValidEventId();
-  }, []);
+    const isValidEventId = async (id: string) => {
+      try {
+        const res = await getEventById(id);
+        setEvent(res);
+        setIsValid(true);
+      } catch (error) {
+        setIsValid(false);
+      }
+    };
+    isValidEventId(id);
+  }, [id]);
 
   return (
     <div style={{ width: '100vw', maxWidth: '100%' }}>

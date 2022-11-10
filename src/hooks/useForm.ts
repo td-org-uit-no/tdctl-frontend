@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { dictFromArray } from 'utils/general';
 
 interface Field {
@@ -21,7 +21,10 @@ interface formProps {
   initalValue?: InitalValue;
 }
 
-const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
+const constructInitialValues = (
+  initalValue?: InitalValue,
+  validators?: Validators
+) => {
   let initialFields = !validators
     ? {}
     : dictFromArray<Field>(Object.keys(validators), {
@@ -32,7 +35,7 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
   // init field with values and validates the data
   if (initalValue) {
     Object.keys(initalValue).forEach((key) => {
-      const value = initalValue[key]
+      const value = initalValue[key];
       const fieldError = validators?.[key](value) ?? undefined;
       initialFields[key] = {
         value: initalValue[key],
@@ -40,6 +43,11 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
       };
     });
   }
+  return initialFields;
+};
+
+const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
+  const initialFields = constructInitialValues(initalValue, validators);
   const [fields, setFields] = useState<Fields>(initialFields);
   /* Finding errors across the enitre form */
   const [hasErrors, setErrors] = useState(false);
@@ -50,6 +58,10 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
 
     setErrors(isThereErrors(Object.keys(fields).map((field) => fields[field])));
   }, [fields]);
+
+  const resetForm = (values: InitalValue) => {
+    setFields(constructInitialValues(values));
+  };
 
   const setFieldError = (
     name: string,
@@ -65,10 +77,24 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
     });
   };
 
-  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onControlledFieldChange = (value: any, name: string) => {
+    const fieldError = validators?.hasOwnProperty(name)
+      ? validators?.[name](value)
+      : undefined;
+    setFieldError(name, value, fieldError);
+  };
+
+  const onFieldChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     //Don't require all forms to have a validator
-    const fieldError = validators?.hasOwnProperty(name) ? validators?.[name](value) : undefined;
+    const fieldError = validators?.hasOwnProperty(name)
+      ? validators?.[name](value)
+      : undefined;
     setFieldError(name, value, fieldError);
   };
 
@@ -79,7 +105,15 @@ const useForm = ({ onSubmit, validators, initalValue }: formProps) => {
     onSubmit();
   };
 
-  return { fields, onFieldChange, onSubmitEvent, hasErrors, setFieldError };
+  return {
+    fields,
+    resetForm,
+    onFieldChange,
+    onControlledFieldChange,
+    onSubmitEvent,
+    hasErrors,
+    setFieldError,
+  };
 };
 
 export default useForm;

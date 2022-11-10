@@ -1,0 +1,51 @@
+@import 'styles/colors.scss';
+@import 'styles/text.scss';
+
+// TODO: Use text.scss for some of this
+.container {
+  outline: none;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.text {
+  line-height: normal;
+  // TODO: Find a better way than hardcoding pixels
+  height: 22px;
+  position: relative;
+  display: flex;
+}
+
+.icon {
+  fill: $primary;
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+}
+
+.menu {
+  position: absolute;
+  z-index: 100;
+  text-align: left;
+  transform: translateY(4px);
+  width: 100%;
+  border-radius: 5px;
+  overflow: auto;
+  max-height: 150px;
+}
+
+.item {
+  background: #272530;
+  line-height: normal;
+  padding: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #9fc3f8;
+  }
+}

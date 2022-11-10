@@ -17,7 +17,7 @@ const ProfilePage = () => {
   const items = [
     { lable: 'Navn', data: data?.realName },
     { lable: 'E-post', data: data?.email },
-    ...(data?.phone ? [{lable: 'Mobil', data: data.phone}] : []),
+    ...(data?.phone ? [{ lable: 'Mobil', data: data.phone }] : []),
     { lable: 'Årskull', data: data?.classof ?? '' },
   ];
   return (

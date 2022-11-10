@@ -1,0 +1,51 @@
+@import 'styles/colors.scss';
+
+.table {
+  border-collapse: collapse;
+  // margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border: 0.1em #303342 solid;
+  overflow-x: auto;
+  width: 100%;
+}
+
+$border-radius: 5px;
+
+// Don't know if I liked the border radius or not
+.table tr:first-child th:first-child {
+  border-top-left-radius: $border-radius;
+}
+.table tr:first-child th:last-child {
+  border-top-right-radius: $border-radius;
+}
+.table tr:last-child td:first-child {
+  border-bottom-left-radius: $border-radius;
+}
+.table tr:last-child td:last-child {
+  border-bottom-right-radius: $border-radius;
+}
+
+.table thead tr {
+  background-color: $background-color;
+  cursor: pointer;
+  border-bottom: thin solid white;
+  color: $primary;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 0.5vw 0.75vw;
+  word-wrap: break-word;
+}
+
+.table tbody tr:nth-of-type(even) {
+  background-color: $background-color;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background-color: #1f2336;
+}

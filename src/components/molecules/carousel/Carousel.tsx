@@ -55,28 +55,27 @@ const Carousel: React.FC<CarouselProps> = ({
     setActiveIndex(newIdx);
   };
 
-  // calculates the translation factor based on direction and the width of each item
-  const calcCarouselVariables = () => {
-    const nItems = React.Children.count(children);
-    const nViewItems = viewItems ? viewItems : 3;
-    const slides = Math.ceil(nItems / nViewItems);
-    const width = 100 / nViewItems;
-    setItemSize(width);
-    setSlides(slides);
-
-    if (dir === 'column') {
-      // TODO find a better solution
-      setTransistionLength(107.5);
-      return;
-    }
-    // always move 100% in x-direction
-    setTransistionLength(100);
-  };
-
   // handle mount before data is fetched
   useEffect(() => {
+    // calculates the translation factor based on direction and the width of each item
+    function calcCarouselVariables() {
+      const nItems = React.Children.count(children);
+      const nViewItems = viewItems ? viewItems : 3;
+      const slides = Math.ceil(nItems / nViewItems);
+      const width = 100 / nViewItems;
+      setItemSize(width);
+      setSlides(slides);
+
+      if (dir === 'column') {
+        // TODO find a better solution
+        setTransistionLength(107.5);
+        return;
+      }
+      // always move 100% in x-direction
+      setTransistionLength(100);
+    }
     calcCarouselVariables();
-  }, [children]);
+  }, [children, dir, viewItems]);
 
   useEffect(() => {
     setTransformation(
@@ -84,7 +83,7 @@ const Carousel: React.FC<CarouselProps> = ({
         ? `translateY(-${activeIndex * transitionLength}%)`
         : `translateX(-${activeIndex * transitionLength}%)`
     );
-  }, [activeIndex]);
+  }, [activeIndex, dir, transitionLength]);
 
   return (
     <div className={styles.carouselContainer}>
@@ -96,7 +95,7 @@ const Carousel: React.FC<CarouselProps> = ({
             transform: transformation,
             flexWrap: dir === 'column' ? 'wrap' : undefined,
           }}>
-          {React.Children.map(children, (child, index) => {
+          {React.Children.map(children, (child) => {
             return (
               <CarouselItem
                 itemWidth={itemSize}

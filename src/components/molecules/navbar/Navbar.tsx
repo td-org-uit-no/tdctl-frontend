@@ -24,7 +24,6 @@ const AuthNavbar = () => {
     } catch (errro) {
       if (errro.statusCode === 401) {
         /* Gracefully ignore it */
-        console.log('401');
       }
     }
   };
@@ -37,6 +36,7 @@ const AuthNavbar = () => {
       {role === Roles.admin && (
         <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
       )}
+      {role === Roles.admin && <MenuItem label={'Admin'} path={'/admin'} />}
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>
   );

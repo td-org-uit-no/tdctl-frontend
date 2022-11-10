@@ -6,10 +6,6 @@ interface Props {
 }
 
 const Dropdown: React.FC<Props> = ({ expanded, children }) => {
-  return (
-    <div className={styles.container}>
-      {expanded && children}
-    </div>
-  );
+  return <div className={styles.container}>{expanded && children}</div>;
 };
 export default Dropdown;

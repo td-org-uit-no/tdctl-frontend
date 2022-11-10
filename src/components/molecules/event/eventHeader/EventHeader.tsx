@@ -24,7 +24,7 @@ const EventHeader: React.FC<Props> = ({ id, className }) => {
       };
     };
     getImg();
-  }, []);
+  }, [url]);
 
   return (
     <div className={classes}>
