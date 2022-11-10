@@ -49,7 +49,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         addToast({
           title: 'Info',
           status: 'info',
-          description: 'Arrangementet er fult, du er satt på venteliste',
+          description: 'Arrangementet er fullt, du er satt på venteliste',
         });
         return;
       }

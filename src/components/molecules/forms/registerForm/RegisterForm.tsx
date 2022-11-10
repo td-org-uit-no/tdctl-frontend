@@ -81,7 +81,7 @@ const RegisterForm = () => {
       setAuthenticated(true);
       history.push('/');
       addToast({
-        title: 'Success',
+        title: 'Suksess',
         status: 'success',
         description: 'Du er registrert som bruker',
       });

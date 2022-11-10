@@ -58,7 +58,7 @@ const MemberTable = () => {
         setShouldFetch(true);
         setIsOpen(false);
         addToast({
-          title: 'Success',
+          title: 'Suksess',
           status: 'success',
           description: `${member.realName} er oppdatert`,
         });
@@ -120,7 +120,7 @@ const MemberTable = () => {
       await deleteMember(response['id']);
       setShouldFetch(true);
       addToast({
-        title: 'Success',
+        title: 'Suksess',
         status: 'success',
         description: `${selectedMember?.realName} er slettet`,
       });

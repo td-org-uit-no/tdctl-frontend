@@ -184,7 +184,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       return `${participants} skal`;
     }
     if (participants >= maxParticipants) {
-      return 'Fult';
+      return 'Fullt';
     }
     return `${participants} / ${maxParticipants} påmeldt`;
   }
