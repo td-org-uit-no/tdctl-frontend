@@ -1,4 +1,10 @@
-import { CreateEvent, EventUpdate, Participant, Event } from 'models/apiModels';
+import {
+  CreateEvent,
+  EventUpdate,
+  Participant,
+  Event,
+  JoinEventPayload,
+} from 'models/apiModels';
 import { get, post, put } from './requests';
 
 export const createEvent = (event: CreateEvent): Promise<{ eid: string }> =>
@@ -10,8 +16,8 @@ export const uploadEventPicture = (id: string, eventImage: any) =>
 export const getEventById = (id: string): Promise<Event> =>
   get<Event>('event/' + id, true);
 
-export const joinEvent = (id: string) =>
-  post<{ max: boolean }>('event/' + id + '/join', {}, true);
+export const joinEvent = (id: string, joinEventPayload: JoinEventPayload) =>
+  post<{ max: boolean }>('event/' + id + '/join', joinEventPayload, true);
 
 export const leaveEvent = (id: string) =>
   post<{ max: boolean }>('event/' + id + '/leave', {}, true);

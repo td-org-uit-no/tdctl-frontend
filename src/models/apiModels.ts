@@ -2,7 +2,7 @@ import { RoleOptions } from 'contexts/authProvider';
 
 // Member model
 export interface Member extends PartialMember {
-  _id: string;
+  id: string;
   role: RoleOptions;
   status: string;
 }
@@ -17,7 +17,19 @@ export interface PartialMember {
   phone?: string;
 }
 
-export type Participant = Pick<Member, '_id' | 'realName'>;
+// export type Participant = Pick<Member, '_id' | 'realName'>;
+
+export interface Participant {
+  id: string;
+  realName: string;
+  email: string;
+  classof: string;
+  phone: string;
+  role: string;
+  food: boolean;
+  dietaryRestrictions?: string;
+  submitDate: string;
+}
 
 export interface TokenPair {
   accessToken: string;
@@ -82,4 +94,9 @@ export interface Post {
   author: string;
   created_at: string;
   comments: Comment[];
+}
+
+export interface JoinEventPayload {
+  food: boolean;
+  dietaryRestrictions?: string;
 }

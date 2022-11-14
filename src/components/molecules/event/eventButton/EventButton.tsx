@@ -9,14 +9,20 @@ import { AuthenticateContext } from 'contexts/authProvider';
 import { joinEvent, leaveEvent, isJoinedEvent } from 'api';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
-
+import { JoinEventPayload } from 'models/apiModels';
+// specific interface does noe work for false as fucntion. Any is undefined and will be accepted
 interface ButtonAction {
-  [key: string]: (eid: string) => Promise<{ max: boolean } | string>;
+  [key: string]: (eid: string, data: any) => Promise<{ max: boolean } | string>;
 }
 
 interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
 }
+
+const joinEventPayload: JoinEventPayload = {
+  food: true,
+  dietaryRestrictions: '',
+};
 
 const AuthEventButton: React.FC<AuthButtonProps> = ({
   joined,
@@ -35,7 +41,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const handleButtonAction = async () => {
     try {
-      const res = await buttonAction[`${isJoined}`](id);
+      const res = await buttonAction[`${isJoined}`](id, joinEventPayload);
       setIsjoined(!isJoined);
       if (onClick) {
         try {
