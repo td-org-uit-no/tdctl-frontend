@@ -2,7 +2,7 @@ import { RoleOptions } from 'contexts/authProvider';
 
 // Member model
 export interface Member extends PartialMember {
-  _id: string;
+  id: string;
   role: RoleOptions;
   status: string;
 }
@@ -17,7 +17,20 @@ export interface PartialMember {
   phone?: string;
 }
 
-export type Participant = Pick<Member, '_id' | 'realName'>;
+// export type Participant = Pick<Member, '_id' | 'realName'>;
+
+export interface Participant {
+  id: string;
+  realName: string;
+  email: string;
+  classof: string;
+  phone: string;
+  role: string;
+  food: boolean;
+  transportation: boolean;
+  dietaryRestrictions?: string;
+  submitDate: string;
+}
 
 export interface TokenPair {
   accessToken: string;
@@ -63,10 +76,16 @@ export interface Event {
   romNumber?: string;
   building?: string;
   participants?: Participant[];
+  food: boolean;
+  transportation: boolean;
+  active: boolean;
 }
 
 export type EventUpdate = Partial<
-  Pick<Event, 'title' | 'description' | 'date' | 'address' | 'participants'>
+  Pick<
+    Event,
+    'title' | 'description' | 'date' | 'address' | 'participants' | 'active'
+  >
 >;
 export type CreateEvent = Omit<Event, 'eid'>;
 
@@ -82,4 +101,10 @@ export interface Post {
   author: string;
   created_at: string;
   comments: Comment[];
+}
+
+export interface JoinEventPayload {
+  food?: boolean;
+  transportation?: boolean;
+  dietaryRestrictions?: string;
 }

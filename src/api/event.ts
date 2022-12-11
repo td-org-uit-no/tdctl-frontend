@@ -1,5 +1,11 @@
-import { CreateEvent, EventUpdate, Participant, Event } from 'models/apiModels';
-import { get, post, put } from './requests';
+import {
+  CreateEvent,
+  EventUpdate,
+  Participant,
+  Event,
+  JoinEventPayload,
+} from 'models/apiModels';
+import { get, post, put, Delete } from './requests';
 
 export const createEvent = (event: CreateEvent): Promise<{ eid: string }> =>
   post<{ eid: string }>('event/', event, true);
@@ -10,8 +16,8 @@ export const uploadEventPicture = (id: string, eventImage: any) =>
 export const getEventById = (id: string): Promise<Event> =>
   get<Event>('event/' + id, true);
 
-export const joinEvent = (id: string) =>
-  post<{ max: boolean }>('event/' + id + '/join', {}, true);
+export const joinEvent = (id: string, joinEventPayload: JoinEventPayload) =>
+  post<{ max: boolean }>('event/' + id + '/join', joinEventPayload, true);
 
 export const leaveEvent = (id: string) =>
   post<{ max: boolean }>('event/' + id + '/leave', {}, true);
@@ -37,3 +43,12 @@ export const getUpcomingEvents = (): Promise<Event[]> =>
 //   eid: string,
 //   postText: { message: string }
 // ): Promise<{}> => post<{}>('event/' + eid + '/post', postText, true);
+
+export const deleteParticipant = (
+  eid: string,
+  id: string
+): Promise<{ id: string }> =>
+  Delete('event/' + eid + '/removeParticipant/' + id, true);
+
+export const exportEvent = (eid: string): Promise<{}> =>
+  get<{}>('event/' + eid + '/export', true);
