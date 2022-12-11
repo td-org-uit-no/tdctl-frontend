@@ -53,6 +53,9 @@ const EventForm = () => {
         date: fields['date']?.value + ' ' + fields['time']?.value,
         address: fields['address']?.value,
         price: price,
+        food: true,
+        transportation: true,
+        active: false,
       });
       // TODO handle image upload errors separately
       if (file) {
