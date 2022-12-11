@@ -5,6 +5,7 @@ import EventButton from '../eventButton/EventButton';
 import TextField from 'components/atoms/textfield/Textfield';
 import Textarea from 'components/atoms/textarea/Textarea';
 import Button from 'components/atoms/button/Button';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { getJoinedParticipants, updateEvent } from 'api';
 import {
   addressValidator,
@@ -36,6 +37,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     }),
   };
 
+  const [toggleActive, setToggleActive] = useState<boolean>(
+    event.active ?? false
+  );
+
   const validators = {
     title: titleValidator,
     description: descriptionValidator,
@@ -66,6 +71,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
         event?.maxParticipants?.toString() && {
         maxParticipants: fields['maxParticipants']?.value,
       }),
+      active: toggleActive,
     } as Event;
     if (!Object.keys(updatePayload).length) {
       setError('Minst et felt må endres');
@@ -115,6 +121,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
             <div className={styles.infoWrapper}>
               <div className={styles.infoSection}>
                 <EventButton id={event.eid} />
+
                 <TextField
                   name={'address'}
                   maxWidth={60}
@@ -145,6 +152,12 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     width: '100%',
                   }}
                 />
+                <div style={{ marginTop: '1rem' }}>
+                  <ToggleButton
+                    initValue={toggleActive}
+                    onChange={() => setToggleActive(!toggleActive)}
+                    label={toggleActive ? 'Active' : 'Inactive'}></ToggleButton>
+                </div>
               </div>
             </div>
           </div>
@@ -219,7 +232,15 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
         <div className={styles.infoContainer}>
           <div className={styles.infoWrapper}>
             <div className={styles.infoSection}>
-              <EventButton id={event.eid} onClick={getNumberOfParticipants} />
+              {event.active ? (
+                <EventButton id={event.eid} onClick={getNumberOfParticipants} />
+              ) : (
+                <div>
+                  <h4>Påmelding kommer</h4>
+                  <hr />
+                </div>
+              )}
+
               <p>Sted</p>
               {event.address}
               <p> Dato </p>

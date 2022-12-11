@@ -1,0 +1,15 @@
+@import 'src/styles/colors';
+.formContent {
+  display: flex;
+  flex-direction: column;
+  // gap: 25px;
+  gap: 1rem;
+  padding: 3rem;
+}
+
+.formToggles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
