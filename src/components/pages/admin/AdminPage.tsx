@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './adminPage.module.scss';
-import { MemberTable } from 'components/molecules/tables';
+import { MemberTable, EventTable } from 'components/molecules/tables';
 import Icon from 'components/atoms/icons/icon';
 
 const WIP = () => {
@@ -18,13 +18,17 @@ interface componentsDict {
   [key: string]: JSX.Element;
 }
 
-interface ISideBarItem {
+export interface ISideBarItem {
   label: string;
   iconType: string;
   onClick: () => void;
 }
 
-const SideBarItem: React.FC<ISideBarItem> = ({ label, iconType, onClick }) => {
+export const SideBarItem: React.FC<ISideBarItem> = ({
+  label,
+  iconType,
+  onClick,
+}) => {
   return (
     <div className={styles.navItem} onClick={onClick}>
       <div className={styles.iconBox}>
@@ -40,7 +44,7 @@ const SideBarItem: React.FC<ISideBarItem> = ({ label, iconType, onClick }) => {
 const AdminPage = () => {
   const components = {
     Members: <MemberTable />,
-    Events: <WIP />,
+    Events: <EventTable />,
     Announcements: <WIP />,
   } as componentsDict;
 

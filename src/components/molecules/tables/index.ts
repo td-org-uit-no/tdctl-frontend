@@ -1,3 +1,3 @@
 import MemberTable from './memberTable/MemberTable';
-
-export { MemberTable };
+import EventTable from './eventTable/eventTable';
+export { MemberTable, EventTable };
