@@ -1,9 +1,10 @@
+@import 'src/styles/colors';
+
 .container {
   display: flex;
   justify-content: center;
   text-align: center;
   align-items: center;
-  width: 100%;
 }
 .toggleContainer {
   display: flex;
@@ -48,11 +49,11 @@
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: $active-label-color;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  background-color: 0 0 1px $active-label-color;
 }
 
 input:checked + .slider:before {
@@ -64,6 +65,7 @@ input:checked + .slider:before {
 .textContainer {
   text-align: center;
   height: 100%;
+  margin-left: 0.5em;
 }
 
 .text {
