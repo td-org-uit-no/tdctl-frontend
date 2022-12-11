@@ -6,13 +6,15 @@ import React, {
 } from 'react';
 import Button from 'components/atoms/button/Button';
 import { AuthenticateContext } from 'contexts/authProvider';
-import { joinEvent, leaveEvent, isJoinedEvent } from 'api';
+import { joinEvent, leaveEvent, isJoinedEvent, getEventById } from 'api';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
-
-interface ButtonAction {
-  [key: string]: (eid: string) => Promise<{ max: boolean } | string>;
-}
+import { JoinEventPayload } from 'models/apiModels';
+import { Event } from 'models/apiModels';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
+import styles from './eventButton.module.scss';
+import Modal from 'components/molecules/modal/Modal';
+import TextField from 'components/atoms/textfield/Textfield';
 
 interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
@@ -27,15 +29,16 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const [isJoined, setIsjoined] = useState<boolean>(joined);
   const [buttonText, setButtonText] = useState('');
   const { addToast } = useToast();
-
-  const buttonAction: ButtonAction = {
-    true: leaveEvent,
-    false: joinEvent,
-  };
-
-  const handleButtonAction = async () => {
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [event, setEvent] = useState<Event>();
+  const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
+    food: false,
+    transportation: false,
+    dietaryRestrictions: '',
+  });
+  const leaveEventAction = async () => {
     try {
-      const res = await buttonAction[`${isJoined}`](id);
+      await leaveEvent(id);
       setIsjoined(!isJoined);
       if (onClick) {
         try {
@@ -45,6 +48,41 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
           throw error;
         }
       }
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: isJoined ? 'Avmeldt' : 'Påmeldt',
+      });
+    } catch (error) {
+      // TODO add toasts
+      console.log(error);
+      switch (error.statusCode) {
+        case 400:
+          console.log(400);
+          break;
+        case 404:
+          console.log(404);
+          break;
+        default:
+          console.log(error.statusCode);
+      }
+    }
+  };
+  const joinEventAction = async () => {
+    try {
+      const res = await joinEvent(id, joinEventPayload);
+
+      setIsjoined(!isJoined);
+      setShowForm(false);
+      if (onClick) {
+        try {
+          onClick();
+        } catch (error) {
+          // caller must handle the error
+          throw error;
+        }
+      }
+
       if (typeof res !== 'string' && res.max) {
         addToast({
           title: 'Info',
@@ -74,21 +112,78 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     }
   };
 
+  const handleButtonAction = () => {
+    if (!isJoined) {
+      !showForm && (event?.transportation || event?.food)
+        ? setShowForm(true)
+        : joinEventAction();
+      return;
+    } else {
+      leaveEventAction();
+    }
+  };
+
   useEffect(() => {
+    const fetchEvent = async () => {
+      const event = await getEventById(id);
+      setEvent(event);
+    };
+    fetchEvent();
+
     const updateText = () => {
       const text = isJoined ? 'Meld av!' : 'Bli med!';
       setButtonText(text);
     };
 
     updateText();
-  }, [isJoined]);
+  }, [isJoined, id]);
 
   return (
     <div>
-      <Button version="secondary" onClick={handleButtonAction} {...rest}>
-        {' '}
-        {buttonText}{' '}
-      </Button>
+      {!showForm && (
+        <Button version="secondary" onClick={handleButtonAction} {...rest}>
+          {' '}
+          {buttonText}
+        </Button>
+      )}
+      {showForm && (
+        <Modal maxWidth={100} title={'Join'} setIsOpen={setShowForm}>
+          <div className={styles.formContent}>
+            <div className={styles.formToggles}>
+              <div>
+
+            <ToggleButton
+              label={'Vil du ha mat på arragementet?'}
+              onChange={() =>
+                setJoinEventPayload({
+                  ...joinEventPayload,
+                  food: !joinEventPayload.food,
+                })
+              }></ToggleButton>
+              </div>
+            <ToggleButton
+              label={'Har du behov for transport?'}
+              onChange={() =>
+                setJoinEventPayload({
+                  ...joinEventPayload,
+                  transportation: !joinEventPayload.transportation,
+                })
+              }></ToggleButton>
+              </div>
+            <TextField
+              label={'Allergies'}
+              onChange={(e) => {
+                setJoinEventPayload({
+                  ...joinEventPayload,
+                  dietaryRestrictions: e.target.value,
+                });
+              }}></TextField>
+            <Button version="secondary" onClick={joinEventAction}>
+              Meld på
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
@@ -136,8 +231,7 @@ const DefaultButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
   return (
     <div>
       <Button version="secondary" onClick={login} {...rest}>
-        {' '}
-        Bli med!{' '}
+        Bli med!
       </Button>
     </div>
   );
