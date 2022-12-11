@@ -9,6 +9,7 @@ import {
   SettingsPage,
   CreateEvent,
   EventPage,
+  EventAdmin,
   AdminPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <PrivateRoute path="/settings" component={SettingsPage} />
           <AdminRoute path="/create-event" component={CreateEvent} />
           <AdminRoute path="/admin" component={AdminPage} />
+          <AdminRoute path="/event/:id/admin" component={EventAdmin} />
           <Route path="/event/:id" children={<EventPage />} />
           <Route path="/" component={HomePage} />
         </Switch>

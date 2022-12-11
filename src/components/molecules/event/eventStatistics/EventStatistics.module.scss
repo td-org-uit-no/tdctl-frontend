@@ -1,0 +1,25 @@
+.content {
+  width: 70vw;
+}
+
+.chart_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.grid_item {
+  display: flex;
+  flex-direction: column;
+  text-justify: center;
+}
+
+.text_center {
+  text-align: center;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
