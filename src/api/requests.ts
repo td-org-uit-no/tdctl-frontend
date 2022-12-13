@@ -105,7 +105,7 @@ function handleResponse<T>(response: Response): Promise<T> {
   }
   // Handle empty responses and missing content-lenght header when the response is encoded
   if (
-    !response.headers.get('content-length') &&
+    response.headers.get('content-length') === '0' &&
     response.headers.get('content-encoding') === null
   ) {
     return {} as Promise<T>;
