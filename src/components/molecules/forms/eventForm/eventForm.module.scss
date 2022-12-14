@@ -2,14 +2,14 @@
 
 .eventForm {
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .eventContainer {
-  display: flex;
+  display: inline-flex;
+  gap: 1rem;
   width: 100%;
   flex-direction: column;
   justify-content: center;
@@ -28,8 +28,7 @@
 .dateTimeWrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 5%;
-  // width: 100%;
+  width: 100%;
   justify-content: space-between;
   align-content: space-around;
 }

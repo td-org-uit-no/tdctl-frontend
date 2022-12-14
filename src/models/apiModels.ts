@@ -84,7 +84,13 @@ export interface Event {
 export type EventUpdate = Partial<
   Pick<
     Event,
-    'title' | 'description' | 'date' | 'address' | 'participants' | 'active'
+    | 'title'
+    | 'description'
+    | 'date'
+    | 'address'
+    | 'price'
+    | 'maxParticipants'
+    | 'active'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid'>;

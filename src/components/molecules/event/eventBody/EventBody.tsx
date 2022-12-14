@@ -13,12 +13,13 @@ import {
   descriptionValidator,
   maxParticipantsValidator,
   titleValidator,
+  priceValidator,
+  timeValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
 import { RoleOptions } from 'contexts/authProvider';
-
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   event,
@@ -26,20 +27,26 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
 }) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
+  const timeDate = new Date(event.date);
+  const [toggleActive, setToggleActive] = useState<boolean>(
+    event.active ?? false
+  );
+  const [toggleFood, setToggleFood] = useState<boolean>(event.food ?? false);
+  const [toggleTransportation, setToggleTransportation] = useState<boolean>(
+    event.transportation ?? false
+  );
   const initalValue = {
     title: event.title,
     description: event.description,
-    date: event.date,
+    date: event.date.split('T')[0], //sets [YYYY-MM-DD]
+    time: timeDate.getHours() + ':' + timeDate.getMinutes(), //sets [HH:MM] and not [HH:MM:SS]
     address: event.address,
+    price: event.price.toString(),
     // juggling-check, checks for both null and undefined
     ...(event?.maxParticipants != null && {
       maxParticipants: event?.maxParticipants.toString() ?? '',
     }),
   };
-
-  const [toggleActive, setToggleActive] = useState<boolean>(
-    event.active ?? false
-  );
 
   const validators = {
     title: titleValidator,
@@ -47,6 +54,8 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     date: dateValidator,
     address: addressValidator,
     maxParticipants: maxParticipantsValidator,
+    price: priceValidator,
+    time: timeValidator,
   };
 
   const submit = async () => {
@@ -61,16 +70,22 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       ...(fields['description']?.value !== event.description && {
         description: fields['description']?.value,
       }),
-      ...(fields['date']?.value !== event.date && {
-        date: fields['date']?.value,
+      ...(fields['date']?.value + ' ' + fields['time']?.value !==
+        event.date && {
+        date: fields['date']?.value + ' ' + fields['time']?.value,
       }),
       ...(fields['address']?.value !== event.address && {
         address: fields['address']?.value,
+      }),
+      ...(fields['price']?.value !== event.price.toString() && {
+        price: Number(fields['price']?.value),
       }),
       ...(fields['maxParticipants']?.value !==
         event?.maxParticipants?.toString() && {
         maxParticipants: fields['maxParticipants']?.value,
       }),
+      food: toggleFood,
+      transportation: toggleTransportation,
       active: toggleActive,
     } as Event;
     if (!Object.keys(updatePayload).length) {
@@ -134,9 +149,21 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                 <p>
                   Dato <br />
                 </p>
-                <p style={{ fontWeight: 'normal', marginBottom: '.5rem' }}>
-                  {transformDate(new Date(event.date))}
-                </p>
+                <TextField
+                  name={'date'}
+                  label={'Dato'}
+                  type={'date'}
+                  value={fields['date'].value ?? ''}
+                  onChange={onFieldChange}
+                />
+                <TextField
+                  name={'time'}
+                  label={'Tid'}
+                  type={'time'}
+                  value={fields['time'].value ?? ''}
+                  onChange={onFieldChange}
+                  error={fields['time']?.error}
+                />
                 <TextField
                   name={'maxParticipants'}
                   type={'number'}
@@ -152,7 +179,30 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     width: '100%',
                   }}
                 />
-                <div style={{ marginTop: '1rem' }}>
+                <TextField
+                  name={'price'}
+                  type={'number'}
+                  maxWidth={60}
+                  onChange={onFieldChange}
+                  label={'Pris per deltaker'}
+                  value={fields['price']?.value ?? ''}
+                  error={fields['price']?.error}
+                  style={{
+                    boxSizing: 'border-box',
+                    width: '100%',
+                  }}
+                />
+                <div className={styles.toggleWrapper}>
+                  <ToggleButton
+                    initValue={toggleFood}
+                    onChange={() => setToggleFood(!toggleFood)}
+                    label={'Food'}></ToggleButton>
+                  <ToggleButton
+                    initValue={toggleTransportation}
+                    onChange={() =>
+                      setToggleTransportation(!toggleTransportation)
+                    }
+                    label={'Transportation'}></ToggleButton>
                   <ToggleButton
                     initValue={toggleActive}
                     onChange={() => setToggleActive(!toggleActive)}
@@ -209,7 +259,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       setParticipantText(str);
     } catch (error) {
       // Dont think users needs an error modal as its an API call the user should think about
-      setParticipantText('Unavailable');
+      setParticipantText('For members only');
     }
   }, [event.eid, event?.maxParticipants]);
 
@@ -245,6 +295,12 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
               {event.address}
               <p> Dato </p>
               {transformDate(new Date(event.date))}
+              {event.price && event.price > 0 && (
+                <>
+                  <p>Pris</p>
+                  {event.price} kr
+                </>
+              )}
               <p> Antall deltakere </p>
               {participantsText}
               {role === 'admin' && (
