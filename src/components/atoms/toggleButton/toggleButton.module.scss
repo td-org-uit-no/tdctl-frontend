@@ -2,12 +2,14 @@
 
 .container {
   display: flex;
-  justify-content: center;
   text-align: center;
   align-items: center;
 }
 .toggleContainer {
   display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
   height: 100%;
   input {
     min-width: 10%;
