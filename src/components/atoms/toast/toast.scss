@@ -115,3 +115,9 @@
     transform: translateY(150%);
   }
 }
+
+@media screen and (max-width: 425px) {
+  .toast {
+    width: 85vw;
+  }
+}
