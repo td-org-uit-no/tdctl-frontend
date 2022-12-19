@@ -45,3 +45,9 @@ button {
   background-color: $secondary;
   color: black;
 }
+
+@media screen and (max-width: 768px) {
+  button {
+    padding: 0.5em 2em;
+  }
+}
