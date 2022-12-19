@@ -147,37 +147,43 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         </Button>
       )}
       {showForm && (
-        <Modal maxWidth={100} title={'Join'} setIsOpen={setShowForm}>
+        <Modal maxWidth={100} title={'Påmelding'} setIsOpen={setShowForm}>
           <div className={styles.formContent}>
             <div className={styles.formToggles}>
-              <div>
+              {event?.food && (
+                <>
+                  <ToggleButton
+                    label={'Vil du ha mat på arragementet?'}
+                    onChange={() =>
+                      setJoinEventPayload({
+                        ...joinEventPayload,
+                        food: !joinEventPayload.food,
+                      })
+                    }></ToggleButton>
+                  <TextField
+                    label={'Allergier'}
+                    onChange={(e) => {
+                      setJoinEventPayload({
+                        ...joinEventPayload,
+                        dietaryRestrictions: e.target.value,
+                      });
+                    }}></TextField>
+                </>
+              )}
+              {event?.transportation && (
+                <>
+                  <ToggleButton
+                    label={'Har du behov for transport?'}
+                    onChange={() =>
+                      setJoinEventPayload({
+                        ...joinEventPayload,
+                        transportation: !joinEventPayload.transportation,
+                      })
+                    }></ToggleButton>
+                </>
+              )}
+            </div>
 
-            <ToggleButton
-              label={'Vil du ha mat på arragementet?'}
-              onChange={() =>
-                setJoinEventPayload({
-                  ...joinEventPayload,
-                  food: !joinEventPayload.food,
-                })
-              }></ToggleButton>
-              </div>
-            <ToggleButton
-              label={'Har du behov for transport?'}
-              onChange={() =>
-                setJoinEventPayload({
-                  ...joinEventPayload,
-                  transportation: !joinEventPayload.transportation,
-                })
-              }></ToggleButton>
-              </div>
-            <TextField
-              label={'Allergies'}
-              onChange={(e) => {
-                setJoinEventPayload({
-                  ...joinEventPayload,
-                  dietaryRestrictions: e.target.value,
-                });
-              }}></TextField>
             <Button version="secondary" onClick={joinEventAction}>
               Meld på
             </Button>
