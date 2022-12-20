@@ -269,60 +269,49 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
 
   return (
     <div className={styles.contentContainer}>
+      <div className={styles.contentHeader}>
+        <h3>{event.title}</h3>
+        <p> Bli med {transformDate(new Date(event.date))}</p>
+      </div>
       <div className={styles.description}>
         <div className={styles.descriptionContainer}>
           <div>
-            <h3>{event.title}</h3>
-            <p> Bli med {transformDate(new Date(event.date))}</p>
-            <p>{event.description}</p>
+            <p style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+              {event.description}
+            </p>
           </div>
         </div>
       </div>
       <div className={styles.infoContainer}>
-        <div className={styles.infoContainer}>
-          <div className={styles.infoWrapper}>
-            <div className={styles.infoSection}>
-              {event.active ? (
-                <EventButton id={event.eid} onClick={getNumberOfParticipants} />
-              ) : (
-                <div>
-                  <h4>Påmelding kommer</h4>
-                  <hr />
-                </div>
-              )}
-
-              <p>Sted</p>
-              {event.address}
-              <p> Dato </p>
-              {transformDate(new Date(event.date))}
-              {event.price && event.price > 0 && (
-                <>
-                  <p>Pris</p>
-                  {event.price} kr
-                </>
-              )}
-              <p> Antall deltakere </p>
-              {participantsText}
-              {role === 'admin' && (
-                <ol>
-                  {event.participants?.map((p, i) => {
-                    return (
-                      <li
-                        key={i}
-                        style={{
-                          color:
-                            (event.maxParticipants ?? 0) < i + 1
-                              ? 'red'
-                              : 'none',
-                        }}>
-                        {p.realName}
-                      </li>
-                    );
-                  })}
-                </ol>
-              )}
-            </div>
-          </div>
+        <div className={styles.infoSection}>
+          <h4 style={{ marginBottom: '0px' }}> Påmelding: </h4>
+          {event.active ? (
+            <EventButton id={event.eid} onClick={getNumberOfParticipants} />
+          ) : (
+            <div>Påmelding kommer</div>
+          )}
+          <p>Sted</p>
+          {event.address}
+          <p> Dato </p>
+          {transformDate(new Date(event.date))}
+          <p> Antall deltakere </p>
+          {participantsText}
+          {role === 'admin' && (
+            <ol>
+              {event.participants?.map((p, i) => {
+                return (
+                  <li
+                    key={i}
+                    style={{
+                      color:
+                        (event.maxParticipants ?? 0) < i + 1 ? 'red' : 'none',
+                    }}>
+                    {p.realName}
+                  </li>
+                );
+              })}
+            </ol>
+          )}
         </div>
       </div>
     </div>
