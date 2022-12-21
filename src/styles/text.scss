@@ -2,6 +2,9 @@
 
 .container {
   position: relative;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .label {
@@ -72,3 +75,32 @@ input:-webkit-autofill:active {
 .text:focus::placeholder {
   opacity: 1;
 }
+
+.errors {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: inherit;
+  p {
+    margin: .25rem 0 0 1rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .container{
+    display: flex;
+    justify-content: flex-start;
+    input {
+      // override user input on smaller devices
+      min-width: 0px !important;
+   }
+  }
+  .errors {
+    font-size: 12px;
+  }
+}
+
