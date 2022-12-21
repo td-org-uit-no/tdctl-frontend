@@ -1,5 +1,10 @@
 import { Fields } from 'hooks/useForm';
 
+function numberValidator(value: string): boolean {
+  const numbReg = /^[0-9]*$/;
+  return new RegExp(numbReg).test(value)
+}
+
 export const emailValidator = (email: string) => {
   const errors: string[] = [];
   const emailReg = /.+@.+\.[A-Za-z]+$/;
@@ -73,14 +78,11 @@ export const notRequiredNameValidator = (name: string): string[] | undefined =>
   !name.length ? undefined : nameValidator(name);
 
 export const classOfValidator = (year: string): string[] | undefined => {
-  const numbReg = /^[0-9]*$/;
-
-  if (year.length !== 4) {
-    return ['Årskull: YYYY'];
-  }
-
-  if (!new RegExp(numbReg).test(year)) {
+  if (!numberValidator(year)) {
     return ['Årskull kan kun inneholde tall'];
+  }
+  if (year.length !== 4) {
+    return ['Årskull må være på formen: YYYY'];
   }
   /* Reactivate when backend has a proper validation
   if (year.length > 4) {
@@ -99,8 +101,13 @@ export const notRequiredPhoneValidator = (
 ): string[] | undefined => (!phone.length ? undefined : phoneValidator(phone));
 
 export const phoneValidator = (num: string): string[] | undefined => {
+  // assumes all numbers are Norwegian
+  if (!numberValidator(num)) {
+    return ['Telefonnummeret kan kun inneholde tall'];
+  }
+
   if (num.length !== 8) {
-    return ['Telefon nummer må inneholde 8 tall'];
+    return ['Telefonnummer må inneholde 8 tall'];
   }
   return undefined;
 };
