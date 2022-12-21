@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import './registerForm.scss';
 import useForm from 'hooks/useForm';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { login, registerMember } from 'api';
@@ -45,7 +46,6 @@ const RegisterForm = () => {
     if (hasErrors || emptyFields) {
       return;
     }
-
     try {
       const validationCode = await registerMember({
         realName: fields['name'].value,
@@ -103,64 +103,52 @@ const RegisterForm = () => {
     useForm({ onSubmit: onSubmit, validators: validators });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className="contnet">
       <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
-          maxWidth={60}
           minWidth={40}
           label={'Navn'}
           onChange={onFieldChange}
           error={fields['name'].error}
         />
-        <br />
         <TextField
           name={'email'}
           type="email"
-          maxWidth={60}
           minWidth={40}
           label={'E-post'}
           onChange={onFieldChange}
           error={fields['email'].error}
         />
-        <br />
-
         <TextField
           name={'password'}
           type="password"
-          maxWidth={60}
           minWidth={40}
           label={'Passord'}
           onChange={onFieldChange}
           error={fields['password'].error}
         />
-        <br />
-
+        { /* type = text as firefox for some reason does not support type=number so the validators must handle the number validations */ }
         <TextField
           name={'classof'}
-          type="number"
-          maxWidth={60}
+          type="text"
           minWidth={40}
           label={'Årskull'}
           onChange={onFieldChange}
+          error={fields['classof'].error}
         />
-        <br />
-
         <TextField
           name={'phone'}
-          type="number"
-          maxWidth={60}
+          type="text"
           minWidth={40}
           label={'Telefon'}
           onChange={onFieldChange}
+          error={fields['phone'].error}
         />
-        <br />
       </form>
       <div>
-        {fields['phone'].error !== undefined && <p>{fields['phone'].error}</p>}
         <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
         {errors && <p>{errors}</p>}
-
         <Button version={'primary'} onClick={onSubmit} type="submit">
           Registrer
         </Button>
