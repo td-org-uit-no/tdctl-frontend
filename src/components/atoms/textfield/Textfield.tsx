@@ -62,9 +62,9 @@ const TextField: React.FC<Props> = ({
       />
       {label && <label className={getLabelStyle()}>{label}</label>}
       {error && (
-        <div>
+        <div className={styles.errors}>
           {error.map((err, index: number) =>
-            error.length > 1 ? <li key={index}>{err}</li> : err
+            error.length > 1 ? <p key={index}>{err}</p> : <p key={index}> {err}</p>
           )}
         </div>
       )}
