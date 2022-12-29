@@ -27,3 +27,7 @@ export const changePassword = (passwordPayload: ChangePasswordPayload) =>
   post<ChangePasswordPayload>('auth/password', passwordPayload, true);
 
 export const getAllMembers = () => get<Array<Member>>('members/', true);
+
+export const confirmMember = (confimationCode: string) => post<{}>('member/confirm/' + confimationCode, '')
+
+export const sendNewVerificationEmail = (email: string) => post<{}>('member/confirm/code/' + email, '')

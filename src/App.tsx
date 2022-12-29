@@ -11,6 +11,7 @@ import {
   EventPage,
   EventAdmin,
   AdminPage,
+  ConfirmationPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <AdminRoute path="/admin" component={AdminPage} />
           <AdminRoute path="/event/:id/admin" component={EventAdmin} />
           <Route path="/event/:id" children={<EventPage />} />
+          <Route path="/confirmation/:confirmationCode" children={<ConfirmationPage />} />
           <Route path="/" component={HomePage} />
         </Switch>
       </ToastProvider>
