@@ -10,16 +10,15 @@ const ConfirmationPage: React.FC = () => {
     const history = useHistory();
 
     var confirm = async function () {
-        var succ: ToastStatus = "success"
+        var status: ToastStatus = "success"
         var title: string = "User confirmed."
         try {
             await confirmMember(confirmationCode)
         } catch (error) {
-            console.log(error)
-            succ = "error"
+            status = "error"
             title = "Confirmation code not found."
         }
-        addToast({ status: succ, title: title })
+        addToast({ status: status, title: title })
         history.push('/')
     }
     useEffect(() => { confirm() }, [])
