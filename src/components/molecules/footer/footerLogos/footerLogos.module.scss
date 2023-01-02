@@ -11,12 +11,18 @@
 }
 .wrapper {
   display: flex;
-  width: 50%;
   justify-content: space-evenly;
   border-bottom: 1px solid;
 }
 
 .logoItem {
   margin-bottom: 0.25rem;
+  margin: 0 1rem 0 1rem;
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .logosContainer {
+    display: none;
+  }
 }

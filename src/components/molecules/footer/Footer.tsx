@@ -36,7 +36,7 @@ const FooterItem: React.FC<FooterItemProps> = ({ label, path, header }) => {
 };
 
 // TODO add relevant paths
-const Footer = () => {
+const Footer:React.FC = () => {
   return (
     <div className={styles.footerContainer}>
       <div className={styles.footerWrapper}>

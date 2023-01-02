@@ -21,6 +21,7 @@
   flex-direction: column;
   align-items: center;
   height: 100%;
+  word-break: break-all;
 }
 
 .listWrapper {
@@ -28,11 +29,12 @@
   flex-direction: column;
   text-align: left;
   justify-content: center;
+  margin: 0 .5rem 0 .5rem;
 }
 
 .footerListContainer h5 {
+  margin: .5rem 0 1rem;
   color: $off-primary;
-  margin: 0;
 }
 
 .footerItemContainer {
@@ -59,5 +61,20 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .footerContainer {
+    flex-direction: column;
+  }
+  .footerWrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .logosContainer{
+    display: none;
   }
 }
