@@ -93,13 +93,10 @@ const PasswordValidation = () => {
         />
         {error !== undefined && <p>{error}</p>}
         <Button
+          className={styles.submitButton}
           version="secondary"
           onClick={submit}
-          style={{
-            position: 'relative',
-            left: '50%',
-            marginBottom: '1em',
-          }}>
+          >
           Submit
         </Button>
       </div>

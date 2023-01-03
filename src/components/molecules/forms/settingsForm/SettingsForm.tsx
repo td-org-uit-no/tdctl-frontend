@@ -158,14 +158,10 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
           )}
           {error !== undefined && <p>{error}</p>}
           <Button
+            className={styles.submitButton}
             version="secondary"
             onClick={submit}
-            style={{
-              position: 'relative',
-              left: '50%',
-              marginBottom: '25px',
-              marginTop: '5px',
-            }}>
+            >
             Submit
           </Button>
         </div>
