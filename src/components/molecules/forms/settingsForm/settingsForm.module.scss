@@ -3,3 +3,11 @@
   flex-direction: column;
   width: 100%;
 }
+
+.submitButton {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
