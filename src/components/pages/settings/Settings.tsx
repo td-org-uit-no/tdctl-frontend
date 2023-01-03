@@ -50,7 +50,7 @@ const SettingsPage = () => {
   return (
     <div className={styles.settingsContainer}>
       <div className={styles.settingsBox}>
-        <h1>Endre profil</h1>
+        <h1>Profil</h1>
         {init !== undefined && <SettingsForm init={init} />}
         <PasswordValidation />
         {active !== 'active' && (

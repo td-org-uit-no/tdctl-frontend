@@ -1,37 +1,21 @@
-.container {
-  text-align: center;
-}
-
-.info {
+.settingsContainer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   justify-content: center;
-}
-
-.list {
-  display: flex;
-  width: 40%;
-  justify-content: center;
-  border-radius: 40px;
-  border: 1px solid #dddddd;
-}
-
-.list ul {
-  display: inline;
-  width: 50%;
-  list-style: none;
-  margin-left: 0px;
-  padding-left: 0px;
-}
-
-.list li {
-  margin-bottom: 15px;
-  margin-top: 15px;
   width: 100%;
-  border-radius: 40px;
-  border: 1px solid #dddddd;
 }
 
-li p {
-  padding: 10px;
+.settingsBox {
+  justify-content: center;
+  height: 100%;
+  width: 50%;
+}
+
+.activateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

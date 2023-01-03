@@ -1,59 +1,68 @@
 import { useState, useEffect } from 'react';
 import styles from './profile.module.scss';
-import useTitle from 'hooks/useTitle';
-import { Member, PartialMember } from 'models/apiModels';
-import { getMemberAssociatedWithToken,sendNewVerificationEmail } from 'api';
-import Button from 'components/atoms/button/Button';
+import { getMemberAssociatedWithToken, activateUser } from 'api';
+import { SettingsForm } from 'components/molecules/forms';
+import PasswordValidation from 'components/molecules/passwordValidation/PasswordValidation';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
+import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
+import { useToast } from 'hooks/useToast';
 
-const ProfilePage = () => {
-  const [data, setData] = useState<Member>();
-  useTitle('Min profil');
+const SettingsPage = () => {
+  const [init, setInit] = useState<{ [key: string]: string } | undefined>(
+    undefined
+  );
+  const [active, setActive] = useState('inactive');
+  const { addToast } = useToast();
+
+  const getUserInfo = async () => {
+    const response = await getMemberAssociatedWithToken();
+    const initalValues = {
+      name: response.realName ?? '',
+      email: response.email ?? '',
+      classof: response.classof ?? '',
+      phone: response.phone ?? '',
+    };
+    setInit(initalValues);
+    setActive(response.status);
+  };
 
   useEffect(() => {
-    (async function getUserInfo() {
-      const response = (await getMemberAssociatedWithToken()) as Member;
-      setData(response);
-    })();
+    getUserInfo();
   }, []);
-  
-  const items = [
-    { lable: 'Navn', data: data?.realName },
-    { lable: 'E-post', data: data?.email },
-    ...(data?.phone ? [{ lable: 'Mobil', data: data.phone }] : []),
-    { lable: 'Årskull', data: data?.classof ?? '' },
-  ];
+
+  const activate = async () => {
+    try {
+      await activateUser();
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Brukeren er aktivert',
+      });
+      setActive('active');
+    } catch (error) {
+      addToast({
+        title: 'Feil under aktiveringen av brukeren',
+        status: 'error',
+      });
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <h1> Min Profil </h1>
-      <div className={styles.menuContainer}>
-        <div className={styles.info}>
-          {data !== undefined && (
-            <div className={styles.list}>
-              <ul>
-                {items.map((item, index: number) => (
-                  <li key={index}>
-                    <p>
-                      {item.lable} : {item.data}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+    <div className={styles.settingsContainer}>
+      <div className={styles.settingsBox}>
+        <h1>Profil</h1>
+        {init !== undefined && <SettingsForm init={init} />}
+        <PasswordValidation />
+        {active !== 'active' && (
+          <DropDownHeader title={'Aktiver bruker'}>
+            <div className={styles.activateContainer}>
+              <ToggleButton label={'Aktiver bruker'} onChange={activate} />
             </div>
-          )}
-        </div>
+          </DropDownHeader>
+        )}
       </div>
-      {data?.role == "unconfirmed" &&
-        <div>
-          <p>
-            Seems like you have not verified your user, please click on the verification link sent to your email address
-          </p>
-          <Button version='secondary' onClick={async () => { await sendNewVerificationEmail(data.email)}}>
-            Click here to get new verification email.
-          </Button>
-        </div>
-      }
     </div>
   );
 };
 
-export default ProfilePage;
+export default SettingsPage;
