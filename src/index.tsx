@@ -5,11 +5,14 @@ import reportWebVitals from './reportWebVitals';
 
 import './styles/styles.scss';
 import AuthenticateProvider from 'contexts/authProvider';
+import BrowserProvider from 'contexts/browserProvider'; 
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthenticateProvider>
-      <App />
+      <BrowserProvider>
+        <App />
+      </BrowserProvider>
     </AuthenticateProvider>
   </React.StrictMode>,
   document.getElementById('root')
