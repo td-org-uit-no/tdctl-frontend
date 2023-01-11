@@ -1,1 +1,6 @@
-erlingd.com
+{
+    email 8vpzggwq59@privaterelay.appleid.com
+}
+erlingd.com {
+    file_server
+}
