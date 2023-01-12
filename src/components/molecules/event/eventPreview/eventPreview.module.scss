@@ -45,3 +45,20 @@
     margin: 0;
   }
 }
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 1223px) {
+
+  .info {
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .header {
+    p {
+      font-size: 0.8rem;
+    }
+  }
+  
+}

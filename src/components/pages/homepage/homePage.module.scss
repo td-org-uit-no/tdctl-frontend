@@ -1,5 +1,6 @@
 .root {
   height: 100%;
+  width: 100%;
 }
 
 .eventsContainer {
@@ -12,7 +13,6 @@
 .eventsWrapper {
   display: flex;
   justify-content: center;
-  width: 70%;
 }
 
 // prevent movement when data is not loaded
