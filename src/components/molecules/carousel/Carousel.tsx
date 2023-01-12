@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
-import { useMobileScreen } from 'hooks/useCheckMobileScreen';
+import { useMobileScreen } from 'hooks/useMobileScreen';
 import { use } from 'echarts';
 
 export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
