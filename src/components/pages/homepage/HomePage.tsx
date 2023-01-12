@@ -30,7 +30,11 @@ const RootPage = () => {
                   spacing={!isMobile}
                   height={'45vh'}>
                   {events.map((event) => (
-                    <EventPreview eventData={event} key={event.eid} />
+                    <EventPreview
+                      eventData={event}
+                      orientation={'portrait'}
+                      key={event.eid}
+                    />
                   ))}
                 </Carousel>
               </div>
