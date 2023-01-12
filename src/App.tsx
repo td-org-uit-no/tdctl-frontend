@@ -10,6 +10,7 @@ import {
   EventPage,
   EventAdmin,
   MyEvents,
+  EventOverview,
   AdminPage,
   ConfirmationPage,
   RestorePasswordPage,
