@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
+import { useMobileScreen } from 'hooks/useCheckMobileScreen';
+import { use } from 'echarts';
 
 export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
   itemWidth,
@@ -12,7 +14,7 @@ export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
       className={styles.carouselItem}
       style={{
         flex: `0 0 ${itemWidth - 2 * padding}%`,
-        padding: `1% ${padding}% 1%`,
+        padding: `0 ${padding}% 5%`,
       }}>
       {children}
     </div>
@@ -40,10 +42,13 @@ const Carousel: React.FC<CarouselProps> = ({
   children,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [touchPosition, setTouchPosition] = useState<number | null>(null);
   const [transformation, setTransformation] = useState('');
   const [nSlides, setSlides] = useState(0);
   const [itemSize, setItemSize] = useState(0);
   const [transitionLength, setTransistionLength] = useState(0);
+  const itemRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMobileScreen();
 
   const updateIndex = (newIdx: number) => {
     if (newIdx >= nSlides) {
@@ -57,6 +62,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
   // handle mount before data is fetched
   useEffect(() => {
+    console.log(itemRef.current?.offsetHeight);
     // calculates the translation factor based on direction and the width of each item
     function calcCarouselVariables() {
       const nItems = React.Children.count(children);
@@ -68,7 +74,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
       if (dir === 'column') {
         // TODO find a better solution
-        setTransistionLength(107.5);
+        setTransistionLength(itemRef.current?.offsetHeight ?? 100);
         return;
       }
       // always move 100% in x-direction
@@ -80,15 +86,45 @@ const Carousel: React.FC<CarouselProps> = ({
   useEffect(() => {
     setTransformation(
       dir === 'column'
-        ? `translateY(-${activeIndex * transitionLength}%)`
+        ? `translateY(-${activeIndex * transitionLength}px)`
         : `translateX(-${activeIndex * transitionLength}%)`
     );
   }, [activeIndex, dir, transitionLength]);
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchDown = e.touches[0].clientY;
+    setTouchPosition(touchDown);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchDown = touchPosition;
+
+    if (touchDown === null) {
+      return;
+    }
+
+    const currentTouch = e.touches[0].clientY;
+    const diff = touchDown - currentTouch;
+
+    if (diff > 5) {
+      updateIndex(activeIndex + 1);
+    }
+
+    if (diff < -5) {
+      updateIndex(activeIndex - 1);
+    }
+    setTouchPosition(null);
+  };
+
   return (
     <div className={styles.carouselContainer}>
       {title && <h4>{title}</h4>}
-      <div className={styles.carousel} style={{ height: height }}>
+      <div
+        className={styles.carousel}
+        style={{ height: height, touchAction: isMobile ? 'none' : 'auto' }}
+        ref={itemRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}>
         <div
           className={styles.inner}
           style={{
@@ -106,22 +142,16 @@ const Carousel: React.FC<CarouselProps> = ({
           })}
         </div>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          paddingTop: '2.5%',
-          paddingBottom: '5%',
-        }}>
+      <div className={styles.carouselButtonsContainer}>
         <div>
           <Icon
-            type={'angle-double-left'}
-            size={1.5}
+            type={isMobile ? 'angle-double-up' : 'angle-double-left'}
+            size={isMobile ? 2 : 1.5}
             onClick={() => updateIndex(activeIndex - 1)}
           />
           <Icon
-            type={'angle-double-right'}
-            size={1.5}
+            type={isMobile ? 'angle-double-down' : 'angle-double-right'}
+            size={isMobile ? 2 : 1.5}
             onClick={() => updateIndex(activeIndex + 1)}
           />
         </div>
