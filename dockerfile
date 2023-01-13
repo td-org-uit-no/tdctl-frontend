@@ -25,4 +25,3 @@ COPY --from=build-stage /app/build /srv
 COPY .config/Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
