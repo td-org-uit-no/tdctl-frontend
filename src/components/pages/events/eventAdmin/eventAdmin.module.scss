@@ -9,6 +9,7 @@
   grid-template-columns: repeat(6, 1fr);
   justify-items: center;
   width: 100%;
+
   h4 {
     width: 100%;
     border-bottom: 1px solid $off-primary;
@@ -44,6 +45,7 @@
       background-color: #629f5e;
       -webkit-transition: background-color 250ms linear;
     }
+
     p {
       text-decoration: underline;
       text-decoration-thickness: 0.15rem;
@@ -67,11 +69,26 @@
   display: flex;
   align-items: center;
   word-wrap: break-word;
+
   p {
     width: 100%;
     padding: 0px;
     font-size: 20px;
     margin: 0 0 0;
     margin-left: 1rem;
+  }
+}
+
+.top {
+  margin-top: 5vh;
+  grid-column: 2 / span 5;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+@media screen and (max-width: 768px) {
+  .adminContent {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
