@@ -24,3 +24,13 @@
   flex-direction: column;
   width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 100vw;
+  }
+  .chart_grid {
+    grid-template-columns: 1fr;
+    justify-content: center;
+  }
+}

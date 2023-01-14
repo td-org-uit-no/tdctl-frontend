@@ -1,38 +1,47 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styles from './dropdownMenu.module.scss';
-import Button from 'components/atoms/button/Button';
-import Dropdown from 'components/atoms/dropdown/Dropdown';
+import Icon from 'components/atoms/icons/icon';
 
-interface Props {
-  title: string;
+interface Items {
   items: {
     label: string;
-    url: string;
-    asyncFunc?: () => Promise<void>;
+    icon?: string;
+    action: () => void;
   }[];
 }
-const DropdownMenu: React.FC<Props> = ({ items, title }) => {
+const DropdownMenu: React.FC<Items> = ({ items }) => {
   const [expanded, setExpanded] = useState(false);
-
+  const [activeElement, setActiveElement] = useState(items[0]);
   return (
-    <div className={styles.menuContainer}>
-      <Button version={'secondary'} onClick={() => setExpanded(!expanded)}>
-        {title}
-      </Button>
-      <Dropdown expanded={expanded}>
-        <nav className={styles.menu}>
-          <ul>
-            {items.map((item, index: number) => (
-              <li key={index}>
-                <Link to={item.url} onClick={item.asyncFunc}>
+    <div className={styles.menuWrapper}>
+      <div
+        className={styles.activeElement}
+        onClick={() => setExpanded(!expanded)}>
+        <div style={{ gap: '1rem', display: 'flex', alignItems: 'center' }}>
+          {activeElement.icon && <Icon type={activeElement.icon}></Icon>}
+          {activeElement.label}
+        </div>
+        <Icon type={expanded ? 'angle-up' : 'angle-down'} size={0.7}></Icon>
+      </div>
+      {expanded && (
+        <div className={styles.menuList}>
+          {items.map(
+            (item, index: number) =>
+              item.label !== activeElement.label && (
+                <div
+                  className={styles.menuListItem}
+                  onClick={(e) => {
+                    setExpanded(false);
+                    setActiveElement(item);
+                    item.action();
+                  }}>
+                  {item.icon && <Icon type={item.icon}></Icon>}
                   {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </Dropdown>
+                </div>
+              )
+          )}
+        </div>
+      )}
     </div>
   );
 };
