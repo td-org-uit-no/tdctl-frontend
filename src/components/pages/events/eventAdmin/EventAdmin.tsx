@@ -9,17 +9,16 @@ import EventStatistics from 'components/molecules/event/eventStatistics/EventSta
 import EventExport from 'components/molecules/event/eventExport/eventExport';
 import useFetchUpdate from 'hooks/useFetchUpdate';
 import { SideBarItem } from 'components/pages/admin/AdminPage';
-
+import DropdownMenu from 'components/molecules/dropdownMenu/DropdownMenu';
+import { useMobileScreen } from 'hooks/useMobileScreen';
 export interface IValidEvent {
   eventData: Event | undefined;
 }
-
 
 export interface IupdateEventHook extends IValidEvent {
   // Added to let children notify when highest hierichy component should refetch event
   setFetchUpdateHook: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
 
 const ValidEventBody: React.FC<IValidEvent> = ({ eventData }) => {
   return (
@@ -51,7 +50,7 @@ const ValidEventResponses: React.FC<IupdateEventHook> = ({
   );
 };
 const ValidEventStatistics: React.FC<IupdateEventHook> = ({
-  eventData,  
+  eventData,
   setFetchUpdateHook,
 }) => {
   return (
@@ -89,6 +88,7 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   const [isValid, setIsValid] = useState<boolean | undefined>();
   const [event, setEvent] = useState<Event>();
   const { id } = useParams<{ id: string }>();
+  const isMobile = useMobileScreen();
 
   const fetchEvent = async () => {
     const event = await getEventById(id);
@@ -130,31 +130,63 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   } as componentsDict;
 
   const [componentKey, setComponentKey] = useState<adminOptions>('Settings');
+  const dropdownMenuProps = [
+    {
+      label: 'Settings',
+      icon: 'cog',
+      action: () => setComponentKey('Settings'),
+    },
+    {
+      label: 'Responses',
+      icon: 'poll',
+      action: () => setComponentKey('Responses'),
+    },
+    {
+      label: 'Statistics',
+      icon: 'chart-line',
+      action: () => setComponentKey('Statistics'),
+    },
+    {
+      label: 'Export',
+      icon: 'file-export',
+      action: () => setComponentKey('Export'),
+    },
+  ];
 
   return (
     <div className={styles.adminContent}>
-      <div className={styles.side}>
-        <SideBarItem
-          onClick={() => setComponentKey('Settings')}
-          iconType="cog"
-          label="Settings"
-        />
-        <SideBarItem
-          onClick={() => setComponentKey('Responses')}
-          iconType="poll"
-          label="Responses"
-        />
-        <SideBarItem
-          onClick={() => setComponentKey('Statistics')}
-          iconType="chart-line"
-          label="Statistics"
-        />
-        <SideBarItem
-          onClick={() => setComponentKey('Export')}
-          iconType="file-export"
-          label="Export"
-        />
-      </div>
+      {!isMobile ? (
+
+        <div className={styles.side}>
+          <SideBarItem
+            onClick={() => setComponentKey('Settings')}
+            iconType="cog"
+            label="Settings"
+          />
+          <SideBarItem
+            onClick={() => setComponentKey('Responses')}
+            iconType="poll"
+            label="Responses"
+          />
+          <SideBarItem
+            onClick={() => setComponentKey('Statistics')}
+            iconType="chart-line"
+            label="Statistics"
+          />
+          <SideBarItem
+            onClick={() => setComponentKey('Export')}
+            iconType="file-export"
+            label="Export"
+          />
+        </div>
+      ) :
+        <div className={styles.top}>
+          <DropdownMenu items={dropdownMenuProps}></DropdownMenu>
+        </div>
+
+      }
+
+
       <div className={styles.content}>
         <h4>{componentKey}</h4>
         {isValid !== undefined && <>{components[componentKey]}</>}
