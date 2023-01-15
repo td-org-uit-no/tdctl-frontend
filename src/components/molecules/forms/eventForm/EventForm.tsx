@@ -107,7 +107,6 @@ const EventForm = () => {
         <div className={styles.dateTimeWrapper}>
           <div className={styles.date}>
             <TextField
-              minWidth={14}
               name={'date'}
               label={'Dato'}
               type={'date'}
@@ -116,7 +115,6 @@ const EventForm = () => {
           </div>
           <div className={styles.time}>
             <TextField
-              minWidth={12}
               name={'time'}
               label={'Tid'}
               type={'time'}
@@ -126,7 +124,6 @@ const EventForm = () => {
         </div>
 
         <TextField
-          minWidth={35}
           name={'address'}
           label={'Adresse'}
           onChange={onFieldChange}
@@ -134,7 +131,6 @@ const EventForm = () => {
         />
 
         <Textarea
-          minWidth={33}
           name={'description'}
           label={'Beskrivelse'}
           onChange={onFieldChange}
@@ -142,7 +138,6 @@ const EventForm = () => {
         />
 
         <TextField
-          minWidth={35}
           name={'price'}
           label={'Pris'}
           type={'number'}
@@ -150,7 +145,6 @@ const EventForm = () => {
           error={fields['price'].error}
         />
         <TextField
-          minWidth={35}
           name={'maxParticipants'}
           label={'Maks antall deltagere'}
           type={'number'}

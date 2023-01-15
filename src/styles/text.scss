@@ -2,6 +2,7 @@
 
 .container {
   position: relative;
+  display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: flex-start;
@@ -86,21 +87,20 @@ input:-webkit-autofill:active {
   overflow-wrap: break-word;
   max-width: inherit;
   p {
-    margin: .25rem 0 0 1rem;
+    margin: 0.25rem 0 0 1rem;
   }
 }
 
 @media screen and (max-width: 450px) {
-  .container{
+  .container {
     display: flex;
     justify-content: flex-start;
     input {
       // override user input on smaller devices
       min-width: 0px !important;
-   }
+    }
   }
   .errors {
     font-size: 12px;
   }
 }
-
