@@ -16,6 +16,10 @@ const LoginForm = () => {
   const history = useHistory();
   const location = useLocation<LocationState | null>();
 
+  const moveToMoveToRestorePwdPage = () => {
+    history.push('/restore-password');
+  };
+
   const onSubmit = async () => {
     try {
       if (!fields['email']?.value || !fields['password']?.value) {
@@ -64,6 +68,9 @@ const LoginForm = () => {
       <br />
       <Button version={'primary'} type="submit">
         Logg inn
+      </Button>
+      <Button version={'secondary'} onClick={moveToMoveToRestorePwdPage}>
+        Glemt passord?
       </Button>
     </form>
   );
