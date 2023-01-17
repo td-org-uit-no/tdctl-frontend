@@ -1,4 +1,15 @@
-.login-container {
+.login-container{
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+}
+
+.login-wrapper {
   display: flex;
   justify-content: center;
+  width:100%;
+  input{
+    box-sizing: border-box;
+    width: 100%;
+  }
 }
