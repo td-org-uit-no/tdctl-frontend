@@ -7,6 +7,8 @@ import EventPage from './events/eventPage/EventPage';
 import EventAdmin from './events/eventAdmin/EventAdmin';
 import AdminPage from './admin/AdminPage';
 import ConfirmationPage from './confirmation/ConfirmationPage';
+import RestorePasswordPage from './restorePassword/RestorePassword';
+import ResetPasswordPage from './resetPassword/ResetPassword';
 
 export {
   RegistrerPage,
@@ -18,4 +20,6 @@ export {
   EventAdmin,
   AdminPage,
   ConfirmationPage,
+  RestorePasswordPage,
+  ResetPasswordPage
 };

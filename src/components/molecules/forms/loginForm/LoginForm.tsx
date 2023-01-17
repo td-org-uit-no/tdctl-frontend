@@ -5,6 +5,8 @@ import { login } from 'api';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import { useHistory, useLocation } from 'react-router-dom';
+import { HttpError } from 'api/requests';
+import './loginForm.scss';
 
 interface LocationState {
   from: { pathname: string };
@@ -16,7 +18,7 @@ const LoginForm = () => {
   const history = useHistory();
   const location = useLocation<LocationState | null>();
 
-  const moveToMoveToRestorePwdPage = () => {
+  const moveToRestorePwdPage = () => {
     history.push('/restore-password');
   };
 
@@ -50,28 +52,26 @@ const LoginForm = () => {
       <br />
       <TextField
         name={'email'}
-        minWidth={30}
-        maxWidth={45}
         label={'E-post'}
         onChange={onFieldChange}
       />
       <br />
       <TextField
         name={'password'}
-        minWidth={30}
-        maxWidth={45}
         label={'Passord'}
         type={'password'}
         onChange={onFieldChange}
       />
       {error !== '' && <p>{error}</p>}
       <br />
-      <Button version={'primary'} type="submit">
-        Logg inn
-      </Button>
-      <Button version={'secondary'} onClick={moveToMoveToRestorePwdPage}>
-        Glemt passord?
-      </Button>
+      <div className='buttonContainer'>
+        <Button version={'primary'} type="submit">
+          Logg inn
+        </Button>
+        <Button version={'secondary'} onClick={moveToRestorePwdPage} style={{margin:"0 0 0 1rem"}}>
+          Glemt passord?
+        </Button>
+      </div>
     </form>
   );
 };
