@@ -6,14 +6,43 @@ import PasswordValidation from 'components/molecules/passwordValidation/Password
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
+import { changePassword } from 'api';
+import { ChangePasswordPayload } from 'models/apiModels';
+import { useHistory } from 'react-router-dom';
 
 const SettingsPage = () => {
   const [init, setInit] = useState<{ [key: string]: string } | undefined>(
     undefined
   );
+  const [passwordError, setPasswordError] = useState<string | undefined>(undefined);
   const [active, setActive] = useState('inactive');
   const { addToast } = useToast();
+  const history = useHistory();
 
+  const updatePassword = async (passwordPayload : ChangePasswordPayload) =>{
+    try {
+      await changePassword(passwordPayload);
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Passordet er oppdatert',
+      });
+      history.push('/');
+    } catch (error) {
+      if (error.statusCode === 403) {
+        addToast({
+          status:"error",
+          title: "Feil passord"});
+      }
+      if (error.statusCode === 400) {
+        addToast({
+          status:"error",
+          title:'Passordet oppfyller ikke kravene'
+        });
+        return;
+      }
+    }
+  }
   const getUserInfo = async () => {
     const response = await getMemberAssociatedWithToken();
     const initalValues = {
@@ -25,6 +54,9 @@ const SettingsPage = () => {
     setInit(initalValues);
     setActive(response.status);
   };
+  useEffect(()=>{
+    console.log(passwordError)
+  },[passwordError])
 
   useEffect(() => {
     getUserInfo();
@@ -52,7 +84,11 @@ const SettingsPage = () => {
       <div className={styles.settingsBox}>
         <h1>Profil</h1>
         {init !== undefined && <SettingsForm init={init} />}
-        <PasswordValidation />
+        <DropDownHeader title={'Endre passord'}>
+            <div className={styles.updatePasswordContainer}>
+            <PasswordValidation upstreamFunction={updatePassword} errorMsg={passwordError}/>
+            </div>
+        </DropDownHeader>
         {active !== 'active' && (
           <DropDownHeader title={'Aktiver bruker'}>
             <div className={styles.activateContainer}>
