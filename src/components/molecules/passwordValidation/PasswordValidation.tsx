@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './passwordValidation.module.scss';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import Button from 'components/atoms/button/Button';
@@ -8,14 +8,19 @@ import { passwordValidator } from 'utils/validators';
 import { changePassword } from 'api';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
+import { ChangePasswordPayload } from 'models/apiModels';
 
-const PasswordValidation = () => {
-  const [error, setError] = useState<string | undefined>(undefined);
+interface IPasswordValidation{
+  upstreamFunction: (payload:ChangePasswordPayload) => void, 
+  errorMsg: string | undefined
+}
+
+const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) => {
+  const [errors, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const validators = {
     newPassword: passwordValidator,
   };
-  const { addToast } = useToast();
   const submit = async () => {
     if (hasErrors) {
       return;
@@ -23,7 +28,7 @@ const PasswordValidation = () => {
     const isNotFilled = Object.keys(fields).filter(
       (key) => !fields[key].value.length
     ).length;
-
+    
     isNotFilled ? setError('Begge feltene må fylles ut') : setError(undefined);
 
     // pasword has no validation therefore it can be uninitialized
@@ -42,35 +47,17 @@ const PasswordValidation = () => {
       newPassword: fields['newPassword'].value,
     };
 
-    try {
-      await changePassword(passwordPayload);
-      addToast({
-        title: 'Suksess',
-        status: 'success',
-        description: 'Passordet er oppdatert',
-      });
-      history.push('/');
-    } catch (error) {
-      if (error.statusCode === 403) {
-        setFieldError('password', fields['password'].value, ['Feil passord']);
-        return;
-      }
-      if (error.statusCode === 400) {
-        setFieldError('newPassword', fields['newPassword'].value, [
-          'Passordet oppfyller ikke kravene',
-        ]);
-        return;
-      }
-    }
+    //Caller has to handle errors thrown by input function
+    upstreamFunction(passwordPayload)
+
   };
 
-  const { fields, onFieldChange, setFieldError, hasErrors } = useForm({
+  const { fields, onFieldChange, hasErrors } = useForm({
     onSubmit: submit,
     validators: validators,
   });
 
   return (
-    <DropDownHeader title={'Endre passord'}>
       <div className={styles.info}>
         <TextField
           name={'password'}
@@ -91,7 +78,7 @@ const PasswordValidation = () => {
           error={fields['newPassword']?.error}
           onChange={onFieldChange}
         />
-        {error !== undefined && <p>{error}</p>}
+        {errors !== undefined && <p>{errors}</p>}
         <Button
           className={styles.submitButton}
           version="secondary"
@@ -100,7 +87,6 @@ const PasswordValidation = () => {
           Submit
         </Button>
       </div>
-    </DropDownHeader>
   );
 };
 
