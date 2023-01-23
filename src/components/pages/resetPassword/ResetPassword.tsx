@@ -32,7 +32,6 @@ const ResetPasswordPage: React.FC = () => {
         }
 
         if (fields['password'].value !== fields['confirmPassword'].value) {
-            console.log("hello")
             addToast({
                 status: "error",
                 title: "Passordene er ikke like"
@@ -44,7 +43,6 @@ const ResetPasswordPage: React.FC = () => {
             await resetPassword(resetPasswordCode, fields['password'].value)
         }
         catch (error) {
-            console.log(error)
             if (error.statusCode === 404) {
                 addToast({
                     status: "error",
