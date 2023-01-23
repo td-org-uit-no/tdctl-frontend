@@ -54,9 +54,6 @@ const SettingsPage = () => {
     setInit(initalValues);
     setActive(response.status);
   };
-  useEffect(()=>{
-    console.log(passwordError)
-  },[passwordError])
 
   useEffect(() => {
     getUserInfo();
