@@ -27,3 +27,11 @@
   grid-column: 4 / span 1;
   align-items: center;
 }
+
+@media screen and (max-width: 768px) {
+  .item2 {
+    p {
+      font-size: 14px;
+    }
+  }
+}
