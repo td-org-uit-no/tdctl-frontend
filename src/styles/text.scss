@@ -8,6 +8,14 @@
   justify-content: flex-start;
 }
 
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
 .label {
   position: absolute;
   left: 10px;
@@ -21,6 +29,7 @@
 }
 
 .styledLabel {
+  position: absolute;
   top: -10px;
   color: $active-label-color;
   font-size: 14px;
@@ -86,19 +95,24 @@ input:-webkit-autofill:active {
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: inherit;
+  box-sizing: border-box;
   p {
     margin: 0.25rem 0 0 1rem;
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 750px) {
   .container {
     display: flex;
-    justify-content: flex-start;
-    input {
+    justify-content: center;
+    input,
+    textarea {
       // override user input on smaller devices
       min-width: 0px !important;
     }
+  }
+  .inputContainer {
+    align-items: stretch;
   }
   .errors {
     font-size: 12px;

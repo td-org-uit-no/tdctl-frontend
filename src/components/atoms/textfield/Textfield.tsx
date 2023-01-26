@@ -37,34 +37,40 @@ const TextField: React.FC<Props> = ({
 
   return (
     <div className={styles.container}>
-      <input
-        style={{
-          maxWidth: maxWidth ? maxWidth + 'ch' : '',
-          minWidth: minWidth ? minWidth + 'ch' : '',
-        }}
-        className={styles.text}
-        defaultValue={defaultValue}
-        value={value}
-        type={type}
-        onFocus={(e) => {
-          setIsFocused(true);
-          onFocus && onFocus(e);
-        }}
-        onBlur={(e) => {
-          setIsFocused(false);
-          onBlur && onBlur(e);
-        }}
-        onChange={(e) => {
-          setDefaultInput(e.target.value);
-          onChange && onChange(e);
-        }}
-        {...rest}
-      />
-      {label && <label className={getLabelStyle()}>{label}</label>}
+      <div className={styles.inputContainer}>
+        <input
+          style={{
+            maxWidth: maxWidth ? maxWidth + 'ch' : '',
+            minWidth: minWidth ? minWidth + 'ch' : '',
+          }}
+          className={styles.text}
+          defaultValue={defaultValue}
+          value={value}
+          type={type}
+          onFocus={(e) => {
+            setIsFocused(true);
+            onFocus && onFocus(e);
+          }}
+          onBlur={(e) => {
+            setIsFocused(false);
+            onBlur && onBlur(e);
+          }}
+          onChange={(e) => {
+            setDefaultInput(e.target.value);
+            onChange && onChange(e);
+          }}
+          {...rest}
+        />
+        {label && <label className={getLabelStyle()}>{label}</label>}
+      </div>
       {error && (
         <div className={styles.errors}>
           {error.map((err, index: number) =>
-            error.length > 1 ? <p key={index}>{err}</p> : <p key={index}> {err}</p>
+            error.length > 1 ? (
+              <p key={index}>{err}</p>
+            ) : (
+              <p key={index}> {err}</p>
+            )
           )}
         </div>
       )}

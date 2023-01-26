@@ -29,26 +29,28 @@ const Textarea: React.FC<TextareaProps> = ({
 
   return (
     <div className={styles.container}>
-      <textarea
-        style={{
-          maxWidth: maxWidth ? maxWidth + 'ch' : '',
-          minWidth: minWidth ? minWidth + 'ch' : '',
-        }}
-        className={styles.text}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        value={value}
-        onChange={(e) => {
-          setInput(e.target.value);
-          onChange && onChange(e);
-        }}
-        {...rest}
-      />
+      <div className={styles.inputContainer}>
+        <textarea
+          style={{
+            maxWidth: maxWidth ? maxWidth + 'ch' : '',
+            minWidth: minWidth ? minWidth + 'ch' : '',
+          }}
+          className={styles.text}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          value={value}
+          onChange={(e) => {
+            setInput(e.target.value);
+            onChange && onChange(e);
+          }}
+          {...rest}
+        />
+      </div>
 
       {label && <label className={getLabelStyle()}>{label}</label>}
 
       {error && (
-        <div>
+        <div className={styles.errors}>
           {error.map((err, index: number) =>
             error.length > 1 ? <li key={index}>{err}</li> : err
           )}
