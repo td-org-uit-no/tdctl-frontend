@@ -22,12 +22,12 @@ const RootPage = () => {
             animation={false}
             className={styles.wrapper}>
             {events.length ? (
-              <div>
+              <div style={{ maxWidth: '75vw' }}>
                 <Carousel
                   title="Arrangementer"
                   dir={isMobile ? 'column' : 'row'}
                   viewItems={isMobile ? 1 : 3}
-                  spacing={true}
+                  spacing={!isMobile}
                   height={'45vh'}>
                   {events.map((event) => (
                     <EventPreview eventData={event} key={event.eid} />
