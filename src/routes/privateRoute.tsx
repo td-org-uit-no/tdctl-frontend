@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { AuthenticateContext } from 'contexts/authProvider';
 
@@ -6,7 +6,8 @@ interface PrivateRouteProps extends RouteProps {
   component: any;
 }
 
-//Protects protcted pages(login required)
+// Protects protected pages i.e login required
+// TODO upgrade to react router v6
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: Component,
   ...rest
