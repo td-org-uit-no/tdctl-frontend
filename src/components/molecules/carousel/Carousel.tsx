@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { useMobileScreen } from 'hooks/useMobileScreen';
-import { use } from 'echarts';
 
 export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
   itemWidth,
@@ -11,17 +10,18 @@ export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
 }) => {
   return (
     <div
-      className={styles.carouselItem}
       style={{
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden',
         flex: `0 0 ${itemWidth - 2 * padding}%`,
-        padding: `0 ${padding}% 5%`,
+        padding: `0% ${padding}% 0%`,
       }}>
-      {children}
+      <div className={styles.carouselItem}>{children}</div>
     </div>
   );
 };
-
-// TODO add row support
 
 type itemRange = 1 | 2 | 3 | 4 | 5;
 
@@ -49,6 +49,8 @@ const Carousel: React.FC<CarouselProps> = ({
   const [transitionLength, setTransistionLength] = useState(0);
   const itemRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileScreen();
+  // 12.5% of given space is used as spacing between items
+  const itemSpaceConst = 0.125;
 
   const updateIndex = (newIdx: number) => {
     if (newIdx >= nSlides) {
@@ -62,7 +64,6 @@ const Carousel: React.FC<CarouselProps> = ({
 
   // handle mount before data is fetched
   useEffect(() => {
-    console.log(itemRef.current?.offsetHeight);
     // calculates the translation factor based on direction and the width of each item
     function calcCarouselVariables() {
       const nItems = React.Children.count(children);
@@ -72,23 +73,13 @@ const Carousel: React.FC<CarouselProps> = ({
       setItemSize(width);
       setSlides(slides);
 
-      if (dir === 'column') {
-        // TODO find a better solution
-        setTransistionLength(itemRef.current?.offsetHeight ?? 100);
-        return;
-      }
-      // always move 100% in x-direction
       setTransistionLength(100);
     }
     calcCarouselVariables();
   }, [children, dir, viewItems]);
 
   useEffect(() => {
-    setTransformation(
-      dir === 'column'
-        ? `translateY(-${activeIndex * transitionLength}px)`
-        : `translateX(-${activeIndex * transitionLength}%)`
-    );
+    setTransformation(dir === 'column' ? 'translateY' : 'translateX');
   }, [activeIndex, dir, transitionLength]);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -128,14 +119,15 @@ const Carousel: React.FC<CarouselProps> = ({
         <div
           className={styles.inner}
           style={{
-            transform: transformation,
+            // translate `translateLength` in x or y dir based on direction
+            transform: `${transformation}(-${activeIndex * transitionLength}%)`,
             flexWrap: dir === 'column' ? 'wrap' : undefined,
           }}>
           {React.Children.map(children, (child) => {
             return (
               <CarouselItem
                 itemWidth={itemSize}
-                padding={spacing ? itemSize * 0.125 : 0}>
+                padding={spacing ? itemSize * itemSpaceConst : 0}>
                 {child}
               </CarouselItem>
             );
