@@ -23,8 +23,25 @@ const getRole = (): string => {
     const payload = jwt(accessToken) as TokenPayload;
     return payload['role'];
   } catch (err) {
-    throw err;
+    return 'unconfirmed';
   }
+};
+
+// gets the number of milliseconds until the refreshToken expires
+const findRefreshTokenExpInMs = (): number | undefined => {
+  const { refreshToken } = getTokens();
+  if (refreshToken === '') {
+    return undefined;
+  }
+  const payload = jwt(refreshToken) as TokenPayload;
+  // new date is based on milliseconds while jwt is based on second
+  const exp = new Date(payload['exp'] * 1000).getTime();
+  const now = new Date().getTime();
+  if (isNaN(exp) || isNaN(now)) {
+    return undefined;
+  }
+  const diff = exp - now;
+  return exp - now > 0 ? diff : undefined;
 };
 
 /* Deeply checks if user is authenticated by 
@@ -42,4 +59,11 @@ const verifyAuthentication = async () => {
   }
 };
 
-export { setTokens, getTokens, clearTokens, verifyAuthentication, getRole };
+export {
+  setTokens,
+  getTokens,
+  clearTokens,
+  verifyAuthentication,
+  getRole,
+  findRefreshTokenExpInMs,
+};
