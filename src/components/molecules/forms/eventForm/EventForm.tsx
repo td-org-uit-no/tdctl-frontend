@@ -17,6 +17,7 @@ import { createEvent, uploadEventPicture } from 'api';
 import { useHistory } from 'react-router-dom';
 import Textarea from 'components/atoms/textarea/Textarea';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
+import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 
 const EventForm = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -54,6 +55,11 @@ const EventForm = () => {
     try {
       const price = parseInt(fields['price']?.value);
       const maxParticipants = parseInt(fields['maxParticipants']?.value);
+      let regDate = undefined;
+      if (fields['registerDate']?.value && fields['registerTime']?.value) {
+        regDate =
+          fields['registerDate']?.value + ' ' + fields['registerTime']?.value;
+      }
       const resp = await createEvent({
         title: fields['title']?.value,
         description: fields['description']?.value,
@@ -63,7 +69,9 @@ const EventForm = () => {
         price: price,
         food: food,
         transportation: transportation,
-        active: false,
+        public: true,
+        bindingRegistration: true,
+        registrationOpeningDate: regDate,
       });
       // TODO handle image upload errors separately
       if (file) {
@@ -97,49 +105,47 @@ const EventForm = () => {
     <div className={styles.eventForm}>
       <form onSubmit={onSubmitEvent} className={styles.eventContainer}>
         <TextField
-          minWidth={35}
           name={'title'}
           label={'Tittel'}
+          minWidth={40}
           onChange={onFieldChange}
           error={fields['title'].error}
         />
-
-        <div className={styles.dateTimeWrapper}>
-          <div className={styles.date}>
-            <TextField
-              name={'date'}
-              label={'Dato'}
-              type={'date'}
-              onChange={onFieldChange}
-            />
-          </div>
-          <div className={styles.time}>
-            <TextField
-              name={'time'}
-              label={'Tid'}
-              type={'time'}
-              onChange={onFieldChange}
-            />
-          </div>
-        </div>
-
         <TextField
-          name={'address'}
-          label={'Adresse'}
+          name={'date'}
+          label={'Dato'}
+          type={'date'}
+          minWidth={40}
           onChange={onFieldChange}
-          error={fields['address'].error}
+        />
+        <TextField
+          name={'time'}
+          label={'Tid'}
+          type={'time'}
+          minWidth={40}
+          onChange={onFieldChange}
         />
 
         <Textarea
           name={'description'}
           label={'Beskrivelse'}
+          minWidth={40}
           onChange={onFieldChange}
           error={fields['description'].error}
         />
 
         <TextField
+          name={'address'}
+          label={'Adresse'}
+          minWidth={40}
+          onChange={onFieldChange}
+          error={fields['address'].error}
+        />
+
+        <TextField
           name={'price'}
           label={'Pris'}
+          minWidth={40}
           type={'number'}
           onChange={onFieldChange}
           error={fields['price'].error}
@@ -148,20 +154,43 @@ const EventForm = () => {
           name={'maxParticipants'}
           label={'Maks antall deltagere'}
           type={'number'}
+          minWidth={40}
           onChange={onFieldChange}
           error={fields['maxParticipants'].error}
         />
+        <DropdownHeader
+          title={'Valgfritt: Sett dato for når påmeldingen åpner'}
+          style={{ width: '100%' }}>
+          <div className={styles.registerContainer}>
+            <TextField
+              name={'registerDate'}
+              label={'Påmeldings dato'}
+              type={'date'}
+              minWidth={40}
+              onChange={onFieldChange}
+            />
+            <TextField
+              name={'registerTime'}
+              label={'Tid'}
+              type={'time'}
+              minWidth={40}
+              onChange={onFieldChange}
+            />
+          </div>
+        </DropdownHeader>
         <div
-          style={{ display: 'flex', alignItems: 'flex-start', width: '100%' }}>
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            flexDirection: 'column',
+            width: '100%',
+          }}>
           <ToggleButton
             onChange={() => {
               setFood(!food);
             }}
             label={'Servering av mat'}
             initValue={food}></ToggleButton>
-        </div>
-        <div
-          style={{ display: 'flex', alignItems: 'flex-start', width: '100%' }}>
           <ToggleButton
             onChange={() => {
               setTransportation(!transportation);
