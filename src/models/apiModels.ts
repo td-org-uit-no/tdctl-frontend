@@ -68,8 +68,10 @@ export interface Event {
   title: string;
   description: string;
   date: string;
+  host: string;
   address: string;
   price: number;
+  bindingRegistration: boolean;
   duration?: number;
   extraInformation?: string;
   maxParticipants?: number;
@@ -78,7 +80,8 @@ export interface Event {
   participants?: Participant[];
   food: boolean;
   transportation: boolean;
-  active: boolean;
+  public: boolean;
+  registrationOpeningDate?: string;
 }
 
 export type EventUpdate = Partial<
@@ -90,10 +93,10 @@ export type EventUpdate = Partial<
     | 'address'
     | 'price'
     | 'maxParticipants'
-    | 'active'
+    | 'public'
   >
 >;
-export type CreateEvent = Omit<Event, 'eid'>;
+export type CreateEvent = Omit<Event, 'eid' | 'host'>;
 
 export interface Comment {
   comment: string;

@@ -19,7 +19,8 @@ import {
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
-import { RoleOptions } from 'contexts/authProvider';
+import { RoleOptions, Roles } from 'contexts/authProvider';
+
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   event,
@@ -29,7 +30,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const history = useHistory();
   const timeDate = new Date(event.date);
   const [toggleActive, setToggleActive] = useState<boolean>(
-    event.active ?? false
+    event.public ?? false
   );
   const [toggleFood, setToggleFood] = useState<boolean>(event.food ?? false);
   const [toggleTransportation, setToggleTransportation] = useState<boolean>(
@@ -86,7 +87,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       }),
       food: toggleFood,
       transportation: toggleTransportation,
-      active: toggleActive,
+      public: toggleActive,
     } as Event;
     if (!Object.keys(updatePayload).length) {
       setError('Minst et felt må endres');
@@ -232,12 +233,26 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   );
 };
 
+const validJoin = (role: RoleOptions, eventRegString: string | undefined) => {
+  if (eventRegString === undefined) {
+    return false;
+  }
+  if (role === Roles.admin) {
+    return true;
+  }
+  const now = new Date();
+  const openingDate = new Date(eventRegString);
+  return now >= openingDate;
+};
+
 export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   event,
   role,
 }) => {
   const [participantsText, setParticipantText] = useState('');
-
+  const [canJoinEvent, setCanJoin] = useState<boolean>(
+    validJoin(role, event.registrationOpeningDate)
+  );
   function getParticipantsText(
     maxParticipants: number | undefined,
     participants: number
@@ -259,7 +274,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       setParticipantText(str);
     } catch (error) {
       // Dont think users needs an error modal as its an API call the user should think about
-      setParticipantText('For members only');
+      setParticipantText('Log inn for å se flere detaljer');
     }
   }, [event.eid, event?.maxParticipants]);
 
@@ -284,11 +299,23 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       </div>
       <div className={styles.infoContainer}>
         <div className={styles.infoSection}>
-          <h4 style={{ marginBottom: '0px' }}> Påmelding: </h4>
-          {event.active ? (
+          <h4 style={{ marginBottom: '0px' }}>
+            {' '}
+            Påmelding {canJoinEvent ? '' : 'åpner'}:
+          </h4>
+          {canJoinEvent ? (
             <EventButton id={event.eid} onClick={getNumberOfParticipants} />
           ) : (
-            <div>Påmelding kommer</div>
+            <div>
+              {event.registrationOpeningDate ? (
+                <p style={{ fontWeight: 'lighter' }}>
+                  {' '}
+                  {transformDate(new Date(event.registrationOpeningDate))}
+                </p>
+              ) : (
+                <p> Påmelding kommer </p>
+              )}
+            </div>
           )}
           <p>Sted</p>
           {event.address}
