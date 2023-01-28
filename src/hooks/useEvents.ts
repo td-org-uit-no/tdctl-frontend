@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getUpcomingEvents } from 'api';
 import { Event } from 'models/apiModels';
+import { AuthenticateContext } from 'contexts/authProvider';
 
 const useUpcomingEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<number | null>(null);
+  const { authenticated } = useContext(AuthenticateContext);
 
   // TODO integrated with utils->sorting
   const sortByDate = (a: Event, b: Event) => {
@@ -16,7 +18,8 @@ const useUpcomingEvents = () => {
     const fetchEvents = async () => {
       try {
         setIsFetching(true);
-        const eventData = await getUpcomingEvents();
+        // pass if the user is authenticated into function to get the correct return value for api
+        const eventData = await getUpcomingEvents(authenticated);
         const sorted = [...eventData].sort(sortByDate);
         setEvents(sorted);
         setIsFetching(false);
@@ -27,7 +30,7 @@ const useUpcomingEvents = () => {
       }
     };
     fetchEvents();
-  }, []);
+  }, [authenticated]);
 
   return { isFetching, events, setEvents, error };
 };

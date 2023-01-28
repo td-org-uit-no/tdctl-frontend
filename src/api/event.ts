@@ -13,8 +13,8 @@ export const createEvent = (event: CreateEvent): Promise<{ eid: string }> =>
 export const uploadEventPicture = (id: string, eventImage: any) =>
   post<{}>('event/' + id + '/image', eventImage, true, 'multipart/form-data');
 
-export const getEventById = (id: string): Promise<Event> =>
-  get<Event>('event/' + id, true);
+export const getEventById = (id: string, auth: boolean): Promise<Event> =>
+  get<Event>('event/' + id, auth);
 
 export const joinEvent = (id: string, joinEventPayload: JoinEventPayload) =>
   post<{ max: boolean }>('event/' + id + '/join', joinEventPayload, true);
@@ -34,8 +34,8 @@ export const getJoinedParticipants = (eid: string): Promise<Participant[]> =>
 export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
   put<EventUpdate>('event/' + eid, eventUpdate, true);
 
-export const getUpcomingEvents = (): Promise<Event[]> =>
-  get<Event[]>('event/upcoming');
+export const getUpcomingEvents = (auth: boolean): Promise<Event[]> =>
+  get<Event[]>('event/upcoming', (auth = auth));
 
 // export const getEventPosts = (eid: string): Promise<Post[]> =>
 //   get<Post[]>('event/' + eid + '/posts', true);
