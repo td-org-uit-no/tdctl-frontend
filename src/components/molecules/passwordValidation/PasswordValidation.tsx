@@ -74,7 +74,7 @@ const PasswordValidation = () => {
       <div className={styles.info}>
         <TextField
           name={'password'}
-          maxWidth={40}
+          minWidth={40}
           type="password"
           label={'Passord'}
           value={fields['password']?.value ?? ''}
@@ -84,7 +84,7 @@ const PasswordValidation = () => {
         <br />
         <TextField
           name={'newPassword'}
-          maxWidth={40}
+          minWidth={40}
           type="password"
           label={'Nytt passord'}
           value={fields['newPassword']?.value ?? ''}
@@ -95,8 +95,7 @@ const PasswordValidation = () => {
         <Button
           className={styles.submitButton}
           version="secondary"
-          onClick={submit}
-          >
+          onClick={submit}>
           Submit
         </Button>
       </div>
