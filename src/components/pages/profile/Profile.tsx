@@ -44,15 +44,19 @@ const SettingsPage = () => {
     }
   }
   const getUserInfo = async () => {
-    const response = await getMemberAssociatedWithToken();
-    const initalValues = {
-      name: response.realName ?? '',
-      email: response.email ?? '',
-      classof: response.classof ?? '',
-      phone: response.phone ?? '',
-    };
-    setInit(initalValues);
-    setActive(response.status);
+    try {
+      const response = await getMemberAssociatedWithToken();
+      const initalValues = {
+        name: response.realName ?? '',
+        email: response.email ?? '',
+        classof: response.classof ?? '',
+        phone: response.phone ?? '',
+      };
+      setInit(initalValues);
+      setActive(response.status);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
