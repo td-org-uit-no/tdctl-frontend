@@ -5,16 +5,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .eventContainer {
-  display: inline-flex;
-  gap: 1rem;
-  width: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  box-sizing: border-box;
+  gap: 1rem;
+
+  input {
+    width: 100%;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  h5 {
+    font-size: 1rem;
+    margin: 1rem 0 1rem;
+  }
 }
 
 .imgContainer {
@@ -23,30 +35,15 @@
   justify-content: center;
   align-items: center;
   margin: 1rem;
-}
-
-.dateTimeWrapper {
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(2, 1fr);
   width: 100%;
-  justify-content: space-between;
-  align-content: space-around;
+  text-align: center;
+
+  input {
+    width: auto;
+  }
 }
 
-.date {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  grid-column: 1 / span 1;
-  width: 100%;
-}
-
-.time {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  grid-column: 2 / span 1;
+.registerheader {
   width: 100%;
 }
 
@@ -58,4 +55,28 @@ input[type='date']::-webkit-calendar-picker-indicator {
 input[type='time']::-webkit-calendar-picker-indicator {
   cursor: pointer;
   filter: invert(1);
+}
+
+.registerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  input {
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .eventContainer {
+    width: 100%;
+    input {
+      width: unset;
+    }
+    textarea {
+      width: unset;
+    }
+  }
 }
