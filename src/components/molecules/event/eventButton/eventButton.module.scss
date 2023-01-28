@@ -14,8 +14,40 @@
   gap: 1rem;
 }
 
+.cancellationWrapper {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    width: 40%;
+    margin: 4% 0 2.5% 0;
+  }
+}
+
+.cancellationMessageContainer {
+  display: flex;
+  align-self: center;
+  text-align: center;
+  width: 75%;
+  a {
+    color: #7d86d5;
+  }
+}
+
 @media screen and (max-width: 516px) {
   .formContent {
-    padding: .5rem;
+    padding: 0.5rem;
+  }
+  .cancellationWrapper {
+    p {
+      font-size: medium;
+    }
+    button {
+      width: 100%;
+      margin: 4% 0 2.5% 0;
+    }
+  }
+  .cancellationMessageContainer {
+    width: 100%;
   }
 }

@@ -32,6 +32,11 @@ const EventPage = () => {
       try {
         const res = await getEventById(id);
         setEvent(res);
+        if (res.public === false && role !== Roles.admin) {
+          // only allow admin to access unpublished events
+          setIsValid(false);
+          return;
+        }
         setIsValid(true);
       } catch (error) {
         setIsValid(false);

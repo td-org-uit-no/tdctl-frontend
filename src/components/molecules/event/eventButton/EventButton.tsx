@@ -20,6 +20,13 @@ interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
 }
 
+const valid_cancellation = (input_date: Date) => {
+  const threshold = 24;
+  const today = new Date();
+
+  return Math.abs(input_date.getHours() - today.getHours()) > threshold;
+};
+
 const AuthEventButton: React.FC<AuthButtonProps> = ({
   joined,
   id,
@@ -31,15 +38,22 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const { addToast } = useToast();
   const [showForm, setShowForm] = useState<boolean>(false);
   const [event, setEvent] = useState<Event>();
+  const [lateCancellation, setLateCancellation] = useState<boolean>(false);
   const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
   });
+
   const leaveEventAction = async () => {
     try {
+      if (!lateCancellation && !valid_cancellation(new Date(event?.date!!))) {
+        setLateCancellation(true);
+        return;
+      }
       await leaveEvent(id);
       setIsjoined(!isJoined);
+      setLateCancellation(false);
       if (onClick) {
         try {
           onClick();
@@ -68,6 +82,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
       }
     }
   };
+
   const joinEventAction = async () => {
     try {
       const res = await joinEvent(id, joinEventPayload);
@@ -125,7 +140,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const event = await getEventById(id);
+      const event = await getEventById(id, true);
       setEvent(event);
     };
     fetchEvent();
@@ -145,6 +160,28 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
           {' '}
           {buttonText}
         </Button>
+      )}
+      {lateCancellation && (
+        <Modal
+          title="Er du sikker på at vil melde deg av?"
+          minWidth={25}
+          setIsOpen={setLateCancellation}>
+          <div className={styles.cancellationWrapper}>
+            <div className={styles.cancellationMessageContainer}>
+              <p>
+                Arrangementet begynner om under 24 timer, og avmelding så nærme
+                arrangement start vil medføre en merknad. 2 eller flere
+                merknader vil gi nedsatt prioritet på andre arrangementer ut
+                semesteret. Har du gyldig grunn ta kontakt med{' '}
+                <a href="mailto:">{event?.host ?? 'post.td.uit.no'}</a>
+              </p>
+            </div>
+            <Button version="secondary" onClick={leaveEventAction}>
+              {' '}
+              Bekreft{' '}
+            </Button>
+          </div>
+        </Modal>
       )}
       {showForm && (
         <Modal maxWidth={100} title={'Påmelding'} setIsOpen={setShowForm}>
