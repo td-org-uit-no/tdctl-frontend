@@ -61,7 +61,7 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
       <div className={styles.info}>
         <TextField
           name={'password'}
-          maxWidth={40}
+          minWidth={40}
           type="password"
           label={'Passord'}
           value={fields['password']?.value ?? ''}
@@ -71,7 +71,7 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
         <br />
         <TextField
           name={'newPassword'}
-          maxWidth={40}
+          minWidth={40}
           type="password"
           label={'Nytt passord'}
           value={fields['newPassword']?.value ?? ''}
@@ -82,8 +82,7 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
         <Button
           className={styles.submitButton}
           version="secondary"
-          onClick={submit}
-          >
+          onClick={submit}>
           Submit
         </Button>
       </div>
