@@ -91,7 +91,7 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   const isMobile = useMobileScreen();
 
   const fetchEvent = async () => {
-    const event = await getEventById(id);
+    const event = await getEventById(id, true);
     setEvent(event);
   };
   const { setShouldFetch } = useFetchUpdate(fetchEvent);
@@ -156,7 +156,6 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   return (
     <div className={styles.adminContent}>
       {!isMobile ? (
-
         <div className={styles.side}>
           <SideBarItem
             onClick={() => setComponentKey('Settings')}
@@ -179,13 +178,11 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
             label="Export"
           />
         </div>
-      ) :
+      ) : (
         <div className={styles.top}>
           <DropdownMenu items={dropdownMenuProps}></DropdownMenu>
         </div>
-
-      }
-
+      )}
 
       <div className={styles.content}>
         <h4>{componentKey}</h4>
