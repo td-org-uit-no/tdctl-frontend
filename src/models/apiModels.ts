@@ -98,20 +98,6 @@ export type EventUpdate = Partial<
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
 
-export interface Comment {
-  comment: string;
-  author: string;
-  created_at: Date;
-}
-
-export interface Post {
-  id: string;
-  message: string;
-  author: string;
-  created_at: string;
-  comments: Comment[];
-}
-
 export interface JoinEventPayload {
   food?: boolean;
   transportation?: boolean;
