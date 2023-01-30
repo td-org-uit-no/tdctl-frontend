@@ -89,4 +89,5 @@ $RECYCLE.BIN/
 *.lnk
 
 .eslintcache
+.docker/caddy
 # End of https://www.toptal.com/developers/gitignore/api/macos,react,linux,windows

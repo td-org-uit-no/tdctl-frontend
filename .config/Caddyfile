@@ -2,8 +2,13 @@
     email nettside-ansvarlig@td-uit.no
 }
 
-beta.td-uit.no {
-    file_server
-    reverse_proxy /api/* api.td-uit.no
+https://beta.td-uit.no {
+    	file_server
+    
+#	reverse_proxy /api* https://api.td-uit.no {
+		#header_up X-Real-IP "129.242.219.67"
+		#header_up Host "https://api.td-uit.no"
+	#header_up X-Forwarded-Proto "https"
+    #}
 }
 

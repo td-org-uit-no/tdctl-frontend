@@ -19,11 +19,13 @@ export const get = async <T>(
   const request = new Request(baseUrl + url, {
     headers: {
       accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
     },
   });
   if (auth) {
     return authFetch<T>(request);
   }
+  console.log(request);
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
