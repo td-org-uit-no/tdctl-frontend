@@ -35,14 +35,7 @@ export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
   put<EventUpdate>('event/' + eid, eventUpdate, true);
 
 export const getUpcomingEvents = (auth: boolean): Promise<Event[]> =>
-  get<Event[]>('event/upcoming', (auth = auth));
-
-// export const getEventPosts = (eid: string): Promise<Post[]> =>
-//   get<Post[]>('event/' + eid + '/posts', true);
-// export const postToEvent = (
-//   eid: string,
-//   postText: { message: string }
-// ): Promise<{}> => post<{}>('event/' + eid + '/post', postText, true);
+  get<Event[]>('event/upcoming', auth);
 
 export const deleteParticipant = (
   eid: string,
