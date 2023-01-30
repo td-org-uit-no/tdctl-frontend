@@ -3,12 +3,6 @@
 }
 
 https://beta.td-uit.no {
-    	file_server
-    
-#	reverse_proxy /api* https://api.td-uit.no {
-		#header_up X-Real-IP "129.242.219.67"
-		#header_up Host "https://api.td-uit.no"
-	#header_up X-Forwarded-Proto "https"
-    #}
+        file_server
+        try_files {path} /index.html
 }
-

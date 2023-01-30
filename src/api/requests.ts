@@ -25,7 +25,6 @@ export const get = async <T>(
   if (auth) {
     return authFetch<T>(request);
   }
-  console.log(request);
   return fetch(request).then((res) => handleResponse<T>(res));
 };
 
