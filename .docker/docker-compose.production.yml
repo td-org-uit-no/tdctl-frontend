@@ -2,7 +2,11 @@ version: '3.5'
 services:
   frontend:
     stdin_open: true
-    image: erlingdevold/td:latest
+    networks:
+      - proxynet
+    build:
+      context: ..
+      dockerfile: .docker/dockerfile
     container_name: td_frontend_prod
     ports:
         - 80:80
@@ -10,3 +14,7 @@ services:
     volumes:
         - ./caddy/data:/data
         - ./caddy/config:/config
+  
+networks:
+  proxynet:
+    name: frontend

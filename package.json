@@ -2,6 +2,7 @@
   "name": "tdctl-frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": {"/api":{"target":"https://api.td-uit.no","changeOrigin": true}},
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -32,6 +33,7 @@
   "scripts": {
     "start": "env-cmd -f environments/.env.development react-scripts start",
     "start:local": "env-cmd -f environments/.env.local-development react-scripts start",
+    "start:production": "env-cmd -f environments/.env.production react-scripts start",
     "build": "env-cmd -f environments/.env.production react-scripts build",
     "build:development": "env-cmd -f environments/.env.development react-scripts build",
     "test": "react-scripts test",
