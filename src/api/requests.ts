@@ -19,6 +19,7 @@ export const get = async <T>(
   const request = new Request(baseUrl + url, {
     headers: {
       accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
     },
   });
   if (auth) {
