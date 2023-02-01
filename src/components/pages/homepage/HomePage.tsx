@@ -22,7 +22,7 @@ const RootPage = () => {
             animation={false}
             className={styles.wrapper}>
             {events.length ? (
-              <div style={{ maxWidth: '75vw' }}>
+              <div style={{ maxWidth: '75vw', minWidth: '60vw' }}>
                 <Carousel
                   title="Arrangementer"
                   dir={isMobile ? 'column' : 'row'}
