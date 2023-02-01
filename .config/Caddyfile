@@ -1,0 +1,8 @@
+{
+    email nettside-ansvarlig@td-uit.no
+}
+
+https://beta.td-uit.no {
+        file_server
+        try_files {path} /index.html
+}
