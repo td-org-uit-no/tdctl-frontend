@@ -3,6 +3,19 @@ services:
   frontend:
     stdin_open: true
     image: ghcr.io/td-org-uit-no/tdctl-frontend/frontend:latest
+    networks:
+      - proxynet
+    build:
+      context: ..
+      dockerfile: .docker/dockerfile
     container_name: td_frontend_prod
     ports:
         - 80:80
+        - 443:443
+    volumes:
+        - ./caddy/data:/data
+        - ./caddy/config:/config
+  
+networks:
+  proxynet:
+    name: frontend
