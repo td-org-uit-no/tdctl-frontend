@@ -10,7 +10,7 @@ const DefaultNavbar = () => {
   return (
     <Menu>
       <MenuItem label={'Login'} path={'/login'} />
-      <MenuItem label={'Bli medlem'} path={'registrer'} />
+      <MenuItem label={'Bli medlem'} path={'/registrer'} />
     </Menu>
   );
 };
