@@ -20,11 +20,11 @@ interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
 }
 
-const valid_cancellation = (input_date: Date) => {
-  const threshold = 24;
+const valid_cancellation = (start_date: Date) => {
+  const threshold = 24; // in hours
   const today = new Date();
-
-  return Math.abs(input_date.getHours() - today.getHours()) > threshold;
+  // convert diff from milliseconds to hours
+  return Math.abs(start_date.getTime() - today.getTime())/36e5 > threshold;
 };
 
 const AuthEventButton: React.FC<AuthButtonProps> = ({
