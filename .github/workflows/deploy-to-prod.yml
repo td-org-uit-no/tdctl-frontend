@@ -18,4 +18,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          scripts: ./pull-and-run-frontend.sh
+          script: ./pull-and-run-frontend.sh
