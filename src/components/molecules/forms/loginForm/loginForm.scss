@@ -1,8 +1,33 @@
-.buttonContainer{
-    width: 100%;
+.loginFormContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  button {
     display: flex;
-    button{
-        display: flex;
-        font-size: medium;
+    font-size: medium;
+  }
+}
+
+.passwordContainer {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    margin: 0.5rem 0 0rem;
+    text-decoration-color: transparent;
+    font-size: small;
+    align-self: flex-end;
+    color: #f8d2cc;
+    &:hover {
+      text-decoration-color: currentColor;
+      transition: 0.3s ease-in-out;
     }
+  }
 }
