@@ -15,6 +15,7 @@ import {
   ResetPasswordPage,
   Jobs,
   Job,
+  AboutTD,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
@@ -48,6 +49,7 @@ const App: React.FC = () => {
             path="/confirmation/:confirmationCode"
             children={<ConfirmationPage />}
           />
+          <Route path="/about-us" component={AboutTD} />
           <Route path="/" component={HomePage} />
         </Switch>
       </ToastProvider>

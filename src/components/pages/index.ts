@@ -9,6 +9,7 @@ import AdminPage from './admin/AdminPage';
 import ConfirmationPage from './confirmation/ConfirmationPage';
 import RestorePasswordPage from './restorePassword/RestorePassword';
 import ResetPasswordPage from './resetPassword/ResetPassword';
+import AboutTD from './aboutTD/AboutTD';
 
 import Jobs from './jobs/Jobs';
 import Job from './jobs/Job';
@@ -26,4 +27,5 @@ export {
   ResetPasswordPage,
   Jobs,
   Job,
+  AboutTD,
 };
