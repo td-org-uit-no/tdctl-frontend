@@ -1,0 +1,126 @@
+@import '../../../styles/colors.scss';
+
+.pageWrapper {
+  flex-direction: column;
+  width: 100vw;
+  height: 100%;
+  color: #ccc;
+}
+
+.content {
+  display: flex;
+  padding-left: 10%;
+  padding-right: 10%;
+  flex-direction: row;
+  color: #ccc;
+  gap: 5rem;
+}
+.mainContent {
+  flex-direction: column;
+  color: #ccc;
+}
+.jobsHeader {
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: #f09667;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.icon:hover {
+  color: rgba(240, 150, 103, 0.5);
+  cursor: pointer;
+}
+
+.filterWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  max-width: 500px;
+  gap: 1rem;
+}
+
+.filterTagWrapper {
+  justify-content: space-around;
+  display: flex;
+  width: 90%;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.chip {
+  display: flex;
+  color: white;
+  padding: 0.2rem;
+  border-radius: 5px;
+  font-size: 0.5rem;
+  cursor: pointer;
+}
+.filterSortWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  // width: 100%;
+}
+
+hr {
+  width: 100%;
+}
+
+.companyButton {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: rgba(240, 150, 103, 0.5);
+}
+
+.companyButton::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: rgba(240, 150, 103, 0.5);
+  transition: width 0.3s;
+}
+
+.companyButton:hover::after {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filterWrapper {
+    width: 100%;
+  }
+}
+
+.fade_in {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
