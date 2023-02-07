@@ -40,8 +40,8 @@ const TextField: React.FC<Props> = ({
       <div className={styles.inputContainer}>
         <input
           style={{
-            maxWidth: maxWidth ? maxWidth + 'ch' : '',
-            minWidth: minWidth ? minWidth + 'ch' : '',
+            maxWidth: maxWidth ? maxWidth + 'ch' : '100%',
+            minWidth: minWidth ? minWidth + 'ch' : '100%',
           }}
           className={styles.text}
           defaultValue={defaultValue}
