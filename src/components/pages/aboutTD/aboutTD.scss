@@ -1,0 +1,144 @@
+.aboutUsContainer {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+  flex-direction: column;
+  margin-top: 1rem;
+
+  img {
+    align-self: center;
+    max-height: 20vh;
+  }
+}
+.aboutSection {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+
+  h2 {
+    margin: 2rem 0 0.5rem;
+    border-bottom: 5px solid #80a2e1;
+  }
+  h4 {
+    margin: 1rem 0 1rem;
+  }
+}
+
+.textSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0% 20% 0%;
+  justify-content: center;
+  text-align: center;
+}
+
+.organization {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  ul {
+    list-style-type: none;
+  }
+
+  a {
+    color: #7d86d5;
+  }
+
+  h3 {
+    margin: 2rem 0rem 2rem;
+  }
+}
+
+.styret {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 33%;
+  flex-grow: 1;
+  padding: 0 1% 0;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border: 1px solid white;
+  word-wrap: break-word;
+  h2 {
+    border-bottom: 0;
+  }
+
+  p {
+    margin: 0.1rem 0 0.1rem;
+  }
+}
+
+.committeeWrapper {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.committee {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  box-sizing: content-box;
+  width: 30%;
+  flex-grow: 1;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  border: 1px solid white;
+  padding: 0.75rem;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1650px) {
+  .infoSection {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1400px) {
+  .post {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .infoSection {
+    width: 90%;
+  }
+  .textSection {
+    padding: 0% 5% 0%;
+  }
+
+  .committee {
+    width: 100%;
+  }
+  .post {
+    width: 100%;
+  }
+}
