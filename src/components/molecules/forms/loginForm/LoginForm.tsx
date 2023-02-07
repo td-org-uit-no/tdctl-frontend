@@ -4,8 +4,7 @@ import useForm from 'hooks/useForm';
 import { login } from 'api';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
-import { useHistory, useLocation } from 'react-router-dom';
-import { HttpError } from 'api/requests';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import './loginForm.scss';
 
 interface LocationState {
@@ -18,8 +17,8 @@ const LoginForm = () => {
   const history = useHistory();
   const location = useLocation<LocationState | null>();
 
-  const moveToRestorePwdPage = () => {
-    history.push('/restore-password');
+  const moveToRegisterPage = () => {
+    history.push('/registrer');
   };
 
   const onSubmit = async () => {
@@ -36,10 +35,14 @@ const LoginForm = () => {
       // Unauthorized
       if (error.statusCode === 401) {
         setError('E-post eller passord er feil. Prøv igjen.');
-      } else {
-        // TODO: 422 Unprocessable entity
-        setError('En ukjent feil skjedde.');
+        return;
       }
+      // invalid email as password has no validation at input
+      if (error.statusCode === 422) {
+        setError('E-posten er ikke på riktig format');
+        return;
+      }
+      setError('En ukjent feil skjedde.');
     }
   };
 
@@ -49,28 +52,29 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={onSubmitEvent}>
-      <br />
-      <TextField
-        name={'email'}
-        label={'E-post'}
-        onChange={onFieldChange}
-      />
-      <br />
-      <TextField
-        name={'password'}
-        label={'Passord'}
-        type={'password'}
-        onChange={onFieldChange}
-      />
-      {error !== '' && <p>{error}</p>}
-      <br />
-      <div className='buttonContainer'>
-        <Button version={'primary'} type="submit">
-          Logg inn
-        </Button>
-        <Button version={'secondary'} onClick={moveToRestorePwdPage} style={{margin:"0 0 0 1rem"}}>
-          Glemt passord?
-        </Button>
+      <div className="loginFormContainer">
+        <TextField name={'email'} label={'E-post'} onChange={onFieldChange} />
+        <div className="passwordContainer">
+          <TextField
+            name={'password'}
+            label={'Passord'}
+            type={'password'}
+            onChange={onFieldChange}
+          />
+          <Link to={'restore-password'}>Glemt passord?</Link>
+          {error !== '' && <p style={{ margin: 0 }}>{error}</p>}
+        </div>
+        <div className="buttonContainer">
+          <Button version={'primary'} type="submit">
+            Logg inn
+          </Button>
+          <Button
+            version={'secondary'}
+            onClick={moveToRegisterPage}
+            style={{ margin: '0 0 0 1rem' }}>
+            Bli medlem
+          </Button>
+        </div>
       </div>
     </form>
   );
