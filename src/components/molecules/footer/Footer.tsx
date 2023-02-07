@@ -41,17 +41,17 @@ const Footer: React.FC = () => {
     <div className={styles.footerContainer}>
       <div className={styles.footerWrapper}>
         <FooterList header={'Om oss'}>
+          <FooterItem label={'Om TD'} path={'/about-us'} />
           <FooterItem label={'Kontakt oss'} path={''} />
           <FooterItem label={'For nye studenter'} path={''} />
           <FooterItem label={'For nye studenter'} path={''} />
-          <FooterItem label={'Styret'} path={''} />
         </FooterList>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'For nye studener'} path={''} />
           <FooterItem label={'For bedrifter'} path={''} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
         </FooterList>
-        <FooterList header={'Kontaktinformasjon'}>
+        <FooterList header={`Kontaktinformasjon`}>
           <FooterItem header={'Leder'} label={'leder@td.uit.no'} path={''} />
           <FooterItem
             header={'Økonimiansvarlig'}
