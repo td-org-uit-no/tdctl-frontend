@@ -103,3 +103,20 @@ export interface JoinEventPayload {
   transportation?: boolean;
   dietaryRestrictions?: string;
 }
+
+export interface JobItem {
+  id: string;
+  company: string;
+  title: string;
+  type: string;
+  tags: string[];
+  description_preview: string;
+  description: string;
+  start_date: Date;
+  published_date: Date;
+  location: string;
+  link: string;
+  due_date: Date;
+}
+
+export type CreateJob = Omit<JobItem, 'id'>;
