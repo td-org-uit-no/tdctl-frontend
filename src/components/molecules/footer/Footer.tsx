@@ -36,7 +36,7 @@ const FooterItem: React.FC<FooterItemProps> = ({ label, path, header }) => {
 };
 
 // TODO add relevant paths
-const Footer:React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <div className={styles.footerContainer}>
       <div className={styles.footerWrapper}>
@@ -49,7 +49,7 @@ const Footer:React.FC = () => {
         <FooterList header={'Ressurser'}>
           <FooterItem label={'For nye studener'} path={''} />
           <FooterItem label={'For bedrifter'} path={''} />
-          <FooterItem label={'Stillingsutlysninger'} path={''} />
+          <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
         </FooterList>
         <FooterList header={'Kontaktinformasjon'}>
           <FooterItem header={'Leder'} label={'leder@td.uit.no'} path={''} />

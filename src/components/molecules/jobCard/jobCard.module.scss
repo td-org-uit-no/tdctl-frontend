@@ -1,0 +1,111 @@
+@import '../../../styles/colors.scss';
+
+.jobsHeader {
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.job_card {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(71, 77, 101, 0.1);
+  border-radius: 5px;
+  padding-top: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 1rem;
+
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+    0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
+    0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+  border: 1px solid transparent;
+}
+
+.tags_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-around;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.tags {
+  color: rgba(240, 150, 103, 1);
+  color: white;
+
+  background-color: rgba(240, 150, 103, 0.3);
+  padding: 0.15rem;
+  border-radius: 5px;
+  font-size: 0.5rem;
+}
+
+.card_headerContent {
+  display: flex;
+  margin-bottom: 0.5rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.card_header_line {
+  gap: 1rem;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.card_img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.card_title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: none;
+}
+.publish_date {
+  font-size: 0.5rem;
+  color: #444658;
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: #f09667;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.icon:hover {
+  color: rgba(240, 150, 103, 0.5);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .job_card {
+    background-color: rgb(71, 77, 101, 0.1);
+    border-radius: 5px;
+    padding-top: 0.5rem;
+  }
+  .tags_container {
+    gap: 0.1rem;
+  }
+  .card_title {
+    font-size: 0.7rem;
+  }
+  .card_header_line1 {
+    width: 70%;
+  }
+}
