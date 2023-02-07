@@ -10,6 +10,8 @@ import ConfirmationPage from './confirmation/ConfirmationPage';
 import RestorePasswordPage from './restorePassword/RestorePassword';
 import ResetPasswordPage from './resetPassword/ResetPassword';
 
+import Jobs from './jobs/Jobs';
+import Job from './jobs/Job';
 export {
   RegistrerPage,
   HomePage,
@@ -21,5 +23,7 @@ export {
   AdminPage,
   ConfirmationPage,
   RestorePasswordPage,
-  ResetPasswordPage
+  ResetPasswordPage,
+  Jobs,
+  Job,
 };
