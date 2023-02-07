@@ -2,7 +2,7 @@ import { Fields } from 'hooks/useForm';
 
 function numberValidator(value: string): boolean {
   const numbReg = /^[0-9]*$/;
-  return new RegExp(numbReg).test(value)
+  return new RegExp(numbReg).test(value);
 }
 
 export const emailValidator = (email: string) => {
@@ -26,7 +26,10 @@ export const passwordValidator = (password: string): string[] | undefined => {
     { key: /\d+/g, msg: 'Passordet må inneholde minst et tall' },
     { key: /[a-zæøå]/g, msg: 'Passordet må inneholde små bokstaver' },
     { key: /[A-ZÆØÅ]/g, msg: 'Passordet må inneholde store bokstaver' },
-    { key: /[!-/:-@[-`{-~]/g, msg: 'Passordet må inneholde minst et spesial tegn' },
+    {
+      key: /[!-/:-@[-`{-~]/g,
+      msg: 'Passordet må inneholde minst et spesial tegn',
+    },
     { key: /^.{8,}$/g, msg: 'Passordet må inneholde minst 8 bokstaver' },
   ];
 
@@ -144,4 +147,23 @@ export const emptyFieldsValidator = ({ fields, optFields }: InputFields) => {
       return !fields[key].value.length && !optFields?.includes(key);
     }).length !== 0
   );
+};
+
+// Job validators//
+export const JobDescriptionPreviewValidator = (description: string) => {
+  return description.length >= 80 ? ['Beskrivelse er for lang'] : undefined;
+};
+export const JobDescriptionValidator = (description: string) => {
+  return description.length >= 2000 ? ['Beskrivelse er for lang'] : undefined;
+};
+
+export const JobTypeValidator = (description: string) => {
+  return description.length >= 35 ? ['Typen er for lang'] : undefined;
+};
+
+export const JobLocationValidator = (description: string) => {
+  return description.length >= 50 ? ['Lokasjon er for lang'] : undefined;
+};
+export const JobTitleValidator = (title: string) => {
+  return title.length >= 50 ? ['Tittel er for lang'] : undefined;
 };
