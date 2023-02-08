@@ -3,14 +3,7 @@ import { baseUrl } from 'constants/apiConstants';
 import styles from './jobCard.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { JobItem } from 'models/apiModels';
-import TextField from 'components/atoms/textfield/Textfield';
-import { getJobs } from 'api/jobs';
 import { Link } from 'react-router-dom';
-import { AuthenticateContext, Roles } from 'contexts/authProvider';
-import JobForm from 'components/molecules/forms/jobForm/JobForm';
-import JobFilterProvider, {
-  FilterContextHook,
-} from 'contexts/filterJobProvider';
 
 const JobCard: React.FC<JobItem> = (job) => {
   const imgUrl = baseUrl + 'jobs/' + job.id + '/image';
@@ -34,17 +27,19 @@ const JobCard: React.FC<JobItem> = (job) => {
                 }}
               />
             </div>
+          </div>
+          <div className={styles.titleTextWrapper}>
             <div className={styles.card_title}>
               {job.title}
               <div className={styles.card_header_line}>@{job.company}</div>
             </div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
-              <Icon type={'clock'} size={1} color="$primary" />
-              <small>{new Date(job.due_date).toDateString()}</small>
+            <div className={styles.jobInfo}>
+              <div className={styles.dateWrapper}>
+                <Icon type={'clock'} size={1} color="$primary" />
+                <small>{new Date(job.due_date).toDateString()}</small>
+              </div>
+              <small>{job.type}</small>
             </div>
-            <small>{job.type}</small>
           </div>
         </div>
       </div>
