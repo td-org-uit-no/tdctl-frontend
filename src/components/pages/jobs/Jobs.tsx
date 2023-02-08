@@ -19,26 +19,29 @@ interface ChipProps {
 }
 const Chip: React.FC<ChipProps> = (props) => {
   const ctxHook = useContext(FilterContextHook);
-  const [active, setActive] = useState(props.active);
+  const [active, setActive] = useState<boolean>(props.active);
 
   useEffect(() => {
     setActive(!active);
   }, [props.active]);
+
+  const filterBasedOnTag = (active: boolean) => {
+    active
+      ? ctxHook?.setContext({
+          ...ctxHook?.context,
+          tags: [...ctxHook?.context.tags, props.label],
+        })
+      : ctxHook?.setContext({
+          ...ctxHook?.context,
+          tags: ctxHook?.context.tags.filter((tag) => tag !== props.label),
+        });
+    setActive(!active);
+  };
+
   return (
     <div
       className={styles.chip}
-      onClick={() => {
-        active
-          ? ctxHook?.setContext({
-              ...ctxHook?.context,
-              tags: [...ctxHook?.context.tags, props.label],
-            })
-          : ctxHook?.setContext({
-              ...ctxHook?.context,
-              tags: ctxHook?.context.tags.filter((tag) => tag !== props.label),
-            });
-        setActive(!active);
-      }}
+      onClick={() => filterBasedOnTag(active)}
       style={{
         backgroundColor: active ? 'rgba(240, 150, 103, 0.3)' : '#f09667',
       }}>
@@ -88,7 +91,7 @@ const FilterJobs: React.FC = () => {
         onMouseLeave={() => {
           setHoverSort(false);
         }}
-        onClick={(e) => {
+        onClick={() => {
           ctxHook?.setContext({
             ...ctxHook.context,
             sort_date: !ctxHook.context.sort_date,
@@ -130,7 +133,7 @@ const FilterJobs: React.FC = () => {
             }}>
             Har din organisasjon -eller bedrift lyst til å dele ledige
             stillinger, sommerjobber eller liknende hos oss i Tromsøstudentenes
-            Dataforening? Send en epost til
+            Dataforening? Send en e-post til
             <a
               href="mailto:bedriftskommunikasjon@td-uit.no"
               style={{
@@ -140,13 +143,14 @@ const FilterJobs: React.FC = () => {
               {' '}
               bedriftskommunikasjon@td-uit.no{' '}
             </a>
-            for å få mer informasjon om dette!
+            for å få mer informasjon!
           </p>
         </div>
       )}
     </div>
   );
 };
+
 const _Jobs: React.FC = () => {
   const [formOpen, setFormOpen] = useState(false);
   const { role } = useContext(AuthenticateContext);
@@ -154,7 +158,13 @@ const _Jobs: React.FC = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const _jobs: JobItem[] = await getJobs();
+      let _jobs: JobItem[] = [];
+      try {
+        _jobs = await getJobs();
+      } catch (error) {
+        // no need to display error as the array will be empty and the component displays "no job listings" message
+        return;
+      }
 
       setContext({ ...context, allJobs: _jobs, sortedJobs: _jobs });
     };
@@ -163,26 +173,30 @@ const _Jobs: React.FC = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.jobsHeader}>
-        <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
-        {role === Roles.admin && (
-          <Icon
-            type={formOpen ? 'minus' : 'plus'}
-            size={2}
-            color={'rgba(240, 150, 103, 0.3)'}
-            onClick={() => setFormOpen(!formOpen)}></Icon>
-        )}
-      </div>
+      <div className={styles.jobsWrapper}>
+        <div className={styles.jobsHeader}>
+          <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
+          {role === Roles.admin && (
+            <Icon
+              type={formOpen ? 'minus' : 'plus'}
+              size={2}
+              color={'rgba(240, 150, 103, 0.3)'}
+              onClick={() => setFormOpen(!formOpen)}></Icon>
+          )}
+        </div>
 
-      <div className={styles.content}>
-        <FilterJobs />
+        <div className={styles.content}>
+          <FilterJobs />
 
-        <div className={styles.mainContent}>
-          {formOpen ? <JobForm></JobForm> : null}
-          {context.allJobs?.length === 0 && <h5>Ingen utlysninger</h5>}
-          {context.sortedJobs?.map((job, key) => {
-            return <JobCard {...job} key={key} />;
-          })}
+          <div className={styles.mainContent}>
+            {formOpen ? <JobForm></JobForm> : null}
+            {context.allJobs?.length === 0 && (
+              <h5>Ingen stillingsutlysninger</h5>
+            )}
+            {context.sortedJobs?.map((job, key) => {
+              return <JobCard {...job} key={key} />;
+            })}
+          </div>
         </div>
       </div>
     </div>
