@@ -1,16 +1,17 @@
 @import '../../../styles/colors.scss';
 
 .pageWrapper {
+  display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100%;
   color: #ccc;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
   display: flex;
-  padding-left: 10%;
-  padding-right: 10%;
   flex-direction: row;
   color: #ccc;
   gap: 5rem;
@@ -19,15 +20,21 @@
   flex-direction: column;
   color: #ccc;
 }
+
+.jobsWrapper {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .jobsHeader {
-  padding-left: 10%;
-  padding-right: 10%;
   margin-top: 5rem;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .icon {
@@ -55,7 +62,7 @@
 }
 
 .filterTagWrapper {
-  justify-content: space-around;
+  justify-content: flex-start;
   display: flex;
   width: 90%;
   flex-wrap: wrap;
@@ -74,7 +81,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  // width: 100%;
 }
 
 hr {
@@ -100,7 +106,7 @@ hr {
   width: 100%;
 }
 
-@media screen and (max-width: 768px) {
+@mixin smallerDevices {
   .content {
     display: flex;
     flex-direction: column;
@@ -123,4 +129,17 @@ hr {
   100% {
     opacity: 1;
   }
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1001px) {
+  .jobsWrapper {
+    width: 95%;
+    align-items: center;
+  }
+  @include smallerDevices;
+}
+
+@media screen and (max-width: 768px) {
+  @include smallerDevices;
 }
