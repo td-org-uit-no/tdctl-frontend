@@ -11,6 +11,7 @@ import JobFilterProvider, {
   FilterContextHook,
 } from 'contexts/filterJobProvider';
 import JobCard from 'components/molecules/jobCard/JobCard';
+import useTitle from 'hooks/useTitle';
 
 interface ChipProps {
   label: string;
@@ -204,6 +205,7 @@ const _Jobs: React.FC = () => {
 };
 
 const Jobs: React.FC = () => {
+  useTitle('Stillingsutlysninger');
   return (
     <JobFilterProvider>
       <_Jobs />
