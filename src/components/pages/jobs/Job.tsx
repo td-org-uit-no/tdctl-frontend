@@ -11,6 +11,7 @@ import { useMobileScreen } from 'hooks/useMobileScreen';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
 import Button from 'components/atoms/button/Button';
+import useTitle from 'hooks/useTitle';
 
 interface IValidJob {
   jobData: JobItem | undefined;
@@ -29,6 +30,7 @@ const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
 };
 
 const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
+  useTitle(`${jobData.title}`);
   const isMobile = useMobileScreen();
   const { addToast } = useToast();
   const { id } = useParams<{ id: string }>();
