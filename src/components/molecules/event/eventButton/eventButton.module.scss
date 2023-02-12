@@ -34,6 +34,36 @@
   }
 }
 
+.allergyTextFieldContainer {
+  animation: containerSlideDown 0.11s;
+}
+
+.allergyTextFieldAnim {
+  animation: slideDown 0.5s;
+}
+
+@keyframes containerSlideDown {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: auto;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 516px) {
   .formContent {
     padding: 0.5rem;
