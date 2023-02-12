@@ -24,7 +24,7 @@ const valid_cancellation = (start_date: Date) => {
   const threshold = 24; // in hours
   const today = new Date();
   // convert diff from milliseconds to hours
-  return Math.abs(start_date.getTime() - today.getTime())/36e5 > threshold;
+  return Math.abs(start_date.getTime() - today.getTime()) / 36e5 > threshold;
 };
 
 const AuthEventButton: React.FC<AuthButtonProps> = ({
@@ -39,11 +39,18 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const [showForm, setShowForm] = useState<boolean>(false);
   const [event, setEvent] = useState<Event>();
   const [lateCancellation, setLateCancellation] = useState<boolean>(false);
+  const [showAllergies, setShowAllergies] = useState<boolean>(false);
   const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
   });
+
+  useEffect(() => {
+    if (!showForm) {
+      setShowAllergies(false);
+    }
+  }, [showForm]);
 
   const leaveEventAction = async () => {
     try {
@@ -197,14 +204,33 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                         food: !joinEventPayload.food,
                       })
                     }></ToggleButton>
-                  <TextField
-                    label={'Allergier'}
-                    onChange={(e) => {
-                      setJoinEventPayload({
-                        ...joinEventPayload,
-                        dietaryRestrictions: e.target.value,
-                      });
-                    }}></TextField>
+                  <ToggleButton
+                    label={'Har du en allergi/matpreferanse?'}
+                    onChange={() => {
+                      if (showAllergies) {
+                        setJoinEventPayload({
+                          ...joinEventPayload,
+                          dietaryRestrictions: '',
+                        });
+                        setShowAllergies(false);
+                      } else {
+                        setShowAllergies(true);
+                      }
+                    }}></ToggleButton>
+                  {showAllergies && (
+                    <div className={styles.allergyTextFieldContainer}>
+                      <div className={styles.allergyTextFieldAnim}>
+                        <TextField
+                          label={'Allergier, vegetar, vegansk...'}
+                          onChange={(e) => {
+                            setJoinEventPayload({
+                              ...joinEventPayload,
+                              dietaryRestrictions: e.target.value,
+                            });
+                          }}></TextField>
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
               {event?.transportation && (
