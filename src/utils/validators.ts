@@ -42,12 +42,13 @@ export const passwordValidator = (password: string): string[] | undefined => {
   return errors.length > 0 ? errors : undefined;
 };
 
+// allows field to be undefined i.e optional validator
 export const maxParticipantsValidator = (
   maxParticipants: string | undefined
 ): string[] | undefined => {
   if (maxParticipants !== undefined) {
     if (parseInt(maxParticipants) < 0) {
-      return ['max antall kan ikke være negativt'];
+      return ['Maks antall kan ikke være negativt'];
     }
   }
   return undefined;
@@ -133,7 +134,9 @@ export const timeValidator = (time: string) => {
 
 // description length constraint
 export const descriptionValidator = (description: string) => {
-  return description.length >= 1000 ? ['Beskrivelse er for lang'] : undefined;
+  return description.length
+    ? undefined
+    : ['Arrangement beskrivelse må fylles ut'];
 };
 
 interface InputFields {
@@ -141,6 +144,8 @@ interface InputFields {
   optFields?: string[];
 }
 
+// validates if fields all required fields are filled
+// optFields array of keys which are allowed to be empty
 export const emptyFieldsValidator = ({ fields, optFields }: InputFields) => {
   return (
     Object.keys(fields).filter((key) => {
