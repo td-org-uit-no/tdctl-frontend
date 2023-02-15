@@ -29,13 +29,14 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const timeDate = new Date(event.date);
-  const [toggleActive, setToggleActive] = useState<boolean>(
+  const [togglePublic, setTogglePublic] = useState<boolean>(
     event.public ?? false
   );
   const [toggleFood, setToggleFood] = useState<boolean>(event.food ?? false);
   const [toggleTransportation, setToggleTransportation] = useState<boolean>(
     event.transportation ?? false
   );
+
   const initalValue = {
     title: event.title,
     description: event.description,
@@ -43,20 +44,19 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     time: timeDate.getHours() + ':' + timeDate.getMinutes(), //sets [HH:MM] and not [HH:MM:SS]
     address: event.address,
     price: event.price.toString(),
-    // juggling-check, checks for both null and undefined
-    ...(event?.maxParticipants != null && {
-      maxParticipants: event?.maxParticipants.toString() ?? '',
-    }),
+    // maxParticipants is set to "" when event does not have maxParticipants
+    // since "" is the init value for fields["maxParticipants"]
+    maxParticipants: event.maxParticipants?.toString() ?? '',
   };
 
   const validators = {
     title: titleValidator,
     description: descriptionValidator,
     date: dateValidator,
+    time: timeValidator,
     address: addressValidator,
     maxParticipants: maxParticipantsValidator,
     price: priceValidator,
-    time: timeValidator,
   };
 
   const submit = async () => {
@@ -71,8 +71,8 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       ...(fields['description']?.value !== event.description && {
         description: fields['description']?.value,
       }),
-      ...(fields['date']?.value + ' ' + fields['time']?.value !==
-        event.date && {
+      ...(fields['date']?.value + 'T' + fields['time']?.value !==
+        initalValue.date + 'T' + initalValue.time && {
         date: fields['date']?.value + ' ' + fields['time']?.value,
       }),
       ...(fields['address']?.value !== event.address && {
@@ -81,14 +81,24 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       ...(fields['price']?.value !== event.price.toString() && {
         price: Number(fields['price']?.value),
       }),
-      ...(fields['maxParticipants']?.value !==
-        event?.maxParticipants?.toString() && {
-        maxParticipants: fields['maxParticipants']?.value,
+      // values to be removed must be sat ti null and not undefined as api sees null as a field which should be removed
+      ...(fields['maxParticipants']?.value !== initalValue.maxParticipants && {
+        maxParticipants:
+          fields['maxParticipants'].value === ''
+            ? null
+            : Number(fields['maxParticipants']?.value),
       }),
-      food: toggleFood,
-      transportation: toggleTransportation,
-      public: toggleActive,
+      ...(toggleFood !== event.food && {
+        food: toggleFood,
+      }),
+      ...(toggleTransportation !== event.transportation && {
+        transportation: toggleTransportation,
+      }),
+      ...(togglePublic !== event.public && {
+        public: togglePublic,
+      }),
     } as Event;
+
     if (!Object.keys(updatePayload).length) {
       setError('Minst et felt må endres');
       return;
@@ -136,8 +146,6 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
           <div className={styles.infoContainer}>
             <div className={styles.infoWrapper}>
               <div className={styles.infoSection}>
-                <EventButton id={event.eid} />
-
                 <TextField
                   name={'address'}
                   maxWidth={60}
@@ -205,9 +213,9 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     }
                     label={'Transportation'}></ToggleButton>
                   <ToggleButton
-                    initValue={toggleActive}
-                    onChange={() => setToggleActive(!toggleActive)}
-                    label={toggleActive ? 'Active' : 'Inactive'}></ToggleButton>
+                    initValue={togglePublic}
+                    onChange={() => setTogglePublic(!togglePublic)}
+                    label={togglePublic ? 'Public' : 'Private'}></ToggleButton>
                 </div>
               </div>
             </div>
@@ -220,7 +228,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
           version="primary"
           onClick={setEdit}
           className={styles.adminButtons}>
-          Ferdig
+          Forkast endringer
         </Button>
         <Button
           version="secondary"
