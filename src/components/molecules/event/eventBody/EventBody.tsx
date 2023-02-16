@@ -205,17 +205,19 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   <ToggleButton
                     initValue={toggleFood}
                     onChange={() => setToggleFood(!toggleFood)}
-                    label={'Food'}></ToggleButton>
+                    label={'Matservering'}></ToggleButton>
                   <ToggleButton
                     initValue={toggleTransportation}
                     onChange={() =>
                       setToggleTransportation(!toggleTransportation)
                     }
-                    label={'Transportation'}></ToggleButton>
+                    label={'Transport'}></ToggleButton>
                   <ToggleButton
                     initValue={togglePublic}
                     onChange={() => setTogglePublic(!togglePublic)}
-                    label={togglePublic ? 'Public' : 'Private'}></ToggleButton>
+                    label={
+                      togglePublic ? 'Offentlig' : 'Privat'
+                    }></ToggleButton>
                 </div>
               </div>
             </div>
