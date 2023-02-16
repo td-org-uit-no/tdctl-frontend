@@ -35,6 +35,8 @@ const EventForm = () => {
     price: priceValidator,
     maxParticipants: maxParticipantsValidator,
   };
+  // allows maxParticipants to be empty
+  const optionalKeys = ['maxParticipants'];
 
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
@@ -45,6 +47,7 @@ const EventForm = () => {
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
       fields: fields,
+      optFields: optionalKeys,
     });
 
     emptyFields ? setError('Alle feltene må fylles ut') : setError(undefined);
