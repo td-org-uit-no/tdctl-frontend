@@ -25,6 +25,9 @@ const EventForm = () => {
   const history = useHistory();
   const [food, setFood] = useState<boolean>(false);
   const [transportation, setTransportation] = useState<boolean>(false);
+  const [publicEvent, setPublicEvent] = useState<boolean>(false);
+  const [bindingRegistration, setBindingRegistration] =
+    useState<boolean>(false);
 
   const validators = {
     title: titleValidator,
@@ -72,8 +75,8 @@ const EventForm = () => {
         price: price,
         food: food,
         transportation: transportation,
-        public: true,
-        bindingRegistration: true,
+        public: publicEvent,
+        bindingRegistration: bindingRegistration,
         registrationOpeningDate: regDate,
       });
       // TODO handle image upload errors separately
@@ -155,7 +158,7 @@ const EventForm = () => {
         />
         <TextField
           name={'maxParticipants'}
-          label={'Maks antall deltagere'}
+          label={'Maks antall deltagere (valgfritt)'}
           type={'number'}
           minWidth={40}
           onChange={onFieldChange}
@@ -181,13 +184,7 @@ const EventForm = () => {
             />
           </div>
         </DropdownHeader>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            flexDirection: 'column',
-            width: '100%',
-          }}>
+        <div className={styles.toggleContainer}>
           <ToggleButton
             onChange={() => {
               setFood(!food);
@@ -200,6 +197,18 @@ const EventForm = () => {
             }}
             label={'Mulighet for transport'}
             initValue={transportation}></ToggleButton>
+          <ToggleButton
+            onChange={() => {
+              setPublicEvent(!publicEvent);
+            }}
+            label={'Skal arrangementet være synlig for vanlige brukere'}
+            initValue={publicEvent}></ToggleButton>
+          <ToggleButton
+            onChange={() => {
+              setBindingRegistration(!bindingRegistration);
+            }}
+            label={'Bindende påmelding'}
+            initValue={bindingRegistration}></ToggleButton>
         </div>
         <div className={styles.imgContainer}>
           <label>Last opp bilde til arrangementet </label>
