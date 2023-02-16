@@ -6,12 +6,21 @@
 
 .eventContainer {
   display: flex;
+  width: 100%;
+  max-width: 40vw;
   flex-direction: column;
-  width: 75%;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-bottom: 1.5rem;
   h3 {
     margin: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .eventContainer {
+    max-width: unset;
+    width: 90%;
   }
 }
