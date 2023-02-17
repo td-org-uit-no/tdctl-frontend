@@ -44,21 +44,19 @@ const Footer: React.FC = () => {
           <FooterItem label={'Om TD'} path={'/about-us'} />
           <FooterItem label={'Kontakt oss'} path={''} />
           <FooterItem label={'For nye studenter'} path={''} />
-          <FooterItem label={'For nye studenter'} path={''} />
         </FooterList>
         <FooterList header={'Ressurser'}>
-          <FooterItem label={'For nye studener'} path={''} />
           <FooterItem label={'For bedrifter'} path={''} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
         </FooterList>
         <FooterList header={`Kontaktinformasjon`}>
-          <FooterItem header={'Leder'} label={'leder@td.uit.no'} path={''} />
+          <FooterItem header={'Leder'} label={'leder@td-uit.no'} path={''} />
           <FooterItem
             header={'Økonimiansvarlig'}
-            label={'okonomi@td.uit.no'}
+            label={'okonomi@td-uit.no'}
             path={''}
           />
-          <FooterItem header={'Post'} label={'Post@td.uit.no'} path={''} />
+          <FooterItem header={'Post'} label={'Post@td-uit.no'} path={''} />
         </FooterList>
       </div>
       <FooterLogos />
