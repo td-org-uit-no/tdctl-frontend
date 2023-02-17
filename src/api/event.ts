@@ -34,6 +34,8 @@ export const getJoinedParticipants = (eid: string): Promise<Participant[]> =>
 export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
   put<EventUpdate>('event/' + eid, eventUpdate, true);
 
+export const deleteEvent = (eid: string) => Delete<{}>('event/' + eid, true);
+
 export const getUpcomingEvents = (auth: boolean): Promise<Event[]> =>
   get<Event[]>('event/upcoming', auth);
 
