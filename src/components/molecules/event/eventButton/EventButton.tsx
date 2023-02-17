@@ -38,6 +38,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const { addToast } = useToast();
   const [showForm, setShowForm] = useState<boolean>(false);
   const [event, setEvent] = useState<Event>();
+  const [cancellation, setCancellation] = useState<boolean>(false);
   const [lateCancellation, setLateCancellation] = useState<boolean>(false);
   const [showAllergies, setShowAllergies] = useState<boolean>(false);
   const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
@@ -54,12 +55,16 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const leaveEventAction = async () => {
     try {
-      if (!lateCancellation && !valid_cancellation(new Date(event?.date!!))) {
-        setLateCancellation(true);
+      if (!cancellation) {
+        setCancellation(true);
+        if (!lateCancellation && !valid_cancellation(new Date(event?.date!!))) {
+          setLateCancellation(true);
+        }
         return;
       }
       await leaveEvent(id);
       setIsjoined(!isJoined);
+      setCancellation(false);
       setLateCancellation(false);
       if (onClick) {
         try {
@@ -168,20 +173,26 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
           {buttonText}
         </Button>
       )}
-      {lateCancellation && (
+      {cancellation && (
         <Modal
-          title="Er du sikker på at vil melde deg av?"
+          title="Er du sikker på at du vil melde deg av?"
           minWidth={25}
-          setIsOpen={setLateCancellation}>
+          setIsOpen={setCancellation}>
           <div className={styles.cancellationWrapper}>
             <div className={styles.cancellationMessageContainer}>
-              <p>
-                Arrangementet begynner om under 24 timer, og avmelding så nærme
-                arrangement start vil medføre en merknad. 2 eller flere
-                merknader vil gi nedsatt prioritet på andre arrangementer ut
-                semesteret. Har du gyldig grunn ta kontakt med{' '}
-                <a href="mailto:">{event?.host ?? 'post.td.uit.no'}</a>
-              </p>
+              {lateCancellation ? (
+                <p>
+                  Arrangementet begynner om under 24 timer, og avmelding så nær
+                  arrangementstart vil medføre en merknad. 2 eller flere
+                  merknader vil gi nedsatt prioritet på andre arrangementer ut
+                  semesteret. Har du gyldig grunn, ta kontakt med{' '}
+                  <a href="mailto:bedriftskommunikasjon@td-uit.no">
+                    bedriftskommunikasjon@td-uit.no
+                  </a>
+                </p>
+              ) : (
+                <p>Hvis du melder deg av vil du miste plassen din i køen!</p>
+              )}
             </div>
             <Button version="secondary" onClick={leaveEventAction}>
               {' '}
