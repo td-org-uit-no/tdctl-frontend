@@ -16,6 +16,10 @@ const Modal: React.FC<Props> = ({
   setIsOpen,
   children,
 }) => {
+  // close on esc press
+  const escPress = () => {
+    setIsOpen(false);
+  };
   // prevents user from scrolling while modal is open
   useEffect(() => {
     const winX = window.scrollX;
@@ -24,7 +28,12 @@ const Modal: React.FC<Props> = ({
       window.scrollTo(winX, winY);
     }
     window.addEventListener('scroll', setScroll);
-    return () => window.removeEventListener('scroll', setScroll);
+    window.addEventListener('keydown', escPress);
+
+    return () => {
+      window.removeEventListener('scroll', setScroll);
+      window.removeEventListener('escPress', escPress);
+    };
   }, []);
   return (
     <>
