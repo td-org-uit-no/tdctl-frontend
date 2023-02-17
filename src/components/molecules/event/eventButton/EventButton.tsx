@@ -182,13 +182,19 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
             <div className={styles.cancellationMessageContainer}>
               {lateCancellation ? (
                 <p>
-                  Arrangementet begynner om under 24 timer, og avmelding så nær
-                  arrangementstart vil medføre en merknad. 2 eller flere
-                  merknader vil gi nedsatt prioritet på andre arrangementer ut
-                  semesteret. Har du gyldig grunn, ta kontakt med{' '}
-                  <a href="mailto:bedriftskommunikasjon@td-uit.no">
-                    bedriftskommunikasjon@td-uit.no
-                  </a>
+                  Arrangementet begynner om under 24 timer, og avmelding så
+                  nærme arrangement start vil medføre{' '}
+                  <u
+                    style={{
+                      textDecorationColor: '#b73653',
+                      textDecorationThickness: '.2rem',
+                    }}>
+                    {' '}
+                    en merknad hvis du har mottat bekreftelse om plass
+                  </u>
+                  . To eller flere merknader vil gi nedsatt prioritet på andre
+                  arrangementer ut semesteret. Har du gyldig grunn ta kontakt
+                  med <a href="mailto:">{event?.host ?? 'post.td.uit.no'}</a>
                 </p>
               ) : (
                 <p>Hvis du melder deg av vil du miste plassen din i køen!</p>
