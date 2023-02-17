@@ -14,25 +14,26 @@ const useUpcomingEvents = () => {
     return Number(new Date(a.date)) - Number(new Date(b.date));
   };
 
+  const fetchEvents = async () => {
+    try {
+      setIsFetching(true);
+      // pass if the user is authenticated into function to get the correct return value for api
+      const eventData = await getUpcomingEvents(authenticated);
+      const sorted = [...eventData].sort(sortByDate);
+      setEvents(sorted);
+      setIsFetching(false);
+    } catch (error) {
+      setError(error.statusCode);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setIsFetching(true);
-        // pass if the user is authenticated into function to get the correct return value for api
-        const eventData = await getUpcomingEvents(authenticated);
-        const sorted = [...eventData].sort(sortByDate);
-        setEvents(sorted);
-        setIsFetching(false);
-      } catch (error) {
-        setError(error.statusCode);
-      } finally {
-        setIsFetching(false);
-      }
-    };
     fetchEvents();
   }, [authenticated]);
 
-  return { isFetching, events, setEvents, error };
+  return { isFetching, events, setEvents, error, fetchEvents };
 };
 
 export default useUpcomingEvents;
