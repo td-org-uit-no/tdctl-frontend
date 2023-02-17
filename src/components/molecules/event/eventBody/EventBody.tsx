@@ -301,7 +301,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       <div className={styles.description}>
         <div className={styles.descriptionContainer}>
           <div>
-            <p style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+            <p style={{ textAlign: 'left', verticalAlign: 'middle' }}>
               {event.description}
             </p>
           </div>
