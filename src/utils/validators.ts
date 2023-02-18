@@ -66,6 +66,13 @@ export const nameValidator = (name: string): string[] | undefined => {
   return undefined;
 };
 
+export const lastNameValidator = (name: string): string[] | undefined => {
+  if (name.length === 0) {
+    return ['Etternavn er påkrevd'];
+  }
+  return nameValidator(name);
+};
+
 export const titleValidator = (name: string): string[] | undefined => {
   const nameReg = /^[a-zæøåA-ZÆØÅ ]+$/; //! note the last space
 
@@ -83,20 +90,17 @@ export const notRequiredNameValidator = (name: string): string[] | undefined =>
 
 export const classOfValidator = (year: string): string[] | undefined => {
   if (!numberValidator(year)) {
-    return ['Årskull kan kun inneholde tall'];
+    return ['Studiestart kan kun inneholde tall'];
   }
   if (year.length !== 4) {
-    return ['Årskull må være på formen: YYYY'];
+    return ['Studiestart må være på formen: YYYY'];
   }
-  /* Reactivate when backend has a proper validation
-  if (year.length > 4) {
-    return ['Årskull: YYYY'];
-  }
+
   const currentYear = new Date().getFullYear();
   if (Number(year) > currentYear || Number(year) < 1968) {
-    return ['Ikke godkjent årskull'];
+    return ['Ikke godkjent årstall'];
   }
-  */
+
   return undefined;
 };
 
