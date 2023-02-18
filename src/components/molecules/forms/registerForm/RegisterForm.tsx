@@ -5,6 +5,7 @@ import { AuthenticateContext } from 'contexts/authProvider';
 import { login, registerMember } from 'api';
 import {
   nameValidator,
+  lastNameValidator,
   emailValidator,
   passwordValidator,
   classOfValidator,
@@ -28,6 +29,7 @@ const RegisterForm = () => {
   const optionalKeys = ['phone'];
   const validators = {
     name: nameValidator,
+    lastname: lastNameValidator,
     email: emailValidator,
     password: passwordValidator,
     classof: classOfValidator,
@@ -48,7 +50,7 @@ const RegisterForm = () => {
     }
     try {
       const validationCode = await registerMember({
-        realName: fields['name'].value,
+        realName: fields['name'].value + ' ' + fields['lastname'].value,
         email: fields['email'].value,
         password: fields['password'].value,
         classof: fields['classof'].value,
@@ -108,9 +110,16 @@ const RegisterForm = () => {
         <TextField
           name={'name'}
           minWidth={40}
-          label={'Navn'}
+          label={'Fornavn'}
           onChange={onFieldChange}
           error={fields['name'].error}
+        />
+        <TextField
+          name={'lastname'}
+          minWidth={40}
+          label={'Etternavn'}
+          onChange={onFieldChange}
+          error={fields['lastname'].error}
         />
         <TextField
           name={'email'}
@@ -128,12 +137,12 @@ const RegisterForm = () => {
           onChange={onFieldChange}
           error={fields['password'].error}
         />
-        { /* type = text as firefox for some reason does not support type=number so the validators must handle the number validations */ }
+        {/* type = text as firefox for some reason does not support type=number so the validators must handle the number validations */}
         <TextField
           name={'classof'}
           type="text"
           minWidth={40}
-          label={'Årskull'}
+          label={'Studiestart'}
           onChange={onFieldChange}
           error={fields['classof'].error}
         />
