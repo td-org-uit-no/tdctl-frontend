@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
 import Button from 'components/atoms/button/Button';
 import useTitle from 'hooks/useTitle';
+import useModal from 'hooks/useModal';
 
 interface IValidJob {
   jobData: JobItem | undefined;
@@ -36,8 +37,10 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
   const { id } = useParams<{ id: string }>();
   const { role } = useContext(AuthenticateContext);
   const history = useHistory();
-  const [showModal, setShowModal] = React.useState<boolean>(false);
   const imgUrl = baseUrl + 'jobs/' + jobData?.id + '/image';
+
+  const { isOpen, onOpen, onClose } = useModal();
+
   return (
     <div>
       <div className={'pageWrapper'}>
@@ -109,9 +112,7 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                 </div>
               </a>
               {role === Roles.admin && (
-                <div
-                  className={'applyButton'}
-                  onClick={() => setShowModal(!showModal)}>
+                <div className={'applyButton'} onClick={onOpen}>
                   Slett
                   <Icon type={'trash'} size={1.2} color={'#f09667'}></Icon>
                 </div>
@@ -135,33 +136,30 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
           </div>
         </div>
       </div>
-      {showModal && (
-        <Modal
-          title={'Delete ' + String(jobData?.title)}
-          setIsOpen={setShowModal}>
-          <div className={'deleteModal'}>
-            <h5>Er du sikker på at du vil slette utlysningen?</h5>
-            <Button
-              version="primary"
-              onClick={() => {
-                deleteJob(id);
-                history.goBack();
-                addToast({
-                  title: 'Job: ' + jobData?.id + ' deleted',
-                  status: 'success',
-                });
-              }}>
-              Slett
-            </Button>
+      <Modal
+        title={'Delete ' + String(jobData?.title)}
+        isOpen={isOpen}
+        onClose={onClose}>
+        <div className={'deleteModal'}>
+          <h5>Er du sikker på at du vil slette utlysningen?</h5>
+          <Button
+            version="primary"
+            onClick={() => {
+              deleteJob(id);
+              history.goBack();
+              addToast({
+                title: 'Job: ' + jobData?.id + ' deleted',
+                status: 'success',
+              });
+            }}>
+            Slett
+          </Button>
 
-            <p
-              onClick={() => setShowModal(false)}
-              style={{ cursor: 'pointer' }}>
-              Tilbake
-            </p>
-          </div>
-        </Modal>
-      )}
+          <p onClick={onClose} style={{ cursor: 'pointer' }}>
+            Tilbake
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 };

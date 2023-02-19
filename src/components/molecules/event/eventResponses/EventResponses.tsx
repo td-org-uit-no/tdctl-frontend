@@ -9,24 +9,25 @@ import Icon from 'components/atoms/icons/icon';
 import TextField from 'components/atoms/textfield/Textfield';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import Button from 'components/atoms/button/Button';
-import useConfirmation from 'hooks/useConfirmation';
-import ConformationBox from 'components/molecules/confirmationBox/ConfirmationBox';
+import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
+import useModal from 'hooks/useModal';
 
-
-
-
-const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatch<React.SetStateAction<boolean>> }> = ({
-  event,
-  setFetchUpdateHook,
-}) => {
+const EventResponses: React.FC<{
+  event: Event;
+  setFetchUpdateHook: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ event, setFetchUpdateHook }) => {
   const { addToast } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
-  const [deleteModal, setOpenDeleteModal] = useState(false);
   const [selectedParticipant, setSelected] = useState<
     Participant | undefined
   >();
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: isOpenDeleteModal,
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
+  } = useModal();
 
   const openDeleteColumn = (email: string) => {
     const selected = participants?.find((mem) => {
@@ -34,16 +35,11 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
     });
 
     setSelected(selected);
-    setOpenDeleteModal(true);
+    openDeleteModal();
   };
 
   const adminDeleteMember = async () => {
     try {
-      setOpenDeleteModal(true);
-      if (confirmed === false) {
-        setOpenDeleteModal(false);
-        return;
-      }
       if (!selectedParticipant) {
         return;
       }
@@ -76,10 +72,8 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
           });
       }
     }
-    setOpenDeleteModal(false);
+    closeDeleteModal();
   };
-
-  const { confirmed, setConfirmed } = useConfirmation(adminDeleteMember);
 
   const columns: ColumnDefinitionType<Participant, keyof Participant>[] = [
     {
@@ -114,7 +108,8 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
       cell: (cellValues) => {
         const { food, dietaryRestrictions } = cellValues;
         return (
-          <>
+          // open on edit modal when API feature is created
+          <div>
             {food === true ? (
               <Icon type="hamburger" color="limegreen"></Icon>
             ) : (
@@ -123,7 +118,7 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
             {dietaryRestrictions !== '' && food === true && (
               <Icon type="allergies" color="#fdd835 "></Icon>
             )}
-          </>
+          </div>
         );
       },
       header: 'Food',
@@ -169,7 +164,7 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
     }
   }, [event]);
 
-  return (  
+  return (
     <div className={styles.contentWrapper}>
       {participants ? (
         <Table columns={columns} data={participants}></Table>
@@ -177,37 +172,36 @@ const EventResponses: React.FC<{ event: Event; setFetchUpdateHook: React.Dispatc
         <h3>No Participants yet</h3>
       )}
 
-      {deleteModal && (
-        <Modal
-          title={`Remove ${selectedParticipant?.realName ?? ''}?`}
-          setIsOpen={setOpenDeleteModal}
-          minWidth={45}>
-          <ConformationBox
-            onAccept={() => {
-              setConfirmed(true);
-            }}
-            onDecline={() => setConfirmed(false)}></ConformationBox>
-        </Modal>
-      )}
-
-      {isOpen && (
+      {/* WAIT for API to support updating event participants */}
+      <Modal
+        minWidth={45}
+        title="Endre deltager"
+        isOpen={isOpen}
+        onClose={onClose}>
         <form>
-          <Modal minWidth={45} title="Endre deltager" setIsOpen={setIsOpen}>
+          <div>
+            <h5>Event</h5>
+            <h5>Name</h5>
             <div>
-              <h5>Event</h5>
-              <h5>Name</h5>
-              <div>
-                <ToggleButton
-                  label="Cuisine"
-                  onChange={toggleCuisine}></ToggleButton>
-              </div>
-              <br />
-              <TextField label="Allergies"></TextField>
-              <Button version="primary">Update</Button>
+              <ToggleButton
+                label="Cuisine"
+                onChange={toggleCuisine}></ToggleButton>
             </div>
-          </Modal>
+            <br />
+            <TextField label="Allergies"></TextField>
+            <Button version="primary">Update</Button>
+          </div>
         </form>
-      )}
+      </Modal>
+      <Modal
+        title={`Remove ${selectedParticipant?.realName ?? ''}?`}
+        isOpen={isOpenDeleteModal}
+        onClose={closeDeleteModal}
+        minWidth={45}>
+        <ConfirmationBox
+          onAccept={adminDeleteMember}
+          onDecline={closeDeleteModal}></ConfirmationBox>
+      </Modal>
     </div>
   );
 };

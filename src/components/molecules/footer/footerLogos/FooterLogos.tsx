@@ -3,11 +3,11 @@ import { FaFacebook } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { Icon } from '@iconify/react';
 import Modal from 'components/molecules/modal/Modal';
-import { useState } from 'react';
 import discordInvite from 'assets/IFI-discord-invite.png';
+import useModal from 'hooks/useModal';
 
 const FooterLogos = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useModal();
   return (
     <div className={styles.logosContainer}>
       <div className={styles.logosWrapper}>
@@ -39,20 +39,17 @@ const FooterLogos = () => {
               width={'2.5em'}
               height={'2.5em'}
               color={'#F8D2CC'}
-              onClick={() => {
-                setIsOpen(true);
-              }}
+              onClick={onOpen}
             />
-            {isOpen && (
-              <Modal
-                minWidth={45}
-                title="Invitasjon til vår discord"
-                setIsOpen={setIsOpen}>
-                <div>
-                  <img src={discordInvite} alt="Link to discord" />
-                </div>
-              </Modal>
-            )}
+            <Modal
+              title="Invitasjon til vår discord"
+              isOpen={isOpen}
+              onClose={onClose}
+              minWidth={45}>
+              <div>
+                <img src={discordInvite} alt="Link to discord" />
+              </div>
+            </Modal>
           </div>
           <div className={styles.logoItem}>
             <FaFacebook

@@ -15,6 +15,7 @@ import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import styles from './eventButton.module.scss';
 import Modal from 'components/molecules/modal/Modal';
 import TextField from 'components/atoms/textfield/Textfield';
+import useModal from 'hooks/useModal';
 
 interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
@@ -35,37 +36,39 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 }) => {
   const [isJoined, setIsjoined] = useState<boolean>(joined);
   const [buttonText, setButtonText] = useState('');
-  const { addToast } = useToast();
-  const [showForm, setShowForm] = useState<boolean>(false);
   const [event, setEvent] = useState<Event>();
-  const [cancellation, setCancellation] = useState<boolean>(false);
-  const [lateCancellation, setLateCancellation] = useState<boolean>(false);
+  const [isValidCancellation, setValidCancellation] = useState<boolean>(true);
   const [showAllergies, setShowAllergies] = useState<boolean>(false);
   const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
   });
+  const { addToast } = useToast();
+  const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: preferencesOpen,
+    onOpen: openPreferences,
+    onClose: closePreferences,
+  } = useModal();
 
   useEffect(() => {
-    if (!showForm) {
+    if (!preferencesOpen) {
       setShowAllergies(false);
     }
-  }, [showForm]);
+  }, [preferencesOpen]);
 
   const leaveEventAction = async () => {
     try {
-      if (!cancellation) {
-        setCancellation(true);
-        if (!lateCancellation && !valid_cancellation(new Date(event?.date!!))) {
-          setLateCancellation(true);
-        }
+      if (!isOpen) {
+        onOpen();
+        setValidCancellation(valid_cancellation(new Date(event?.date!!)));
         return;
       }
       await leaveEvent(id);
       setIsjoined(!isJoined);
-      setCancellation(false);
-      setLateCancellation(false);
+      onClose();
+      setValidCancellation(false);
       if (onClick) {
         try {
           onClick();
@@ -100,7 +103,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
       const res = await joinEvent(id, joinEventPayload);
 
       setIsjoined(!isJoined);
-      setShowForm(false);
+      closePreferences();
       if (onClick) {
         try {
           onClick();
@@ -141,8 +144,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const handleButtonAction = () => {
     if (!isJoined) {
-      !showForm && (event?.transportation || event?.food)
-        ? setShowForm(true)
+      !preferencesOpen && (event?.transportation || event?.food)
+        ? openPreferences()
         : joinEventAction();
       return;
     } else {
@@ -167,109 +170,111 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   return (
     <div>
-      {!showForm && (
+      {!preferencesOpen && (
         <Button version="secondary" onClick={handleButtonAction} {...rest}>
           {' '}
           {buttonText}
         </Button>
       )}
-      {cancellation && (
-        <Modal
-          title="Er du sikker på at du vil melde deg av?"
-          minWidth={25}
-          setIsOpen={setCancellation}>
-          <div className={styles.cancellationWrapper}>
-            <div className={styles.cancellationMessageContainer}>
-              {lateCancellation ? (
-                <p>
-                  Arrangementet begynner om under 24 timer, og avmelding så
-                  nærme arrangement start vil medføre{' '}
-                  <u
-                    style={{
-                      textDecorationColor: '#b73653',
-                      textDecorationThickness: '.2rem',
-                    }}>
-                    {' '}
-                    en merknad hvis du har mottat bekreftelse om plass
-                  </u>
-                  . To eller flere merknader vil gi nedsatt prioritet på andre
-                  arrangementer ut semesteret. Har du gyldig grunn ta kontakt
-                  med <a href="mailto:">{event?.host ?? 'post.td.uit.no'}</a>
-                </p>
-              ) : (
-                <p>Hvis du melder deg av vil du miste plassen din i køen!</p>
-              )}
-            </div>
-            <Button version="secondary" onClick={leaveEventAction}>
-              {' '}
-              Bekreft{' '}
-            </Button>
+      <Modal
+        title="Er du sikker på at vil melde deg av?"
+        isOpen={isOpen}
+        onClose={onClose}
+        minWidth={25}>
+        <div className={styles.cancellationWrapper}>
+          <div className={styles.cancellationMessageContainer}>
+            {isValidCancellation ? (
+              <p>Hvis du melder deg av vil du miste plassen din i køen!</p>
+            ) : (
+              <p>
+                Arrangementet begynner om under 24 timer, og avmelding så nærme
+                arrangement start vil medføre{' '}
+                <u
+                  style={{
+                    textDecorationColor: '#b73653',
+                    textDecorationThickness: '.2rem',
+                  }}>
+                  {' '}
+                  en merknad hvis du har mottat bekreftelse om plass
+                </u>
+                . To eller flere merknader vil gi nedsatt prioritet på andre
+                arrangementer ut semesteret. Har du gyldig grunn ta kontakt med{' '}
+                <a href="mailto:">{event?.host ?? 'kontakt@td-uit.no'}</a>
+              </p>
+            )}
           </div>
-        </Modal>
-      )}
-      {showForm && (
-        <Modal maxWidth={100} title={'Påmelding'} setIsOpen={setShowForm}>
-          <div className={styles.formContent}>
-            <div className={styles.formToggles}>
-              {event?.food && (
-                <>
-                  <ToggleButton
-                    label={'Vil du ha mat på arragementet?'}
-                    onChange={() =>
-                      setJoinEventPayload({
-                        ...joinEventPayload,
-                        food: !joinEventPayload.food,
-                      })
-                    }></ToggleButton>
-                  <ToggleButton
-                    label={'Har du en allergi/matpreferanse?'}
-                    onChange={() => {
-                      if (showAllergies) {
-                        setJoinEventPayload({
-                          ...joinEventPayload,
-                          dietaryRestrictions: '',
-                        });
-                        setShowAllergies(false);
-                      } else {
-                        setShowAllergies(true);
-                      }
-                    }}></ToggleButton>
-                  {showAllergies && (
-                    <div className={styles.allergyTextFieldContainer}>
-                      <div className={styles.allergyTextFieldAnim}>
-                        <TextField
-                          label={'Allergier, vegetar, vegansk...'}
-                          onChange={(e) => {
-                            setJoinEventPayload({
-                              ...joinEventPayload,
-                              dietaryRestrictions: e.target.value,
-                            });
-                          }}></TextField>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-              {event?.transportation && (
-                <>
-                  <ToggleButton
-                    label={'Har du behov for transport?'}
-                    onChange={() =>
-                      setJoinEventPayload({
-                        ...joinEventPayload,
-                        transportation: !joinEventPayload.transportation,
-                      })
-                    }></ToggleButton>
-                </>
-              )}
-            </div>
+          <Button version="secondary" onClick={leaveEventAction}>
+            {' '}
+            Bekreft{' '}
+          </Button>
+        </div>
+      </Modal>
 
-            <Button version="secondary" onClick={joinEventAction}>
-              Meld på
-            </Button>
+      <Modal
+        title={'Påmelding'}
+        isOpen={preferencesOpen}
+        onClose={closePreferences}
+        maxWidth={100}>
+        <div className={styles.formContent}>
+          <div className={styles.formToggles}>
+            {event?.food && (
+              <>
+                <ToggleButton
+                  label={'Vil du ha mat på arragementet?'}
+                  onChange={() =>
+                    setJoinEventPayload({
+                      ...joinEventPayload,
+                      food: !joinEventPayload.food,
+                    })
+                  }></ToggleButton>
+                <ToggleButton
+                  label={'Har du en allergi/matpreferanse?'}
+                  onChange={() => {
+                    if (showAllergies) {
+                      setJoinEventPayload({
+                        ...joinEventPayload,
+                        dietaryRestrictions: '',
+                      });
+                      setShowAllergies(false);
+                    } else {
+                      setShowAllergies(true);
+                    }
+                  }}></ToggleButton>
+                {showAllergies && (
+                  <div className={styles.allergyTextFieldContainer}>
+                    <div className={styles.allergyTextFieldAnim}>
+                      <TextField
+                        label={'Allergier, vegetar, vegansk...'}
+                        onChange={(e) => {
+                          setJoinEventPayload({
+                            ...joinEventPayload,
+                            dietaryRestrictions: e.target.value,
+                          });
+                        }}></TextField>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+            {event?.transportation && (
+              <>
+                <ToggleButton
+                  label={'Har du behov for transport?'}
+                  onChange={() =>
+                    setJoinEventPayload({
+                      ...joinEventPayload,
+                      transportation: !joinEventPayload.transportation,
+                    })
+                  }></ToggleButton>
+              </>
+            )}
           </div>
-        </Modal>
-      )}
+
+          <Button version="secondary" onClick={joinEventAction}>
+            Meld på
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
