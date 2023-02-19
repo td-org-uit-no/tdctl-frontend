@@ -13,24 +13,28 @@ import { RoleOptions } from 'contexts/authProvider';
 import { useToast } from 'hooks/useToast';
 import { isDeepEqual } from 'utils/general';
 import Icon from 'components/atoms/icons/icon';
-import useConfirmation from 'hooks/useConfirmation';
-import ConformationBox from 'components/molecules/confirmationBox/ConfirmationBox';
+import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import useFetchUpdate from 'hooks/useFetchUpdate';
 import {
   emailValidator,
   nameValidator,
   notRequiredPhoneValidator,
 } from 'utils/validators';
+import useModal from 'hooks/useModal';
 
 const MemberTable = () => {
   const [members, setMembers] = useState<Array<Member> | undefined>();
-  const [isOpen, setIsOpen] = useState(false);
-  const [deleteModal, setOpenDeleteModal] = useState(false);
   const [selectedMember, setSelected] = useState<Member | undefined>();
   const [initialValues, setInitialValues] = useState<AdminMemberUpdate>();
   const [error, setError] = useState<undefined | string>();
 
   const { addToast } = useToast();
+  const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: isOpenDeleteModal,
+    onOpen: openDeleteModal,
+    onClose: closeDeleteModal,
+  } = useModal();
 
   const validators = {
     realName: nameValidator,
@@ -56,7 +60,7 @@ const MemberTable = () => {
       if (!isDeepEqual(member, initialValues)) {
         await adminUpdateMember(id, member);
         setShouldFetch(true);
-        setIsOpen(false);
+        onClose();
         addToast({
           title: 'Suksess',
           status: 'success',
@@ -103,16 +107,11 @@ const MemberTable = () => {
       return mem.email === email;
     });
     setSelected(selected);
-    setOpenDeleteModal(true);
+    openDeleteModal();
   };
 
   const adminDeleteMember = async () => {
     try {
-      setOpenDeleteModal(true);
-      if (confirmed === false) {
-        setOpenDeleteModal(false);
-        return;
-      }
       if (!selectedMember) {
         return;
       }
@@ -142,7 +141,7 @@ const MemberTable = () => {
           });
       }
     }
-    setOpenDeleteModal(false);
+    closeDeleteModal();
   };
 
   const columns: ColumnDefinitionType<Member, keyof Member>[] = [
@@ -157,7 +156,7 @@ const MemberTable = () => {
           <Button
             version="secondary"
             onClick={() => {
-              setIsOpen(true);
+              onOpen();
               const { role, email, status, classof, realName, phone } =
                 cellValues;
               const updateValues: AdminMemberUpdate = {
@@ -196,7 +195,6 @@ const MemberTable = () => {
     },
   ];
 
-  const { confirmed, setConfirmed } = useConfirmation(adminDeleteMember);
   const {
     fields,
     hasErrors,
@@ -222,109 +220,106 @@ const MemberTable = () => {
   // TODO edit input validation
   return (
     <div className={styles.form}>
-      {isOpen && (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        minWidth={45}
+        title="Endre bruker">
         <form onSubmit={onSubmitEvent}>
-          <Modal minWidth={45} title="Endre bruker" setIsOpen={setIsOpen}>
-            <div className={styles.general}>
-              <TextField
-                minWidth={30}
-                label="Navn"
-                name={'realName'}
-                value={fields['realName']?.value ?? ''}
-                onChange={onFieldChange}
-                error={fields['realName'].error}
-              />
-              <br />
-              <TextField
-                minWidth={30}
-                name={'email'}
-                value={fields['email']?.value ?? ''}
-                onChange={onFieldChange}
-                label="Email"
-                error={fields['email'].error}
-              />
-              <br />
-              <TextField
-                minWidth={30}
-                name="phone"
-                value={fields['phone']?.value ?? ''}
-                onChange={onFieldChange}
-                label="Phone"
-                error={fields['phone'].error}
-              />
-              <br />
-              <TextField
-                minWidth={30}
-                name="classof"
-                value={fields['classof']?.value ?? ''}
-                onChange={onFieldChange}
-                label="Class of"
-              />
-              <br />
-              <Select
-                name="status"
-                value={fields['status']?.value}
-                onChange={onControlledFieldChange}
-                minWidth={26.5}
-                items={[
-                  {
-                    key: 'inactive',
-                    label: 'Inactive',
-                    value: 'INACTIVE',
-                  },
-                  {
-                    key: 'active',
-                    label: 'Active',
-                    value: 'ACTIVE',
-                  },
-                ]}
-                label="Status"
-              />
-              <br />
-              <Select
-                name="role"
-                value={fields['role']?.value}
-                onChange={onControlledFieldChange}
-                minWidth={26.5}
-                items={[
-                  {
-                    key: 'admin',
-                    label: 'Admin',
-                    value: 'admin',
-                  },
-                  {
-                    key: 'member',
-                    label: 'Member',
-                    value: 'member',
-                  },
-                ]}
-                label="Role"
-              />
-              {error !== undefined ? <p>{error}</p> : <br />}
-              <Button version="primary">Submit</Button>
-            </div>
-          </Modal>
+          <div className={styles.general}>
+            <TextField
+              minWidth={30}
+              label="Navn"
+              name={'realName'}
+              value={fields['realName']?.value ?? ''}
+              onChange={onFieldChange}
+              error={fields['realName'].error}
+            />
+            <br />
+            <TextField
+              minWidth={30}
+              name={'email'}
+              value={fields['email']?.value ?? ''}
+              onChange={onFieldChange}
+              label="Email"
+              error={fields['email'].error}
+            />
+            <br />
+            <TextField
+              minWidth={30}
+              name="phone"
+              value={fields['phone']?.value ?? ''}
+              onChange={onFieldChange}
+              label="Phone"
+              error={fields['phone'].error}
+            />
+            <br />
+            <TextField
+              minWidth={30}
+              name="classof"
+              value={fields['classof']?.value ?? ''}
+              onChange={onFieldChange}
+              label="Class of"
+            />
+            <br />
+            <Select
+              name="status"
+              value={fields['status']?.value}
+              onChange={onControlledFieldChange}
+              minWidth={26.5}
+              items={[
+                {
+                  key: 'inactive',
+                  label: 'Inactive',
+                  value: 'INACTIVE',
+                },
+                {
+                  key: 'active',
+                  label: 'Active',
+                  value: 'ACTIVE',
+                },
+              ]}
+              label="Status"
+            />
+            <br />
+            <Select
+              name="role"
+              value={fields['role']?.value}
+              onChange={onControlledFieldChange}
+              minWidth={26.5}
+              items={[
+                {
+                  key: 'admin',
+                  label: 'Admin',
+                  value: 'admin',
+                },
+                {
+                  key: 'member',
+                  label: 'Member',
+                  value: 'member',
+                },
+              ]}
+              label="Role"
+            />
+            {error !== undefined ? <p>{error}</p> : <br />}
+            <Button version="primary">Submit</Button>
+          </div>
         </form>
-      )}
+      </Modal>
+      <Modal
+        title={`Er du sikker på at du vil slette ${selectedMember?.realName}?`}
+        isOpen={isOpenDeleteModal}
+        onClose={closeDeleteModal}
+        minWidth={45}>
+        <ConfirmationBox
+          onAccept={adminDeleteMember}
+          onDecline={closeDeleteModal}
+        />
+      </Modal>
       {members ? (
         <Table columns={columns} data={members} />
       ) : (
         <h1>No members</h1>
-      )}
-      {deleteModal && (
-        <Modal
-          title={`Are you sure you want to delete ${selectedMember?.realName}?`}
-          setIsOpen={setOpenDeleteModal}
-          minWidth={45}>
-          <ConformationBox
-            onAccept={() => {
-              setConfirmed(true);
-            }}
-            onDecline={() => {
-              setConfirmed(false);
-            }}
-          />
-        </Modal>
       )}
     </div>
   );

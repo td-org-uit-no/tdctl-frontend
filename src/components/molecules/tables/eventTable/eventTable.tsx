@@ -7,19 +7,19 @@ import styles from './eventTable.module.scss';
 import { transformDate } from 'utils/timeConverter';
 import { useEffect, useState } from 'react';
 import Modal from 'components/molecules/modal/Modal';
-import ConformationBox from 'components/molecules/confirmationBox/ConfirmationBox';
-import useConfirmation from 'hooks/useConfirmation';
+import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import { deleteEvent } from 'api';
 import { useToast } from 'hooks/useToast';
+import useModal from 'hooks/useModal';
 
 const EventTable = () => {
-  const { events, error, setFetch } = useUpcomingEvents();
-  const [deleteModal, setOpenDeleteModal] = useState(false);
+  const { events, error, fetchEvents } = useUpcomingEvents();
   const [selectedEvent, setSelected] = useState<
     Pick<Event, 'eid' | 'title'> | undefined
   >();
   const history = useHistory();
   const { addToast } = useToast();
+  const { isOpen, onOpen, onClose } = useModal();
 
   const moveToEventAdminPage = (eid: string) => {
     history.push(`event/${eid}/admin`);
@@ -30,16 +30,12 @@ const EventTable = () => {
       return mem.eid === eid;
     });
     setSelected(selected);
-    setOpenDeleteModal(true);
+    onOpen();
   };
 
   const adminDeleteEvent = async () => {
-    setOpenDeleteModal(true);
+    onOpen();
     try {
-      if (confirmed === false) {
-        setOpenDeleteModal(false);
-        return;
-      }
       if (!selectedEvent) {
         return;
       }
@@ -64,8 +60,8 @@ const EventTable = () => {
         description: 'Problemer med slettingen av arrangementet',
       });
     }
-    setFetch(true);
-    setOpenDeleteModal(false);
+    fetchEvents();
+    onClose();
   };
 
   useEffect(() => {
@@ -77,8 +73,6 @@ const EventTable = () => {
       });
     }
   }, [error]);
-
-  const { confirmed, setConfirmed } = useConfirmation(adminDeleteEvent);
 
   const columns: ColumnDefinitionType<Event, keyof Event>[] = [
     { cell: 'title', header: 'Name', type: 'string' },
@@ -154,21 +148,19 @@ const EventTable = () => {
     <>
       <div className={styles.form}>
         <Table columns={columns} data={events}></Table>
-        {deleteModal && (
-          <Modal
-            title={`Are you sure you want to delete ${selectedEvent?.title}?`}
-            setIsOpen={setOpenDeleteModal}
-            minWidth={45}>
-            <ConformationBox
-              onAccept={() => {
-                setConfirmed(true);
-              }}
-              onDecline={() => {
-                setConfirmed(false);
-              }}
-            />
-          </Modal>
-        )}
+        <Modal
+          title={`Are you sure you want to delete ${selectedEvent?.title}?`}
+          isOpen={isOpen}
+          onClose={onClose}
+          minWidth={45}>
+          <ConfirmationBox
+            onAccept={() => {
+              onClose();
+              adminDeleteEvent();
+            }}
+            onDecline={onClose}
+          />
+        </Modal>
       </div>
     </>
   );
