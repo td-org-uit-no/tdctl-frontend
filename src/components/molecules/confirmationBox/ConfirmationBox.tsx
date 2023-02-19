@@ -8,7 +8,7 @@ interface ConformationProps {
   onAccept: () => void;
 }
 
-const ConformationBox: React.FC<ConformationProps> = ({
+const ConfirmationBox: React.FC<ConformationProps> = ({
   title,
   onDecline,
   onAccept,
@@ -26,4 +26,4 @@ const ConformationBox: React.FC<ConformationProps> = ({
   );
 };
 
-export default ConformationBox;
+export default ConfirmationBox;
