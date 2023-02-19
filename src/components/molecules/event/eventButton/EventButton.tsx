@@ -100,7 +100,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const joinEventAction = async () => {
     try {
-      const res = await joinEvent(id, joinEventPayload);
+      await joinEvent(id, joinEventPayload);
 
       setIsjoined(!isJoined);
       closePreferences();
@@ -113,14 +113,6 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         }
       }
 
-      if (typeof res !== 'string' && res.max) {
-        addToast({
-          title: 'Info',
-          status: 'info',
-          description: 'Arrangementet er fullt, du er satt på venteliste',
-        });
-        return;
-      }
       addToast({
         title: 'Suksess',
         status: 'success',

@@ -259,22 +259,30 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   event,
   role,
 }) => {
+  const [participantsHeader, setParticipantHeader] = useState('');
   const [participantsText, setParticipantText] = useState('');
   const [canJoinEvent, setCanJoin] = useState<boolean>(
     validJoin(role, event.registrationOpeningDate)
   );
+
+  // sets correct header and text based on what the user should see
   function getParticipantsText(
     maxParticipants: number | undefined,
-    participants: number
+    participants?: number
   ) {
+    if (role === Roles.admin) {
+      setParticipantHeader('Antall deltakere');
+      return `${participants} ${
+        event.maxParticipants ? '/ ' + maxParticipants : ''
+      } påmeldt `;
+    }
     // juggling-check, checks for both null and undefined
     if (maxParticipants == null) {
+      setParticipantHeader('Antall deltakere');
       return `${participants} skal`;
     }
-    if (participants >= maxParticipants) {
-      return 'Fullt';
-    }
-    return `${participants} / ${maxParticipants} påmeldt`;
+    setParticipantHeader('Antall plasser totalt');
+    return `${maxParticipants} plasser`;
   }
 
   const getNumberOfParticipants = useCallback(async () => {
@@ -289,7 +297,14 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   }, [event.eid, event?.maxParticipants]);
 
   useEffect(() => {
-    getNumberOfParticipants();
+    // only fetch participants list when the list is actually used
+    // the list/number of participants should only be displayed for admins and events with no cap
+    if (role === Roles.admin || event.maxParticipants == null) {
+      getNumberOfParticipants();
+      return;
+    }
+    const txt = getParticipantsText(event.maxParticipants);
+    setParticipantText(txt);
   }, [getNumberOfParticipants]);
 
   return (
@@ -331,17 +346,19 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
           {event.address}
           <p> Dato </p>
           {transformDate(new Date(event.date))}
-          <p> Antall deltakere </p>
+          <p>{participantsHeader}</p>
           {participantsText}
           {role === 'admin' && (
             <ol>
-              {event.participants?.map((p, i) => {
+              {event.participants?.map((p, i, arr) => {
                 return (
                   <li
                     key={i}
                     style={{
                       color:
-                        (event.maxParticipants ?? 0) < i + 1 ? 'red' : 'none',
+                        (event.maxParticipants ?? arr.length) < i + 1
+                          ? 'red'
+                          : 'none',
                     }}>
                     {p.realName}
                   </li>
