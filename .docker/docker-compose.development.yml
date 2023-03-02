@@ -1,11 +1,13 @@
-version: "3.5"
+version: '3.5'
 services:
   tdctl_frontend:
-
     container_name: frontend_dev
-    build: 
+    build:
       context: ..
-      dockerfile: .docker/dockerfile
+      dockerfile: .docker/dockerfile.development
     ports:
-      - "80:80"
-
+      - '3000:3000'
+    tty: true
+    stdin_open: true
+    volumes:
+      - ../:/app
