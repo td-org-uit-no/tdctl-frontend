@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import styles from './eventBody.module.scss';
 import { transformDate } from 'utils/timeConverter';
 import EventButton from '../eventButton/EventButton';
@@ -19,7 +19,7 @@ import {
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
-import { RoleOptions, Roles } from 'contexts/authProvider';
+import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
 
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
@@ -264,6 +264,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   const [canJoinEvent, setCanJoin] = useState<boolean>(
     validJoin(role, event.registrationOpeningDate)
   );
+  const { authenticated } = useContext(AuthenticateContext);
 
   // sets correct header and text based on what the user should see
   function getParticipantsText(
@@ -286,26 +287,30 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   }
 
   const getNumberOfParticipants = useCallback(async () => {
+    if (!authenticated) {
+      setParticipantText('Logg inn for å se flere detaljer');
+      return;
+    }
     try {
       const resp = await getJoinedParticipants(event.eid);
       const str = getParticipantsText(event?.maxParticipants, resp.length);
       setParticipantText(str);
     } catch (error) {
-      // Dont think users needs an error modal as its an API call the user should think about
-      setParticipantText('Log inn for å se flere detaljer');
+      if (error.statusCode === 401) {
+        const str = getParticipantsText(event?.maxParticipants);
+        setParticipantText(str);
+      }
+      if (error.statusCode === 403) {
+        setParticipantText('Logg inn for å se flere detaljer');
+      }
     }
   }, [event.eid, event?.maxParticipants]);
 
   useEffect(() => {
     // only fetch participants list when the list is actually used
     // the list/number of participants should only be displayed for admins and events with no cap
-    if (role === Roles.admin || event.maxParticipants == null) {
-      getNumberOfParticipants();
-      return;
-    }
-    const txt = getParticipantsText(event.maxParticipants);
-    setParticipantText(txt);
-  }, [getNumberOfParticipants]);
+    getNumberOfParticipants();
+  }, [getNumberOfParticipants, authenticated]);
 
   return (
     <div className={styles.contentContainer}>
