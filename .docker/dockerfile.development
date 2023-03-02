@@ -1,0 +1,10 @@
+FROM node:16 AS build-stage
+
+WORKDIR /app
+
+COPY package.json /app/package.json
+
+#install dependencies
+RUN yarn install
+
+CMD yarn run start:local
