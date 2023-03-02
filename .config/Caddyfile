@@ -3,7 +3,7 @@
 }
 
 https://td.org.uit.no {
-	redir https://td-uit.no
+    redir https://td-uit.no permanent
 }
 
 https://td-uit.no {
