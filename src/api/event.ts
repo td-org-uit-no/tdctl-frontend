@@ -47,3 +47,7 @@ export const deleteParticipant = (
 
 export const exportEvent = (eid: string): Promise<{}> =>
   get<{}>('event/' + eid + '/export', true);
+
+export const confirmEvent = (eid: string, eventUpdate:EventUpdate)=>{
+  return put<EventUpdate>('event/' + eid + '/confirm', eventUpdate, true);
+}

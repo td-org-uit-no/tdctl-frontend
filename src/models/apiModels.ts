@@ -82,6 +82,7 @@ export interface Event {
   transportation: boolean;
   public: boolean;
   registrationOpeningDate?: string;
+  confirmed?: boolean;
 }
 
 export type EventUpdate = Partial<
@@ -94,6 +95,7 @@ export type EventUpdate = Partial<
     | 'price'
     | 'maxParticipants'
     | 'public'
+    | 'confirmed'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
