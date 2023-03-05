@@ -12,6 +12,28 @@
   min-height: 10vh;
 }
 
+.headerContainer {
+  position: relative;
+  padding: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.headerTitle {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.headerButton {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
 .inner {
   display: flex;
   height: 100%;

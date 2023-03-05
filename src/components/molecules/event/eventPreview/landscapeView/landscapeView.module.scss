@@ -24,6 +24,9 @@
 .landscapeViewDate {
   max-width: 5rem;
   min-width: 90px;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #ccc;
 }
 
 .landscapeViewTextContainer {
@@ -38,12 +41,16 @@
   display: flex;
   width: 100%;
   padding-right: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ccc;
 }
 
 .landscapeViewAddress {
   display: flex;
   font-size: smaller;
   color: #a9a9a9;
+  font-weight: 300;
 }
 
 .landscapeViewImage {
@@ -63,6 +70,7 @@
     width: 4rem;
     min-width: 4rem;
     min-height: 4rem;
+    border-radius: 1rem;
   }
 
   .landscapeViewContainer {
@@ -72,5 +80,6 @@
 
   .landscapeViewText {
     padding-right: 0.5rem;
+    font-size: 0.8rem;
   }
 }
