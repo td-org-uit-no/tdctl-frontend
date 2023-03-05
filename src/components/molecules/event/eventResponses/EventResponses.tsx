@@ -3,7 +3,7 @@ import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
 import { Participant } from 'models/apiModels';
 import { Event } from 'models/apiModels';
 import { useToast } from 'hooks/useToast';
-import { deleteParticipant } from 'api';
+import { confirmEvent, deleteParticipant } from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
 import TextField from 'components/atoms/textfield/Textfield';
@@ -28,6 +28,11 @@ const EventResponses: React.FC<{
     onOpen: openDeleteModal,
     onClose: closeDeleteModal,
   } = useModal();
+  const {
+    isOpen: isOpenSubmitModal,
+    onOpen: openSubmitModal,
+    onClose: closeSubmitModal,
+  } = useModal();
 
   const openDeleteColumn = (email: string) => {
     const selected = participants?.find((mem) => {
@@ -36,6 +41,26 @@ const EventResponses: React.FC<{
 
     setSelected(selected);
     openDeleteModal();
+  };
+
+  const adminSubmitParticipants = async () => {
+    try {
+      console.log(event.eid);
+      await confirmEvent(event.eid, { confirmed: true });
+      closeSubmitModal();
+      addToast({
+        title: 'Success',
+        status: 'success',
+        description: `Confirmation success. Email sent to all current participants`,
+      });
+    } catch (error) {
+      console.log(error);
+      addToast({
+        title: 'Error',
+        status: 'error',
+        description: `Unexpected error when submitting`,
+      });
+    }
   };
 
   const adminDeleteMember = async () => {
@@ -150,6 +175,7 @@ const EventResponses: React.FC<{
   };
 
   useEffect(() => {
+    console.log(event);
     if (event.participants) {
       const p: Participant[] = event.participants?.sort((a, b) => {
         if (a.submitDate > b.submitDate) {
@@ -166,6 +192,17 @@ const EventResponses: React.FC<{
 
   return (
     <div className={styles.contentWrapper}>
+      <div className={styles.submitWrapper}>
+        {event.bindingRegistration == false ? (
+          <p>This event does not need confirmation</p>
+        ) : event.confirmed == true ? (
+          <p>This event is already confirmed</p>
+        ) : (
+          <Button version={'primary'} onClick={() => openSubmitModal()}>
+            Confirm
+          </Button>
+        )}
+      </div>
       {participants ? (
         <Table columns={columns} data={participants}></Table>
       ) : (
@@ -173,6 +210,35 @@ const EventResponses: React.FC<{
       )}
 
       {/* WAIT for API to support updating event participants */}
+      <Modal
+        title="Bekreft plass for arrangement"
+        isOpen={isOpenSubmitModal}
+        onClose={closeSubmitModal}>
+        <div>
+          <h5>Ved å gå videre vil du</h5>
+          <ul>
+            <li>
+              Sende ut påmelding på mail til alle deltakere som har plass.
+            </li>
+            <li>Redigering av deltakere vil bli låst.</li>
+            <li>
+              Deltakere vil ikke lenger kunne redigere sine preferanser til
+              dette arrangementet.
+            </li>
+          </ul>
+          <hr />
+          <div className={styles.submitModalButtons}>
+            <Button version={'secondary'} onClick={() => closeSubmitModal()}>
+              Avbryt
+            </Button>
+            <Button
+              version={'primary'}
+              onClick={() => adminSubmitParticipants()}>
+              Send
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         minWidth={45}
         title="Endre deltager"
