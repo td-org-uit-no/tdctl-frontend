@@ -27,7 +27,7 @@ const EventOverview: React.FC = () => {
                 />
               ))
             ) : (
-              <h3 style={{ minHeight: '45vh' }}>
+              <h3 style={{ minHeight: '65vh' }}>
                 Ingen kommende arrangementer{' '}
               </h3>
             )}

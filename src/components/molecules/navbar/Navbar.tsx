@@ -32,6 +32,7 @@ const AuthNavbar = () => {
     <Menu>
       <MenuItem label={'Hjem'} path={'/'} />
       <MenuItem label={'Profil'} path={'/profile'} />
+      <MenuItem label={'Event Oversikt'} path={'/eventoverview'} />
       <MenuItem label={'Stillingsutlysninger'} path={'/jobs'} />
       <MenuItem label={'Mine arrangementer'} path={'/my-events'} />
 

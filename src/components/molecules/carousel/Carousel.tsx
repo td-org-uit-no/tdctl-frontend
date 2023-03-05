@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { useMobileScreen } from 'hooks/useMobileScreen';
+import { useHistory } from 'react-router-dom';
+import Button from 'components/atoms/button/Button';
 
 export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
   itemWidth,
@@ -62,6 +64,10 @@ const Carousel: React.FC<CarouselProps> = ({
     setActiveIndex(newIdx);
   };
 
+  const history = useHistory();
+  const handleClick = () => {
+    history.push('/eventoverview');
+  };
   // handle mount before data is fetched
   useEffect(() => {
     // calculates the translation factor based on direction and the width of each item
@@ -109,7 +115,17 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div className={styles.carouselContainer}>
-      {title && <h4>{title}</h4>}
+      <div className={styles.headerContainer}>
+        {title && <h4 className={styles.headerTitle}>{title}</h4>}
+        {!isMobile && (
+          <Button
+            version="primary"
+            className={styles.headerButton}
+            onClick={handleClick}>
+            Se Alle
+          </Button>
+        )}
+      </div>
       <div
         className={styles.carousel}
         style={{ height: height, touchAction: isMobile ? 'none' : 'auto' }}
@@ -134,6 +150,14 @@ const Carousel: React.FC<CarouselProps> = ({
           })}
         </div>
       </div>
+      {isMobile && (
+        <Button
+          version="primary"
+          className={styles.headerButton}
+          onClick={handleClick}>
+          Se Alle
+        </Button>
+      )}
       <div className={styles.carouselButtonsContainer}>
         <div>
           <Icon
