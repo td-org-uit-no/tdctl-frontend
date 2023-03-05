@@ -32,6 +32,7 @@ const App: React.FC = () => {
           <AuthorizationRoute path="/registrer" component={RegistrerPage} />
           <AuthorizationRoute path="/login" component={LoginPage} />
           <PrivateRoute path="/profile" component={ProfilePage} />
+          <PrivateRoute path="/eventoverview" component={EventOverview} />
           <AdminRoute path="/create-event" component={CreateEvent} />
           <AdminRoute path="/admin" component={AdminPage} />
           <AdminRoute path="/event/:id/admin" component={EventAdmin} />
