@@ -6,7 +6,7 @@ import TextField from 'components/atoms/textfield/Textfield';
 import Textarea from 'components/atoms/textarea/Textarea';
 import Button from 'components/atoms/button/Button';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
-import { getJoinedParticipants, updateEvent } from 'api';
+import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
 import {
   addressValidator,
   dateValidator,
@@ -36,6 +36,13 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const [toggleTransportation, setToggleTransportation] = useState<boolean>(
     event.transportation ?? false
   );
+  const [file, setFile] = useState<File | undefined>();
+
+  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+  }
 
   const initalValue = {
     title: event.title,
@@ -99,12 +106,21 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       }),
     } as Event;
 
-    if (!Object.keys(updatePayload).length) {
+    if (!Object.keys(updatePayload).length && !file) {
       setError('Minst et felt må endres');
       return;
     }
     try {
-      await updateEvent(event.eid, updatePayload);
+      /* Check both file and payload as we the set error does not trigger if the 
+         file is set but the payload is not, and we cant send an empty payload*/
+      if (file) {
+        const data = new FormData();
+        data.append('image', file, file.name);
+        await uploadEventPicture(event.eid, data);
+      }
+      if (Object.keys(updatePayload).length) {
+        await updateEvent(event.eid, updatePayload);
+      }
       // reload page
       history.go(0);
     } catch (error) {
@@ -140,6 +156,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
               error={fields['description'].error}
               style={{ boxSizing: 'border-box', width: '100%' }}
             />
+            <div className={styles.imgContainer}>
+              <label>Endre arrangement bilde </label>
+              <input type="file" accept="image/*" onChange={handleFileUpload} />
+            </div>
           </div>
         </div>
         <div className={styles.infoContainer}>
