@@ -132,14 +132,6 @@ const EventForm = () => {
           onChange={onFieldChange}
         />
 
-        <Textarea
-          name={'description'}
-          label={'Beskrivelse'}
-          minWidth={40}
-          onChange={onFieldChange}
-          error={fields['description'].error}
-        />
-
         <TextField
           name={'address'}
           label={'Adresse'}
@@ -164,6 +156,16 @@ const EventForm = () => {
           onChange={onFieldChange}
           error={fields['maxParticipants'].error}
         />
+
+        <Textarea
+          name={'description'}
+          label={'Beskrivelse'}
+          minWidth={65}
+          onChange={onFieldChange}
+          resize={true}
+          error={fields['description'].error}
+        />
+
         <DropdownHeader
           title={'Valgfritt: Sett dato for når påmeldingen åpner'}
           style={{ width: '100%' }}>
