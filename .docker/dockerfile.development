@@ -3,6 +3,7 @@ FROM node:16 AS build-stage
 WORKDIR /app
 
 COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
 
 #install dependencies
 RUN yarn install
