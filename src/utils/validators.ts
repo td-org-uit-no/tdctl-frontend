@@ -160,10 +160,10 @@ export const emptyFieldsValidator = ({ fields, optFields }: InputFields) => {
 
 // Job validators//
 export const JobDescriptionPreviewValidator = (description: string) => {
-  return description.length >= 80 ? ['Beskrivelse er for lang'] : undefined;
+  return description.length >= 750 ? ['Beskrivelse er for lang'] : undefined;
 };
 export const JobDescriptionValidator = (description: string) => {
-  return description.length >= 2000 ? ['Beskrivelse er for lang'] : undefined;
+  return description.length >= 7500 ? ['Beskrivelse er for lang'] : undefined;
 };
 
 export const JobTypeValidator = (description: string) => {
@@ -171,7 +171,7 @@ export const JobTypeValidator = (description: string) => {
 };
 
 export const JobLocationValidator = (description: string) => {
-  return description.length >= 50 ? ['Lokasjon er for lang'] : undefined;
+  return description.length >= 100 ? ['Lokasjon er for lang'] : undefined;
 };
 export const JobTitleValidator = (title: string) => {
   return title.length >= 50 ? ['Tittel er for lang'] : undefined;
