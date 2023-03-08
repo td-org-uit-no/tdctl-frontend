@@ -6,6 +6,10 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  textarea {
+    min-height: 7.5vh;
+  }
 }
 
 .eventContainer {

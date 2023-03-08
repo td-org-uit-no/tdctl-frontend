@@ -20,6 +20,7 @@ import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
 import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
+import ReactMarkdown from 'react-markdown';
 
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
@@ -320,11 +321,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       </div>
       <div className={styles.description}>
         <div className={styles.descriptionContainer}>
-          <div>
-            <p style={{ textAlign: 'left', verticalAlign: 'middle' }}>
-              {event.description}
-            </p>
-          </div>
+          <ReactMarkdown children={event.description} />
         </div>
       </div>
       <div className={styles.infoContainer}>
