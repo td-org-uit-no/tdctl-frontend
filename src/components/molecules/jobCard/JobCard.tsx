@@ -4,6 +4,7 @@ import styles from './jobCard.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { JobItem } from 'models/apiModels';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 const JobCard: React.FC<JobItem> = (job) => {
   const imgUrl = baseUrl + 'jobs/' + job.id + '/image';
@@ -36,7 +37,11 @@ const JobCard: React.FC<JobItem> = (job) => {
             <div className={styles.jobInfo}>
               <div className={styles.dateWrapper}>
                 <Icon type={'clock'} size={1} color="$primary" />
-                <small>{new Date(job.due_date).toDateString()}</small>
+                <small>
+                  {job.due_date
+                    ? new Date(job?.due_date).toDateString()
+                    : 'Fortløpende'}
+                </small>
               </div>
               <small>{job.type}</small>
             </div>
@@ -44,7 +49,7 @@ const JobCard: React.FC<JobItem> = (job) => {
         </div>
       </div>
       <div>
-        <p className={styles.card_header_line}>{job.description_preview}</p>
+        <ReactMarkdown children={job.description_preview} />
       </div>
       <div className={styles.card_headerContent}>
         <div className={styles.tags_container}>

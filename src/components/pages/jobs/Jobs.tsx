@@ -12,6 +12,10 @@ import JobFilterProvider, {
 } from 'contexts/filterJobProvider';
 import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
+import useModal from 'hooks/useModal';
+import Modal from 'components/molecules/modal/Modal';
+import Button from 'components/atoms/button/Button';
+import Job from './Job';
 
 interface ChipProps {
   label: string;
@@ -156,6 +160,7 @@ const _Jobs: React.FC = () => {
   const [formOpen, setFormOpen] = useState(false);
   const { role } = useContext(AuthenticateContext);
   const { context, setContext } = useContext(FilterContextHook);
+  const { isOpen, onOpen, onClose } = useModal();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -182,7 +187,7 @@ const _Jobs: React.FC = () => {
               type={formOpen ? 'minus' : 'plus'}
               size={2}
               color={'rgba(240, 150, 103, 0.3)'}
-              onClick={() => setFormOpen(!formOpen)}></Icon>
+              onClick={onOpen}></Icon>
           )}
         </div>
 
@@ -190,7 +195,11 @@ const _Jobs: React.FC = () => {
           <FilterJobs />
 
           <div className={styles.mainContent}>
-            {formOpen ? <JobForm></JobForm> : null}
+            <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
+              <div className={styles.jobsFormContainer}>
+                <JobForm />
+              </div>
+            </Modal>
             {context.allJobs?.length === 0 && (
               <h5>Ingen stillingsutlysninger</h5>
             )}
