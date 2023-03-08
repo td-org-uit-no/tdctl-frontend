@@ -1,0 +1,50 @@
+.jobFormContainer {
+  display: flex;
+  width: 100%;
+}
+
+.jobsForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.shortInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: space-around;
+
+  textarea {
+    min-height: 7.5vh;
+    min-width: 50vw;
+  }
+}
+
+.imgContainer {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+
+.upload {
+  margin: 1rem 0 1rem;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+
+  button {
+    width: 33%;
+    align-self: center;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
