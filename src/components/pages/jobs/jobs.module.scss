@@ -52,6 +52,11 @@
   color: rgba(240, 150, 103, 0.5);
   cursor: pointer;
 }
+.jobsFormContainer {
+  display: flex;
+  justify-content: center;
+  min-width: 65vw;
+}
 
 .filterWrapper {
   display: flex;
@@ -129,7 +134,6 @@ hr {
   100% {
     opacity: 1;
   }
-
 }
 
 @media screen and (min-width: 769px) and (max-width: 1001px) {

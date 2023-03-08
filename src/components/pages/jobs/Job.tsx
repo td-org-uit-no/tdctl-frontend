@@ -13,6 +13,7 @@ import { useToast } from 'hooks/useToast';
 import Button from 'components/atoms/button/Button';
 import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
+import ReactMarkdown from 'react-markdown';
 
 interface IValidJob {
   jobData: JobItem | undefined;
@@ -57,6 +58,10 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                     size={2}
                     color=" rgba(240, 150, 103, 0.3)"
                     onClick={() => {
+                      // id undefined means in preview mode
+                      if (id === undefined) {
+                        return;
+                      }
                       history.goBack();
                     }}></Icon>
                 </div>
@@ -85,15 +90,21 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                 Sted: <br /> <small>{jobData.location}</small>
               </div>
               <hr />
-              <div>
-                Start dato
-                <br />
-                <small>{new Date(jobData.start_date).toDateString()}</small>
-              </div>
-              <hr />
+              {jobData?.start_date != null && (
+                <div>
+                  Start dato
+                  <br />
+                  <small>{new Date(jobData?.start_date).toDateString()}</small>
+                  <hr />
+                </div>
+              )}
               <div>
                 Søknadsfrist <br />
-                <small>{new Date(jobData.due_date).toDateString()}</small>
+                <small>
+                  {jobData.due_date != null
+                    ? new Date(jobData.due_date).toDateString()
+                    : 'Fortløpende'}
+                </small>
               </div>
               <hr />
               <div>
@@ -123,8 +134,7 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                 <h3>{jobData.title}</h3>
                 <hr />
               </div>
-
-              <p>{jobData.description}</p>
+              <ReactMarkdown children={jobData.description} />
               <div className={'tags_container'}>
                 {jobData?.tags?.map((tag, key) => (
                   <div className={'tags'} key={key}>
@@ -164,11 +174,16 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
   );
 };
 
-const Job = () => {
+const Job: React.FC<{ jobData?: JobItem }> = ({ jobData }) => {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = React.useState<JobItem | undefined>(undefined);
+  const [data, setData] = React.useState<JobItem | undefined>(
+    jobData ?? undefined
+  );
 
   useEffect(() => {
+    if (jobData) {
+      return;
+    }
     const getData = async (id: string) => {
       try {
         const res: JobItem = await getJob(id);

@@ -112,11 +112,11 @@ export interface JobItem {
   tags: string[];
   description_preview: string;
   description: string;
-  start_date: Date;
   published_date: Date;
   location: string;
   link: string;
-  due_date: Date;
+  start_date?: Date;
+  due_date?: Date;
 }
 
 export type CreateJob = Omit<JobItem, 'id'>;

@@ -174,11 +174,32 @@ const JobForm = () => {
           <input type="file" accept="image/*" onChange={handleFileUpload} />
         </div>
       </form>
+      <Modal title="Forhåndsvisning" isOpen={isOpen} onClose={onClose}>
+        <div
+          style={{
+            display: 'flex',
+            width: '95vw',
+            height: '85vh',
+            overflowX: 'hidden',
+            overflowY: 'auto',
+          }}>
+          <Job jobData={prevData ?? ({} as JobItem)} />
+        </div>
+      </Modal>
       <div>
-        {error && <p>{error}</p>}
-        <Button version={'primary'} onClick={submit}>
-          Send
-        </Button>
+        <div className={'upload'}>
+          {error && <p>{error}</p>}
+          <div className={'imgContainer'}>
+            <label>Last opp bilde til jobben </label>
+            <input type="file" accept="image/*" onChange={handleFileUpload} />
+          </div>
+          <Button version={'primary'} onClick={submit}>
+            Send
+          </Button>
+          <Button version="primary" onClick={preview}>
+            Forhåndsvisning
+          </Button>
+        </div>
       </div>
     </div>
   );
