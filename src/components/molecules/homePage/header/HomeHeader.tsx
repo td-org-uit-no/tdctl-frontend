@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Button from 'components/atoms/button/Button';
 import logo from 'assets/td-full-logo.png';
 import styles from './homeHeader.module.scss';

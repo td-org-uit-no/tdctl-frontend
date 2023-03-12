@@ -1,10 +1,10 @@
+import AuthenticateProvider from 'contexts/authProvider';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import './styles/styles.scss';
-import AuthenticateProvider from 'contexts/authProvider';
 
 ReactDOM.render(
   <React.StrictMode>

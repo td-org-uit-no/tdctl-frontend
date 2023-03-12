@@ -17,8 +17,7 @@ const useUpcomingEvents = () => {
   const fetchEvents = async () => {
     try {
       setIsFetching(true);
-      // pass if the user is authenticated into function to get the correct return value for api
-      const eventData = await getUpcomingEvents(authenticated);
+      const eventData = await getUpcomingEvents();
       const sorted = [...eventData].sort(sortByDate);
       setEvents(sorted);
       setIsFetching(false);

@@ -8,13 +8,13 @@ export const getJob = (id: string): Promise<JobItem> =>
   get<JobItem>('jobs/' + id);
 
 export const createJob = (job: CreateJob): Promise<{ id: string }> =>
-  post<{ id: string }>('jobs/', job, true);
+  post<{ id: string }>('jobs/', job);
 
 export const uploadJobPicture = (id: string, jobImage: any) =>
-  post<{}>('jobs/' + id + '/image', jobImage, true, 'multipart/form-data');
+  post<{}>('jobs/' + id + '/image', jobImage, 'multipart/form-data');
 
 export const getJobImage = (id: string): Promise<{ image: any }> =>
-  get<{ image: any }>('jobs/' + id + '/image', true);
+  get<{ image: any }>('jobs/' + id + '/image');
 
 export const deleteJob = (id: string): Promise<{ id: string }> =>
-  Delete<{ id: string }>('jobs/' + id, true);
+  Delete<{ id: string }>('jobs/' + id);

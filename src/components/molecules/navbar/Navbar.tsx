@@ -16,11 +16,11 @@ const DefaultNavbar = () => {
 };
 
 const AuthNavbar = () => {
-  const { setAuthenticated, role } = useContext(AuthenticateContext);
+  const { updateCredentials, role } = useContext(AuthenticateContext);
   const onLogout = async () => {
     try {
       await logout();
-      setAuthenticated(false);
+      updateCredentials();
     } catch (errro) {
       if (errro.statusCode === 401) {
         /* Gracefully ignore it */

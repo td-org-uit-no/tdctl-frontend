@@ -1,9 +1,5 @@
+import { getMemberAssociatedWithToken } from 'api';
 import React, { useState, useEffect, createContext } from 'react';
-import {
-  findRefreshTokenExpInMs,
-  getRole,
-  verifyAuthentication,
-} from 'utils/auth';
 
 export const AuthenticateContext = createContext({
   authenticated: false,
@@ -31,42 +27,19 @@ const AuthenticateProvider: React.FC = ({ children }) => {
   const [role, setRole] = useState<RoleOptions>('unconfirmed');
 
   const updateCredentials = () => {
-    verifyAuthentication().then((res) => {
-      if (res) {
-        const userRole = getRole() as RoleOptions;
+    getMemberAssociatedWithToken()
+      .then((res) => {
+        const userRole = res.role as RoleOptions;
         setRole(userRole);
-        setAuthenticated(res);
+        setAuthenticated(true);
         setValidating(false);
-      } else {
-        setValidating(true);
+      })
+      .catch(() => {
         setRole('unconfirmed');
         setAuthenticated(false);
         setValidating(false);
-      }
-    });
+      });
   };
-
-  // function for checking the refreshToken after it expired to set the user to not authenticated when inactive
-  const monitorRefreshToken = () => {
-    // small offset to handle if renewal was valid but it took time for the tokens to be retrieved ans sat
-    const offset = 10 * 1000;
-    const exp = findRefreshTokenExpInMs();
-    if (exp === undefined) {
-      // refreshToken is expired
-      setAuthenticated(false);
-      return;
-    }
-    setTimeout(monitorRefreshToken, exp + offset);
-  };
-
-  useEffect(() => {
-    if (authenticated) {
-      monitorRefreshToken();
-    } else {
-      // reset role matching not authenticated user
-      setRole(Roles.unconfirmed);
-    }
-  }, [authenticated]);
 
   useEffect(() => {
     updateCredentials();

@@ -3,20 +3,18 @@ import { Event } from 'models/apiModels';
 import Button from 'components/atoms/button/Button';
 
 import { baseUrl } from 'constants/apiConstants';
-import { getTokens } from 'utils/auth';
 
 const EventExport: React.FC<{ event: Event }> = ({ event }) => {
   const filename = event.title + '.xlsx';
 
   const exportEventCsv = async (url: string) => {
-    const { accessToken } = getTokens();
     const request = new Request(baseUrl + 'event/' + url + '/export', {
       method: 'GET',
+      credentials: 'include',
       headers: {
         accept: 'application/pdf',
       },
     });
-    request.headers.set('Authorization', `Bearer ${accessToken}`);
 
     fetch(request)
       .then((response) => {

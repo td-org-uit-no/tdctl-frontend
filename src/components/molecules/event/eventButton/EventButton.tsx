@@ -147,7 +147,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const event = await getEventById(id, true);
+      const event = await getEventById(id);
       setEvent(event);
     };
     fetchEvent();

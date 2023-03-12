@@ -1,25 +1,13 @@
-import { TokenPair } from 'models/apiModels';
+import { baseUrl } from 'constants/apiConstants';
 import { post } from './requests';
-import { clearTokens, getTokens, setTokens } from 'utils/auth';
 
-const authenticate = (email: string, password: string) =>
-  post<TokenPair>('auth/login', { email, password });
+const login = (email: string, password: string) =>
+  post<{}>('auth/login', { email, password });
 
-const renewToken = (refreshToken: string): Promise<TokenPair> =>
-  post<TokenPair>('auth/renew', { refreshToken: refreshToken });
+// Use regular fetch here since we don't need to retry refreshing the token
+const renewToken = () =>
+  fetch(baseUrl + 'auth/renew', { method: 'POST', credentials: 'include' });
 
-const authLogout = (refreshToken: string) =>
-  post<{}>('auth/logout', { refreshToken: refreshToken });
+const logout = () => post<{}>('auth/logout', {});
 
-const login = async (email: string, password: string) =>
-  authenticate(email, password).then((tokens) => {
-    setTokens(tokens.accessToken, tokens.refreshToken);
-  });
-
-const logout = async () => {
-  const { refreshToken } = getTokens();
-  await authLogout(refreshToken);
-  clearTokens();
-};
-
-export { login, logout, authenticate, renewToken, authLogout };
+export { login, logout, renewToken };

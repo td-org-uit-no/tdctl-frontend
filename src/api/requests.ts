@@ -1,5 +1,4 @@
 import { baseUrl } from 'constants/apiConstants';
-import { setTokens, getTokens } from 'utils/auth';
 import { renewToken } from './auth';
 
 /* Http error */
@@ -23,21 +22,14 @@ export class HttpError extends Error {
   };
 }
 
-export const get = async <T>(
-  url: string,
-  auth = false,
-  content_type = 'application/json'
-) => {
+export const get = async <T>(url: string) => {
   const request = new Request(baseUrl + url, {
+    credentials: 'include',
     headers: {
       accept: 'application/json',
-      'Access-Control-Allow-Origin': '*',
     },
   });
-  if (auth) {
-    return authFetch<T>(request);
-  }
-  return fetch(request).then((res) => handleResponse<T>(res));
+  return authFetch<T>(request);
 };
 
 //Put and post are basicly equal :/
@@ -46,73 +38,69 @@ export const get = async <T>(
 export const post = async <T>(
   url: string,
   data: any,
-  auth = false,
   content_type = 'application/json'
 ) => {
   const request = new Request(baseUrl + url, {
     ...(content_type === 'application/json' && {
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify(data),
+      credentials: 'include',
     }),
     method: 'POST',
     ...(content_type === 'multipart/form-data' && { body: data }),
   });
 
-  if (auth) {
-    return authFetch<T>(request);
-  }
-  return fetch(request).then((res) => handleResponse<T>(res));
+  return authFetch<T>(request);
 };
 
-export const put = async <T>(url: string, data: any, auth = false) => {
+export const put = async <T>(url: string, data: any) => {
   const request = new Request(baseUrl + url, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: {
       'content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     },
+    credentials: 'include',
   });
-  if (auth) {
-    return authFetch<T>(request);
-  }
-  return fetch(request).then((res) => handleResponse<T>(res));
+  return authFetch<T>(request);
 };
 
-export const Delete = async <T>(url: string, auth = false) => {
+export const Delete = async <T>(url: string) => {
   const request = new Request(baseUrl + url, {
     method: 'DELETE',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     },
   });
-  if (auth) {
-    return authFetch<T>(request);
-  }
-  return fetch(request).then((res) => handleResponse<T>(res));
+  return authFetch<T>(request);
 };
 
-const authFetch = <T>(request: Request) => {
-  const { accessToken } = getTokens();
-  request.headers.set('Authorization', `Bearer ${accessToken}`);
-  return fetch(request).then((res) => {
-    try {
-      return handleResponse<T>(res);
-    } catch (error) {
+const authFetch = async <T>(request: Request) => {
+  return fetch(request)
+    .then((res) => {
+      try {
+        return handleResponse<T>(res);
+      } catch (error) {
+        if (error.statusCode === 401) {
+          return renewAndRetry<T>(request);
+        } else {
+          throw error;
+        }
+      }
+    })
+    .catch((error) => {
       if (error.statusCode === 401) {
         return renewAndRetry<T>(request);
       } else {
         throw error;
       }
-    }
-  });
+    });
 };
 
-function handleResponse<T>(response: Response): Promise<T> {
+async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     throw new HttpError(response.statusText, response.status, response.text());
   }
@@ -124,15 +112,17 @@ function handleResponse<T>(response: Response): Promise<T> {
     return {} as Promise<T>;
   }
 
-  return response.json() as Promise<T>;
+  // Response into json might fail, so return empty in that case
+  try {
+    return (await response.json()) as Promise<T>;
+  } catch {
+    return {} as Promise<T>;
+  }
 }
 
 const renewAndRetry = async <T>(request: Request): Promise<T> => {
-  const { refreshToken } = getTokens();
   try {
-    const tokens = await renewToken(refreshToken);
-    setTokens(tokens.accessToken, tokens.refreshToken);
-    request.headers.set('Authorization', `Bearer ${tokens.accessToken}`);
+    await renewToken();
     return fetch(request).then((res) => handleResponse<T>(res));
   } catch (error) {
     throw error;
