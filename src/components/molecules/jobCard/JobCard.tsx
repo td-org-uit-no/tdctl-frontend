@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React from 'react';
 import { baseUrl } from 'constants/apiConstants';
 import styles from './jobCard.module.scss';
 import Icon from 'components/atoms/icons/icon';

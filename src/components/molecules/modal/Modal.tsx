@@ -1,5 +1,5 @@
 import Icon from 'components/atoms/icons/icon';
-import React, { HTMLProps, useCallback, useEffect, useState } from 'react';
+import React, { HTMLProps, useEffect } from 'react';
 import styles from './modal.module.scss';
 
 export interface Props extends HTMLProps<HTMLDivElement> {
@@ -66,8 +66,7 @@ const Modal: React.FC<Props> = ({
               style={{
                 minWidth: minWidth ? minWidth + 'ch' : '',
                 maxWidth: maxWidth ? maxWidth + 'ch' : '',
-              }}
-            >
+              }}>
               <div className={styles.modalHeader}>
                 <div className={styles.headingBox}>
                   <h2>{title}</h2>

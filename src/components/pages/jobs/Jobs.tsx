@@ -14,8 +14,6 @@ import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
 import Modal from 'components/molecules/modal/Modal';
-import Button from 'components/atoms/button/Button';
-import Job from './Job';
 
 interface ChipProps {
   label: string;
@@ -49,8 +47,7 @@ const Chip: React.FC<ChipProps> = (props) => {
       onClick={() => filterBasedOnTag(active)}
       style={{
         backgroundColor: active ? 'rgba(240, 150, 103, 0.3)' : '#f09667',
-      }}
-    >
+      }}>
       <span>{props.label}</span>
     </div>
   );
@@ -88,8 +85,7 @@ const FilterJobs: React.FC = () => {
             ...ctxHook?.context,
             search_string: e.target.value,
           });
-        }}
-      ></TextField>
+        }}></TextField>
       <div
         className={styles.filterSortWrapper}
         onMouseEnter={() => {
@@ -103,8 +99,7 @@ const FilterJobs: React.FC = () => {
             ...ctxHook.context,
             sort_date: !ctxHook.context.sort_date,
           });
-        }}
-      >
+        }}>
         <small>Sort by date</small>
         <Icon
           color={hoverSort ? '#f09667' : '#444658'}
@@ -112,8 +107,7 @@ const FilterJobs: React.FC = () => {
             ctxHook?.context.sort_date
               ? 'sort-amount-up-alt'
               : 'sort-amount-down-alt'
-          }
-        ></Icon>
+          }></Icon>
       </div>
       <hr />
       <div className={styles.filterTagWrapper}>
@@ -130,8 +124,7 @@ const FilterJobs: React.FC = () => {
           className={styles.companyButton}
           onClick={() => {
             setForBedrifter(!forBedrifter);
-          }}
-        >
+          }}>
           For bedrifter!
         </div>
       </div>
@@ -140,8 +133,7 @@ const FilterJobs: React.FC = () => {
           <p
             style={{
               fontSize: '0.8rem',
-            }}
-          >
+            }}>
             Har din organisasjon -eller bedrift lyst til å dele ledige
             stillinger, sommerjobber eller liknende hos oss i Tromsøstudentenes
             Dataforening? Send en e-post til
@@ -150,8 +142,7 @@ const FilterJobs: React.FC = () => {
               style={{
                 textDecoration: 'None',
                 color: 'rgba(240, 150, 103, 0.5)',
-              }}
-            >
+              }}>
               {' '}
               bedriftskommunikasjon@td-uit.no{' '}
             </a>
@@ -163,8 +154,10 @@ const FilterJobs: React.FC = () => {
   );
 };
 
-const _Jobs: React.FC = () => {
-  const [formOpen, setFormOpen] = useState(false);
+const Jobs: React.FC = () => {
+  useTitle('Stillingsutlysninger');
+
+  const formOpen = false;
   const { role } = useContext(AuthenticateContext);
   const { context, setContext } = useContext(FilterContextHook);
   const { isOpen, onOpen, onClose } = useModal();
@@ -185,47 +178,39 @@ const _Jobs: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.pageWrapper}>
-      <div className={styles.jobsWrapper}>
-        <div className={styles.jobsHeader}>
-          <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
-          {role === Roles.admin && (
-            <Icon
-              type={formOpen ? 'minus' : 'plus'}
-              size={2}
-              color={'rgba(240, 150, 103, 0.3)'}
-              onClick={onOpen}
-            ></Icon>
-          )}
-        </div>
-
-        <div className={styles.content}>
-          <FilterJobs />
-
-          <div className={styles.mainContent}>
-            <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
-              <div className={styles.jobsFormContainer}>
-                <JobForm />
-              </div>
-            </Modal>
-            {context.allJobs?.length === 0 && (
-              <h5>Ingen stillingsutlysninger</h5>
+    <JobFilterProvider>
+      <div className={styles.pageWrapper}>
+        <div className={styles.jobsWrapper}>
+          <div className={styles.jobsHeader}>
+            <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
+            {role === Roles.admin && (
+              <Icon
+                type={formOpen ? 'minus' : 'plus'}
+                size={2}
+                color={'rgba(240, 150, 103, 0.3)'}
+                onClick={onOpen}></Icon>
             )}
-            {context.sortedJobs?.map((job, key) => {
-              return <JobCard {...job} key={key} />;
-            })}
+          </div>
+
+          <div className={styles.content}>
+            <FilterJobs />
+
+            <div className={styles.mainContent}>
+              <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
+                <div className={styles.jobsFormContainer}>
+                  <JobForm />
+                </div>
+              </Modal>
+              {context.allJobs?.length === 0 && (
+                <h5>Ingen stillingsutlysninger</h5>
+              )}
+              {context.sortedJobs?.map((job, key) => {
+                return <JobCard {...job} key={key} />;
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const Jobs: React.FC = () => {
-  useTitle('Stillingsutlysninger');
-  return (
-    <JobFilterProvider>
-      <_Jobs />
     </JobFilterProvider>
   );
 };

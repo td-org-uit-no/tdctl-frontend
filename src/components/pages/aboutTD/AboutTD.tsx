@@ -31,16 +31,14 @@ const TDBoardPost: React.FC<IBoardPost> = ({ position, members, mail }) => {
           flexDirection: 'row',
           textAlign: 'center',
           justifyContent: 'center',
-        }}
-      >
+        }}>
         <p> {stringRepr} </p>
       </div>
       {mail.map((m, i) => (
         <a
           href={`mailto:${mail}`}
           key={i}
-          style={{ marginBottom: i === mail.length - 1 ? '.5rem' : '0rem' }}
-        >
+          style={{ marginBottom: i === mail.length - 1 ? '.5rem' : '0rem' }}>
           {m}
         </a>
       ))}
@@ -172,7 +170,7 @@ const AboutTD: React.FC = () => {
   useTitle('Om oss');
   return (
     <div className="aboutUsContainer">
-      <img src={logo} />
+      <img src={logo} alt="" />
       <div className="aboutSection">
         <div className="infoSection">
           <h2> Om oss </h2>

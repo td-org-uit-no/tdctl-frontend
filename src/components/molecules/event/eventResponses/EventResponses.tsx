@@ -22,7 +22,7 @@ const EventResponses: React.FC<{
     Participant | undefined
   >();
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose } = useModal();
   const {
     isOpen: isOpenDeleteModal,
     onOpen: openDeleteModal,
@@ -133,8 +133,7 @@ const EventResponses: React.FC<{
               color="white"
               onClick={() => {
                 openDeleteColumn(email);
-              }}
-            ></Icon>
+              }}></Icon>
           </>
         );
       },
@@ -178,8 +177,7 @@ const EventResponses: React.FC<{
         minWidth={45}
         title="Endre deltager"
         isOpen={isOpen}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         <form>
           <div>
             <h5>Event</h5>
@@ -187,8 +185,7 @@ const EventResponses: React.FC<{
             <div>
               <ToggleButton
                 label="Cuisine"
-                onChange={toggleCuisine}
-              ></ToggleButton>
+                onChange={toggleCuisine}></ToggleButton>
             </div>
             <br />
             <TextField label="Allergies"></TextField>
@@ -200,12 +197,10 @@ const EventResponses: React.FC<{
         title={`Remove ${selectedParticipant?.realName ?? ''}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}
-      >
+        minWidth={45}>
         <ConfirmationBox
           onAccept={adminDeleteMember}
-          onDecline={closeDeleteModal}
-        ></ConfirmationBox>
+          onDecline={closeDeleteModal}></ConfirmationBox>
       </Modal>
     </div>
   );

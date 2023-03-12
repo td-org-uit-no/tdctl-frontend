@@ -6,8 +6,7 @@ import ReactEcharts from 'echarts-for-react';
 import styles from './EventStatistics.module.scss';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
 import { RegisterTheme } from '../../../../styles/registerTheme';
-import { sortDate, sortNumber, sortString } from 'utils/sorting';
-import { number } from 'echarts';
+import { sortNumber, sortString } from 'utils/sorting';
 
 RegisterTheme();
 
@@ -425,8 +424,7 @@ const EventStatistics: React.FC<{
         columns={dieataryRestrictionsColumns}
         data={participants.filter(
           (part) => part.dietaryRestrictions !== '' && part.food === true
-        )}
-      ></Table>
+        )}></Table>
     </div>
   );
 };

@@ -1,13 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './passwordValidation.module.scss';
-import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import Button from 'components/atoms/button/Button';
 import TextField from 'components/atoms/textfield/Textfield';
 import useForm from 'hooks/useForm';
 import { passwordValidator } from 'utils/validators';
-import { changePassword } from 'api';
-import { useHistory } from 'react-router-dom';
-import { useToast } from 'hooks/useToast';
 import { ChangePasswordPayload } from 'models/apiModels';
 
 interface IPasswordValidation {
@@ -19,7 +15,6 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
   upstreamFunction,
 }) => {
   const [errors, setError] = useState<string | undefined>(undefined);
-  const history = useHistory();
   const validators = {
     newPassword: passwordValidator,
   };
@@ -83,8 +78,7 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
       <Button
         className={styles.submitButton}
         version="secondary"
-        onClick={submit}
-      >
+        onClick={submit}>
         Submit
       </Button>
     </div>

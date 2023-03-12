@@ -206,20 +206,19 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   <ToggleButton
                     initValue={toggleFood}
                     onChange={() => setToggleFood(!toggleFood)}
-                    label={'Matservering'}
-                  ></ToggleButton>
+                    label={'Matservering'}></ToggleButton>
                   <ToggleButton
                     initValue={toggleTransportation}
                     onChange={() =>
                       setToggleTransportation(!toggleTransportation)
                     }
-                    label={'Transport'}
-                  ></ToggleButton>
+                    label={'Transport'}></ToggleButton>
                   <ToggleButton
                     initValue={togglePublic}
                     onChange={() => setTogglePublic(!togglePublic)}
-                    label={togglePublic ? 'Offentlig' : 'Privat'}
-                  ></ToggleButton>
+                    label={
+                      togglePublic ? 'Offentlig' : 'Privat'
+                    }></ToggleButton>
                 </div>
               </div>
             </div>
@@ -231,15 +230,13 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
         <Button
           version="primary"
           onClick={setEdit}
-          className={styles.adminButtons}
-        >
+          className={styles.adminButtons}>
           Forkast endringer
         </Button>
         <Button
           version="secondary"
           className={styles.adminButtons}
-          onClick={submit}
-        >
+          onClick={submit}>
           Oppdater
         </Button>
       </div>
@@ -265,9 +262,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
 }) => {
   const [participantsHeader, setParticipantHeader] = useState('');
   const [participantsText, setParticipantText] = useState('');
-  const [canJoinEvent, setCanJoin] = useState<boolean>(
-    validJoin(role, event.registrationOpeningDate)
-  );
+  const canJoinEvent = validJoin(role, event.registrationOpeningDate);
   const { authenticated } = useContext(AuthenticateContext);
 
   // sets correct header and text based on what the user should see
@@ -364,8 +359,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
                         (event.maxParticipants ?? arr.length) < i + 1
                           ? 'red'
                           : 'none',
-                    }}
-                  >
+                    }}>
                     {p.realName}
                   </li>
                 );

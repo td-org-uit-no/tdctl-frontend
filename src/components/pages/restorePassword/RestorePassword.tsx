@@ -1,4 +1,4 @@
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import TextField from 'components/atoms/textfield/Textfield';
 import Button from 'components/atoms/button/Button';
 import { useToast } from 'hooks/useToast';
