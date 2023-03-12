@@ -4,7 +4,7 @@ import { Delete, put } from './requests';
 export const adminUpdateMember = (
   id: string,
   memberUpdate: AdminMemberUpdate
-) => put<AdminMemberUpdate>(`admin/member/${id}`, memberUpdate, true);
+) => put<AdminMemberUpdate>(`admin/member/${id}`, memberUpdate);
 
 export const deleteMember = (id: string): Promise<{ id: string }> =>
-  Delete<{ id: string }>('admin/member/' + id, true);
+  Delete<{ id: string }>('admin/member/' + id);

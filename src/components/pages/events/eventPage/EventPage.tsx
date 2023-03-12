@@ -26,14 +26,14 @@ const ValidEvent: React.FC<IValidEventLayout> = ({ eventData }) => {
 const EventPage = () => {
   const [isValid, setIsValid] = useState<boolean | undefined>();
   const [event, setEvent] = useState<Event>();
-  const { authenticated, role } = useContext(AuthenticateContext);
+  const { role } = useContext(AuthenticateContext);
 
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     const isValidEventId = async (id: string) => {
       try {
-        const res = await getEventById(id, authenticated);
+        const res = await getEventById(id);
         setEvent(res);
         if (res.public === false && role !== Roles.admin) {
           // only allow admin to access unpublished events

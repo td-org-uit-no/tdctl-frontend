@@ -91,7 +91,7 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   const isMobile = useMobileScreen();
 
   const fetchEvent = async () => {
-    const event = await getEventById(id, true);
+    const event = await getEventById(id);
     setEvent(event);
   };
   const { setShouldFetch } = useFetchUpdate(fetchEvent);
