@@ -1,12 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import styles from './profile.module.scss';
-import { getMemberAssociatedWithToken, activateUser, sendNewVerificationEmail } from 'api';
+import {
+  getMemberAssociatedWithToken,
+  activateUser,
+  sendNewVerificationEmail,
+} from 'api';
 import { SettingsForm } from 'components/molecules/forms';
 import PasswordValidation from 'components/molecules/passwordValidation/PasswordValidation';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropDownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
-import { ToastStatus } from "contexts/toastProvider";
+import { ToastStatus } from 'contexts/toastProvider';
 import { changePassword } from 'api';
 import { ChangePasswordPayload } from 'models/apiModels';
 import { useHistory } from 'react-router-dom';
@@ -88,29 +92,29 @@ const SettingsPage = () => {
   };
 
   const sendConfirmationCode = async () => {
-    let title = "Email bekreftet"
-    let status: ToastStatus = "success"
-    let description = ""
+    let title = 'Email bekreftet';
+    let status: ToastStatus = 'success';
+    let description = '';
     try {
       if (init !== undefined) {
         await sendNewVerificationEmail(init.email);
-        description = `Ny bekreftelsekode er sendt til ${init.email}`
+        description = `Ny bekreftelsekode er sendt til ${init.email}`;
       }
-    } catch(error) {
-      if (error.statusCode === 400){
-        title = "Emailen er allerede bekreftet"
-        status = "error"
+    } catch (error) {
+      if (error.statusCode === 400) {
+        title = 'Emailen er allerede bekreftet';
+        status = 'error';
       } else {
-        title = "En uforutsett feil"
-        status = "error"
+        title = 'En uforutsett feil';
+        status = 'error';
       }
     }
     addToast({
       title: title,
       status: status,
-      description: description
-    })
-  }
+      description: description,
+    });
+  };
 
   return (
     <div className={styles.settingsContainer}>
@@ -135,7 +139,10 @@ const SettingsPage = () => {
         {role === Roles.unconfirmed && (
           <DropDownHeader title={'Aktiver email'}>
             <div className={styles.activateContainer}>
-              <Button version="secondary" onClick={sendConfirmationCode}> Send ny bekreftelse link </Button>
+              <Button version="secondary" onClick={sendConfirmationCode}>
+                {' '}
+                Send ny bekreftelse link{' '}
+              </Button>
             </div>
           </DropDownHeader>
         )}

@@ -199,7 +199,8 @@ const JobForm = () => {
             height: '85vh',
             overflowX: 'hidden',
             overflowY: 'auto',
-          }}>
+          }}
+        >
           <Job jobData={prevData ?? ({} as JobItem)} />
         </div>
       </Modal>

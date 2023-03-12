@@ -89,7 +89,8 @@ const JobFilterProvider: React.FC = ({ children }) => {
       value={{
         context: filterContext,
         setContext: setFilterContext,
-      }}>
+      }}
+    >
       {children}
     </FilterContextHook.Provider>
   );

@@ -19,7 +19,7 @@ const EventPreview: React.FC<{ eventData: Event }> = ({ eventData }) => {
         <div className={styles.header}>
           <p> {eventData.title} </p>
         </div>
-        <div style={{ height: '60%', width: '100%'}}>
+        <div style={{ height: '60%', width: '100%' }}>
           {eventData.eid !== undefined && <EventHeader id={eventData.eid} />}
         </div>
         <div className={styles.info}>

@@ -80,7 +80,8 @@ const AuthenticateProvider: React.FC = ({ children }) => {
         isValidating,
         role,
         updateCredentials,
-      }}>
+      }}
+    >
       {children}
     </AuthenticateContext.Provider>
   );

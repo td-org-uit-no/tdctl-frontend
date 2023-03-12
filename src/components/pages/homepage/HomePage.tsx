@@ -20,7 +20,8 @@ const RootPage = () => {
           <LoadingWrapper
             data={events}
             animation={false}
-            className={styles.wrapper}>
+            className={styles.wrapper}
+          >
             {events.length ? (
               <div style={{ maxWidth: '75vw', minWidth: '60vw' }}>
                 <Carousel
@@ -28,7 +29,8 @@ const RootPage = () => {
                   dir={isMobile ? 'column' : 'row'}
                   viewItems={isMobile ? 1 : 3}
                   spacing={!isMobile}
-                  height={'45vh'}>
+                  height={'45vh'}
+                >
                   {events.map((event) => (
                     <EventPreview eventData={event} key={event.eid} />
                   ))}

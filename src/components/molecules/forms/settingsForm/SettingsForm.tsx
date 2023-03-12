@@ -140,7 +140,8 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
               <Button
                 version="secondary"
                 onClick={updatePhoneData}
-                style={{ margin: '1rem 0 1rem 0' }}>
+                style={{ margin: '1rem 0 1rem 0' }}
+              >
                 {phoneBtnTxt} Mobil
               </Button>
               <DropDown expanded={phoneExpanded}>
@@ -161,7 +162,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             className={styles.submitButton}
             version="secondary"
             onClick={submit}
-            >
+          >
             Submit
           </Button>
         </div>

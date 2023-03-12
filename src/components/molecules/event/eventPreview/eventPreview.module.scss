@@ -46,9 +46,7 @@
   }
 }
 
-
-@media only screen and (min-device-width : 320px) and (max-device-width : 1223px) {
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 1223px) {
   .info {
     p {
       font-size: 0.8rem;
@@ -60,5 +58,4 @@
       font-size: 0.8rem;
     }
   }
-  
 }

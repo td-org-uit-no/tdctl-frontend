@@ -34,7 +34,8 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         onClick={() => {
           onClick();
           closeMenu();
-        }}>
+        }}
+      >
         {label}
       </Link>
     </li>

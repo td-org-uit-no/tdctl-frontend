@@ -172,7 +172,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         title="Er du sikker på at vil melde deg av?"
         isOpen={isOpen}
         onClose={onClose}
-        minWidth={25}>
+        minWidth={25}
+      >
         <div className={styles.cancellationWrapper}>
           <div className={styles.cancellationMessageContainer}>
             {isValidCancellation ? (
@@ -185,7 +186,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                   style={{
                     textDecorationColor: '#b73653',
                     textDecorationThickness: '.2rem',
-                  }}>
+                  }}
+                >
                   {' '}
                   en merknad hvis du har mottat bekreftelse om plass
                 </u>
@@ -206,7 +208,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         title={'Påmelding'}
         isOpen={preferencesOpen}
         onClose={closePreferences}
-        maxWidth={100}>
+        maxWidth={100}
+      >
         <div className={styles.formContent}>
           <div className={styles.formToggles}>
             {event?.food && (
@@ -218,7 +221,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                       ...joinEventPayload,
                       food: !joinEventPayload.food,
                     })
-                  }></ToggleButton>
+                  }
+                ></ToggleButton>
                 <ToggleButton
                   label={'Har du en allergi/matpreferanse?'}
                   onChange={() => {
@@ -231,7 +235,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                     } else {
                       setShowAllergies(true);
                     }
-                  }}></ToggleButton>
+                  }}
+                ></ToggleButton>
                 {showAllergies && (
                   <div className={styles.allergyTextFieldContainer}>
                     <div className={styles.allergyTextFieldAnim}>
@@ -242,7 +247,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                             ...joinEventPayload,
                             dietaryRestrictions: e.target.value,
                           });
-                        }}></TextField>
+                        }}
+                      ></TextField>
                     </div>
                   </div>
                 )}
@@ -257,7 +263,8 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                       ...joinEventPayload,
                       transportation: !joinEventPayload.transportation,
                     })
-                  }></ToggleButton>
+                  }
+                ></ToggleButton>
               </>
             )}
           </div>

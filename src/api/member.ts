@@ -28,11 +28,14 @@ export const changePassword = (passwordPayload: ChangePasswordPayload) =>
 
 export const getAllMembers = () => get<Array<Member>>('members/', true);
 
-export const confirmMember = (confimationCode: string) => post<{}>('member/confirm/' + confimationCode, '')
+export const confirmMember = (confimationCode: string) =>
+  post<{}>('member/confirm/' + confimationCode, '');
 
-export const sendNewVerificationEmail = (email: string) => post<{}>('member/confirm/code/' + email, '')
+export const sendNewVerificationEmail = (email: string) =>
+  post<{}>('member/confirm/code/' + email, '');
 
-export const sendRestorePasswordEmail = (email: string) => post<{}>('member/reset-password/code/' + email, '')
+export const sendRestorePasswordEmail = (email: string) =>
+  post<{}>('member/reset-password/code/' + email, '');
 
-export const resetPassword = (code: string, password: string) => post<{}>('member/reset-password/', {token: code, newPassword: password})
-
+export const resetPassword = (code: string, password: string) =>
+  post<{}>('member/reset-password/', { token: code, newPassword: password });

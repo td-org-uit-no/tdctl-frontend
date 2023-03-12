@@ -45,7 +45,8 @@ const FooterLogos = () => {
               title="Invitasjon til vår discord"
               isOpen={isOpen}
               onClose={onClose}
-              minWidth={45}>
+              minWidth={45}
+            >
               <div>
                 <img src={discordInvite} alt="Link to discord" />
               </div>
