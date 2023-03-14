@@ -1,5 +1,6 @@
 import { baseUrl } from 'constants/apiConstants';
-import { post } from './requests';
+import { TokenInfo } from 'models/apiModels';
+import { get, post } from './requests';
 
 const login = (email: string, password: string) =>
   post<{}>('auth/login', { email, password });
@@ -10,4 +11,6 @@ const renewToken = () =>
 
 const logout = () => post<{}>('auth/logout', {});
 
-export { login, logout, renewToken };
+const getTokenInfo = () => get<TokenInfo>('auth/token-info/');
+
+export { login, logout, renewToken, getTokenInfo };

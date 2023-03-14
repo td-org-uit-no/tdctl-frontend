@@ -125,4 +125,10 @@ export interface JobItem {
 
 export type ParticipantsUpdate = Pick<Participant, 'id'> & { pos: number };
 
+export interface TokenInfo {
+  id: string;
+  role: RoleOptions;
+  exp: number;
+}
+
 export type CreateJob = Omit<JobItem, 'id'>;

@@ -1,4 +1,4 @@
-import { getMemberAssociatedWithToken } from 'api';
+import { getTokenInfo, renewToken } from 'api';
 import React, { useState, useEffect, createContext } from 'react';
 
 export const AuthenticateContext = createContext({
@@ -25,11 +25,13 @@ const AuthenticateProvider: React.FC = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(true);
   const [isValidating, setValidating] = useState(true);
   const [role, setRole] = useState<RoleOptions>('unconfirmed');
+  const [exp, setExp] = useState<number | undefined>();
 
   const updateCredentials = () => {
-    getMemberAssociatedWithToken()
+    getTokenInfo()
       .then((res) => {
         const userRole = res.role as RoleOptions;
+        setExp(res.exp);
         setRole(userRole);
         setAuthenticated(true);
         setValidating(false);
@@ -40,6 +42,23 @@ const AuthenticateProvider: React.FC = ({ children }) => {
         setValidating(false);
       });
   };
+
+  // Automatically refresh token when it is expired
+  useEffect(() => {
+    if (!exp) {
+      return;
+    }
+
+    const timeout = exp * 1000 - Date.now();
+    const timer = setTimeout(async () => {
+      await renewToken();
+      updateCredentials();
+    }, timeout);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [exp]);
 
   useEffect(() => {
     updateCredentials();
