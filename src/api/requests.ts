@@ -78,13 +78,21 @@ export const Delete = async <T>(url: string) => {
   return authFetch<T>(request);
 };
 
+// No need to try renew token and retry request on login
+const shouldRetry = (url: string, statusCode: number): boolean => {
+  return statusCode === 401 && !url.includes('auth/login');
+};
+
 const authFetch = async <T>(request: Request) => {
-  return fetch(request)
+  // The clone is needed to not get this error:
+  // Cannot construct a Request with a Request object that has already been used.
+  // This is since we are retrying the request if it's not a success
+  return fetch(request.clone())
     .then((res) => {
       try {
         return handleResponse<T>(res);
       } catch (error) {
-        if (error.statusCode === 401) {
+        if (shouldRetry(request.url, error.statusCode)) {
           return renewAndRetry<T>(request);
         } else {
           throw error;
@@ -92,7 +100,7 @@ const authFetch = async <T>(request: Request) => {
       }
     })
     .catch((error) => {
-      if (error.statusCode === 401) {
+      if (shouldRetry(request.url, error.statusCode)) {
         return renewAndRetry<T>(request);
       } else {
         throw error;
