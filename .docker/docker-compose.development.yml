@@ -11,3 +11,5 @@ services:
     stdin_open: true
     volumes:
       - ../:/app
+      # Mount an anonymous persistant volume to node_modules to prevent local overriding it
+      - /app/node_modules
