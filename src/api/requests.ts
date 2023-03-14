@@ -46,8 +46,8 @@ export const post = async <T>(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-      credentials: 'include',
     }),
+    credentials: 'include',
     method: 'POST',
     ...(content_type === 'multipart/form-data' && { body: data }),
   });
