@@ -22,6 +22,7 @@
 .main_content {
   display: flex;
   flex-direction: column;
+
   padding: 0rem 1rem 1rem 1rem;
 }
 
@@ -91,5 +92,9 @@
   .main_content {
     width: 100%;
     padding: 0;
+    overflow-wrap: break-word;
+    h3 {
+      font-size: 2rem;
+    }
   }
 }
