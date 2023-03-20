@@ -8,7 +8,6 @@
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   border: 0.1em #303342 solid;
-  overflow-x: auto;
   width: 100%;
 }
 
@@ -34,6 +33,9 @@ $border-radius: 5px;
   border-bottom: thin solid white;
   color: $primary;
   text-align: left;
+}
+.marked {
+  border-top: thin solid #50c742;
 }
 
 .table th,
