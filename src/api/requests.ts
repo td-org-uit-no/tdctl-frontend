@@ -5,10 +5,22 @@ import { renewToken } from './auth';
 /* Http error */
 export class HttpError extends Error {
   statusCode: number;
-  constructor(message: string, statusCode: number) {
+  text: Promise<string>;
+  constructor(message: string, statusCode: number, text: Promise<string>) {
     super(message);
     this.statusCode = statusCode;
+    this.text = text;
   }
+
+  public getText = async () => {
+    try {
+      let res = await this.text;
+      const reason = JSON.parse(res);
+      return reason.detail;
+    } catch (error) {
+      return '';
+    }
+  };
 }
 
 export const get = async <T>(
@@ -102,7 +114,7 @@ const authFetch = <T>(request: Request) => {
 
 function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    throw new HttpError(response.statusText, response.status);
+    throw new HttpError(response.statusText, response.status, response.text());
   }
   // Handle empty responses and missing content-lenght header when the response is encoded
   if (
