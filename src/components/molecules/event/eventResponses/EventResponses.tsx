@@ -202,18 +202,38 @@ const EventResponses: React.FC<{
 
   useEffect(() => {
     if (event.participants) {
-      const p: Participant[] = event.participants?.sort((a, b) => {
-        if (a.submitDate > b.submitDate) {
-          return 1;
-        }
-        if (a.submitDate < b.submitDate) {
-          return -1;
-        }
-        return 0;
-      });
-      setParticipants(p);
+      setParticipants(event.participants);
     }
   }, [event]);
+
+  const updateList = async () => {
+    const updateList = participants.map((p, idx) => {
+      return { id: p.id, pos: idx } as ParticipantsUpdate;
+    });
+
+    try {
+      await reorderParticipants(event.eid, { updateList: updateList });
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Påmeldings listen er oppdatert!"',
+      });
+    } catch (error) {
+      // let text = await getText(error.text);
+      let detail = await error.getText();
+      if (error.statusCode === 400) {
+        // forwards error from API
+        // TODO: make message norwegian
+        addToast({
+          title: 'Ikke godkjent oppdatering',
+          status: 'error',
+          description: `${detail}`,
+        });
+      }
+    }
+  };
+
+  // TODO: Create a state or something to toggle disabled on button
 
   return (
     <div className={styles.contentWrapper}>
@@ -223,7 +243,15 @@ const EventResponses: React.FC<{
         onConfirm={openSubmitModal}
       />
       {participants ? (
-        <Table columns={columns} data={participants}></Table>
+        <Table
+          columns={columns}
+          data={participants}
+          setData={setParticipants}
+          dragable={true}
+          showIdx={true}
+          sort={false}
+          mark={event.maxParticipants}
+        />
       ) : (
         <h3>Ingen deltakere foreløpig</h3>
       )}
