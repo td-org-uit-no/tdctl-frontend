@@ -6,11 +6,19 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   version: 'primary' | 'secondary';
 }
 
-const Button: React.FC<Props> = ({ children, version, className, ...rest }) => {
-  const classes = classnames(version, className);
+const Button: React.FC<Props> = ({
+  children,
+  version,
+  className,
+  disabled,
+  ...rest
+}) => {
+  const classes = disabled
+    ? classnames(className)
+    : classnames(version, className);
 
   return (
-    <button className={classes} {...rest}>
+    <button className={classes} disabled={disabled} {...rest}>
       {children}
     </button>
   );
