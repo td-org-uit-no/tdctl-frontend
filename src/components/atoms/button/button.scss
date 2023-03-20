@@ -27,6 +27,13 @@ button {
   }
 }
 
+button:disabled,
+button[disabled] {
+  background-color: #797a7d;
+  color: #333333;
+  cursor: not-allowed;
+}
+
 .primary {
   color: $primary;
   border-color: $off-primary;
