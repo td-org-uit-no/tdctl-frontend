@@ -4,6 +4,7 @@ import {
   Participant,
   Event,
   JoinEventPayload,
+  ParticipantsUpdate,
 } from 'models/apiModels';
 import { get, post, put, Delete } from './requests';
 
@@ -47,3 +48,16 @@ export const deleteParticipant = (
 
 export const exportEvent = (eid: string): Promise<{}> =>
   get<{}>('event/' + eid + '/export', true);
+
+export const confirmEvent = (eid: string): Promise<{}> =>
+  post<{}>('event/' + eid + '/confirm', {}, true);
+
+export const reorderParticipants = (
+  eid: string,
+  updateList: { updateList: ParticipantsUpdate[] }
+): Promise<{}> =>
+  put<{ updateList: ParticipantsUpdate[] }>(
+    'event/' + eid + '/updateParticipantsOrder',
+    updateList,
+    true
+  );

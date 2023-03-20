@@ -30,6 +30,8 @@ export interface Participant {
   transportation: boolean;
   dietaryRestrictions?: string;
   submitDate: string;
+  penalty: number;
+  confirmed?: boolean;
 }
 
 export interface TokenPair {
@@ -82,6 +84,7 @@ export interface Event {
   transportation: boolean;
   public: boolean;
   registrationOpeningDate?: string;
+  confirmed?: boolean;
 }
 
 export type EventUpdate = Partial<
@@ -94,6 +97,7 @@ export type EventUpdate = Partial<
     | 'price'
     | 'maxParticipants'
     | 'public'
+    | 'confirmed'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
@@ -118,5 +122,7 @@ export interface JobItem {
   start_date?: Date;
   due_date?: Date;
 }
+
+export type ParticipantsUpdate = Pick<Participant, 'id'> & { pos: number };
 
 export type CreateJob = Omit<JobItem, 'id'>;
