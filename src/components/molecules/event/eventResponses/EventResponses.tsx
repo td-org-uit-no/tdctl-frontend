@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
-import { Participant } from 'models/apiModels';
+import { Participant, ParticipantsUpdate } from 'models/apiModels';
 import { Event } from 'models/apiModels';
 import { useToast } from 'hooks/useToast';
-import { deleteParticipant } from 'api';
+import { confirmEvent, deleteParticipant, reorderParticipants } from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
 import TextField from 'components/atoms/textfield/Textfield';
@@ -12,6 +12,33 @@ import Button from 'components/atoms/button/Button';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
 import useModal from 'hooks/useModal';
+
+interface IBindingRegistrationButtons {
+  onUpdate: () => void;
+  onConfirm: () => void;
+  bindingRegistration: boolean | undefined;
+}
+
+const BindingRegistrationButtons: React.FC<IBindingRegistrationButtons> = ({
+  onUpdate,
+  onConfirm,
+  bindingRegistration,
+}) => {
+  if (bindingRegistration === undefined) {
+    return null;
+  }
+
+  return (
+    <div className={styles.submitWrapper}>
+      <Button version="secondary" onClick={onUpdate}>
+        Oppdatere liste
+      </Button>
+      <Button version={'primary'} onClick={onConfirm}>
+        Send ut bekreftelse
+      </Button>
+    </div>
+  );
+};
 
 const EventResponses: React.FC<{
   event: Event;
@@ -28,6 +55,11 @@ const EventResponses: React.FC<{
     onOpen: openDeleteModal,
     onClose: closeDeleteModal,
   } = useModal();
+  const {
+    isOpen: isOpenSubmitModal,
+    onOpen: openSubmitModal,
+    onClose: closeSubmitModal,
+  } = useModal();
 
   const openDeleteColumn = (email: string) => {
     const selected = participants?.find((mem) => {
@@ -36,6 +68,36 @@ const EventResponses: React.FC<{
 
     setSelected(selected);
     openDeleteModal();
+  };
+
+  const adminSubmitParticipants = async () => {
+    try {
+      await confirmEvent(event.eid);
+      addToast({
+        title: 'Success',
+        status: 'success',
+        description: `Confirmation success! Email sent to all current participants`,
+      });
+      setFetchUpdateHook(true);
+    } catch (error) {
+      switch (error.statusCode) {
+        case 400:
+          const res = await error.getText();
+          addToast({
+            title: 'Error',
+            status: 'error',
+            description: `${res}`,
+          });
+          break;
+        default:
+          addToast({
+            title: 'Error',
+            status: 'error',
+            description: `Unexpected error when submitting`,
+          });
+      }
+    }
+    closeSubmitModal();
   };
 
   const adminDeleteMember = async () => {
@@ -76,34 +138,23 @@ const EventResponses: React.FC<{
   };
 
   const columns: ColumnDefinitionType<Participant, keyof Participant>[] = [
-    {
-      cell: (cellValues) => {
-        const { submitDate } = cellValues;
-        if (
-          event.maxParticipants &&
-          participants.length >= event.maxParticipants
-        ) {
-          if (submitDate > participants[event.maxParticipants - 1].submitDate) {
-            return (
-              <div className={styles.tableCell}>
-                <Icon type="circle-notch" color="yellow"></Icon>
-              </div>
-            );
-          }
-        }
-        return (
-          <div className={styles.tableCell}>
-            <Icon type="check" color="green"></Icon>
-          </div>
-        );
-      },
-      header: 'Plass',
-    },
     { cell: 'realName', header: 'Name', type: 'string' },
     { cell: 'email', header: 'Email', type: 'string' },
     { cell: 'phone', header: 'Phone', type: 'number' },
-    { cell: 'classof', header: 'Class of', type: 'number' },
-    { cell: 'role', header: 'Role', type: 'string' },
+    { cell: 'penalty', header: 'Prikk', type: 'number' },
+    {
+      cell: (cellValues) => {
+        const { confirmed } = cellValues;
+        return (
+          <>
+            <Icon
+              type={confirmed ? 'check' : 'ban'}
+              color={confirmed ? '#00ff00' : 'gray'}></Icon>
+          </>
+        );
+      },
+      header: 'Bekreftet',
+    },
     {
       cell: (cellValues) => {
         const { food, dietaryRestrictions } = cellValues;
@@ -166,13 +217,43 @@ const EventResponses: React.FC<{
 
   return (
     <div className={styles.contentWrapper}>
+      <BindingRegistrationButtons
+        bindingRegistration={event.bindingRegistration}
+        onUpdate={updateList}
+        onConfirm={openSubmitModal}
+      />
       {participants ? (
         <Table columns={columns} data={participants}></Table>
       ) : (
-        <h3>No Participants yet</h3>
+        <h3>Ingen deltakere foreløpig</h3>
       )}
 
-      {/* WAIT for API to support updating event participants */}
+      <Modal
+        title="Bekreft plass for arrangement"
+        isOpen={isOpenSubmitModal}
+        onClose={closeSubmitModal}>
+        <div>
+          <h5>Ved å gå videre vil du</h5>
+          <ul>
+            <li>
+              Sende ut påmelding på mail til alle deltakere som har plass.
+            </li>
+            <li>
+              Deltakere vil ikke lenger kunne redigere sine preferanser til
+              dette arrangementet.
+            </li>
+          </ul>
+          <hr />
+          <div className={styles.submitModalButtons}>
+            <Button version={'secondary'} onClick={closeSubmitModal}>
+              Avbryt
+            </Button>
+            <Button version={'primary'} onClick={adminSubmitParticipants}>
+              Send
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <Modal
         minWidth={45}
         title="Endre deltager"
