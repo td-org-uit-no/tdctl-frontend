@@ -74,9 +74,9 @@ const EventResponses: React.FC<{
     try {
       await confirmEvent(event.eid);
       addToast({
-        title: 'Success',
+        title: 'Bekreftelse sent',
         status: 'success',
-        description: `Confirmation success! Email sent to all current participants`,
+        description: `Bekreftelses mail er sendt ut til alle som har plass`,
       });
       setFetchUpdateHook(true);
     } catch (error) {
@@ -91,9 +91,9 @@ const EventResponses: React.FC<{
           break;
         default:
           addToast({
-            title: 'Error',
+            title: 'En uforutsett feil skjedde',
             status: 'error',
-            description: `Unexpected error when submitting`,
+            description: 'Kunne ikke sende ut bekreftelse',
           });
       }
     }
@@ -112,25 +112,25 @@ const EventResponses: React.FC<{
       setFetchUpdateHook(true);
 
       addToast({
-        title: 'Success',
+        title: 'Suksess',
         status: 'success',
         description: `${selectedParticipant?.realName} fjernet fra ${event.title}`,
       });
     } catch (error) {
       switch (error.statusCode) {
-        case 403:
+        case 400:
           addToast({
-            title: 'Error',
+            title: 'Feil',
             status: 'error',
-            description: `403 -  Not allowed`,
+            description: 'Brukeren er ikke meldt på arrangementet',
           });
           break;
 
         default:
           addToast({
-            title: 'Error',
+            title: 'En uforutsett feil skjedde',
             status: 'error',
-            description: `Unexpected error when removing ${selectedParticipant?.realName}`,
+            description: `kunne ikke fjerne ${selectedParticipant?.realName}`,
           });
       }
     }
@@ -219,7 +219,6 @@ const EventResponses: React.FC<{
         description: 'Påmeldings listen er oppdatert!"',
       });
     } catch (error) {
-      // let text = await getText(error.text);
       let detail = await error.getText();
       if (error.statusCode === 400) {
         // forwards error from API
