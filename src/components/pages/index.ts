@@ -5,6 +5,7 @@ import LoginPage from './login/Login';
 import CreateEvent from './events/createEvent/CreateEvent';
 import EventPage from './events/eventPage/EventPage';
 import EventAdmin from './events/eventAdmin/EventAdmin';
+import MyEvents from './events/myEvents/MyEvents';
 import AdminPage from './admin/AdminPage';
 import ConfirmationPage from './confirmation/ConfirmationPage';
 import RestorePasswordPage from './restorePassword/RestorePassword';
@@ -20,6 +21,7 @@ export {
   ProfilePage,
   CreateEvent,
   EventPage,
+  MyEvents,
   EventAdmin,
   AdminPage,
   ConfirmationPage,
