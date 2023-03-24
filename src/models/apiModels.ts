@@ -34,6 +34,7 @@ export interface Participant {
   confirmed?: boolean;
 }
 
+
 export interface TokenPair {
   accessToken: string;
   refreshToken: string;
@@ -85,6 +86,12 @@ export interface Event {
   public: boolean;
   registrationOpeningDate?: string;
   confirmed?: boolean;
+}
+
+export interface EventOptions {
+  food: boolean;
+  transportation: boolean;
+  dietaryRestrictions: string;
 }
 
 export type EventUpdate = Partial<

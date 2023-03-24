@@ -11,7 +11,7 @@ const ToggleButton: React.FC<Props> = ({ onChange, label, initValue }) => {
       <div className={styles.toggleContainer}>
         <label className={styles.switch}>
           <input
-            // checked={initValue}
+            checked={initValue}
             defaultChecked={initValue}
             type="checkbox"
             className={styles.toggle}

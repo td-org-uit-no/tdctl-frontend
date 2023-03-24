@@ -1,0 +1,44 @@
+
+.pageWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100%;
+    color: #ccc;
+    justify-content: center;
+    align-items: center;
+}
+
+.myEventsWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: center;
+}
+
+
+.myEventsHeader {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.events {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+}
+
+@media screen and (max-width: 700px) {
+    .myEventsWrapper {
+        width: 100%;
+    }
+
+    .myEventsHeader {
+        padding-left: 1rem;
+    }
+
+}
+  

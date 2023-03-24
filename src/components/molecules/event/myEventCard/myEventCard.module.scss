@@ -1,0 +1,152 @@
+@import 'src/styles/colors';
+
+.NA {
+    font-style: italic;
+}
+
+.myEventCard {
+    display: flex;
+    flex-direction: column;
+    background-color: #2b2c3d;
+    border-radius: 7px;
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1rem;
+
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+    border: 1px solid transparent;
+}
+
+.eventHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.eventImage {
+    border-radius: 7px;
+    overflow: hidden;
+    width: 20%;
+    background-color: rgb(71, 77, 101, 0.1);
+}
+
+.eventHeaderText {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+.eventInfoWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1.5rem;
+}
+
+.eventInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.eventOptions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+
+.rightWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.statusWrapper, .buttonWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.status {
+    border: solid 1px;
+    border-radius: 5px;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    width: fit-content;
+    color: white;
+}
+
+.success {
+    background-color: $success;
+    border-color: $success;
+}
+
+.warning {
+    background-color: $warning;
+    border-color: $warning;
+}
+
+.error {
+    background-color: $error;
+    border-color: $error;
+}
+
+.editButton {
+    font-size: 0.8rem;
+    margin-right: 0;
+}
+
+.toEvent {
+    color: #f09667;
+}
+
+.toEvent:hover {
+    color: rgba(240, 150, 103, 0.5);
+    cursor: pointer;
+  }
+
+.formContent {
+    display: flex;
+    flex-direction: column;
+    // gap: 25px;
+    gap: 1rem;
+    padding: 3rem;
+}
+
+.formToggles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+@media screen and (max-width: 516px) {
+    .formContent {
+      padding: 0.5rem;
+    }
+
+    .eventImage {
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .myEventCard {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        border-radius: 0;
+    }
+
+
+
+}
+  
