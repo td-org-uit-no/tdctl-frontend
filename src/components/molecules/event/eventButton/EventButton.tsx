@@ -16,6 +16,7 @@ import styles from './eventButton.module.scss';
 import Modal from 'components/molecules/modal/Modal';
 import TextField from 'components/atoms/textfield/Textfield';
 import useModal from 'hooks/useModal';
+import EventPreferences from '../eventPreferences/EventPreferences';
 
 interface AuthButtonProps extends EventButtonProps {
   joined: boolean;
@@ -134,6 +135,11 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     }
   };
 
+  /* Set payload on form change */
+  const handlePrefsChange = (prefs: JoinEventPayload) => {
+    setJoinEventPayload(prefs);
+  };
+
   const handleButtonAction = () => {
     if (!isJoined) {
       !preferencesOpen && (event?.transportation || event?.food)
@@ -208,60 +214,12 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         onClose={closePreferences}
         maxWidth={100}>
         <div className={styles.formContent}>
-          <div className={styles.formToggles}>
-            {event?.food && (
-              <>
-                <ToggleButton
-                  label={'Vil du ha mat på arragementet?'}
-                  onChange={() =>
-                    setJoinEventPayload({
-                      ...joinEventPayload,
-                      food: !joinEventPayload.food,
-                    })
-                  }></ToggleButton>
-                <ToggleButton
-                  label={'Har du en allergi/matpreferanse?'}
-                  onChange={() => {
-                    if (showAllergies) {
-                      setJoinEventPayload({
-                        ...joinEventPayload,
-                        dietaryRestrictions: '',
-                      });
-                      setShowAllergies(false);
-                    } else {
-                      setShowAllergies(true);
-                    }
-                  }}></ToggleButton>
-                {showAllergies && (
-                  <div className={styles.allergyTextFieldContainer}>
-                    <div className={styles.allergyTextFieldAnim}>
-                      <TextField
-                        label={'Allergier, vegetar, vegansk...'}
-                        onChange={(e) => {
-                          setJoinEventPayload({
-                            ...joinEventPayload,
-                            dietaryRestrictions: e.target.value,
-                          });
-                        }}></TextField>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-            {event?.transportation && (
-              <>
-                <ToggleButton
-                  label={'Har du behov for transport?'}
-                  onChange={() =>
-                    setJoinEventPayload({
-                      ...joinEventPayload,
-                      transportation: !joinEventPayload.transportation,
-                    })
-                  }></ToggleButton>
-              </>
-            )}
-          </div>
-
+          <EventPreferences
+            preferences={joinEventPayload}
+            isfood={event?.food}
+            istransportation={event?.transportation}
+            changePrefs={handlePrefsChange}
+          />
           <Button version="secondary" onClick={joinEventAction}>
             Meld på
           </Button>
