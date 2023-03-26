@@ -1,31 +1,25 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import TextField from 'components/atoms/textfield/Textfield';
 import { JoinEventPayload } from 'models/apiModels';
 import styles from './EventPreferences.module.scss';
 
 export interface EventPreferencesProps {
-  preferences: JoinEventPayload;
+  prefs: JoinEventPayload;
   isfood: boolean | undefined;
   istransportation: boolean | undefined;
   changePrefs: (prefs: JoinEventPayload) => void;
 }
 
 const EventPreferences: React.FC<EventPreferencesProps> = ({
-  preferences,
+  prefs,
   isfood,
   istransportation,
   changePrefs,
 }) => {
-  const [prefs, setPrefs] = useState<JoinEventPayload>(preferences);
   const [showAllergies, setShowAllergies] = useState<boolean>(
     prefs.dietaryRestrictions ? true : false
   );
-
-  /* Send prefs change back to parent */
-  useEffect(() => {
-    changePrefs(prefs);
-  }, [prefs]);
 
   return (
     <div className={styles.formToggles}>
@@ -35,7 +29,7 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
             label={'Vil du ha mat på arrangementet?'}
             initValue={prefs.food}
             onChange={() => {
-              setPrefs({
+              changePrefs({
                 ...prefs,
                 food: !prefs.food,
               });
@@ -46,7 +40,7 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
             initValue={showAllergies}
             onChange={() => {
               if (showAllergies) {
-                setPrefs({
+                changePrefs({
                   ...prefs,
                   dietaryRestrictions: '',
                 });
@@ -62,7 +56,7 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
                 <TextField
                   label={'Allergier, vegetar, vegansk...'}
                   onChange={(e) => {
-                    setPrefs({
+                    changePrefs({
                       ...prefs,
                       dietaryRestrictions: e.target.value,
                     });
@@ -78,7 +72,7 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
           label={'Har du behov for transport?'}
           initValue={prefs.transportation}
           onChange={() => {
-            setPrefs({
+            changePrefs({
               ...prefs,
               transportation: !prefs.transportation,
             });

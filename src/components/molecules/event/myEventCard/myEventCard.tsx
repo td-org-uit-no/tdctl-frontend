@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './myEventCard.module.scss';
-import { Event, EventOptions, JoinEventPayload } from 'models/apiModels';
+import { Event, JoinEventPayload } from 'models/apiModels';
 import EventHeader from '../eventHeader/EventHeader';
 import Icon from 'components/atoms/icons/icon';
 import { Link } from 'react-router-dom';
@@ -26,7 +26,7 @@ const NA = () => {
 
 interface SpotStatus {
   message: string;
-  color: string;
+  color: 'success' | 'warning' | 'error';
 }
 
 /* Pill component to display confirmation status */
@@ -41,7 +41,7 @@ export interface MyEventCardProps {
 
 const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
   /* Options pulled from backend */
-  const [options, setOptions] = useState<EventOptions>({
+  const [options, setOptions] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
@@ -54,15 +54,15 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
   });
 
   /* Predefined statuses */
-  const confStatus = {
+  const confStatus: SpotStatus = {
     message: 'Bekreftet',
     color: 'success',
   };
-  const unConfStatus = {
+  const unConfStatus: SpotStatus = {
     message: 'Ubekreftet',
     color: 'warning',
   };
-  const noSpotStatus = {
+  const noSpotStatus: SpotStatus = {
     message: 'Ikke plass',
     color: 'error',
   };
@@ -85,8 +85,13 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
       const data = await getEventOptions(eventData.eid);
       /* Insert into useState */
       setOptions(data);
+      setEditPrefsPayload(data);
     } catch (error) {
-      console.log(error.statusCode);
+      addToast({
+        title: 'Feilmelding',
+        status: 'error',
+        description: 'Noe gikk galt.',
+      });
     }
   };
 
@@ -103,7 +108,11 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
             ? setSpotStatus(confStatus)
             : setSpotStatus(noSpotStatus);
         } catch (error) {
-          console.log(error.statusCode);
+          addToast({
+            title: 'Feilmelding',
+            status: 'error',
+            description: 'Noe gikk galt.',
+          });
         }
       } else {
         /* Event is not confirmed yet */
@@ -113,16 +122,24 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
       'maxParticipants' in eventData &&
       eventData.maxParticipants !== undefined
     ) {
-      /* Get member */
-      const memberResp = await getMemberAssociatedWithToken();
-      const uid = memberResp.id;
-      /* Get event participants */
-      const participantsResp = await getJoinedParticipants(eventData.eid);
-      /* Determine spot in queue */
-      const spot = participantsResp.findIndex((p) => p.id === uid);
-      spot + 1 < eventData.maxParticipants
-        ? setSpotStatus(confStatus)
-        : setSpotStatus(noSpotStatus);
+      try {
+        /* Get member */
+        const memberResp = await getMemberAssociatedWithToken();
+        const uid = memberResp.id;
+        /* Get event participants */
+        const participantsResp = await getJoinedParticipants(eventData.eid);
+        /* Determine spot in queue */
+        const spot = participantsResp.findIndex((p) => p.id === uid);
+        spot + 1 < eventData.maxParticipants
+          ? setSpotStatus(confStatus)
+          : setSpotStatus(noSpotStatus);
+      } catch (error) {
+        addToast({
+          title: 'Feilmelding',
+          status: 'error',
+          description: 'Noe gikk galt.',
+        });
+      }
     } else {
       /* Open event with no max participants */
       setSpotStatus(confStatus);
@@ -137,19 +154,24 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
 
   /* Open modal to edit preferences */
   const handleEditButton = () => {
-    'confirmed' in eventData && eventData.confirmed
-      ? addToast({
-          title: 'Ulovlig',
-          status: 'warning',
-          description: 'Det er for sent å endre preferansene dine nå',
-        })
-      : !preferencesOpen && (eventData?.food || eventData?.transportation)
-      ? openPreferences()
-      : addToast({
-          title: 'Ulovlig',
-          status: 'warning',
-          description: 'Dette arrangementet har ingen valg',
-        });
+    if ('confirmed' in eventData && eventData.confirmed) {
+      addToast({
+        title: 'Ulovlig',
+        status: 'warning',
+        description: 'Det er for sent å endre preferansene dine nå',
+      });
+    } else if (
+      !preferencesOpen &&
+      (eventData?.food || eventData?.transportation)
+    ) {
+      openPreferences();
+    } else {
+      addToast({
+        title: 'Ulovlig',
+        status: 'warning',
+        description: 'Dette arrangementet har ingen valg',
+      });
+    }
   };
 
   /* Handle change of preferences in modal */
@@ -176,7 +198,6 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
         status: 'error',
         description: 'Noe gikk galt.',
       });
-      console.log(error.statusCode);
     }
   };
 
@@ -267,7 +288,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
         maxWidth={100}>
         <div className={styles.formContent}>
           <EventPreferences
-            preferences={options}
+            prefs={editPrefsPayload}
             isfood={eventData?.food}
             istransportation={eventData?.transportation}
             changePrefs={handlePrefsChange}

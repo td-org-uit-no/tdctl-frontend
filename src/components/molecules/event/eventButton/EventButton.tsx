@@ -11,10 +11,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
 import { JoinEventPayload } from 'models/apiModels';
 import { Event } from 'models/apiModels';
-import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import styles from './eventButton.module.scss';
 import Modal from 'components/molecules/modal/Modal';
-import TextField from 'components/atoms/textfield/Textfield';
 import useModal from 'hooks/useModal';
 import EventPreferences from '../eventPreferences/EventPreferences';
 
@@ -215,7 +213,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
         maxWidth={100}>
         <div className={styles.formContent}>
           <EventPreferences
-            preferences={joinEventPayload}
+            prefs={joinEventPayload}
             isfood={event?.food}
             istransportation={event?.transportation}
             changePrefs={handlePrefsChange}
