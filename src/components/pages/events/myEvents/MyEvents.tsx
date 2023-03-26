@@ -29,7 +29,6 @@ const MyEvents = () => {
       const sorted = [...events].sort(sortEventByDate);
       setEvents(sorted);
     } catch (error) {
-      console.log(error.statusCode);
       setIsErr(true);
     }
   };

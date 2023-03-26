@@ -3,7 +3,6 @@ import {
   EventUpdate,
   Participant,
   Event,
-  EventOptions,
   JoinEventPayload,
   ParticipantsUpdate,
 } from 'models/apiModels';
@@ -30,8 +29,8 @@ export const isJoinedEvent = (id: string): Promise<{ joined: boolean }> =>
 export const isConfirmedEvent = (id: string): Promise<{ confirmed: boolean }> =>
   get<{ confirmed: boolean }>('event/' + id + '/confirmed');
 
-export const getEventOptions = (id: string): Promise<EventOptions> =>
-  get<EventOptions>('event/' + id + '/options');
+export const getEventOptions = (id: string): Promise<JoinEventPayload> =>
+  get<JoinEventPayload>('event/' + id + '/options');
 
 export const updateEventOptions = (id: string, payload: JoinEventPayload) =>
   put<JoinEventPayload>('event/' + id + '/update-options', payload);
