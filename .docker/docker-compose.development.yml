@@ -1,4 +1,5 @@
 version: '3.5'
+name: frontend
 services:
   tdctl_frontend:
     container_name: frontend_dev
