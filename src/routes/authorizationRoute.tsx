@@ -14,7 +14,7 @@ const AuthorizationRoute: React.FC<PublicRouteProps> = ({
   const { authenticated, isValidating } = useContext(AuthenticateContext);
 
   if (isValidating) {
-    return <div>Redirecting</div>;
+    return <div></div>;
   }
 
   return (

@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   const { authenticated, isValidating } = useContext(AuthenticateContext);
 
   if (isValidating) {
-    return <div>Redirecting...</div>;
+    return <div></div>;
   }
 
   return (
