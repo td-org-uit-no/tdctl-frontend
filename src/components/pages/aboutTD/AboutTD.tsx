@@ -71,9 +71,9 @@ const TDcommittees: React.FC = () => {
       <Committe name="Arrangementkomite">
         <p>
           {' '}
-          Arrangementkomiten jobber med å lage forskjellige arrangement alt fra
-          fester og skiturer til musikkbingo. Er dette noe som høres spennende
-          ut ta kontakt med oss på{' '}
+          Arrangementskomiteen jobber med å lage forskjellige arrangementer, alt
+          fra fester og skiturer til musikkbingo. Er dette noe som høres
+          spennende ut ta kontakt med oss på{' '}
           <a href="mailto:arrangementsansvarlig@td-uit.no">mail</a>
         </p>
       </Committe>
@@ -112,7 +112,7 @@ const TDcommittees: React.FC = () => {
         <p>
           TD arrangerer årlig sin egen CTF kalt{' '}
           <a href="https://uithack.no/">UiTHack</a> og vi trenger folk til å
-          være med på å lage forskjellige oppgaver. Er du interissert i hacking
+          være med på å lage forskjellige oppgaver. Er du interessert i hacking
           og CTF ta kontakt med{' '}
           <a href="mailto:studentkommunikasjon@td-uit.no">teknisk</a>
         </p>
@@ -194,9 +194,9 @@ const AboutTD: React.FC = () => {
               <p>
                 TD jobber for å gjøre studietiden til våre studenter best mulig.
                 Dette gjør vi gjennom arrangere faglige og sosiale arrangement
-                for å bygge sosiale netverk på tvers av kull og linjer. Samtidig
-                jobber TD med å være et binneledd mellom våre medlemmer og
-                næriningslivet.
+                for å bygge sosiale nettverk på tvers av kull og linjer.
+                Samtidig jobber TD med å være et bindeledd mellom våre medlemmer
+                og næringslivet.
               </p>
             </div>
           </div>
