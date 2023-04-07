@@ -13,7 +13,7 @@ const AdminRoute: React.FC<PublicRouteProps> = ({
   const { isValidating, role } = useContext(AuthenticateContext);
 
   if (isValidating) {
-    return <div>Redirecting</div>;
+    return <div></div>;
   }
 
   return (
