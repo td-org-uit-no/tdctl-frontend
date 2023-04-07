@@ -20,8 +20,9 @@ const RootPage = () => {
           <LoadingWrapper
             data={events}
             animation={false}
+            startAfter={400}
             className={styles.wrapper}>
-            {events.length ? (
+            {events && events.length ? (
               <div style={{ maxWidth: '75vw', minWidth: '60vw' }}>
                 <Carousel
                   title="Arrangementer"
@@ -32,7 +33,7 @@ const RootPage = () => {
                   {events.map((event) => (
                     <EventPreview
                       eventData={event}
-                      orientation={'portrait'}
+                      orientation={'vertical'}
                       key={event.eid}
                     />
                   ))}
