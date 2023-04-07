@@ -6,21 +6,25 @@ interface ConformationProps {
   title?: string;
   onDecline: () => void;
   onAccept: () => void;
+  confirmText?: string;
+  declineText?: string;
 }
 
 const ConfirmationBox: React.FC<ConformationProps> = ({
   title,
   onDecline,
   onAccept,
+  confirmText,
+  declineText,
 }) => {
   return (
     <div className={styles.confirmWrapper}>
       <p>{title}</p>
       <Button version="secondary" onClick={onAccept}>
-        Ja
+        {confirmText ?? 'Ja'}
       </Button>
       <Button version="secondary" onClick={onDecline}>
-        Nei
+        {declineText ?? 'Nei'}
       </Button>
     </div>
   );
