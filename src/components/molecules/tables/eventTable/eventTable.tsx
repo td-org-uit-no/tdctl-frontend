@@ -147,7 +147,7 @@ const EventTable = () => {
   return (
     <>
       <div className={styles.form}>
-        <Table columns={columns} data={events}></Table>
+        <Table columns={columns} data={events ?? []}></Table>
         <Modal
           title={`Are you sure you want to delete ${selectedEvent?.title}?`}
           isOpen={isOpen}
