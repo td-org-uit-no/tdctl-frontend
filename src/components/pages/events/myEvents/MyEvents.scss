@@ -1,0 +1,37 @@
+.myEventPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: #ccc;
+  align-items: center;
+}
+
+.myEventsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.myEventsHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.myEvents {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 700px) {
+  .myEventsWrapper {
+    width: 95%;
+  }
+
+  .myEventsHeader {
+    padding-left: 1rem;
+  }
+}

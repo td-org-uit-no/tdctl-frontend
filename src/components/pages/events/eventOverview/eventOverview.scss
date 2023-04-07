@@ -1,0 +1,107 @@
+@use '../../../../styles/animations.scss';
+
+.upcomingEventOverview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5vh;
+  min-height: 65vh;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 70vh;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+}
+
+.animation {
+  animation: 1.5s 1 normal fadeIn;
+}
+
+.upcomingEventOverviewTitle {
+  text-align: center;
+}
+
+.upcomingEventOverviewContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.eventOverview {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.eventContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.eventOverviewContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventOverviewTitles {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  white-space: pre-wrap;
+
+  h6 {
+    font-size: 20px;
+    font-weight: normal;
+    cursor: pointer;
+    margin: 1rem 0rem 1rem;
+  }
+}
+
+.itemRight {
+  flex-basis: 100%;
+  text-align: end;
+  h6 {
+    padding-right: 1rem;
+  }
+}
+
+.itemLeft {
+  flex-basis: 100%;
+  text-align: start;
+  h6 {
+    padding-left: 1rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .upcomingEventOverviewContainer {
+    width: 95%;
+  }
+  .eventOverviewTitles {
+    h6 {
+      font-size: 14px;
+    }
+  }
+  .itemLeft {
+    text-align: center;
+    h6 {
+      padding-left: 0.5rem;
+    }
+  }
+  .itemRight {
+    text-align: center;
+    h6 {
+      padding-right: 0.5rem;
+    }
+  }
+}
