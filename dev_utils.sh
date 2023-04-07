@@ -1,7 +1,20 @@
 #!/bin/bash
 
-docker_command="docker compose -f"
+docker_command=""
 path=".docker/docker-compose.development.yml" 
+
+check_compose_version() {
+    compose_command="docker compose"
+    if ! command -v ${compose_command} &> /dev/null; then
+        # can't find docker compose, tries older version
+        compose_command="docker-compose"
+        if ! command -v $compose_command &> /dev/null; then
+            # couldn't find docker-compose i.e no version of docker compose is installed
+            return
+        fi
+    fi
+    docker_command="$compose_command -f"
+}
 
 usage() {
     echo "Utils script for docker commands in development: 
@@ -27,6 +40,11 @@ parse_arguments() {
         usage
         exit 1
     fi
+    # couldn't find docker compose or docker-compose
+    if [ -z "$docker_command" ];then
+        echo "Could not find any versions of (docker compose or docker-compose)"
+        exit 1
+    fi
 
     case $1 in 
         compose) shift; run_command $@;;
@@ -36,5 +54,6 @@ parse_arguments() {
     esac
 }
 
+check_compose_version
 parse_arguments $@
 
