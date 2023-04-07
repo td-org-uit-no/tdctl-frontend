@@ -115,17 +115,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div className={styles.carouselContainer}>
-      <div className={styles.headerContainer}>
-        {title && <h4 className={styles.headerTitle}>{title}</h4>}
-        {!isMobile && (
-          <Button
-            version="primary"
-            className={styles.headerButton}
-            onClick={handleClick}>
-            Se Alle
-          </Button>
-        )}
-      </div>
+      {title && <h4 className={styles.headerTitle}>{title}</h4>}
       <div
         className={styles.carousel}
         style={{ height: height, touchAction: isMobile ? 'none' : 'auto' }}
@@ -165,6 +155,14 @@ const Carousel: React.FC<CarouselProps> = ({
             size={isMobile ? 2 : 1.5}
             onClick={() => updateIndex(activeIndex - 1)}
           />
+          {!isMobile && (
+            <Button
+              version="primary"
+              className={styles.headerButton}
+              onClick={handleClick}>
+              Se Alle
+            </Button>
+          )}
           <Icon
             type={isMobile ? 'angle-double-down' : 'angle-double-right'}
             size={isMobile ? 2 : 1.5}

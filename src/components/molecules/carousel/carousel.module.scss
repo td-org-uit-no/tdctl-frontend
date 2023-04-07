@@ -12,20 +12,6 @@
   min-height: 10vh;
 }
 
-.headerContainer {
-  position: relative;
-  padding: 25px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.headerTitle {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .headerButton {
   border: none;
   border-radius: 0.5rem;
@@ -51,6 +37,17 @@
   height: 90%;
   width: 100%;
   max-height: inherit;
+}
+.carouselButtonsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    vertical-align: middle;
+  }
+  button {
+    margin-right: auto;
+  }
 }
 
 @media screen and (max-width: 768px) {
