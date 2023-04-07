@@ -9,6 +9,7 @@
   text-align: center;
   min-height: 10vh;
   cursor: pointer;
+  flex: 1;
 }
 
 .previewContainer {
@@ -19,7 +20,7 @@
   height: 100%;
 }
 
-.header {
+.verticalViewHeader {
   display: flex;
   justify-content: center;
   text-align: center;
@@ -28,15 +29,14 @@
   }
 }
 
-.info {
+.verticalViewInfo {
   display: flex;
   flex-direction: column;
-  // padding-top: .5em;
   text-align: left;
   justify-content: space-evenly;
 }
 
-.infoText {
+.verticalViewInfoText {
   text-align: center;
   align-items: center;
   display: flex;
@@ -47,13 +47,13 @@
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 1223px) {
-  .info {
+  .verticalViewInfo {
     p {
       font-size: 0.8rem;
     }
   }
 
-  .header {
+  .verticalViewHeader {
     p {
       font-size: 0.8rem;
     }
