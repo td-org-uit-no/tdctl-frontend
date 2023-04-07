@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './landscapeView.module.scss';
+import './horizontal.scss';
 import { Event } from 'models/apiModels';
 import { useHistory } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import { transformDate } from 'utils/timeConverter';
 
-const LandscapeView: React.FC<{ eventData: Event }> = ({ eventData }) => {
+const HorizontalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   const history = useHistory();
 
   const moveToEventPage = () => {
@@ -13,20 +13,20 @@ const LandscapeView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   };
 
   return (
-    <div className={styles.landscapeView} onClick={moveToEventPage}>
-      <div className={styles.landscapeViewContainer}>
-        <div className={styles.landscapeViewDate}>
+    <div className="landscapeView" onClick={moveToEventPage}>
+      <div className="landscapeViewContainer">
+        <div className="landscapeViewDate">
           <p>{transformDate(new Date(eventData.date))}</p>
         </div>
-        <div className={styles.landscapeViewTextContainer}>
-          <div className={styles.landscapeViewText}>
+        <div className="landscapeViewTextContainer">
+          <div className="landscapeViewText">
             <p> {eventData.title} </p>
           </div>
-          <div className={styles.landscapeViewAddress}>
+          <div className="landscapeViewAddress">
             <p> {eventData.address} </p>
           </div>
         </div>
-        <div className={styles.landscapeViewImage}>
+        <div className="landscapeViewImage">
           <EventHeader id={eventData.eid} />
         </div>
       </div>
@@ -34,4 +34,4 @@ const LandscapeView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   );
 };
 
-export default LandscapeView;
+export default HorizontalView;

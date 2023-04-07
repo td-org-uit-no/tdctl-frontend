@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './portraitView.module.scss';
+import './vertical.scss';
 import { Event } from 'models/apiModels';
 import { useHistory } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import Icon from 'components/atoms/icons/icon';
 import { transformDate } from 'utils/timeConverter';
 
-const PortraitView: React.FC<{ eventData: Event }> = ({ eventData }) => {
+const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   const history = useHistory();
 
   const moveToEventPage = () => {
@@ -14,20 +14,20 @@ const PortraitView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   };
 
   return (
-    <div className={styles.eventPreview} onClick={moveToEventPage}>
-      <div className={styles.previewContainer}>
-        <div className={styles.header}>
+    <div className="eventPreview" onClick={moveToEventPage}>
+      <div className="previewContainer">
+        <div className="verticalViewHeader">
           <p> {eventData.title} </p>
         </div>
         <div style={{ height: '60%', width: '100%' }}>
           {eventData.eid !== undefined && <EventHeader id={eventData.eid} />}
         </div>
-        <div className={styles.info}>
-          <div className={styles.infoText}>
+        <div className="verticalViewInfo">
+          <div className="infoText">
             <Icon type={'calendar'} size={1.5} />
             <p>{transformDate(new Date(eventData.date))}</p>
           </div>
-          <div className={styles.infoText}>
+          <div className="verticalViewInfoText">
             <Icon type={'map'} size={1.5} /> <p>{eventData.address}</p>
           </div>
         </div>
@@ -36,4 +36,4 @@ const PortraitView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   );
 };
 
-export default PortraitView;
+export default VerticalView;

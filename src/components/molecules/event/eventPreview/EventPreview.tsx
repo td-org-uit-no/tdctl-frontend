@@ -1,19 +1,23 @@
 import React from 'react';
 import { Event } from 'models/apiModels';
-import LandscapeView from './landscapeView/landscapeView';
-import PortraitView from './portraitView/portraitView';
+import HorizontalView from './horizontal/HorizontalView';
+import VerticalView from './vertical/VerticalView';
 
-const EventPreview: React.FC<{ eventData: Event; orientation: String }> = ({
-  eventData,
-  orientation,
-}) => {
-  if (orientation === 'landscape') {
-    return <LandscapeView eventData={eventData} />;
-  } else if (orientation === 'portrait') {
-    return <PortraitView eventData={eventData} />;
-  } else {
-    return <h1> Incorrect orientation specified </h1>;
-  }
+type OrientationOptions = 'vertical' | 'horizontal';
+
+const EventPreview: React.FC<{
+  eventData: Event;
+  orientation: OrientationOptions;
+}> = ({ eventData, orientation }) => {
+  return (
+    <>
+      {orientation === 'horizontal' ? (
+        <HorizontalView eventData={eventData} />
+      ) : (
+        <VerticalView eventData={eventData} />
+      )}
+    </>
+  );
 };
 
 export default EventPreview;
