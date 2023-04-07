@@ -1,9 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Event } from 'models/apiModels';
 import { getJoinedEvents } from 'api';
-import styles from './MyEvents.module.scss';
+import './MyEvents.scss';
 import { AuthenticateContext } from 'contexts/authProvider';
 import MyEventCard from 'components/molecules/event/myEventCard/myEventCard';
+
+interface IMyEvents {
+  events: Event[];
+  isErr: boolean;
+}
+
+export const DisplayMyEvents: React.FC<IMyEvents> = ({ events, isErr }) => {
+  return (
+    <div className={'myEventPage'}>
+      <div className={'myEventsWrapper'}>
+        <div className={'myEvents'}>
+          {!isErr
+            ? events.length !== 0
+              ? events.map((event) => (
+                  <MyEventCard eventData={event} key={event.eid} />
+                ))
+              : 'Ingen påmeldte arrangementer'
+            : 'Kunne ikke hente arrangementer'}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const MyEvents = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -32,27 +55,7 @@ const MyEvents = () => {
       setIsErr(true);
     }
   };
-
-  return (
-    <div className={styles.pageWrapper}>
-      <div className={styles.myEventsWrapper}>
-        <div className={styles.eventsWrapper}>
-          <div className={styles.myEventsHeader}>
-            <h4>Mine arrangementer</h4>
-          </div>
-          <div className={styles.events}>
-            {!isErr
-              ? events.length !== 0
-                ? events.map((event) => (
-                    <MyEventCard eventData={event} key={event.eid} />
-                  ))
-                : 'Ingen påmeldte arrangementer'
-              : 'Kunne ikke hente arrangementer'}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <>{events && <DisplayMyEvents events={events} isErr={isErr} />}</>;
 };
 
 export default MyEvents;
