@@ -4,7 +4,7 @@ import { Event } from 'models/apiModels';
 import { AuthenticateContext } from 'contexts/authProvider';
 
 const useUpcomingEvents = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[] | undefined>();
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<number | null>(null);
   const { authenticated } = useContext(AuthenticateContext);
