@@ -19,12 +19,18 @@ import Modal from 'components/molecules/modal/Modal';
 import { JobItem } from 'models/apiModels';
 import useModal from 'hooks/useModal';
 import { Job } from 'components/pages';
+import FileSelector from 'components/atoms/fileSelector/FileSelector';
+import { useToast } from 'hooks/useToast';
+import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 
 const JobForm = () => {
   const [file, setFile] = useState<File | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
   const [prevData, setPrevData] = useState<JobItem | undefined>(undefined);
+  const [id, setId] = useState<string | undefined>(undefined);
+  const [shouldReupload, setShouldReupload] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useModal();
+  const { addToast } = useToast();
   const history = useHistory();
 
   const validators = {
@@ -80,11 +86,24 @@ const JobForm = () => {
     try {
       const data = getJob();
       const resp = await createJob(data);
+      setId(resp.id);
       if (file) {
-        const data = new FormData();
-        data.append('image', file, file.name);
-        await uploadJobPicture(resp.id, data);
+        try {
+          await uploadJobPicture(resp.id, file);
+        } catch (error) {
+          setShouldReupload(true);
+          addToast({
+            title: 'Feil ved opplasting av bilde',
+            status: 'error',
+            description: 'prøv på nytt',
+          });
+          return;
+        }
       }
+      addToast({
+        title: 'Stillingsutlysning lagt til',
+        status: 'success',
+      });
       history.push('/jobs/' + resp.id);
     } catch (error) {
       switch (error.statusCode) {
@@ -203,6 +222,13 @@ const JobForm = () => {
           <Job jobData={prevData ?? ({} as JobItem)} />
         </div>
       </Modal>
+      <ReuploadImageModal
+        title="Last opp stillingsutlysning bilde på nytt"
+        id={id}
+        shouldOpen={shouldReupload}
+        prefix={`/jobs`}
+        uploadFunction={uploadJobPicture}
+      />
       <div>
         <div className={'upload'}>
           {error && <p>{error}</p>}

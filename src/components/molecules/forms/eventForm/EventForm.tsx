@@ -18,16 +18,22 @@ import { useHistory } from 'react-router-dom';
 import Textarea from 'components/atoms/textarea/Textarea';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
+import { useToast } from 'hooks/useToast';
+import FileSelector from 'components/atoms/fileSelector/FileSelector';
+import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 
-const EventForm = () => {
+const EventForm: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
+  const [eid, setEid] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
-  const history = useHistory();
   const [food, setFood] = useState<boolean>(false);
   const [transportation, setTransportation] = useState<boolean>(false);
   const [publicEvent, setPublicEvent] = useState<boolean>(false);
+  const [shouldOpen, setShouldOpen] = useState<boolean>(false);
   const [bindingRegistration, setBindingRegistration] =
     useState<boolean>(false);
+  const { addToast } = useToast();
+  const history = useHistory();
 
   const validators = {
     title: titleValidator,
@@ -79,22 +85,47 @@ const EventForm = () => {
         bindingRegistration: bindingRegistration,
         registrationOpeningDate: regDate,
       });
+      setEid(resp.eid);
       // TODO handle image upload errors separately
       if (file) {
         const data = new FormData();
         data.append('image', file, file.name);
-        await uploadEventPicture(resp.eid, data);
+        try {
+          await uploadEventPicture(resp.eid, data);
+        } catch (error) {
+          setShouldOpen(true);
+          addToast({
+            title: 'Feil ved opplasting av bilde',
+            status: 'error',
+            description: 'prøv på nytt',
+          });
+          return;
+        }
       }
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: `${fields['title']?.value} er lagt til`,
+      });
       history.push('/event/' + resp.eid);
     } catch (error) {
       switch (error.statusCode) {
         case 400:
-          setError('Invalid date');
+          addToast({
+            title: 'Feil ved opplasting',
+            status: 'error',
+            description: 'Ikke gylding dato',
+          });
+          setError('Ugyldig dato');
           return;
         case 422:
           setError('Alle feltene må fylles ut');
           return;
         default:
+          addToast({
+            title: 'En ukjent feil skjedde',
+            status: 'error',
+          });
           setError('Noe gikk galt');
           return;
       }
@@ -218,6 +249,13 @@ const EventForm = () => {
         </div>
       </form>
       <div>
+        <ReuploadImageModal
+          title="Last opp arrangementet bilde på nytt"
+          id={eid}
+          shouldOpen={shouldOpen}
+          prefix={`/event`}
+          uploadFunction={uploadEventPicture}
+        />
         {error && <p>{error}</p>}
         <Button version={'primary'} onClick={submit}>
           Submit
