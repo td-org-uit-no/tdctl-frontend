@@ -10,8 +10,11 @@ export const getJob = (id: string): Promise<JobItem> =>
 export const createJob = (job: CreateJob): Promise<{ id: string }> =>
   post<{ id: string }>('jobs/', job);
 
-export const uploadJobPicture = (id: string, jobImage: any) =>
-  post<{}>('jobs/' + id + '/image', jobImage, 'multipart/form-data');
+export const uploadJobPicture = async (id: string, jobImage: File) => {
+  const data = new FormData();
+  data.append('image', jobImage, jobImage.name);
+  await post<{}>('jobs/' + id + '/image', data, 'multipart/form-data');
+};
 
 export const getJobImage = (id: string): Promise<{ image: any }> =>
   get<{ image: any }>('jobs/' + id + '/image');
