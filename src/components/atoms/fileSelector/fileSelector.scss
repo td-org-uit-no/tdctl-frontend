@@ -1,0 +1,31 @@
+@import 'src/styles/colors';
+
+.fileSelector {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+
+  input {
+    width: auto;
+  }
+}
+
+input[type='file']::file-selector-button {
+  padding: 0.5em 2em;
+  margin: 0.25rem 0.25rem 0.25rem;
+  border-color: #444658;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 0.5rem;
+  color: $secondary;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+input[type='file']::file-selector-button:hover {
+  background: $off-primary;
+}
