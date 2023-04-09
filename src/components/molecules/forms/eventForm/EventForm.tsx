@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
@@ -86,7 +86,6 @@ const EventForm: React.FC = () => {
         registrationOpeningDate: regDate,
       });
       setEid(resp.eid);
-      // TODO handle image upload errors separately
       if (file) {
         const data = new FormData();
         data.append('image', file, file.name);
@@ -250,10 +249,11 @@ const EventForm: React.FC = () => {
       </form>
       <div>
         <ReuploadImageModal
-          title="Last opp arrangementet bilde på nytt"
+          title="Last opp bilde til arrangementet på nytt"
           id={eid}
           shouldOpen={shouldOpen}
           prefix={`/event`}
+          textOnFinish="Arrangementet er opprettet"
           uploadFunction={uploadEventPicture}
         />
         {error && <p>{error}</p>}
