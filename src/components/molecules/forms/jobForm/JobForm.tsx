@@ -23,7 +23,7 @@ import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 
-const JobForm = () => {
+const JobForm: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
   const [prevData, setPrevData] = useState<JobItem | undefined>(undefined);
@@ -227,6 +227,7 @@ const JobForm = () => {
         id={id}
         shouldOpen={shouldReupload}
         prefix={`/jobs`}
+        textOnFinish="Stillingsutlysningen er opprettet"
         uploadFunction={uploadJobPicture}
       />
       <div>

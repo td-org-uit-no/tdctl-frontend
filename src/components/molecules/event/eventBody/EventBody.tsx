@@ -15,12 +15,15 @@ import {
   titleValidator,
   priceValidator,
   timeValidator,
+  PNGImageValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
 import { Event } from 'models/apiModels';
 import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
 import ReactMarkdown from 'react-markdown';
+import FileSelector from 'components/atoms/fileSelector/FileSelector';
+import { useToast } from 'hooks/useToast';
 
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
@@ -38,12 +41,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     event.transportation ?? false
   );
   const [file, setFile] = useState<File | undefined>();
-
-  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
-  }
+  const { addToast } = useToast();
 
   const initalValue = {
     title: event.title,
@@ -112,21 +110,48 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       return;
     }
     try {
+      if (file) {
+        await uploadEventPicture(event.eid, file);
+      }
+    } catch (error) {
+      addToast({
+        title: 'Feil ved opplasting av bilde',
+        status: 'error',
+      });
+      return;
+    }
+    try {
       /* Check both file and payload as we the set error does not trigger if the 
          file is set but the payload is not, and we cant send an empty payload*/
-      if (file) {
-        const data = new FormData();
-        data.append('image', file, file.name);
-        await uploadEventPicture(event.eid, data);
-      }
       if (Object.keys(updatePayload).length) {
         await updateEvent(event.eid, updatePayload);
       }
-      // reload page
-      history.go(0);
     } catch (error) {
-      console.log(error);
+      const detail = await error.getText();
+      if (error.statusCode === 400) {
+        addToast({
+          title: 'Ikke godkjent oppdatering',
+          status: 'error',
+          description: `${detail}`,
+        });
+        return;
+      }
+      addToast({
+        title: 'En ukjent feil skjedde ved oppdatering av arrangementet',
+        status: 'error',
+      });
+      return;
     }
+    addToast({
+      title: 'Arrangement oppdatert',
+      status: 'success',
+    });
+
+    setTimeout(function () {
+      // reload page after some time for better UX
+      // TODO: apply changes to component, avoiding data to be re fetched
+      history.go(0);
+    }, 300);
   };
 
   const { fields, onFieldChange, hasErrors } = useForm({
@@ -157,10 +182,12 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
               error={fields['description'].error}
               style={{ boxSizing: 'border-box', width: '100%' }}
             />
-            <div className={styles.imgContainer}>
-              <label>Endre arrangement bilde </label>
-              <input type="file" accept="image/*" onChange={handleFileUpload} />
-            </div>
+            <FileSelector
+              setFile={setFile}
+              text="Endre arrangement bilde"
+              accept="image/png"
+              fileValidator={PNGImageValidator}
+            />
           </div>
         </div>
         <div className={styles.infoContainer}>
