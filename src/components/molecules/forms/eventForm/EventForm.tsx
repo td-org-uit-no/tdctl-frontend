@@ -10,6 +10,7 @@ import {
   emptyFieldsValidator,
   priceValidator,
   maxParticipantsValidator,
+  PNGImageValidator,
 } from 'utils/validators';
 import styles from './eventForm.module.scss';
 import Button from 'components/atoms/button/Button';
@@ -19,10 +20,12 @@ import Textarea from 'components/atoms/textarea/Textarea';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
+import Modal from 'components/molecules/modal/Modal';
+import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 
-const EventForm: React.FC = () => {
+const EventForm = () => {
   const [file, setFile] = useState<File | undefined>();
   const [eid, setEid] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
@@ -46,12 +49,6 @@ const EventForm: React.FC = () => {
   };
   // allows maxParticipants to be empty
   const optionalKeys = ['maxParticipants'];
-
-  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
-  }
 
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
@@ -87,10 +84,8 @@ const EventForm: React.FC = () => {
       });
       setEid(resp.eid);
       if (file) {
-        const data = new FormData();
-        data.append('image', file, file.name);
         try {
-          await uploadEventPicture(resp.eid, data);
+          await uploadEventPicture(resp.eid, file);
         } catch (error) {
           setShouldOpen(true);
           addToast({
@@ -242,10 +237,12 @@ const EventForm: React.FC = () => {
             label={'Bindende påmelding'}
             initValue={bindingRegistration}></ToggleButton>
         </div>
-        <div className={styles.imgContainer}>
-          <label>Last opp bilde til arrangementet </label>
-          <input type="file" accept="image/*" onChange={handleFileUpload} />
-        </div>
+        <FileSelector
+          setFile={setFile}
+          text="Last opp bilde til arrangementet"
+          fileValidator={PNGImageValidator}
+          accept="image/png"
+        />
       </form>
       <div>
         <ReuploadImageModal
