@@ -176,3 +176,7 @@ export const JobLocationValidator = (description: string) => {
 export const JobTitleValidator = (title: string) => {
   return title.length >= 50 ? ['Tittel er for lang'] : undefined;
 };
+
+export const PNGImageValidator = (file: File) => {
+  return file.type !== 'image/png' ? 'Kun PNG filer er støttet' : undefined;
+};
