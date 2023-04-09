@@ -10,6 +10,7 @@ import EventHeader from 'components/molecules/event/eventHeader/EventHeader';
 import Button from 'components/atoms/button/Button';
 import Icon from 'components/atoms/icons/icon';
 import { useHistory } from 'react-router-dom';
+import useTitle from 'hooks/useTitle';
 
 export interface EventPageProps {
   eid: string;
@@ -17,6 +18,7 @@ export interface EventPageProps {
 }
 
 const ValidEventLayout: React.FC<{ event: Event }> = ({ event }) => {
+  useTitle(event.title);
   const { role } = useContext(AuthenticateContext);
   const history = useHistory();
 
