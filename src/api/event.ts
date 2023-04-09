@@ -11,8 +11,11 @@ import { get, post, put, Delete } from './requests';
 export const createEvent = (event: CreateEvent): Promise<{ eid: string }> =>
   post<{ eid: string }>('event/', event);
 
-export const uploadEventPicture = (id: string, eventImage: any) =>
-  post<{}>('event/' + id + '/image', eventImage, 'multipart/form-data');
+export const uploadEventPicture = async (id: string, imageFile: File) => {
+  const data = new FormData();
+  data.append('image', imageFile, imageFile.name);
+  await post<{}>('event/' + id + '/image', data, 'multipart/form-data');
+};
 
 export const getEventById = (id: string): Promise<Event> =>
   get<Event>('event/' + id);
