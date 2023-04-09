@@ -9,6 +9,7 @@ import {
   JobTypeValidator,
   JobLocationValidator,
   JobTitleValidator,
+  PNGImageValidator,
 } from 'utils/validators';
 import './jobForm.scss';
 import Button from 'components/atoms/button/Button';
@@ -44,12 +45,6 @@ const JobForm: React.FC = () => {
     link: JobLocationValidator,
     type: JobTypeValidator,
   };
-
-  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
-  }
 
   const getJob = () => {
     return {
@@ -233,10 +228,12 @@ const JobForm: React.FC = () => {
       <div>
         <div className={'upload'}>
           {error && <p>{error}</p>}
-          <div className={'imgContainer'}>
-            <label>Last opp bilde til jobben </label>
-            <input type="file" accept="image/*" onChange={handleFileUpload} />
-          </div>
+          <FileSelector
+            setFile={setFile}
+            text="Last opp bilde til stillingsutlysningen"
+            accept="image/png"
+            fileValidator={PNGImageValidator}
+          />
           <Button version={'primary'} onClick={submit}>
             Send
           </Button>
