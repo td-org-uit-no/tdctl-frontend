@@ -19,7 +19,7 @@ const RootPage = () => {
         <div className={styles.eventsWrapper}>
           <LoadingWrapper
             data={events}
-            animation={false}
+            animation={true}
             startAfter={400}
             className={styles.wrapper}>
             {events && events.length ? (
