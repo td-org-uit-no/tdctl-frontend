@@ -25,7 +25,7 @@ const Chip: React.FC<ChipProps> = (props) => {
   const [active, setActive] = useState<boolean>(props.active);
 
   useEffect(() => {
-    setActive(!active);
+    setActive((_active) => !_active);
   }, [props.active]);
 
   const filterBasedOnTag = (active: boolean) => {

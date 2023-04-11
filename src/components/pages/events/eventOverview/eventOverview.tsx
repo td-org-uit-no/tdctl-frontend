@@ -81,7 +81,7 @@ const EventOverview: React.FC = () => {
       });
       setJoinedErrorMsg('');
     }
-  }, [eventContent]);
+  }, [eventContent, joinedErrorMessage, addToast]);
 
   useEffect(() => {
     fetchEvents();
