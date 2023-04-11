@@ -49,7 +49,7 @@ const EventResponses: React.FC<{
     Participant | undefined
   >();
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose } = useModal();
   const {
     isOpen: isOpenDeleteModal,
     onOpen: openDeleteModal,

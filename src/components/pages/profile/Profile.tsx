@@ -21,9 +21,6 @@ const SettingsPage = () => {
   const [init, setInit] = useState<{ [key: string]: string } | undefined>(
     undefined
   );
-  const [passwordError, setPasswordError] = useState<string | undefined>(
-    undefined
-  );
   const [active, setActive] = useState('inactive');
   const { addToast } = useToast();
   const { role } = useContext(AuthenticateContext);
@@ -123,10 +120,7 @@ const SettingsPage = () => {
         {init !== undefined && <SettingsForm init={init} />}
         <DropDownHeader title={'Endre passord'}>
           <div className={styles.updatePasswordContainer}>
-            <PasswordValidation
-              upstreamFunction={updatePassword}
-              errorMsg={passwordError}
-            />
+            <PasswordValidation upstreamFunction={updatePassword} />
           </div>
         </DropDownHeader>
         {active !== 'active' && (

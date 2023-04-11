@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
@@ -20,8 +20,6 @@ import Textarea from 'components/atoms/textarea/Textarea';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
-import Modal from 'components/molecules/modal/Modal';
-import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 

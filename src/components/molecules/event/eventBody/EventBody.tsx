@@ -312,9 +312,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
 }) => {
   const [participantsHeader, setParticipantHeader] = useState('');
   const [participantsText, setParticipantText] = useState('');
-  const [canJoinEvent, setCanJoin] = useState<boolean>(
-    validJoin(role, event.registrationOpeningDate)
-  );
+  const canJoinEvent = validJoin(role, event.registrationOpeningDate);
   const { authenticated } = useContext(AuthenticateContext);
 
   // sets correct header and text based on what the user should see
