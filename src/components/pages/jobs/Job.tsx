@@ -14,12 +14,13 @@ import Button from 'components/atoms/button/Button';
 import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
 import ReactMarkdown from 'react-markdown';
+import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
 
 interface IValidJob {
   jobData: JobItem | undefined;
 }
 
-const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
+export const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
   return (
     <div>
       {jobData !== undefined ? (
@@ -178,16 +179,11 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
   );
 };
 
-const Job: React.FC<{ jobData?: JobItem }> = ({ jobData }) => {
+const Job: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = React.useState<JobItem | undefined>(
-    jobData ?? undefined
-  );
+  const [data, setData] = React.useState<JobItem | undefined>(undefined);
 
   useEffect(() => {
-    if (jobData) {
-      return;
-    }
     const getData = async (id: string) => {
       try {
         const res: JobItem = await getJob(id);
@@ -198,7 +194,12 @@ const Job: React.FC<{ jobData?: JobItem }> = ({ jobData }) => {
     };
     getData(id);
   }, [id]);
-  return <ValidJob jobData={data}></ValidJob>;
+
+  return (
+    <LoadingWrapper data={data} startAfter={250}>
+      <ValidJob jobData={data}></ValidJob>;
+    </LoadingWrapper>
+  );
 };
 
 export default Job;
