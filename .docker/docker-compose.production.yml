@@ -10,12 +10,12 @@ services:
       dockerfile: .docker/dockerfile
     container_name: td_frontend_prod
     ports:
-        - 80:80
-        - 443:443
+      - 80:80
+      - 443:443
     volumes:
-        - ./caddy/data:/data
-        - ./caddy/config:/config
-  
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+
 networks:
   proxynet:
     name: frontend

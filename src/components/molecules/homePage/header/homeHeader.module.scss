@@ -29,13 +29,12 @@ img {
   width: 100%;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 1223px) {
-  
+@media only screen and (min-device-width: 320px) and (max-device-width: 1223px) {
   img {
     object-fit: scale-down;
     width: 90%;
   }
-  
+
   .buttonWrapper {
     text-align: center;
     align-items: flex-start;
