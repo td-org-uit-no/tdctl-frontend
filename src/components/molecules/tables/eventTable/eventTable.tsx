@@ -72,7 +72,7 @@ const EventTable = () => {
         status: 'error',
       });
     }
-  }, [error]);
+  }, [error, addToast]);
 
   const columns: ColumnDefinitionType<Event, keyof Event>[] = [
     { cell: 'title', header: 'Name', type: 'string' },

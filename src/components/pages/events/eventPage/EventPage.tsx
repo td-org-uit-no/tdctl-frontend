@@ -46,7 +46,7 @@ const EventPage = () => {
       }
     };
     isValidEventId(id);
-  }, [id]);
+  }, [id, role]);
 
   return (
     <div style={{ width: '100vw', maxWidth: '100%' }}>
