@@ -66,8 +66,7 @@ const Modal: React.FC<Props> = ({
               style={{
                 minWidth: minWidth ? minWidth + 'ch' : '',
                 maxWidth: maxWidth ? maxWidth + 'ch' : '',
-              }}
-            >
+              }}>
               <div className={styles.modalHeader}>
                 <div className={styles.headingBox}>
                   <h2>{title}</h2>

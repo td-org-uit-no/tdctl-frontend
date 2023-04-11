@@ -119,8 +119,7 @@ const EventTable = () => {
             size={2}
             onClick={() => {
               moveToEventAdminPage(eid);
-            }}
-          ></Icon>
+            }}></Icon>
         );
       },
       header: 'Edit',
@@ -153,8 +152,7 @@ const EventTable = () => {
           title={`Are you sure you want to delete ${selectedEvent?.title}?`}
           isOpen={isOpen}
           onClose={onClose}
-          minWidth={45}
-        >
+          minWidth={45}>
           <ConfirmationBox
             onAccept={() => {
               onClose();

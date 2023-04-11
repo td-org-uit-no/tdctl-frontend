@@ -191,8 +191,7 @@ const EventForm = () => {
 
         <DropdownHeader
           title={'Valgfritt: Sett dato for når påmeldingen åpner'}
-          style={{ width: '100%' }}
-        >
+          style={{ width: '100%' }}>
           <div className={styles.registerContainer}>
             <TextField
               name={'registerDate'}
@@ -216,29 +215,25 @@ const EventForm = () => {
               setFood(!food);
             }}
             label={'Servering av mat'}
-            initValue={food}
-          ></ToggleButton>
+            initValue={food}></ToggleButton>
           <ToggleButton
             onChange={() => {
               setTransportation(!transportation);
             }}
             label={'Mulighet for transport'}
-            initValue={transportation}
-          ></ToggleButton>
+            initValue={transportation}></ToggleButton>
           <ToggleButton
             onChange={() => {
               setPublicEvent(!publicEvent);
             }}
             label={'Skal arrangementet være synlig for vanlige brukere'}
-            initValue={publicEvent}
-          ></ToggleButton>
+            initValue={publicEvent}></ToggleButton>
           <ToggleButton
             onChange={() => {
               setBindingRegistration(!bindingRegistration);
             }}
             label={'Bindende påmelding'}
-            initValue={bindingRegistration}
-          ></ToggleButton>
+            initValue={bindingRegistration}></ToggleButton>
         </div>
         <FileSelector
           setFile={setFile}

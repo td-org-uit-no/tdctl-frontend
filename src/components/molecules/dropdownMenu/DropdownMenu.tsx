@@ -16,8 +16,7 @@ const DropdownMenu: React.FC<Items> = ({ items }) => {
     <div className={styles.menuWrapper}>
       <div
         className={styles.activeElement}
-        onClick={() => setExpanded(!expanded)}
-      >
+        onClick={() => setExpanded(!expanded)}>
         <div style={{ gap: '1rem', display: 'flex', alignItems: 'center' }}>
           {activeElement.icon && <Icon type={activeElement.icon}></Icon>}
           {activeElement.label}
@@ -35,8 +34,7 @@ const DropdownMenu: React.FC<Items> = ({ items }) => {
                     setExpanded(false);
                     setActiveElement(item);
                     item.action();
-                  }}
-                >
+                  }}>
                   {item.icon && <Icon type={item.icon}></Icon>}
                   {item.label}
                 </div>

@@ -189,8 +189,7 @@ const TableRows = <T, K extends keyof T>({
             onDragStart={(e) => dragStart(e, index)}
             onDragEnter={(e) => dragEnter(e, index)}
             onDragEnd={drop}
-            className={index === mark ? 'marked' : undefined}
-          >
+            className={index === mark ? 'marked' : undefined}>
             {showIdx && <td key={index}>{index}</td>}
             {columns.map((column, index2) => {
               return (

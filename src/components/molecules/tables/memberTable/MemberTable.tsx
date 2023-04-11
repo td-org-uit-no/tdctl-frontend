@@ -169,8 +169,7 @@ const MemberTable = () => {
               };
               resetForm(cellValues as any);
               setInitialValues(updateValues);
-            }}
-          >
+            }}>
             Edit
           </Button>
         );
@@ -225,8 +224,7 @@ const MemberTable = () => {
         isOpen={isOpen}
         onClose={onClose}
         minWidth={45}
-        title="Endre bruker"
-      >
+        title="Endre bruker">
         <form onSubmit={onSubmitEvent}>
           <div className={styles.general}>
             <TextField
@@ -312,8 +310,7 @@ const MemberTable = () => {
         title={`Er du sikker på at du vil slette ${selectedMember?.realName}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}
-      >
+        minWidth={45}>
         <ConfirmationBox
           onAccept={adminDeleteMember}
           onDecline={closeDeleteModal}
