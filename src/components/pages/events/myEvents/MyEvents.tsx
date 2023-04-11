@@ -37,6 +37,16 @@ const MyEvents = () => {
 
   /* Fetch joined events on auth update */
   useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        /* Get events */
+        const events = await getJoinedEvents();
+        const sorted = events.sort(sortEventByDate);
+        setEvents(sorted);
+      } catch (error) {
+        setIsErr(true);
+      }
+    };
     fetchEvents();
   }, [authenticated]);
 
@@ -45,16 +55,6 @@ const MyEvents = () => {
     return Number(new Date(a.date)) - Number(new Date(b.date));
   };
 
-  const fetchEvents = async () => {
-    try {
-      /* Get events */
-      const events = await getJoinedEvents();
-      const sorted = [...events].sort(sortEventByDate);
-      setEvents(sorted);
-    } catch (error) {
-      setIsErr(true);
-    }
-  };
   return <>{events && <DisplayMyEvents events={events} isErr={isErr} />}</>;
 };
 

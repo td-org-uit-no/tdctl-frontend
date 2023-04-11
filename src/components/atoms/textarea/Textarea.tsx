@@ -38,7 +38,7 @@ const Textarea: React.FC<TextareaProps> = ({
     const rowlen = input ? input.toString().split('\n').length : 2;
     const max = 14;
     setRows(rowlen < max ? rowlen : max);
-  }, [input]);
+  }, [input, resize]);
 
   return (
     <div className={styles.container}>
