@@ -351,19 +351,6 @@ const EventStatistics: React.FC<{
     name: string;
   };
 
-  const initialzieMembersByClass = () => {
-    const data: classDistributionType[] = [];
-
-    const membersGroupedByClass = groupBy<Participant>(
-      participants || [],
-      'classof'
-    );
-    Object.entries(membersGroupedByClass).forEach(([key]) => {
-      data.push({ value: membersGroupedByClass[key].length, name: key });
-    });
-    setClassDistribution(data);
-  };
-
   // Groups an array of objects by a given key into an object of the keys
   function groupBy<T>(collection: T[], key: keyof T) {
     const groupedResult = collection.reduce((previous, current) => {
@@ -385,7 +372,20 @@ const EventStatistics: React.FC<{
   };
 
   useEffect(() => {
-    initialzieMembersByClass();
+    const initializeMembersByClass = () => {
+      const data: classDistributionType[] = [];
+
+      const membersGroupedByClass = groupBy<Participant>(
+        participants || [],
+        'classof'
+      );
+      Object.entries(membersGroupedByClass).forEach(([key]) => {
+        data.push({ value: membersGroupedByClass[key].length, name: key });
+      });
+      setClassDistribution(data);
+    };
+
+    initializeMembersByClass();
   }, [participants]);
 
   useEffect(() => {
