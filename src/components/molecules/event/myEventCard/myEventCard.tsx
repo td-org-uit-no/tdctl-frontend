@@ -265,13 +265,15 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
               <Button
                 version="secondary"
                 onClick={handleEditButton}
-                className={styles.editButton}>
+                className={styles.editButton}
+              >
                 Rediger valg
               </Button>
             </div>
             <Link
               to={'/event/' + eventData.eid}
-              style={{ textDecoration: 'none' }}>
+              style={{ textDecoration: 'none' }}
+            >
               <div className={styles.toEvent}>
                 Til arrangement
                 <Icon type="arrow-right" color="#f09667" />
@@ -285,7 +287,8 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
         title={'Rediger preferanser'}
         isOpen={preferencesOpen}
         onClose={closePreferences}
-        maxWidth={100}>
+        maxWidth={100}
+      >
         <div className={styles.formContent}>
           <EventPreferences
             prefs={editPrefsPayload}

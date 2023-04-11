@@ -1,4 +1,5 @@
 # :gem: Changes
+
 <!-- Forklar hva du endrer og HVORFOR. Bruk gjerne en liste,
 eller del det opp i seksjoner hvis det er mye e.g
 - En ting

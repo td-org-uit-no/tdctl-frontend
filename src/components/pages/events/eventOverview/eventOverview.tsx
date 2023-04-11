@@ -109,14 +109,16 @@ const EventOverview: React.FC = () => {
               <LoadingWrapper
                 data={events}
                 startAfter={250}
-                className={'wrapper'}>
+                className={'wrapper'}
+              >
                 <DisplayUpcomingEventOverview events={events ?? []} />
               </LoadingWrapper>
             ) : (
               <LoadingWrapper
                 data={joinedEvents}
                 startAfter={250}
-                className={'wrapper'}>
+                className={'wrapper'}
+              >
                 <DisplayMyEvents
                   events={joinedEvents ?? []}
                   isErr={joinedErrorMessage.length !== 0}

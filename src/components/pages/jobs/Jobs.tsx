@@ -49,7 +49,8 @@ const Chip: React.FC<ChipProps> = (props) => {
       onClick={() => filterBasedOnTag(active)}
       style={{
         backgroundColor: active ? 'rgba(240, 150, 103, 0.3)' : '#f09667',
-      }}>
+      }}
+    >
       <span>{props.label}</span>
     </div>
   );
@@ -87,7 +88,8 @@ const FilterJobs: React.FC = () => {
             ...ctxHook?.context,
             search_string: e.target.value,
           });
-        }}></TextField>
+        }}
+      ></TextField>
       <div
         className={styles.filterSortWrapper}
         onMouseEnter={() => {
@@ -101,7 +103,8 @@ const FilterJobs: React.FC = () => {
             ...ctxHook.context,
             sort_date: !ctxHook.context.sort_date,
           });
-        }}>
+        }}
+      >
         <small>Sort by date</small>
         <Icon
           color={hoverSort ? '#f09667' : '#444658'}
@@ -109,7 +112,8 @@ const FilterJobs: React.FC = () => {
             ctxHook?.context.sort_date
               ? 'sort-amount-up-alt'
               : 'sort-amount-down-alt'
-          }></Icon>
+          }
+        ></Icon>
       </div>
       <hr />
       <div className={styles.filterTagWrapper}>
@@ -126,7 +130,8 @@ const FilterJobs: React.FC = () => {
           className={styles.companyButton}
           onClick={() => {
             setForBedrifter(!forBedrifter);
-          }}>
+          }}
+        >
           For bedrifter!
         </div>
       </div>
@@ -135,7 +140,8 @@ const FilterJobs: React.FC = () => {
           <p
             style={{
               fontSize: '0.8rem',
-            }}>
+            }}
+          >
             Har din organisasjon -eller bedrift lyst til å dele ledige
             stillinger, sommerjobber eller liknende hos oss i Tromsøstudentenes
             Dataforening? Send en e-post til
@@ -144,7 +150,8 @@ const FilterJobs: React.FC = () => {
               style={{
                 textDecoration: 'None',
                 color: 'rgba(240, 150, 103, 0.5)',
-              }}>
+              }}
+            >
               {' '}
               bedriftskommunikasjon@td-uit.no{' '}
             </a>
@@ -187,7 +194,8 @@ const _Jobs: React.FC = () => {
               type={formOpen ? 'minus' : 'plus'}
               size={2}
               color={'rgba(240, 150, 103, 0.3)'}
-              onClick={onOpen}></Icon>
+              onClick={onOpen}
+            ></Icon>
           )}
         </div>
 

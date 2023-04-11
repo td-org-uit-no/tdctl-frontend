@@ -19,7 +19,8 @@ export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
         overflow: 'hidden',
         flex: `0 0 ${itemWidth - 2 * padding}%`,
         padding: `0% ${padding}% 0%`,
-      }}>
+      }}
+    >
       <div className={styles.carouselItem}>{children}</div>
     </div>
   );
@@ -121,19 +122,22 @@ const Carousel: React.FC<CarouselProps> = ({
         style={{ height: height, touchAction: isMobile ? 'none' : 'auto' }}
         ref={itemRef}
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}>
+        onTouchMove={handleTouchMove}
+      >
         <div
           className={styles.inner}
           style={{
             // translate `translateLength` in x or y dir based on direction
             transform: `${transformation}(-${activeIndex * transitionLength}%)`,
             flexWrap: dir === 'column' ? 'wrap' : undefined,
-          }}>
+          }}
+        >
           {React.Children.map(children, (child) => {
             return (
               <CarouselItem
                 itemWidth={itemSize}
-                padding={spacing ? itemSize * itemSpaceConst : 0}>
+                padding={spacing ? itemSize * itemSpaceConst : 0}
+              >
                 {child}
               </CarouselItem>
             );
@@ -144,7 +148,8 @@ const Carousel: React.FC<CarouselProps> = ({
         <Button
           version="primary"
           className={styles.headerButton}
-          onClick={handleClick}>
+          onClick={handleClick}
+        >
           Se Alle
         </Button>
       )}
@@ -159,7 +164,8 @@ const Carousel: React.FC<CarouselProps> = ({
             <Button
               version="primary"
               className={styles.headerButton}
-              onClick={handleClick}>
+              onClick={handleClick}
+            >
               Se Alle
             </Button>
           )}

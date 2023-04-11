@@ -10,12 +10,14 @@ import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
 import { ChangePasswordPayload } from 'models/apiModels';
 
-interface IPasswordValidation{
-  upstreamFunction: (payload:ChangePasswordPayload) => void, 
-  errorMsg: string | undefined
+interface IPasswordValidation {
+  upstreamFunction: (payload: ChangePasswordPayload) => void;
+  errorMsg: string | undefined;
 }
 
-const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) => {
+const PasswordValidation: React.FC<IPasswordValidation> = ({
+  upstreamFunction,
+}) => {
   const [errors, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const validators = {
@@ -28,7 +30,7 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
     const isNotFilled = Object.keys(fields).filter(
       (key) => !fields[key].value.length
     ).length;
-    
+
     isNotFilled ? setError('Begge feltene må fylles ut') : setError(undefined);
 
     // pasword has no validation therefore it can be uninitialized
@@ -48,8 +50,7 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
     };
 
     //Caller has to handle errors thrown by input function
-    upstreamFunction(passwordPayload)
-
+    upstreamFunction(passwordPayload);
   };
 
   const { fields, onFieldChange, hasErrors } = useForm({
@@ -58,34 +59,35 @@ const PasswordValidation : React.FC<IPasswordValidation> = ({upstreamFunction}) 
   });
 
   return (
-      <div className={styles.info}>
-        <TextField
-          name={'password'}
-          minWidth={40}
-          type="password"
-          label={'Passord'}
-          value={fields['password']?.value ?? ''}
-          error={fields['password']?.error}
-          onChange={onFieldChange}
-        />
-        <br />
-        <TextField
-          name={'newPassword'}
-          minWidth={40}
-          type="password"
-          label={'Nytt passord'}
-          value={fields['newPassword']?.value ?? ''}
-          error={fields['newPassword']?.error}
-          onChange={onFieldChange}
-        />
-        {errors !== undefined && <p>{errors}</p>}
-        <Button
-          className={styles.submitButton}
-          version="secondary"
-          onClick={submit}>
-          Submit
-        </Button>
-      </div>
+    <div className={styles.info}>
+      <TextField
+        name={'password'}
+        minWidth={40}
+        type="password"
+        label={'Passord'}
+        value={fields['password']?.value ?? ''}
+        error={fields['password']?.error}
+        onChange={onFieldChange}
+      />
+      <br />
+      <TextField
+        name={'newPassword'}
+        minWidth={40}
+        type="password"
+        label={'Nytt passord'}
+        value={fields['newPassword']?.value ?? ''}
+        error={fields['newPassword']?.error}
+        onChange={onFieldChange}
+      />
+      {errors !== undefined && <p>{errors}</p>}
+      <Button
+        className={styles.submitButton}
+        version="secondary"
+        onClick={submit}
+      >
+        Submit
+      </Button>
+    </div>
   );
 };
 

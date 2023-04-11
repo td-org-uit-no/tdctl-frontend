@@ -33,7 +33,8 @@ const ValidEventLayout: React.FC<{ event: Event }> = ({ event }) => {
           <Icon
             type={'cog'}
             size={2}
-            onClick={() => history.push(`${event.eid}/admin`)}></Icon>
+            onClick={() => history.push(`${event.eid}/admin`)}
+          ></Icon>
         </div>
       )}
     </div>
@@ -62,7 +63,8 @@ export const ValidEventEditLayout: React.FC<{ event: Event }> = ({ event }) => {
           <Button
             version="primary"
             onClick={setEventEdit}
-            className={styles.adminButtons}>
+            className={styles.adminButtons}
+          >
             Rediger
           </Button>
         </div>

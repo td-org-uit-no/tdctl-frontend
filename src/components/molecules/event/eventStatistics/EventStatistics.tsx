@@ -11,9 +11,10 @@ import { number } from 'echarts';
 
 RegisterTheme();
 
-const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispatch<React.SetStateAction<boolean>> }> = ({
-  event,
-}) => {
+const EventStatistics: React.FC<{
+  event: Event;
+  setFetchUpdateHook: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ event }) => {
   const [classDistribution, setClassDistribution] = useState<
     any[] | undefined
   >();
@@ -229,7 +230,8 @@ const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispa
   };
   const optiontransportationGaugeData = [
     {
-      value: participants.filter((participant) => participant.transportation).length,
+      value: participants.filter((participant) => participant.transportation)
+        .length,
       name: `Participants need transportation`,
       title: {
         offsetCenter: ['0%', '-30%'],
@@ -330,7 +332,7 @@ const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispa
   };
 
   const initializeSubmitDates = () => {
-    const dict: Record<string,number>= {};
+    const dict: Record<string, number> = {};
     event.participants?.forEach((participant, idx) => {
       const date = new Date(participant.submitDate).setMinutes(0, 0, 0);
       const day = new Date(date).getDate();
@@ -338,22 +340,20 @@ const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispa
       const timeOfDay = `${day}-${hour}`;
       dict[timeOfDay] = idx;
     });
-    const timeArray = Object.keys(dict).sort((a,b) => sortString(a,b));
-    const numberArray = Object.values(dict).sort((a,b) => sortNumber(a, b));
+    const timeArray = Object.keys(dict).sort((a, b) => sortString(a, b));
+    const numberArray = Object.values(dict).sort((a, b) => sortNumber(a, b));
 
     setSubmitTime(timeArray);
     setSubmitNumber(numberArray);
   };
 
-
-
   type classDistributionType = {
     value: number;
     name: string;
-  }
+  };
 
   const initialzieMembersByClass = () => {
-    const data:classDistributionType[]= [];
+    const data: classDistributionType[] = [];
 
     const membersGroupedByClass = groupBy<Participant>(
       participants || [],
@@ -379,7 +379,9 @@ const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispa
 
   // Sorts +filtering participants within maxParticipants
   const initializeParticipants = () => {
-    const parts = event.participants?.sort((a, b) => sortString(a.submitDate, b.submitDate));
+    const parts = event.participants?.sort((a, b) =>
+      sortString(a.submitDate, b.submitDate)
+    );
     setParticipants(parts?.slice(0, event.maxParticipants) || []);
   };
 
@@ -423,7 +425,8 @@ const EventStatistics: React.FC<{ event: Event; setFetchUpdateHook:  React.Dispa
         columns={dieataryRestrictionsColumns}
         data={participants.filter(
           (part) => part.dietaryRestrictions !== '' && part.food === true
-        )}></Table>
+        )}
+      ></Table>
     </div>
   );
 };
