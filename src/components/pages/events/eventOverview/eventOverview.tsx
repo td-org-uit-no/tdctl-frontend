@@ -4,7 +4,7 @@ import EventPreview from 'components/molecules/event/eventPreview/EventPreview';
 import useUpcomingEvents from 'hooks/useEvents';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
 import Footer from 'components/molecules/footer/Footer';
-import MyEvents, { DisplayMyEvents } from '../myEvents/MyEvents';
+import { DisplayMyEvents } from '../myEvents/MyEvents';
 import { Event } from 'models/apiModels';
 import { getJoinedEvents } from 'api';
 import { sortDate } from 'utils/sorting';

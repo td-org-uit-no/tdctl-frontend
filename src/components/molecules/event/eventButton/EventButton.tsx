@@ -37,7 +37,6 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const [buttonText, setButtonText] = useState('');
   const [event, setEvent] = useState<Event>();
   const [isValidCancellation, setValidCancellation] = useState<boolean>(true);
-  const [showAllergies, setShowAllergies] = useState<boolean>(false);
   const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
@@ -50,12 +49,6 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     onOpen: openPreferences,
     onClose: closePreferences,
   } = useModal();
-
-  useEffect(() => {
-    if (!preferencesOpen) {
-      setShowAllergies(false);
-    }
-  }, [preferencesOpen]);
 
   const leaveEventAction = async () => {
     try {

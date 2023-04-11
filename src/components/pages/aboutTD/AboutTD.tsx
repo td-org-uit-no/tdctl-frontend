@@ -172,7 +172,7 @@ const AboutTD: React.FC = () => {
   useTitle('Om oss');
   return (
     <div className="aboutUsContainer">
-      <img src={logo} />
+      <img src={logo} alt="" />
       <div className="aboutSection">
         <div className="infoSection">
           <h2> Om oss </h2>

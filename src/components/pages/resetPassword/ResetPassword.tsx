@@ -5,14 +5,12 @@ import { useToast } from 'hooks/useToast';
 import { ToastStatus } from 'contexts/toastProvider';
 import './resetPassword.scss';
 import useForm from 'hooks/useForm';
-import { emptyFieldsValidator, passwordValidator } from 'utils/validators';
-import { useState } from 'react';
+import { passwordValidator } from 'utils/validators';
 import { resetPassword } from 'api';
 import useTitle from 'hooks/useTitle';
 
 const ResetPasswordPage: React.FC = () => {
   const { resetPasswordCode } = useParams<{ resetPasswordCode: string }>();
-  const [errors, setErrors] = useState<string | undefined>(undefined);
   const { addToast } = useToast();
   const history = useHistory();
 
