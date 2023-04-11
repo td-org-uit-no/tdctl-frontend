@@ -170,15 +170,13 @@ const Jobs: React.FC = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      let _jobs: JobItem[] = [];
       try {
-        _jobs = await getJobs();
+        const _jobs = await getJobs();
+        setContext({ ...context, allJobs: _jobs, sortedJobs: _jobs });
       } catch (error) {
         // no need to display error as the array will be empty and the component displays "no job listings" message
         return;
       }
-
-      setContext({ ...context, allJobs: _jobs, sortedJobs: _jobs });
     };
     fetchJobs();
   }, []);

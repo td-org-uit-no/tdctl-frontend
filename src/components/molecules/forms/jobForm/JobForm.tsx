@@ -19,10 +19,10 @@ import Textarea from 'components/atoms/textarea/Textarea';
 import Modal from 'components/molecules/modal/Modal';
 import { JobItem } from 'models/apiModels';
 import useModal from 'hooks/useModal';
-import { Job } from 'components/pages';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
+import { ValidJob } from 'components/pages/jobs/Job';
 
 const JobForm: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -215,7 +215,7 @@ const JobForm: React.FC = () => {
             overflowY: 'auto',
           }}
         >
-          <Job jobData={prevData ?? ({} as JobItem)} />
+          <ValidJob jobData={prevData} />
         </div>
       </Modal>
       <ReuploadImageModal

@@ -18,7 +18,7 @@ const useUpcomingEvents = () => {
     try {
       setIsFetching(true);
       const eventData = await getUpcomingEvents();
-      const sorted = [...eventData].sort(sortByDate);
+      const sorted = eventData.sort(sortByDate);
       setEvents(sorted);
       setIsFetching(false);
     } catch (error) {
