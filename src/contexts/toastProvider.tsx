@@ -42,8 +42,7 @@ const ToastProvider: React.FC = ({ children }) => {
       value={{
         addToast,
         removeToast,
-      }}
-    >
+      }}>
       <ToastContainer toasts={toasts} id={toastId} />
       {children}
     </ToastContext.Provider>

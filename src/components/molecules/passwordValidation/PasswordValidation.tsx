@@ -77,8 +77,7 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
       <Button
         className={styles.submitButton}
         version="secondary"
-        onClick={submit}
-      >
+        onClick={submit}>
         Submit
       </Button>
     </div>

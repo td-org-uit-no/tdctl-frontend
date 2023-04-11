@@ -120,8 +120,7 @@ const Select: React.FC<Props> = ({
           setSelectedValue(items[state.selectedIndex]);
           setShowMenu(false);
         }
-      }}
-    >
+      }}>
       <div className={styles.wrapper}>
         <div
           onClick={(e) => {
@@ -133,8 +132,7 @@ const Select: React.FC<Props> = ({
             minWidth: minWidth ? minWidth + 'ch' : '',
             border: showMenu ? '2px solid #7e4ccb' : '',
           }}
-          className={styles.text}
-        >
+          className={styles.text}>
           {selectedValue?.label}
         </div>
         {
@@ -146,8 +144,7 @@ const Select: React.FC<Props> = ({
                 color: '#7e4ccb',
                 fontSize: '14px',
               }),
-            }}
-          >
+            }}>
             {label}
           </label>
         }
@@ -171,8 +168,7 @@ const Select: React.FC<Props> = ({
                 style={{
                   background: getBackgroundColor(item, index),
                 }}
-                className={styles.item}
-              >
+                className={styles.item}>
                 {item.label}
               </div>
             );

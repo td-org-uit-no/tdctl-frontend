@@ -424,8 +424,7 @@ const EventStatistics: React.FC<{
         columns={dieataryRestrictionsColumns}
         data={participants.filter(
           (part) => part.dietaryRestrictions !== '' && part.food === true
-        )}
-      ></Table>
+        )}></Table>
     </div>
   );
 };

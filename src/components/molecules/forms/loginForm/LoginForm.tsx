@@ -71,8 +71,7 @@ const LoginForm = () => {
           <Button
             version={'secondary'}
             onClick={moveToRegisterPage}
-            style={{ margin: '0 0 0 1rem' }}
-          >
+            style={{ margin: '0 0 0 1rem' }}>
             Bli medlem
           </Button>
         </div>

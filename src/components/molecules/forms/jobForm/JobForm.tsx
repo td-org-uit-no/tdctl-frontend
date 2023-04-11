@@ -213,8 +213,7 @@ const JobForm: React.FC = () => {
             height: '85vh',
             overflowX: 'hidden',
             overflowY: 'auto',
-          }}
-        >
+          }}>
           <ValidJob jobData={prevData} />
         </div>
       </Modal>

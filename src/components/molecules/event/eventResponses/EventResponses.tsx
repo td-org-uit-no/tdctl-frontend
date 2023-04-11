@@ -149,8 +149,7 @@ const EventResponses: React.FC<{
           <>
             <Icon
               type={confirmed ? 'check' : 'ban'}
-              color={confirmed ? '#00ff00' : 'gray'}
-            ></Icon>
+              color={confirmed ? '#00ff00' : 'gray'}></Icon>
           </>
         );
       },
@@ -185,8 +184,7 @@ const EventResponses: React.FC<{
               color="white"
               onClick={() => {
                 openDeleteColumn(email);
-              }}
-            ></Icon>
+              }}></Icon>
           </>
         );
       },
@@ -260,8 +258,7 @@ const EventResponses: React.FC<{
       <Modal
         title="Bekreft plass for arrangement"
         isOpen={isOpenSubmitModal}
-        onClose={closeSubmitModal}
-      >
+        onClose={closeSubmitModal}>
         <div>
           <h5>Ved å gå videre vil du</h5>
           <ul>
@@ -288,8 +285,7 @@ const EventResponses: React.FC<{
         minWidth={45}
         title="Endre deltager"
         isOpen={isOpen}
-        onClose={onClose}
-      >
+        onClose={onClose}>
         <form>
           <div>
             <h5>Event</h5>
@@ -297,8 +293,7 @@ const EventResponses: React.FC<{
             <div>
               <ToggleButton
                 label="Cuisine"
-                onChange={toggleCuisine}
-              ></ToggleButton>
+                onChange={toggleCuisine}></ToggleButton>
             </div>
             <br />
             <TextField label="Allergies"></TextField>
@@ -310,12 +305,10 @@ const EventResponses: React.FC<{
         title={`Remove ${selectedParticipant?.realName ?? ''}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}
-      >
+        minWidth={45}>
         <ConfirmationBox
           onAccept={adminDeleteMember}
-          onDecline={closeDeleteModal}
-        ></ConfirmationBox>
+          onDecline={closeDeleteModal}></ConfirmationBox>
       </Modal>
     </div>
   );
