@@ -154,9 +154,7 @@ const FilterJobs: React.FC = () => {
   );
 };
 
-const Jobs: React.FC = () => {
-  useTitle('Stillingsutlysninger');
-
+const JobList: React.FC = () => {
   const { role } = useContext(AuthenticateContext);
   const { context, setContext } = useContext(FilterContextHook);
   const { isOpen, onOpen, onClose } = useModal();
@@ -175,39 +173,46 @@ const Jobs: React.FC = () => {
   }, []);
 
   return (
-    <JobFilterProvider>
-      <div className={styles.pageWrapper}>
-        <div className={styles.jobsWrapper}>
-          <div className={styles.jobsHeader}>
-            <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
-            {role === Roles.admin && (
-              <Icon
-                type={'plus'}
-                size={2}
-                color={'rgba(240, 150, 103, 0.3)'}
-                onClick={onOpen}></Icon>
+    <div className={styles.pageWrapper}>
+      <div className={styles.jobsWrapper}>
+        <div className={styles.jobsHeader}>
+          <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
+          {role === Roles.admin && (
+            <Icon
+              type={'plus'}
+              size={2}
+              color={'rgba(240, 150, 103, 0.3)'}
+              onClick={onOpen}></Icon>
+          )}
+        </div>
+
+        <div className={styles.content}>
+          <FilterJobs />
+
+          <div className={styles.mainContent}>
+            <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
+              <div className={styles.jobsFormContainer}>
+                <JobForm />
+              </div>
+            </Modal>
+            {context.allJobs?.length === 0 && (
+              <h5>Ingen stillingsutlysninger</h5>
             )}
-          </div>
-
-          <div className={styles.content}>
-            <FilterJobs />
-
-            <div className={styles.mainContent}>
-              <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
-                <div className={styles.jobsFormContainer}>
-                  <JobForm />
-                </div>
-              </Modal>
-              {context.allJobs?.length === 0 && (
-                <h5>Ingen stillingsutlysninger</h5>
-              )}
-              {context.sortedJobs?.map((job, key) => {
-                return <JobCard {...job} key={key} />;
-              })}
-            </div>
+            {context.sortedJobs?.map((job, key) => {
+              return <JobCard {...job} key={key} />;
+            })}
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const Jobs: React.FC = () => {
+  useTitle('Stillingsutlysninger');
+  return (
+    <JobFilterProvider>
+      <JobList />
     </JobFilterProvider>
   );
 };
