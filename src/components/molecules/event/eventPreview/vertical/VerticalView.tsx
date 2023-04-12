@@ -23,7 +23,7 @@ const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
           {eventData.eid !== undefined && <EventHeader id={eventData.eid} />}
         </div>
         <div className="verticalViewInfo">
-          <div className="infoText">
+          <div className="verticalViewInfoText">
             <Icon type={'calendar'} size={1.5} />
             <p>{transformDate(new Date(eventData.date))}</p>
           </div>
