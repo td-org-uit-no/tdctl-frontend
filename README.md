@@ -29,7 +29,11 @@ this will use a different set of enivronment variables for defining the backend 
 
 #### 💅 Formatting the code
 
-When developing it is recommended to use [Prettier](https://prettier.io/) to format the code. Prettier is available for most code editors.
+We use [Prettier](https://prettier.io/) to format the code in this codebase.
+Prettier is available for most code editors, and also available through the
+command line. Either install it globally on your system, or use the projects
+prettier by running `yarn run prettier --write .` from the root of the repository
+after installing the dependencies with `yarn install`
 
 #### :twisted_rightwards_arrows: Branches and branch naming
 
