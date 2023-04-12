@@ -216,7 +216,7 @@ const EventResponses: React.FC<{
       addToast({
         title: 'Suksess',
         status: 'success',
-        description: 'Påmeldings listen er oppdatert!"',
+        description: 'Påmeldings listen er oppdatert!',
       });
     } catch (error) {
       let detail = await error.getText();
