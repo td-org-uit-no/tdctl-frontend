@@ -56,6 +56,7 @@ const MemberTable = () => {
         phone: fields['phone'].value,
         status: fields['status'].value,
         role: fields['role'].value as RoleOptions,
+        penalty: +fields['penalty'].value,
       };
       if (!isDeepEqual(member, initialValues)) {
         await adminUpdateMember(id, member);
@@ -149,6 +150,7 @@ const MemberTable = () => {
     { cell: 'email', header: 'Email', type: 'string' },
     { cell: 'classof', header: 'Class of', type: 'number' },
     { cell: 'status', header: 'Status', type: 'string' },
+    { cell: 'penalty', header: 'Penalty', type: 'number' },
     { cell: 'role', header: 'Role', type: 'string' },
     {
       cell: (cellValues) => {
@@ -157,7 +159,7 @@ const MemberTable = () => {
             version="secondary"
             onClick={() => {
               onOpen();
-              const { role, email, status, classof, realName, phone } =
+              const { role, email, status, classof, realName, phone, penalty } =
                 cellValues;
               const updateValues: AdminMemberUpdate = {
                 role,
@@ -166,10 +168,12 @@ const MemberTable = () => {
                 classof,
                 realName,
                 phone,
+                penalty,
               };
               resetForm(cellValues as any);
               setInitialValues(updateValues);
-            }}>
+            }}
+          >
             Edit
           </Button>
         );
@@ -224,7 +228,8 @@ const MemberTable = () => {
         isOpen={isOpen}
         onClose={onClose}
         minWidth={45}
-        title="Endre bruker">
+        title="Endre bruker"
+      >
         <form onSubmit={onSubmitEvent}>
           <div className={styles.general}>
             <TextField
@@ -260,6 +265,14 @@ const MemberTable = () => {
               value={fields['classof']?.value ?? ''}
               onChange={onFieldChange}
               label="Class of"
+            />
+            <br />
+            <TextField
+              minWidth={30}
+              name="penalty"
+              value={fields['penalty']?.value ?? ''}
+              onChange={onFieldChange}
+              label="Penalty"
             />
             <br />
             <Select
@@ -310,7 +323,8 @@ const MemberTable = () => {
         title={`Er du sikker på at du vil slette ${selectedMember?.realName}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}>
+        minWidth={45}
+      >
         <ConfirmationBox
           onAccept={adminDeleteMember}
           onDecline={closeDeleteModal}
