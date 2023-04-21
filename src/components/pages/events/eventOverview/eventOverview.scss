@@ -1,6 +1,6 @@
 @use '../../../../styles/animations.scss';
 
-.upcomingEventOverview {
+.eventOverview {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,7 +56,7 @@
 
 .eventOverviewTitles {
   display: flex;
-  width: 100%;
+  width: 50vw;
   flex-direction: row;
   white-space: pre-wrap;
 
@@ -76,6 +76,15 @@
   }
 }
 
+.itemMiddle {
+  flex-basis: 100%;
+  text-align: center;
+  h6 {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
+
 .itemLeft {
   flex-basis: 100%;
   text-align: start;
@@ -84,10 +93,18 @@
   }
 }
 @media screen and (max-width: 768px) {
-  .upcomingEventOverviewContainer {
+  .eventOverviewContainer {
     width: 95%;
   }
+
+  .mainTitle {
+    h2 {
+      font-size: 2.75rem;
+    }
+  }
+
   .eventOverviewTitles {
+    width: 75vw;
     h6 {
       font-size: 14px;
     }
@@ -96,6 +113,12 @@
     text-align: center;
     h6 {
       padding-left: 0.5rem;
+    }
+  }
+  .itemMiddle {
+    h6 {
+      padding-left: .25rem;
+      padding-right: .25rem;
     }
   }
   .itemRight {
