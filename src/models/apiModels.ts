@@ -5,6 +5,7 @@ export interface Member extends PartialMember {
   id: string;
   role: RoleOptions;
   status: string;
+  penalty: number;
 }
 
 export interface PartialMember {
@@ -64,6 +65,7 @@ export interface AdminMemberUpdate extends MemberUpdate {
   status?: string;
   role?: RoleOptions;
   graduated?: boolean;
+  penalty?: number;
 }
 
 export interface Event {
