@@ -120,6 +120,10 @@ export const phoneValidator = (num: string): string[] | undefined => {
   return undefined;
 };
 
+export const eventTitleValidator = (title: string) => {
+  return title.length ? undefined : ['Arrangement tittelen må fylles ut'];
+};
+
 export const addressValidator = (address: string) => {
   return address.length ? undefined : ['Adresse må fylles ut'];
 };
