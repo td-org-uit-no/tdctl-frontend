@@ -12,10 +12,10 @@ import {
   dateValidator,
   descriptionValidator,
   maxParticipantsValidator,
-  titleValidator,
   priceValidator,
   timeValidator,
   PNGImageValidator,
+  eventTitleValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
@@ -56,7 +56,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   };
 
   const validators = {
-    title: titleValidator,
+    title: eventTitleValidator,
     description: descriptionValidator,
     date: dateValidator,
     time: timeValidator,

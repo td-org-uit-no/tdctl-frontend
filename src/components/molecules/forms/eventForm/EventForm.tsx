@@ -2,7 +2,6 @@ import { useState } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
-  titleValidator,
   descriptionValidator,
   dateValidator,
   timeValidator,
@@ -11,6 +10,7 @@ import {
   priceValidator,
   maxParticipantsValidator,
   PNGImageValidator,
+  eventTitleValidator,
 } from 'utils/validators';
 import styles from './eventForm.module.scss';
 import Button from 'components/atoms/button/Button';
@@ -37,7 +37,7 @@ const EventForm = () => {
   const history = useHistory();
 
   const validators = {
-    title: titleValidator,
+    title: eventTitleValidator,
     description: descriptionValidator,
     date: dateValidator,
     time: timeValidator,
