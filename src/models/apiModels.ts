@@ -32,6 +32,7 @@ export interface Participant {
   submitDate: string;
   penalty: number;
   confirmed?: boolean;
+  attended?: boolean;
 }
 
 export interface TokenPair {
@@ -106,6 +107,11 @@ export interface JoinEventPayload {
   food?: boolean;
   transportation?: boolean;
   dietaryRestrictions?: string;
+}
+
+export interface SetAttendancePayload {
+  member_id?: string;
+  attendance: boolean;
 }
 
 export interface JobItem {

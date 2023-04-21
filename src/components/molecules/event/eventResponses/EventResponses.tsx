@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
-import { Participant, ParticipantsUpdate } from 'models/apiModels';
+import {
+  Participant,
+  ParticipantsUpdate,
+  SetAttendancePayload,
+} from 'models/apiModels';
 import { Event } from 'models/apiModels';
 import { useToast } from 'hooks/useToast';
-import { confirmEvent, deleteParticipant, reorderParticipants } from 'api';
+import {
+  confirmEvent,
+  deleteParticipant,
+  registerAbsence,
+  reorderParticipants,
+  updateAttendance,
+} from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
 import TextField from 'components/atoms/textfield/Textfield';
@@ -12,16 +22,19 @@ import Button from 'components/atoms/button/Button';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
 import useModal from 'hooks/useModal';
+import EventRegistrationQR from '../eventRegistrationQR/EventRegistrationQR';
 
 interface IBindingRegistrationButtons {
   onUpdate: () => void;
   onConfirm: () => void;
+  onPenalize: () => void;
   bindingRegistration: boolean | undefined;
 }
 
 const BindingRegistrationButtons: React.FC<IBindingRegistrationButtons> = ({
   onUpdate,
   onConfirm,
+  onPenalize,
   bindingRegistration,
 }) => {
   if (bindingRegistration === undefined) {
@@ -29,12 +42,15 @@ const BindingRegistrationButtons: React.FC<IBindingRegistrationButtons> = ({
   }
 
   return (
-    <div className={styles.submitWrapper}>
-      <Button version="secondary" onClick={onUpdate}>
+    <div>
+      <Button version="primary" onClick={onUpdate}>
         Oppdatere liste
       </Button>
-      <Button version={'primary'} onClick={onConfirm}>
+      <Button version={'secondary'} onClick={onConfirm}>
         Send ut bekreftelse
+      </Button>
+      <Button version={'primary'} onClick={onPenalize}>
+        Registrer fravær
       </Button>
     </div>
   );
@@ -49,7 +65,6 @@ const EventResponses: React.FC<{
     Participant | undefined
   >();
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const { isOpen, onClose } = useModal();
   const {
     isOpen: isOpenDeleteModal,
     onOpen: openDeleteModal,
@@ -59,6 +74,11 @@ const EventResponses: React.FC<{
     isOpen: isOpenSubmitModal,
     onOpen: openSubmitModal,
     onClose: closeSubmitModal,
+  } = useModal();
+  const {
+    isOpen: isOpenAbsenceModal,
+    onOpen: openAbsenceModal,
+    onClose: closeAbsenceModal,
   } = useModal();
 
   const openDeleteColumn = (email: string) => {
@@ -137,10 +157,48 @@ const EventResponses: React.FC<{
     closeDeleteModal();
   };
 
+  const adminSetAttendance = async (email: string) => {
+    /* Select user */
+    const selected = participants?.find((mem) => {
+      return mem.email === email;
+    });
+
+    try {
+      if (!selected) {
+        return;
+      }
+
+      /* Create payload for request */
+      const payload: SetAttendancePayload = {
+        member_id: selected.id,
+        attendance: !selected.attended,
+      };
+
+      console.log(payload);
+
+      await updateAttendance(event.eid, payload);
+
+      /* Notify to parent event data must be updated */
+      setFetchUpdateHook(true);
+
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: `Oppdaterte oppmøte til ${selected?.realName}.`,
+      });
+    } catch (error) {
+      addToast({
+        title: 'Feilmelding',
+        status: 'error',
+        description: `Kunne ikke sette oppmøte til ${selected?.realName}.`,
+      });
+    }
+  };
+
   const columns: ColumnDefinitionType<Participant, keyof Participant>[] = [
-    { cell: 'realName', header: 'Name', type: 'string' },
+    { cell: 'realName', header: 'Navn', type: 'string' },
     { cell: 'email', header: 'Email', type: 'string' },
-    { cell: 'phone', header: 'Phone', type: 'number' },
+    { cell: 'phone', header: 'Tlf', type: 'number' },
     { cell: 'penalty', header: 'Prikk', type: 'number' },
     {
       cell: (cellValues) => {
@@ -149,11 +207,29 @@ const EventResponses: React.FC<{
           <>
             <Icon
               type={confirmed ? 'check' : 'ban'}
-              color={confirmed ? '#00ff00' : 'gray'}></Icon>
+              color={confirmed ? '#00ff00' : 'gray'}
+            ></Icon>
           </>
         );
       },
       header: 'Bekreftet',
+    },
+    {
+      cell: (cellValues) => {
+        const { attended, email } = cellValues;
+        return (
+          <>
+            <Icon
+              type={attended ? 'check' : 'ban'}
+              color={attended ? '#00ff00' : 'gray'}
+              onClick={() => {
+                adminSetAttendance(email);
+              }}
+            />
+          </>
+        );
+      },
+      header: 'Oppmøte',
     },
     {
       cell: (cellValues) => {
@@ -164,7 +240,7 @@ const EventResponses: React.FC<{
             {food === true ? (
               <Icon type="hamburger" color="limegreen"></Icon>
             ) : (
-              <Icon type="ban" color="firebrick"></Icon>
+              <Icon type="ban" color="gray"></Icon>
             )}
             {dietaryRestrictions !== '' && food === true && (
               <Icon type="allergies" color="#fdd835 "></Icon>
@@ -172,7 +248,7 @@ const EventResponses: React.FC<{
           </div>
         );
       },
-      header: 'Food',
+      header: 'Mat',
     },
     {
       cell: (cellValues) => {
@@ -184,11 +260,12 @@ const EventResponses: React.FC<{
               color="white"
               onClick={() => {
                 openDeleteColumn(email);
-              }}></Icon>
+              }}
+            ></Icon>
           </>
         );
       },
-      header: 'Delete',
+      header: 'Slett',
     },
   ];
 
@@ -232,15 +309,40 @@ const EventResponses: React.FC<{
     }
   };
 
+  const penalizeAbsent = async () => {
+    /* Give penalty to all absent members */
+    try {
+      await registerAbsence(event.eid);
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Fraværende medlemmer fikk prikk',
+      });
+      setFetchUpdateHook(true);
+    } catch (error) {
+      const errmsg = await error.getText();
+      addToast({
+        title: 'Feilmelding',
+        status: 'error',
+        description: `${errmsg}`,
+      });
+    }
+    closeAbsenceModal();
+  };
+
   // TODO: Create a state or something to toggle disabled on button
 
   return (
     <div className={styles.contentWrapper}>
-      <BindingRegistrationButtons
-        bindingRegistration={event.bindingRegistration}
-        onUpdate={updateList}
-        onConfirm={openSubmitModal}
-      />
+      <div className={styles.adminButtonsWrapper}>
+        <BindingRegistrationButtons
+          bindingRegistration={event.bindingRegistration}
+          onUpdate={updateList}
+          onConfirm={openSubmitModal}
+          onPenalize={openAbsenceModal}
+        />
+        <EventRegistrationQR event={event} />
+      </div>
       {participants ? (
         <Table
           columns={columns}
@@ -258,7 +360,8 @@ const EventResponses: React.FC<{
       <Modal
         title="Bekreft plass for arrangement"
         isOpen={isOpenSubmitModal}
-        onClose={closeSubmitModal}>
+        onClose={closeSubmitModal}
+      >
         <div>
           <h5>Ved å gå videre vil du</h5>
           <ul>
@@ -282,33 +385,33 @@ const EventResponses: React.FC<{
         </div>
       </Modal>
       <Modal
-        minWidth={45}
-        title="Endre deltager"
-        isOpen={isOpen}
-        onClose={onClose}>
-        <form>
-          <div>
-            <h5>Event</h5>
-            <h5>Name</h5>
-            <div>
-              <ToggleButton
-                label="Cuisine"
-                onChange={toggleCuisine}></ToggleButton>
-            </div>
-            <br />
-            <TextField label="Allergies"></TextField>
-            <Button version="primary">Update</Button>
+        title="Registrer fravær på arrangement"
+        isOpen={isOpenAbsenceModal}
+        onClose={closeAbsenceModal}
+      >
+        <div>
+          <h5>Sende inn fraværsliste?</h5>
+          <p>Alle medlemmer som ikke har bekreftet oppmøte vil få en prikk</p>
+          <div className={styles.submitModalButtons}>
+            <Button version={'secondary'} onClick={closeAbsenceModal}>
+              Avbryt
+            </Button>
+            <Button version={'primary'} onClick={penalizeAbsent}>
+              Registrer
+            </Button>
           </div>
-        </form>
+        </div>
       </Modal>
       <Modal
         title={`Remove ${selectedParticipant?.realName ?? ''}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}>
+        minWidth={45}
+      >
         <ConfirmationBox
           onAccept={adminDeleteMember}
-          onDecline={closeDeleteModal}></ConfirmationBox>
+          onDecline={closeDeleteModal}
+        ></ConfirmationBox>
       </Modal>
     </div>
   );
