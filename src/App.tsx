@@ -10,6 +10,7 @@ import {
   EventPage,
   EventAdmin,
   EventOverview,
+  EventRegisterPage,
   AdminPage,
   ConfirmationPage,
   RestorePasswordPage,
@@ -35,6 +36,7 @@ const App: React.FC = () => {
           <AdminRoute path="/create-event" component={CreateEvent} />
           <AdminRoute path="/admin" component={AdminPage} />
           <AdminRoute path="/event/:id/admin" component={EventAdmin} />
+          <Route path="/event/:rid/register" component={EventRegisterPage} />
           <Route path="/event/:id" children={<EventPage />} />
           <Route
             path="/confirmation/:confirmationCode"
