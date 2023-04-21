@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthenticateContext } from 'contexts/authProvider';
-import { registerAttendence } from 'api';
+import { updateAttendance } from 'api';
 import styles from './EventRegisterPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
 import { LoginForm } from 'components/molecules/forms';
+import { SetAttendancePayload } from 'models/apiModels';
 
 const EventRegisterPage = () => {
   const { authenticated } = useContext(AuthenticateContext);
@@ -17,7 +18,12 @@ const EventRegisterPage = () => {
     /* Send registration request */
     const register = async (rid: string) => {
       try {
-        await registerAttendence(rid);
+        /* Set payload */
+        const payload: SetAttendancePayload = {
+          attendance: true,
+        };
+        /* Self update requires rid */
+        await updateAttendance(rid, payload);
         setResponse('Du er nå registrert! God fornøyelse!');
         addToast({
           title: 'Suksess',
@@ -25,7 +31,7 @@ const EventRegisterPage = () => {
           description: 'Oppmøte registrert.',
         });
       } catch (error) {
-        setResponse('Auda! Noe gitt galt...');
+        setResponse('Auda! Noe gikk galt...');
       }
     };
     if (authenticated && rid) {

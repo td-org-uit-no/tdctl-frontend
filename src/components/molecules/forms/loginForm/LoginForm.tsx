@@ -11,7 +11,16 @@ interface LocationState {
   from: { pathname: string };
 }
 
-const LoginForm = () => {
+/* shouldRegister determines whether 'bli medlem' will render */
+export interface LoginFormProps {
+  shouldRedirect?: boolean;
+  shouldRegister?: boolean;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({
+  shouldRedirect = true,
+  shouldRegister = true,
+}) => {
   const { updateCredentials } = useContext(AuthenticateContext);
   const [error, setError] = useState('');
   const history = useHistory();
@@ -30,7 +39,9 @@ const LoginForm = () => {
 
       await login(fields['email'].value, fields['password'].value);
       updateCredentials();
-      history.push(location.state?.from.pathname ?? '/');
+      if (shouldRedirect) {
+        history.push(location.state?.from.pathname ?? '/');
+      }
     } catch (error) {
       // Unauthorized
       if (error.statusCode === 401) {
@@ -68,12 +79,15 @@ const LoginForm = () => {
           <Button version={'primary'} type="submit">
             Logg inn
           </Button>
-          <Button
-            version={'secondary'}
-            onClick={moveToRegisterPage}
-            style={{ margin: '0 0 0 1rem' }}>
-            Bli medlem
-          </Button>
+          {shouldRegister && (
+            <Button
+              version={'secondary'}
+              onClick={moveToRegisterPage}
+              style={{ margin: '0 0 0 1rem' }}
+            >
+              Bli medlem
+            </Button>
+          )}
         </div>
       </div>
     </form>
