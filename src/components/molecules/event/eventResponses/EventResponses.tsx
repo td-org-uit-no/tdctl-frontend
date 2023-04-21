@@ -16,8 +16,6 @@ import {
 } from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
-import TextField from 'components/atoms/textfield/Textfield';
-import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import Button from 'components/atoms/button/Button';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
@@ -174,8 +172,6 @@ const EventResponses: React.FC<{
         attendance: !selected.attended,
       };
 
-      console.log(payload);
-
       await updateAttendance(event.eid, payload);
 
       /* Notify to parent event data must be updated */
@@ -207,8 +203,7 @@ const EventResponses: React.FC<{
           <>
             <Icon
               type={confirmed ? 'check' : 'ban'}
-              color={confirmed ? '#00ff00' : 'gray'}
-            ></Icon>
+              color={confirmed ? '#00ff00' : 'gray'}></Icon>
           </>
         );
       },
@@ -260,22 +255,13 @@ const EventResponses: React.FC<{
               color="white"
               onClick={() => {
                 openDeleteColumn(email);
-              }}
-            ></Icon>
+              }}></Icon>
           </>
         );
       },
       header: 'Slett',
     },
   ];
-
-  const toggleCuisine = () => {
-    addToast({
-      title: 'Toggle',
-      status: 'info',
-      description: 'Toggled cuisine',
-    });
-  };
 
   useEffect(() => {
     if (event.participants) {
@@ -360,8 +346,7 @@ const EventResponses: React.FC<{
       <Modal
         title="Bekreft plass for arrangement"
         isOpen={isOpenSubmitModal}
-        onClose={closeSubmitModal}
-      >
+        onClose={closeSubmitModal}>
         <div>
           <h5>Ved å gå videre vil du</h5>
           <ul>
@@ -387,8 +372,7 @@ const EventResponses: React.FC<{
       <Modal
         title="Registrer fravær på arrangement"
         isOpen={isOpenAbsenceModal}
-        onClose={closeAbsenceModal}
-      >
+        onClose={closeAbsenceModal}>
         <div>
           <h5>Sende inn fraværsliste?</h5>
           <p>Alle medlemmer som ikke har bekreftet oppmøte vil få en prikk</p>
@@ -406,12 +390,10 @@ const EventResponses: React.FC<{
         title={`Remove ${selectedParticipant?.realName ?? ''}?`}
         isOpen={isOpenDeleteModal}
         onClose={closeDeleteModal}
-        minWidth={45}
-      >
+        minWidth={45}>
         <ConfirmationBox
           onAccept={adminDeleteMember}
-          onDecline={closeDeleteModal}
-        ></ConfirmationBox>
+          onDecline={closeDeleteModal}></ConfirmationBox>
       </Modal>
     </div>
   );
