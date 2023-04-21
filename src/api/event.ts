@@ -5,6 +5,7 @@ import {
   Event,
   JoinEventPayload,
   ParticipantsUpdate,
+  SetAttendencePayload,
 } from 'models/apiModels';
 import { get, post, put, Delete } from './requests';
 
@@ -63,6 +64,17 @@ export const deleteParticipant = (
   id: string
 ): Promise<{ id: string }> =>
   Delete('event/' + eid + '/removeParticipant/' + id);
+
+export const registerAttendence = (rid: string) =>
+  post<{}>('event/' + rid + '/register', {});
+
+export const setAttendence = (eid: string, payload: SetAttendencePayload) =>
+  put<{}>('event/' + eid + '/register', payload);
+
+export const registerAbsence = (eid: string) =>
+  post<{}>('event/' + eid + '/registerAbsence', {});
+
+export const createQR = (eid: string) => post<{}>('event/' + eid + '/qr', {});
 
 export const exportEvent = (eid: string): Promise<{}> =>
   get<{}>('event/' + eid + '/export');

@@ -1,0 +1,27 @@
+.pageWrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 40vw;
+    min-width: 300px;
+    text-align: center;
+}
+
+.loginWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.login {
+    width: 350px;
+}
