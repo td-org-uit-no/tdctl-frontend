@@ -26,7 +26,7 @@ export const get = async <T>(url: string) => {
   const request = new Request(baseUrl + url, {
     credentials: 'include',
     headers: {
-      accept: 'application/json',
+      accept: 'application/json, application/pdf',
     },
   });
   return authFetch<T>(request);
@@ -44,6 +44,7 @@ export const post = async <T>(
     ...(content_type === 'application/json' && {
       headers: {
         'Content-Type': 'application/json',
+        accept: 'application/pdf',
       },
       body: JSON.stringify(data),
     }),
@@ -118,6 +119,11 @@ async function handleResponse<T>(response: Response): Promise<T> {
     response.headers.get('content-encoding') === null
   ) {
     return {} as Promise<T>;
+  }
+
+  if (response.headers.get('content-type') === 'application/pdf') {
+    /* TODO: Separate 'get file' returning Blob */
+    return response.blob() as Promise<any>;
   }
 
   // Response into json might fail, so return empty in that case
