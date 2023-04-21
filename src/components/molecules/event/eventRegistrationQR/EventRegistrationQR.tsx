@@ -60,8 +60,7 @@ const EventRegistrationQR: React.FC<{ event: Event }> = ({ event }) => {
         version={'secondary'}
         onClick={() => {
           handleButtonClick(event.eid);
-        }}
-      >
+        }}>
         Hent QR-kode
       </Button>
     </div>
