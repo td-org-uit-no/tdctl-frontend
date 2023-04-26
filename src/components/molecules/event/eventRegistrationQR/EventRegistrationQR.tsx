@@ -23,13 +23,18 @@ const EventRegistrationQR: React.FC<{ event: Event }> = ({ event }) => {
     try {
       res = await getQR(url);
     } catch (error) {
-      if (error.statusCode !== 400) {
-        addToast({
-          title: 'Feilmelding',
-          status: 'error',
-          description: 'Ukjent feil',
-        });
-        return;
+      switch (error.statusCode) {
+        case 400:
+          break;
+        case 404:
+          break;
+        default:
+          addToast({
+            title: 'Feilmelding',
+            status: 'error',
+            description: 'Ukjent feil',
+          });
+          return;
       }
       /* Create QR document */
       try {
@@ -40,6 +45,7 @@ const EventRegistrationQR: React.FC<{ event: Event }> = ({ event }) => {
           status: 'error',
           description: 'Ukjent feil',
         });
+        return;
       }
     } finally {
       if (!res) {
