@@ -2,7 +2,6 @@
   display: flex;
   height: 100%;
   width: 100%;
-  // background-color: black;
   justify-content: center;
   align-items: center;
 }
@@ -15,4 +14,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .eventContainer {
+    width: 95vw;
+  }
 }
