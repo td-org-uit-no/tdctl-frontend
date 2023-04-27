@@ -28,3 +28,9 @@
   width: 100%;
   display: flex;
 }
+
+@media screen and (max-width: 768px) {
+  .header {
+    max-width: 95vw;
+  }
+}
