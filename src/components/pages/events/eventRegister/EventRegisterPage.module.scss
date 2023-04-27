@@ -11,8 +11,7 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  width: 40vw;
-  min-width: 300px;
+  width: 100%;
   text-align: center;
 }
 
@@ -24,4 +23,12 @@
 
 .login {
   width: 350px;
+}
+
+@media screen and (max-width: 451px) {
+  .contentWrapper {
+    h3 {
+      font-size: 1.75em;
+    }
+  }
 }
