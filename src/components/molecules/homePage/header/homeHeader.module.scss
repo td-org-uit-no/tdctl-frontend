@@ -23,6 +23,9 @@ img {
 }
 
 .buttonWrapper {
+  a {
+    padding: 0 0.5em;
+  }
   display: flex;
   margin-top: 1em;
   justify-content: center;

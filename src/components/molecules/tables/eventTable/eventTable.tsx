@@ -1,7 +1,6 @@
 import { Event } from 'models/apiModels';
 import useUpcomingEvents from 'hooks/useEvents';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
-import { useHistory } from 'react-router-dom';
 import Icon from 'components/atoms/icons/icon';
 import styles from './eventTable.module.scss';
 import { transformDate } from 'utils/timeConverter';
@@ -17,13 +16,8 @@ const EventTable = () => {
   const [selectedEvent, setSelected] = useState<
     Pick<Event, 'eid' | 'title'> | undefined
   >();
-  const history = useHistory();
   const { addToast } = useToast();
   const { isOpen, onOpen, onClose } = useModal();
-
-  const moveToEventAdminPage = (eid: string) => {
-    history.push(`event/${eid}/admin`);
-  };
 
   const openDeleteColumn = (eid: string) => {
     const selected = events?.find((mem) => {
@@ -113,14 +107,7 @@ const EventTable = () => {
     {
       cell: (cellValues) => {
         const { eid } = cellValues;
-        return (
-          <Icon
-            type="cog"
-            size={2}
-            onClick={() => {
-              moveToEventAdminPage(eid);
-            }}></Icon>
-        );
+        return <Icon href={`event/${eid}/admin`} type="cog" size={2}></Icon>;
       },
       header: 'Edit',
       type: 'string',

@@ -1,5 +1,9 @@
+@import 'src/styles/colors.scss';
+
 .landscapeView {
   display: flex;
+  text-decoration: none;
+  color: $primary;
   width: 100%;
   background-color: #2b2c3d;
   border-radius: 0.5rem;

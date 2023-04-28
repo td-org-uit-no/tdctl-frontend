@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import { logout } from 'api';
 import styles from './navbar.module.scss';
@@ -46,18 +46,13 @@ const AuthNavbar = () => {
 
 const Navbar: React.FC = () => {
   const { authenticated } = useContext(AuthenticateContext);
-  const history = useHistory();
-
-  const moveToHomePage = () => {
-    history.push('/');
-  };
 
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
-        <div className={styles.logo}>
-          <img src={logo} alt="logo" onClick={moveToHomePage} />
-        </div>
+        <Link className={styles.logo} to="/">
+          <img src={logo} alt="logo" />
+        </Link>
       </div>
       <div className={styles.menuContainer}>
         {authenticated ? <AuthNavbar /> : <DefaultNavbar />}

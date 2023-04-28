@@ -26,10 +26,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const history = useHistory();
   const location = useLocation<LocationState | null>();
 
-  const moveToRegisterPage = () => {
-    history.push('/registrer');
-  };
-
   const onSubmit = async () => {
     try {
       if (!fields['email']?.value || !fields['password']?.value) {
@@ -81,8 +77,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </Button>
           {shouldRegister && (
             <Button
+              type="button"
+              href="/registrer"
               version={'secondary'}
-              onClick={moveToRegisterPage}
               style={{ margin: '0 0 0 1rem' }}>
               Bli medlem
             </Button>

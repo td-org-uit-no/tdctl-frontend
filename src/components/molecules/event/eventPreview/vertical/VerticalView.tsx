@@ -1,20 +1,14 @@
 import React from 'react';
 import './vertical.scss';
 import { Event } from 'models/apiModels';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import Icon from 'components/atoms/icons/icon';
 import { transformDate } from 'utils/timeConverter';
 
 const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
-  const history = useHistory();
-
-  const moveToEventPage = () => {
-    history.push(`event/${eventData.eid}`);
-  };
-
   return (
-    <div className="eventPreview" onClick={moveToEventPage}>
+    <Link className="eventPreview" to={`event/${eventData.eid}`}>
       <div className="previewContainer">
         <div className="verticalViewHeader">
           <p> {eventData.title} </p>
@@ -32,7 +26,7 @@ const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -9,7 +9,6 @@ import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import EventHeader from 'components/molecules/event/eventHeader/EventHeader';
 import Button from 'components/atoms/button/Button';
 import Icon from 'components/atoms/icons/icon';
-import { useHistory } from 'react-router-dom';
 import useTitle from 'hooks/useTitle';
 
 export interface EventPageProps {
@@ -20,7 +19,6 @@ export interface EventPageProps {
 const ValidEventLayout: React.FC<{ event: Event }> = ({ event }) => {
   useTitle(event.title);
   const { role } = useContext(AuthenticateContext);
-  const history = useHistory();
 
   return (
     <div className={styles.eventBody}>
@@ -30,10 +28,7 @@ const ValidEventLayout: React.FC<{ event: Event }> = ({ event }) => {
 
       {role === Roles.admin && (
         <div className={styles.settingsIcon}>
-          <Icon
-            type={'cog'}
-            size={2}
-            onClick={() => history.push(`${event.eid}/admin`)}></Icon>
+          <Icon href={`${event.eid}/admin`} type={'cog'} size={2}></Icon>
         </div>
       )}
     </div>
