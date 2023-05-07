@@ -1,5 +1,7 @@
-
-![Logo](https://raw.githubusercontent.com/td-org-uit-no/graphics/9fa70bc36f3d47e23f0961fe9dd5f1d0675db5a2/logo/logo-with-tagline/td-dark-tagline.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/td-org-uit-no/graphics/9fa70bc36f3d47e23f0961fe9dd5f1d0675db5a2/logo/logo-with-tagline/td-dark-tagline.svg">
+  <img width="100%" height="100%" alt="TD logo" src="https://github.com/td-org-uit-no/graphics/blob/master/logo/logo-with-tagline/td-light-tagline.svg" ali>
+</picture>
 
 # Website frontend
 
@@ -34,30 +36,30 @@ We have chosen a tech stack that should make it easy for new students to learn t
 
 3. Add executable rights to the container utils script
 ```bash
-    chmod +x ./dev_utils
+    chmod +x ./dev_utils.sh
 ```
 
 4. Build docker container
 > This is only needed if it is the first time your running the project or if there has been any changes to the runtime environment of the website. 
 ```bash
-    ./dev_utils compose build
+    ./dev_utils.sh compose build
 ```
 
 1. Launch the container
     * Run container in background
-        > Shutdown the container by running ```./dev_utils compose down```
+        > Shutdown the container by running ```./dev_utils.sh compose down```
         ```bash
-            ./dev_utils compose up -d
+            ./dev_utils.sh compose up -d
         ```
         - You can now start a interactive shell within the container by running the command
             > To get an interactive shell in the database container add ```db``` to the end of this command
             ```bash
-                ./dev_utils exec
+                ./dev_utils.sh exec
             ```
     * Run the container and view container output
         > Shutdown the container by pressing ```ctrl-C```
         ```bash
-            ./dev_utils compose up
+            ./dev_utils.sh compose up
         ```
 
 When the container is up and running, you should be to view the website at [localhost:3000](http://localhost:3000)
