@@ -368,7 +368,9 @@ const EventStatistics: React.FC<{
     const parts = event.participants?.sort((a, b) =>
       sortString(a.submitDate, b.submitDate)
     );
-    setParticipants(parts?.slice(0, event.maxParticipants) || []);
+    setParticipants(
+      parts?.slice(0, event.maxParticipants ?? event.participants?.length) || []
+    );
   };
 
   useEffect(() => {
