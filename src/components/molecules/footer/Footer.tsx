@@ -5,6 +5,7 @@ import FooterLogos from './footerLogos/FooterLogos';
 
 interface FooterListProps {
   header: string;
+  children?: React.ReactNode;
 }
 
 const FooterList: React.FC<FooterListProps> = ({ header, children }) => {

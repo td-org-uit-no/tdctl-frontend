@@ -21,7 +21,11 @@ export const Roles = {
   unconfirmed: 'unconfirmed',
 } as Role;
 
-const AuthenticateProvider: React.FC = ({ children }) => {
+interface IAuthProvider {
+  children?: React.ReactNode;
+}
+
+const AuthenticateProvider: React.FC<IAuthProvider> = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(true);
   const [isValidating, setValidating] = useState(true);
   const [role, setRole] = useState<RoleOptions>('unconfirmed');

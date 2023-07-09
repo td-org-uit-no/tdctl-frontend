@@ -5,13 +5,14 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
+import React from 'react';
 import { SortOption, typeToFunction } from 'utils/sorting';
 import './table.scss';
 // extends https://www.bekk.christmas/post/2020/22/create-a-generic-table-with-react-and-typescript
 export type ColumnDefinitionType<T, K extends keyof T> = {
   // Type can be the key of the object or a callback that takes in the
   // row-values and returns an element
-  cell: K | ((values: any) => JSX.Element);
+  cell: K | ((values: any) => React.JSX.Element);
   header: string;
   width?: number;
   // sort the column based on the type
@@ -196,7 +197,7 @@ const TableRows = <T, K extends keyof T>({
                 <td key={`cell-${index2}`}>
                   {typeof column.cell === 'function'
                     ? column.cell(row)
-                    : row[column.cell]}
+                    : (row[column.cell] as any)}
                 </td>
               );
             })}
