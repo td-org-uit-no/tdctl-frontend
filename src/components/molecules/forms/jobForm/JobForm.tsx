@@ -12,7 +12,7 @@ import {
   PNGImageValidator,
 } from 'utils/validators';
 import './jobForm.scss';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import { createJob, uploadJobPicture } from 'api/jobs';
 import { useHistory } from 'react-router-dom';
 import Textarea from 'components/atoms/textarea/Textarea';
@@ -234,10 +234,10 @@ const JobForm: React.FC = () => {
             accept="image/png"
             fileValidator={PNGImageValidator}
           />
-          <Button version={'primary'} onClick={submit}>
+          <Button variant={'primary'} onClick={submit}>
             Send
           </Button>
-          <Button version="primary" onClick={preview}>
+          <Button variant="primary" onClick={preview}>
             Forhåndsvisning
           </Button>
         </div>

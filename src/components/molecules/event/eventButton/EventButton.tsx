@@ -4,7 +4,7 @@ import React, {
   useContext,
   ButtonHTMLAttributes,
 } from 'react';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { joinEvent, leaveEvent, isJoinedEvent, getEventById } from 'api';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -160,7 +160,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   return (
     <div>
       {!preferencesOpen && (
-        <Button version="secondary" onClick={handleButtonAction} {...rest}>
+        <Button variant="secondary" onClick={handleButtonAction} {...rest}>
           {' '}
           {buttonText}
         </Button>
@@ -192,7 +192,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
               </p>
             )}
           </div>
-          <Button version="secondary" onClick={leaveEventAction}>
+          <Button variant="secondary" onClick={leaveEventAction}>
             {' '}
             Bekreft{' '}
           </Button>
@@ -211,7 +211,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
             istransportation={event?.transportation}
             changePrefs={handlePrefsChange}
           />
-          <Button version="secondary" onClick={joinEventAction}>
+          <Button variant="secondary" onClick={joinEventAction}>
             Meld på
           </Button>
         </div>
@@ -262,7 +262,7 @@ const DefaultButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
 
   return (
     <div>
-      <Button version="secondary" onClick={login} {...rest}>
+      <Button variant="secondary" onClick={login} {...rest}>
         Bli med!
       </Button>
     </div>

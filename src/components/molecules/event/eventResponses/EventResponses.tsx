@@ -16,7 +16,7 @@ import {
 } from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
-import Button from 'components/atoms/button/Button';
+import { Button, HStack } from '@chakra-ui/react';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
 import useModal from 'hooks/useModal';
@@ -40,17 +40,17 @@ const BindingRegistrationButtons: React.FC<IBindingRegistrationButtons> = ({
   }
 
   return (
-    <div>
-      <Button version="primary" onClick={onUpdate}>
+    <HStack>
+      <Button variant="primary" onClick={onUpdate}>
         Oppdatere liste
       </Button>
-      <Button version={'secondary'} onClick={onConfirm}>
+      <Button variant={'secondary'} onClick={onConfirm}>
         Send ut bekreftelse
       </Button>
-      <Button version={'primary'} onClick={onPenalize}>
+      <Button variant={'primary'} onClick={onPenalize}>
         Registrer fravær
       </Button>
-    </div>
+    </HStack>
   );
 };
 
@@ -320,7 +320,7 @@ const EventResponses: React.FC<{
 
   return (
     <div className={styles.contentWrapper}>
-      <div className={styles.adminButtonsWrapper}>
+      <HStack mb="1rem" justify="right">
         <BindingRegistrationButtons
           bindingRegistration={event.bindingRegistration}
           onUpdate={updateList}
@@ -328,7 +328,7 @@ const EventResponses: React.FC<{
           onPenalize={openAbsenceModal}
         />
         <EventRegistrationQR event={event} />
-      </div>
+      </HStack>
       {participants ? (
         <Table
           columns={columns}
@@ -360,10 +360,10 @@ const EventResponses: React.FC<{
           </ul>
           <hr />
           <div className={styles.submitModalButtons}>
-            <Button version={'secondary'} onClick={closeSubmitModal}>
+            <Button variant={'secondary'} onClick={closeSubmitModal}>
               Avbryt
             </Button>
-            <Button version={'primary'} onClick={adminSubmitParticipants}>
+            <Button variant={'primary'} onClick={adminSubmitParticipants}>
               Send
             </Button>
           </div>
@@ -377,10 +377,10 @@ const EventResponses: React.FC<{
           <h5>Sende inn fraværsliste?</h5>
           <p>Alle medlemmer som ikke har bekreftet oppmøte vil få en prikk</p>
           <div className={styles.submitModalButtons}>
-            <Button version={'secondary'} onClick={closeAbsenceModal}>
+            <Button variant={'secondary'} onClick={closeAbsenceModal}>
               Avbryt
             </Button>
-            <Button version={'primary'} onClick={penalizeAbsent}>
+            <Button variant={'primary'} onClick={penalizeAbsent}>
               Registrer
             </Button>
           </div>

@@ -13,9 +13,11 @@
 .eventsWrapper {
   display: flex;
   justify-content: center;
+  width: 75vw;
 }
 
 // prevent movement when data is not loaded
 .wrapper {
   min-height: 65vh;
+  width: 100%;
 }

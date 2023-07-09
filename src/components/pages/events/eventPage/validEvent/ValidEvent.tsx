@@ -7,7 +7,7 @@ import {
 } from 'components/molecules/event/eventBody/EventBody';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import EventHeader from 'components/molecules/event/eventHeader/EventHeader';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import Icon from 'components/atoms/icons/icon';
 import { useHistory } from 'react-router-dom';
 import useTitle from 'hooks/useTitle';
@@ -60,7 +60,7 @@ export const ValidEventEditLayout: React.FC<{ event: Event }> = ({ event }) => {
       {role === Roles.admin && !edit && (
         <div className={styles.editContainer}>
           <Button
-            version="primary"
+            variant="primary"
             onClick={setEventEdit}
             className={styles.adminButtons}>
             Rediger

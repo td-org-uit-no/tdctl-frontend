@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './confirmationBox.module.scss';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 
 interface ConformationProps {
   title?: string;
@@ -20,10 +20,10 @@ const ConfirmationBox: React.FC<ConformationProps> = ({
   return (
     <div className={styles.confirmWrapper}>
       <p>{title}</p>
-      <Button version="secondary" onClick={onAccept}>
+      <Button variant="secondary" onClick={onAccept}>
         {confirmText ?? 'Ja'}
       </Button>
-      <Button version="secondary" onClick={onDecline}>
+      <Button variant="secondary" onClick={onDecline}>
         {declineText ?? 'Nei'}
       </Button>
     </div>
