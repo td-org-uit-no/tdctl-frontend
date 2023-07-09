@@ -12,7 +12,7 @@ import {
   notRequiredPhoneValidator,
   emptyFieldsValidator,
 } from 'utils/validators';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import TextField from 'components/atoms/textfield/Textfield';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { useHistory } from 'react-router-dom';
@@ -158,7 +158,7 @@ const RegisterForm = () => {
       <div>
         <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
         {errors && <p>{errors}</p>}
-        <Button version={'primary'} onClick={onSubmit} type="submit">
+        <Button variant={'primary'} onClick={onSubmit} type="submit">
           Registrer
         </Button>
       </div>

@@ -13,7 +13,7 @@ import {
   eventTitleValidator,
 } from 'utils/validators';
 import styles from './eventForm.module.scss';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import { createEvent, uploadEventPicture } from 'api';
 import { useHistory } from 'react-router-dom';
 import Textarea from 'components/atoms/textarea/Textarea';
@@ -252,7 +252,7 @@ const EventForm = () => {
           uploadFunction={uploadEventPicture}
         />
         {error && <p>{error}</p>}
-        <Button version={'primary'} onClick={submit}>
+        <Button variant={'primary'} onClick={submit}>
           Submit
         </Button>
       </div>

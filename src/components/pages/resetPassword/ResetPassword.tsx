@@ -1,6 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import TextField from 'components/atoms/textfield/Textfield';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import { useToast } from 'hooks/useToast';
 import { ToastStatus } from 'contexts/toastProvider';
 import './resetPassword.scss';
@@ -92,7 +92,7 @@ const ResetPasswordPage = () => {
           onChange={onFieldChange}
         />
         <br />
-        <Button version={'primary'} type="submit">
+        <Button variant={'primary'} type="submit">
           Reset passord
         </Button>
       </form>

@@ -3,7 +3,7 @@ import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { useMobileScreen } from 'hooks/useMobileScreen';
 import { useHistory } from 'react-router-dom';
-import Button from 'components/atoms/button/Button';
+import { Button, Heading } from '@chakra-ui/react';
 
 export const CarouselItem: React.FC<{
   itemWidth: number;
@@ -19,6 +19,7 @@ export const CarouselItem: React.FC<{
         overflow: 'hidden',
         flex: `0 0 ${itemWidth - 2 * padding}%`,
         padding: `0% ${padding}% 0%`,
+        boxSizing: 'content-box',
       }}>
       <div className={styles.carouselItem}>{children}</div>
     </div>
@@ -116,7 +117,11 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div className={styles.carouselContainer}>
-      {title && <h4 className={styles.headerTitle}>{title}</h4>}
+      {title && (
+        <Heading as="h4" size="lg">
+          {title}
+        </Heading>
+      )}
       <div
         className={styles.carousel}
         style={{ height: height, touchAction: isMobile ? 'none' : 'auto' }}
@@ -143,9 +148,10 @@ const Carousel: React.FC<CarouselProps> = ({
       </div>
       {isMobile && (
         <Button
-          version="primary"
+          variant="primary"
           className={styles.headerButton}
-          onClick={handleClick}>
+          onClick={handleClick}
+          border={0}>
           Se Alle
         </Button>
       )}
@@ -158,9 +164,10 @@ const Carousel: React.FC<CarouselProps> = ({
           />
           {!isMobile && (
             <Button
-              version="primary"
+              variant="primary"
               className={styles.headerButton}
-              onClick={handleClick}>
+              onClick={handleClick}
+              border={0}>
               Se Alle
             </Button>
           )}

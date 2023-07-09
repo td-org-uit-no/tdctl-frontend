@@ -4,7 +4,7 @@ import { transformDate } from 'utils/timeConverter';
 import EventButton from '../eventButton/EventButton';
 import TextField from 'components/atoms/textfield/Textfield';
 import Textarea from 'components/atoms/textarea/Textarea';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
 import {
@@ -275,13 +275,13 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       {error !== undefined && <p>{error}</p>}
       <div>
         <Button
-          version="primary"
+          variant="primary"
           onClick={setEdit}
           className={styles.adminButtons}>
           Forkast endringer
         </Button>
         <Button
-          version="secondary"
+          variant="secondary"
           className={styles.adminButtons}
           onClick={submit}>
           Oppdater

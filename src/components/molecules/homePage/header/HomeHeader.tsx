@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import logo from 'assets/td-full-logo.png';
 import styles from './homeHeader.module.scss';
 import { useHistory } from 'react-router-dom';
@@ -25,10 +25,10 @@ const HomeHeader = () => {
         </div>
         {!authenticated && (
           <div className={styles.buttonWrapper}>
-            <Button version="primary" onClick={moveToLoginPage}>
+            <Button variant="primary" onClick={moveToLoginPage}>
               Logg inn
             </Button>
-            <Button version="secondary" onClick={moveToRegisterPage}>
+            <Button variant="secondary" ml="1rem" onClick={moveToRegisterPage}>
               Bli medlem
             </Button>
           </div>

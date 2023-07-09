@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './settingsForm.module.scss';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import useForm from 'hooks/useForm';
 import { updateMember } from 'api';
 import { useHistory } from 'react-router-dom';
@@ -138,7 +138,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
           ) : (
             <div>
               <Button
-                version="secondary"
+                variant="secondary"
                 onClick={updatePhoneData}
                 style={{ margin: '1rem 0 1rem 0' }}>
                 {phoneBtnTxt} Mobil
@@ -159,7 +159,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
           {error !== undefined && <p>{error}</p>}
           <Button
             className={styles.submitButton}
-            version="secondary"
+            variant="secondary"
             onClick={submit}>
             Submit
           </Button>

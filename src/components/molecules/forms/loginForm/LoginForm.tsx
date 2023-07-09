@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import useForm from 'hooks/useForm';
 import { login } from 'api';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import TextField from 'components/atoms/textfield/Textfield';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import './loginForm.scss';
@@ -76,12 +76,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
           {error !== '' && <p style={{ margin: 0 }}>{error}</p>}
         </div>
         <div className="buttonContainer">
-          <Button version={'primary'} type="submit">
+          <Button variant={'primary'} type="submit">
             Logg inn
           </Button>
           {shouldRegister && (
             <Button
-              version={'secondary'}
+              variant={'secondary'}
               onClick={moveToRegisterPage}
               style={{ margin: '0 0 0 1rem' }}>
               Bli medlem

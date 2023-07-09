@@ -12,7 +12,7 @@ import {
   getMemberAssociatedWithToken,
 } from 'api';
 import { AuthenticateContext } from 'contexts/authProvider';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import EventPreferences from '../eventPreferences/EventPreferences';
 import useModal from 'hooks/useModal';
 import Modal from 'components/molecules/modal/Modal';
@@ -263,7 +263,8 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
             </div>
             <div className={styles.buttonWrapper}>
               <Button
-                version="secondary"
+                variant="secondary"
+                size="sm"
                 onClick={handleEditButton}
                 className={styles.editButton}>
                 Rediger valg
@@ -293,9 +294,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
             istransportation={eventData?.transportation}
             changePrefs={handlePrefsChange}
           />
-          <Button version="secondary" onClick={editPrefsAction}>
-            Oppdater
-          </Button>
+          <Button onClick={editPrefsAction}>Oppdater</Button>
         </div>
       </Modal>
     </div>

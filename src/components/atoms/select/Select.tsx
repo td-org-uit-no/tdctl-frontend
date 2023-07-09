@@ -50,7 +50,6 @@ const Select: React.FC<Props> = ({
     // each time therefore counting it as new and then having to rerun this
     // everytime. Should not happen so only subscribe to value for now
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Event } from 'models/apiModels';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 
 import { createQR, getQR } from 'api';
 import { useToast } from 'hooks/useToast';
@@ -63,7 +63,7 @@ const EventRegistrationQR: React.FC<{ event: Event }> = ({ event }) => {
   return (
     <div>
       <Button
-        version={'secondary'}
+        variant={'secondary'}
         onClick={() => {
           handleButtonClick(event.eid);
         }}>

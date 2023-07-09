@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './passwordValidation.module.scss';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import TextField from 'components/atoms/textfield/Textfield';
 import useForm from 'hooks/useForm';
 import { passwordValidator } from 'utils/validators';
@@ -76,7 +76,7 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
       {errors !== undefined && <p>{errors}</p>}
       <Button
         className={styles.submitButton}
-        version="secondary"
+        variant="secondary"
         onClick={submit}>
         Submit
       </Button>

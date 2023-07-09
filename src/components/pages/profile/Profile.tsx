@@ -15,7 +15,7 @@ import { changePassword } from 'api';
 import { ChangePasswordPayload } from 'models/apiModels';
 import { useHistory } from 'react-router-dom';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 
 const SettingsPage = () => {
   const [init, setInit] = useState<{ [key: string]: string } | undefined>(
@@ -133,7 +133,7 @@ const SettingsPage = () => {
         {role === Roles.unconfirmed && (
           <DropDownHeader title={'Aktiver email'}>
             <div className={styles.activateContainer}>
-              <Button version="secondary" onClick={sendConfirmationCode}>
+              <Button variant="secondary" onClick={sendConfirmationCode}>
                 {' '}
                 Send ny bekreftelse link{' '}
               </Button>

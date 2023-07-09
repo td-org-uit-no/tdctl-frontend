@@ -1,6 +1,6 @@
 import React from 'react';
 import { Event } from 'models/apiModels';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 
 import { baseUrl } from 'constants/apiConstants';
 
@@ -37,7 +37,7 @@ const EventExport: React.FC<{ event: Event }> = ({ event }) => {
 
   return (
     <div>
-      <Button version="secondary" onClick={() => exportEventCsv(event.eid)}>
+      <Button variant="secondary" onClick={() => exportEventCsv(event.eid)}>
         export as xlsx
       </Button>
     </div>

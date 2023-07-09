@@ -10,7 +10,7 @@ import Modal from 'components/molecules/modal/Modal';
 import { useMobileScreen } from 'hooks/useMobileScreen';
 import { useHistory } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
 import ReactMarkdown from 'react-markdown';
@@ -154,7 +154,7 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
         <div className={'deleteModal'}>
           <h5>Er du sikker på at du vil slette utlysningen?</h5>
           <Button
-            version="primary"
+            variant="primary"
             onClick={() => {
               deleteJob(id);
               history.goBack();

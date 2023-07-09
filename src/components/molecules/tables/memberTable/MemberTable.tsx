@@ -2,7 +2,7 @@ import { getAllMembers, getMemberByEmail } from 'api';
 import { AdminMemberUpdate, Member } from 'models/apiModels';
 import { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
-import Button from 'components/atoms/button/Button';
+import { Button } from '@chakra-ui/react';
 import Modal from 'components/molecules/modal/Modal';
 import TextField from 'components/atoms/textfield/Textfield';
 import useForm from 'hooks/useForm';
@@ -156,7 +156,7 @@ const MemberTable = () => {
       cell: (cellValues) => {
         return (
           <Button
-            version="secondary"
+            variant="secondary"
             onClick={() => {
               onOpen();
               const { role, email, status, classof, realName, phone, penalty } =
@@ -313,7 +313,7 @@ const MemberTable = () => {
               label="Role"
             />
             {error !== undefined ? <p>{error}</p> : <br />}
-            <Button version="primary">Submit</Button>
+            <Button variant="primary">Submit</Button>
           </div>
         </form>
       </Modal>

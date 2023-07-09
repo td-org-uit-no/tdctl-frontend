@@ -23,7 +23,7 @@ const RootPage = () => {
             startAfter={400}
             className={styles.wrapper}>
             {events && events.length ? (
-              <div style={{ maxWidth: '75vw', minWidth: '60vw' }}>
+              <div style={{ width: '75vw' }}>
                 <Carousel
                   title="Arrangementer"
                   dir={isMobile ? 'column' : 'row'}
