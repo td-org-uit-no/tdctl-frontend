@@ -9,7 +9,7 @@ import { passwordValidator } from 'utils/validators';
 import { resetPassword } from 'api';
 import useTitle from 'hooks/useTitle';
 
-const ResetPasswordPage: React.FC = () => {
+const ResetPasswordPage = () => {
   const { resetPasswordCode } = useParams<{ resetPasswordCode: string }>();
   const { addToast } = useToast();
   const history = useHistory();

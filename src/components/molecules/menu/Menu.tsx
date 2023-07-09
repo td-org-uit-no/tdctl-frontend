@@ -43,7 +43,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
 const MenuContext = React.createContext<() => void>(() => {});
 
-const Menu: React.FC = ({ children }) => {
+interface IMenu {
+  children?: React.ReactNode;
+}
+
+const Menu: React.FC<IMenu> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const menuContent = className('menu-content', { open: open });
 

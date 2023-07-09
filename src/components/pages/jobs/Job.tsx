@@ -175,7 +175,7 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
   );
 };
 
-const Job: React.FC = () => {
+const Job = () => {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = React.useState<JobItem | undefined>(undefined);
 

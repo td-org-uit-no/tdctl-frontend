@@ -8,7 +8,7 @@ import useForm from 'hooks/useForm';
 import { sendRestorePasswordEmail } from 'api';
 import useTitle from 'hooks/useTitle';
 
-const RestorePasswordPage: React.FC = () => {
+const RestorePasswordPage = () => {
   const { addToast } = useToast();
   const history = useHistory();
 

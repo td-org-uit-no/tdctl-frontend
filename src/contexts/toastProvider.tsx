@@ -20,7 +20,11 @@ interface InternalToast extends Toast {
 
 let toastId = 1;
 
-const ToastProvider: React.FC = ({ children }) => {
+interface IToastProvider {
+  children?: React.ReactNode;
+}
+
+const ToastProvider: React.FC<IToastProvider> = ({ children }) => {
   const [toasts, setToasts] = useState<InternalToast[]>([]);
 
   const addToast = useCallback(
@@ -31,7 +35,7 @@ const ToastProvider: React.FC = ({ children }) => {
   );
 
   const removeToast = useCallback(
-    (id) => {
+    (id: number) => {
       setToasts((toasts) => toasts.filter((it) => it.id !== id));
     },
     [setToasts]

@@ -3,6 +3,7 @@ import styles from './dropdown.module.scss';
 
 interface Props {
   expanded: boolean;
+  children?: React.ReactNode;
 }
 
 const Dropdown: React.FC<Props> = ({ expanded, children }) => {

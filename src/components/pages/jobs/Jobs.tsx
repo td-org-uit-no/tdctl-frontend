@@ -208,7 +208,7 @@ const JobList: React.FC = () => {
   );
 };
 
-const Jobs: React.FC = () => {
+const Jobs = () => {
   useTitle('Stillingsutlysninger');
   return (
     <JobFilterProvider>

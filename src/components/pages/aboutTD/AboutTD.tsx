@@ -53,6 +53,7 @@ interface ICommitte {
     | 'Nettsidekomite'
     | 'TD på tapp'
     | 'UiT Hack';
+  children?: React.ReactNode;
 }
 
 const Committe: React.FC<ICommitte> = ({ name, children }) => {
@@ -166,7 +167,7 @@ const TDBoardContactInfo: React.FC = () => {
   );
 };
 
-const AboutTD: React.FC = () => {
+const AboutTD = () => {
   useTitle('Om oss');
   return (
     <div className="aboutUsContainer">

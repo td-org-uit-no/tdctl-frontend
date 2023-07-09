@@ -23,7 +23,11 @@ export const FilterContextHook = createContext<FilterHookType>({
   setContext: (_: FilterContext) => {},
 });
 
-const JobFilterProvider: React.FC = ({ children }) => {
+interface IJobFilterProvider {
+  children?: React.ReactNode;
+}
+
+const JobFilterProvider: React.FC<IJobFilterProvider> = ({ children }) => {
   const [filterContext, setFilterContext] = useState<FilterContext>({
     allJobs: [],
     sortedJobs: [],

@@ -5,11 +5,11 @@ import { useMobileScreen } from 'hooks/useMobileScreen';
 import { useHistory } from 'react-router-dom';
 import Button from 'components/atoms/button/Button';
 
-export const CarouselItem: React.FC<{ itemWidth: number; padding: number }> = ({
-  itemWidth,
-  padding,
-  children,
-}) => {
+export const CarouselItem: React.FC<{
+  itemWidth: number;
+  padding: number;
+  children?: React.ReactNode;
+}> = ({ itemWidth, padding, children }) => {
   return (
     <div
       style={{
@@ -33,6 +33,7 @@ interface CarouselProps {
   dir: 'column' | 'row';
   viewItems?: itemRange;
   spacing?: boolean;
+  children?: React.ReactNode;
 }
 
 const Carousel: React.FC<CarouselProps> = ({
