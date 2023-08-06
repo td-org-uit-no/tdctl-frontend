@@ -49,7 +49,6 @@ const Select: React.FC<Props> = ({
     // TODO: Should do something here with items. It will return a new reference
     // each time therefore counting it as new and then having to rerun this
     // everytime. Should not happen so only subscribe to value for now
-
   }, [value]);
 
   useEffect(() => {
