@@ -1,66 +1,87 @@
-import { extendTheme, ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'dark',
   useSystemColorMode: false,
-}
+};
 
-// 3. extend the theme
-const theme = extendTheme({
-  styles: {
-    global: {
-      body: {
-        fontFamily: "'Inter', sans-serif",
-        bg: "#161926",
-        display: "flex",
-        lineHeight: 1.75,
-      }
-    }
-  },
-  colors: {
-    red: {
-      td: "#C7323A", /* TD red */
+/* Theme customization for ChakraUI */
+const theme = extendTheme(
+  {
+    styles: {
+      global: {
+        body: {
+          fontFamily: "'Inter', sans-serif",
+          bg: 'slate.800',
+          display: 'flex',
+          lineHeight: 1.75,
+        },
+      },
     },
-    off_primary: "#444658",
-    primary: "#ffffff",
-    secondary: "#f8d2cc"
-  },
-  components: {
+    colors: {
+      red: {
+        td: '#C7323A' /* TD red */,
+      },
+      primary: '#ffffff',
+      slate: {
+        500: '#444658',
+        600: '#2b2c3d',
+        700: '#222136',
+        800: '#161926',
+      },
+      secondary: '#f8d2cc',
+    },
+    components: {
       Button: {
         baseStyle: {
-            border: "1px solid",
-            textTransform: "uppercase",
-            fontWeight: "700",
+          border: '1px solid',
+          textTransform: 'uppercase',
+          fontWeight: '700',
         },
         defaultProps: {
-            variant: "primary",
+          variant: 'primary',
         },
         variants: {
-            primary: {
-                color: "primary",
-                borderColor: "off_primary",
-                
-                _hover: {
-                    background: "off_primary"
-                }
-            },
-            secondary: {
-                color: "secondary",
-                borderColor: "secondary",
+          primary: {
+            color: 'primary',
+            borderColor: 'slate.500',
 
-                _hover: {
-                    color: "black",
-                    background: "secondary",
-                }
-            }
+            _hover: {
+              background: 'slate.500',
+            },
+          },
+          secondary: {
+            color: 'secondary',
+            borderColor: 'secondary',
+
+            _hover: {
+              color: 'black',
+              background: 'secondary',
+            },
+          },
         },
         sizes: {
-            sm: {
-                fontSize: ".8rem"
-            }
-        }
-    }
-  }
-}, { config })
+          sm: {
+            fontSize: '.8rem',
+          },
+        },
+      },
+      Link: {
+        defaultProps: {
+          variant: 'primary',
+        },
+        variants: {
+          primary: {
+            color: 'blue.400',
+          },
+          secondary: {
+            color: 'secondary',
+          },
+        },
+      },
+    },
+  },
+  { config }
+);
 
-export default theme
+export default theme;
