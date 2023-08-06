@@ -1,7 +1,19 @@
 import React from 'react';
-import styles from './footer.module.scss';
-import { Link } from 'react-router-dom';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import hsp from 'assets/bekk-logo.svg';
 import FooterLogos from './footerLogos/FooterLogos';
+import {
+  VStack,
+  Image,
+  Link,
+  Text,
+  Show,
+  Divider,
+  Center,
+  Box,
+  Heading,
+  Flex,
+} from '@chakra-ui/react';
 
 interface FooterListProps {
   header: string;
@@ -10,12 +22,13 @@ interface FooterListProps {
 
 const FooterList: React.FC<FooterListProps> = ({ header, children }) => {
   return (
-    <div className={styles.footerListContainer}>
-      <div className={styles.listWrapper}>
-        <h5> {header} </h5>
-        {children}
-      </div>
-    </div>
+    <Flex direction="column" textAlign="left" justify="flex-start">
+      <Heading as="h4" size="md" color="slate.500" mt={0}>
+        {' '}
+        {header}{' '}
+      </Heading>
+      {children}
+    </Flex>
   );
 };
 
@@ -23,45 +36,94 @@ interface FooterItemProps {
   label: string;
   path: string;
   header?: string;
+  isExternal?: boolean;
 }
 
-const FooterItem: React.FC<FooterItemProps> = ({ label, path, header }) => {
+const FooterItem: React.FC<FooterItemProps> = ({
+  label,
+  path,
+  header,
+  isExternal,
+}) => {
   return (
-    <div className={styles.footerItemContainer}>
-      {header !== undefined && <p>{header}</p>}
-      <li className={styles.footerItem}>
-        <Link to={path}>{label}</Link>
-      </li>
-    </div>
+    <Box>
+      {header !== undefined && <Text m={0}>{header}</Text>}
+      <Text fontSize="0.75rem" mb=".5rem">
+        {isExternal ? (
+          <Link href={path} isExternal variant="secondary">
+            {label}
+          </Link>
+        ) : (
+          <Link as={ReactRouterLink} to={path} variant="secondary">
+            {label}
+          </Link>
+        )}
+      </Text>
+    </Box>
   );
 };
 
-// TODO add relevant paths
+const SponsorBanner = () => {
+  return (
+    <Link
+      href="https://www.bekk.no/"
+      isExternal
+      _hover={{ textDecoration: 'none' }}
+      pt={{ base: '1.5rem', md: 0 }}>
+      <VStack>
+        <Image
+          src={hsp}
+          alt="BEKK logo"
+          height={{ base: '100px', md: '150px' }}
+        />
+        <Text size="xs" mb={0} mt=".5rem" textColor="slate.500">
+          Hovedsamarbeidspartner
+        </Text>
+      </VStack>
+    </Link>
+  );
+};
+
 const Footer: React.FC = () => {
   return (
-    <div className={styles.footerContainer}>
-      <div className={styles.footerWrapper}>
-        <FooterList header={'Om oss'}>
-          <FooterItem label={'Om TD'} path={'/about-us'} />
-          <FooterItem label={'Kontakt oss'} path={''} />
-          <FooterItem label={'For nye studenter'} path={''} />
-        </FooterList>
+    <Flex my="2rem" w="100%" direction={{ base: 'column', lg: 'row' }}>
+      <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
-          <FooterItem label={'For bedrifter'} path={''} />
+          <FooterItem label={'Om TD'} path={'/about-us'} />
+          <FooterItem label={'For nye studenter'} path={'/new-student'} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
         </FooterList>
-        <FooterList header={`Kontaktinformasjon`}>
-          <FooterItem header={'Leder'} label={'leder@td-uit.no'} path={''} />
+        <FooterList header={`Kontakt`}>
+          <FooterItem
+            header={'Leder'}
+            label={'leder@td-uit.no'}
+            path={'mailto:leder@td-uit.no'}
+            isExternal
+          />
           <FooterItem
             header={'Økonimiansvarlig'}
             label={'okonomi@td-uit.no'}
-            path={''}
+            path={'mailto:okonomi@td-uit.no'}
+            isExternal
           />
-          <FooterItem header={'Post'} label={'Post@td-uit.no'} path={''} />
+          <FooterItem
+            header={'Post'}
+            label={'post@td-uit.no'}
+            path={'mailto:post@td-uit.no'}
+            isExternal
+          />
         </FooterList>
-      </div>
-      <FooterLogos />
-    </div>
+      </Flex>
+      <Show below="lg">
+        <Center>
+          <Divider my=".5rem" width="80vw" />
+        </Center>
+      </Show>
+      <SponsorBanner />
+      <Show above="lg">
+        <FooterLogos />
+      </Show>
+    </Flex>
   );
 };
 
