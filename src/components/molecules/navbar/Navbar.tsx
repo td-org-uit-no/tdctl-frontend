@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import { logout } from 'api';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/menu/Menu';
 import logo from 'assets/td-logo.png';
+import { Heading } from '@chakra-ui/react';
 
 const DefaultNavbar = () => {
   return (
@@ -21,8 +22,8 @@ const AuthNavbar = () => {
     try {
       await logout();
       updateCredentials();
-    } catch (errro) {
-      if (errro.statusCode === 401) {
+    } catch (error) {
+      if (error.statusCode === 401) {
         /* Gracefully ignore it */
       }
     }
@@ -60,6 +61,16 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       <div className={styles.menuContainer}>
+        <Heading
+          size="md"
+          my={0}
+          mr={{ base: '1em', md: '2em' }}
+          _hover={{
+            textDecoration: 'underline',
+            textDecorationColor: 'red.td',
+          }}>
+          <Link to="/new-student">Ny Student</Link>
+        </Heading>
         {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
       </div>
     </div>
