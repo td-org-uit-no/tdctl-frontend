@@ -61,5 +61,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-config-react-app": "^7.0.1"
+  }
 }
