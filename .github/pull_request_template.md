@@ -1,10 +1,10 @@
 # :gem: Changes
 
-<!-- Forklar hva du endrer og HVORFOR. Bruk gjerne en liste,
-eller del det opp i seksjoner hvis det er mye e.g
-- En ting
-  -  En underting
-- En annen ting
+<!-- Explain what you are changing and WHY you are changing it.
+Use a list to express the changes if there are multiple:
+- A change
+  -  A subchange
+- Another change
 
-Du kan også laste opp et bilde av endringen, ved å lime det inn her. Det anbefales.
+You should upload a picture of your changes if applicable. Drag & drop or paste from clipboard.
 -->
