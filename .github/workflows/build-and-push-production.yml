@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '.github/**'
+      - '.vscode/**'
+      - 'README.md'
+      - 'dev_utils.sh'
 jobs:
   build:
     runs-on: ubuntu-latest

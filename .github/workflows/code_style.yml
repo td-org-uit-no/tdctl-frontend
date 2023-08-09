@@ -3,8 +3,18 @@ name: Check if code is formatted with Prettier and no warnings from eslint
 on:
   push:
     branches: ['master']
+    paths-ignore:
+      - '.github/**'
+      - '.vscode/**'
+      - 'README.md'
+      - 'dev_utils.sh'
   pull_request:
     branches: ['master']
+    paths-ignore:
+      - '.github/**'
+      - '.vscode/**'
+      - 'README.md'
+      - 'dev_utils.sh'
 
 jobs:
   code_style:
