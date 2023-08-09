@@ -12,6 +12,7 @@ import {
   PNGImageValidator,
   eventTitleValidator,
 } from 'utils/validators';
+import { Text } from '@chakra-ui/react';
 import styles from './eventForm.module.scss';
 import { Button } from '@chakra-ui/react';
 import { createEvent, uploadEventPicture } from 'api';
@@ -226,7 +227,7 @@ const EventForm = () => {
             onChange={() => {
               setPublicEvent(!publicEvent);
             }}
-            label={'Skal arrangementet være synlig for vanlige brukere'}
+            label={'Offentlig (synlig for vanlige brukere)'}
             initValue={publicEvent}></ToggleButton>
           <ToggleButton
             onChange={() => {
@@ -252,6 +253,14 @@ const EventForm = () => {
           uploadFunction={uploadEventPicture}
         />
         {error && <p>{error}</p>}
+        {!publicEvent && (
+          <Text
+            fontSize="0.75rem"
+            color="red.500"
+            style={{ fontStyle: 'italic' }}>
+            MERK: Arrangementet vil ikke være synlig for andre enn admin
+          </Text>
+        )}
         <Button variant={'primary'} onClick={submit}>
           Submit
         </Button>
