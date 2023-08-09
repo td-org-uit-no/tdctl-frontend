@@ -6,6 +6,7 @@ import TextField from 'components/atoms/textfield/Textfield';
 import Textarea from 'components/atoms/textarea/Textarea';
 import { Button } from '@chakra-ui/react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
+import { Text } from '@chakra-ui/react';
 import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
 import {
   addressValidator,
@@ -263,9 +264,15 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   <ToggleButton
                     initValue={togglePublic}
                     onChange={() => setTogglePublic(!togglePublic)}
-                    label={
-                      togglePublic ? 'Offentlig' : 'Privat'
-                    }></ToggleButton>
+                    label={'Offentlig'}></ToggleButton>
+                  {!togglePublic && (
+                    <Text
+                      fontSize="0.75rem"
+                      color="red.500"
+                      style={{ fontStyle: 'italic' }}>
+                      Arrangementet vil ikke være synlig for andre enn admin
+                    </Text>
+                  )}
                 </div>
               </div>
             </div>

@@ -78,9 +78,11 @@ input[type='time']::-webkit-calendar-picker-indicator {
   justify-content: flex-start;
   flex-direction: column;
   width: 100%;
+  gap: .5rem;
 
   p {
     line-height: 0.5;
+    margin: 0;
   }
 }
 
