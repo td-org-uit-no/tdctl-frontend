@@ -1,23 +1,23 @@
 ---
 name: Feature request
-about: Foreslå en ny feature!
+about: Suggest a new feature!
 title: ''
 labels: 'feature'
 assignees: ''
 ---
 
-:sparkles: **Er featuren din relatert til et problem?**
+:sparkles: **What is your feature? Is it related to a problem?**
 
-<!-- Mangler det noe viktig? Har du et problem? Forklar!-->
+<!-- Is something important missing? Do you have a really good idea? Explain!-->
 
-:dizzy: **Forklar løsningen din som du vil ha det**
+:dizzy: **Explain your suggested solution**
 
-<!-- Tegn gjerne ett lite bilde, eller forklar med bare ord! -->
+<!-- Feel free to include an image or a figure to help explain -->
 
-:twisted_rightwards_arrows: **Har du noen andre alternativer?**
+:twisted_rightwards_arrows: **Do you have some other alternative solutions?**
 
-<!-- Finnes det andre løsninger som kan funke?-->
+<!-- Are there other ways to achieve your goal?-->
 
-:speech_balloon: **Andre ting!**
+:speech_balloon: **Additional thoughts**
 
-<!-- Har du noe annet på hjerte? -->
+<!-- Do you have something else on your mind? -->
