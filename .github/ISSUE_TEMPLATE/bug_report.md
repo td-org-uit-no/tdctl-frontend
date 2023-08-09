@@ -1,30 +1,30 @@
 ---
 name: Bug report
-about: "Oisann! Fant du en bug? \U0001F41B"
+about: "Whoops! did you find a bug? \U0001F41B"
 title: ''
 labels: bug
 assignees: ''
 ---
 
-:rotating_light: **Beskriv buggen**
+:rotating_light: **Describe the bug**
 
-:mag: **Kan du reprodusere den?**
+:mag: **Can you reproduce it?**
 
-<!-- Forklar stegene for å reprodusere!
-1. Gå til '...'
-2. Klikk på '....'
-3. Scroll til '....'
-4. Se feilen error
+<!-- Explain the steps to reproduce the bug!
+1. Navigate to '...'
+2. Click on '....'
+3. Scroll to '....'
+4. This will make '...' happen
 -->
 
-:sparkles: **Forventet oppførsel**
+:sparkles: **Expected behavoir**
 
-<!-- Forklar gjerne hvordan du forventer at det funker -->
+<!-- Explain how you expect the site to behave -->
 
-:camera_flash: **Skjermbilder av buggen**
+:camera_flash: **Screenshots of the bug**
 
-<!-- Det holder å kopiere bildet og lime dett inn her, så lastes det opp automatisk! -->
+<!-- You can drag and drop or paste an image from the clipboard here -->
 
-:memo: **Andre ting?**
+:memo: **Additional thoughts**
 
-<!-- Er det noen andre ting du tenker på som kan være nyttig? -->
+<!-- Are there other relevant improvements you think could be made? -->
