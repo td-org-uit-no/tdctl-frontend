@@ -15,6 +15,7 @@ import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
 import ReactMarkdown from 'react-markdown';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
+import Footer from 'components/molecules/footer/Footer';
 
 interface IValidJob {
   jobData: JobItem | undefined;
@@ -28,6 +29,7 @@ export const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
       ) : (
         <p> 404 job not found!</p>
       )}
+      <Footer />
     </div>
   );
 };
@@ -193,7 +195,7 @@ const Job = () => {
 
   return (
     <LoadingWrapper data={data} startAfter={250}>
-      <ValidJob jobData={data}></ValidJob>;
+      <ValidJob jobData={data}></ValidJob>
     </LoadingWrapper>
   );
 };

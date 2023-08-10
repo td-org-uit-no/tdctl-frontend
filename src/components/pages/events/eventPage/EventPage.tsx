@@ -5,6 +5,7 @@ import ValidEventLayout from './validEvent/ValidEvent';
 import { getEventById } from 'api';
 import styles from './eventPage.module.scss';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
+import Footer from 'components/molecules/footer/Footer';
 
 export interface IValidEventLayout {
   eventData: Event | undefined;
@@ -57,6 +58,7 @@ const EventPage = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

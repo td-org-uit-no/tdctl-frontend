@@ -14,6 +14,7 @@ import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
 import useModal from 'hooks/useModal';
 import Modal from 'components/molecules/modal/Modal';
+import Footer from 'components/molecules/footer/Footer';
 
 interface ChipProps {
   label: string;
@@ -204,6 +205,7 @@ const JobList: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
