@@ -115,6 +115,13 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
         await uploadEventPicture(event.eid, file);
       }
     } catch (error) {
+      if (error.statusCode === 413) {
+        addToast({
+          title: 'Bildet er for stort',
+          status: 'error',
+        });
+        return;
+      }
       addToast({
         title: 'Feil ved opplasting av bilde',
         status: 'error',
