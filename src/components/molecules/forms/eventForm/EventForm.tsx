@@ -87,6 +87,13 @@ const EventForm = () => {
           await uploadEventPicture(resp.eid, file);
         } catch (error) {
           setShouldOpen(true);
+          if (error.statusCode === 413) {
+            addToast({
+              title: 'Bildet er for stort',
+              status: 'error',
+            });
+            return;
+          }
           addToast({
             title: 'Feil ved opplasting av bilde',
             status: 'error',
