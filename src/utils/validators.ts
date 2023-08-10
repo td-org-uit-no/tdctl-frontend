@@ -140,6 +140,16 @@ export const timeValidator = (time: string) => {
   return time.length ? undefined : ['Tidspunkt må fylles ut'];
 };
 
+/* Empty validators for optional date/time for now */
+/* TODO: find better solution for optional validation */
+export const notRequiredDateValidator = (date: string) => {
+  return undefined;
+};
+
+export const notRequiredTimeValidator = (time: string) => {
+  return undefined;
+};
+
 // description length constraint
 export const descriptionValidator = (description: string) => {
   return description.length
