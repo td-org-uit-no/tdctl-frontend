@@ -17,6 +17,8 @@ import {
   timeValidator,
   PNGImageValidator,
   eventTitleValidator,
+  notRequiredDateValidator,
+  notRequiredTimeValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
@@ -34,6 +36,9 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const [error, setError] = useState<string | undefined>(undefined);
   const history = useHistory();
   const timeDate = new Date(event.date);
+  const registrationTimeDate = event.registrationOpeningDate
+    ? new Date(event.registrationOpeningDate)
+    : undefined;
   const [togglePublic, setTogglePublic] = useState<boolean>(
     event.public ?? false
   );
@@ -51,6 +56,12 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     time: timeDate.getHours() + ':' + timeDate.getMinutes(), //sets [HH:MM] and not [HH:MM:SS]
     address: event.address,
     price: event.price.toString(),
+    registerDate: event.registrationOpeningDate?.split('T')[0] ?? '',
+    registerTime: registrationTimeDate
+      ? registrationTimeDate.getHours() +
+        ':' +
+        registrationTimeDate.getMinutes()
+      : '',
     // maxParticipants is set to "" when event does not have maxParticipants
     // since "" is the init value for fields["maxParticipants"]
     maxParticipants: event.maxParticipants?.toString() ?? '',
@@ -64,6 +75,8 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     address: addressValidator,
     maxParticipants: maxParticipantsValidator,
     price: priceValidator,
+    registerDate: notRequiredDateValidator,
+    registerTime: notRequiredTimeValidator,
   };
 
   const submit = async () => {
@@ -95,6 +108,15 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
             ? null
             : Number(fields['maxParticipants']?.value),
       }),
+      ...(fields['registerDate']?.value +
+        'T' +
+        fields['registerTime']?.value !==
+        initalValue.registerDate + 'T' + initalValue.registerTime && {
+        registrationOpeningDate:
+          fields['registerDate'].value === ''
+            ? null
+            : fields['registerDate'].value + ' ' + fields['registerTime'].value,
+      }),
       ...(toggleFood !== event.food && {
         food: toggleFood,
       }),
@@ -107,7 +129,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     } as Event;
 
     if (!Object.keys(updatePayload).length && !file) {
-      setError('Minst et felt må endres');
+      setError('Minst ett felt må endres');
       return;
     }
     try {
@@ -192,7 +214,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
             />
             <FileSelector
               setFile={setFile}
-              text="Endre arrangement bilde"
+              text="Endre arrangementbilde"
               accept="image/png"
               fileValidator={PNGImageValidator}
             />
@@ -211,9 +233,6 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   error={fields['address'].error}
                   style={{ boxSizing: 'border-box', width: '100%' }}
                 />
-                <p>
-                  Dato <br />
-                </p>
                 <TextField
                   name={'date'}
                   label={'Dato'}
@@ -256,6 +275,21 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     boxSizing: 'border-box',
                     width: '100%',
                   }}
+                />
+                <Text>Registrering åpner:</Text>
+                <TextField
+                  name={'registerDate'}
+                  label={'Dato'}
+                  type={'date'}
+                  value={fields['registerDate']?.value ?? ''}
+                  onChange={onFieldChange}
+                />
+                <TextField
+                  name={'registerTime'}
+                  label={'Tid'}
+                  type={'time'}
+                  value={fields['registerTime'].value ?? ''}
+                  onChange={onFieldChange}
                 />
                 <div className={styles.toggleWrapper}>
                   <ToggleButton
@@ -402,6 +436,12 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
                 <p> Påmelding kommer </p>
               )}
             </div>
+          )}
+          {role === 'admin' && event.registrationOpeningDate && (
+            <Text fontSize="0.75rem" style={{ fontStyle: 'italic' }}>
+              Åpner for alle{' '}
+              {transformDate(new Date(event.registrationOpeningDate))}
+            </Text>
           )}
           <p>Sted</p>
           {event.address}
