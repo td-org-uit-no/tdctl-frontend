@@ -313,7 +313,9 @@ const MemberTable = () => {
               label="Role"
             />
             {error !== undefined ? <p>{error}</p> : <br />}
-            <Button variant="primary">Submit</Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
           </div>
         </form>
       </Modal>
