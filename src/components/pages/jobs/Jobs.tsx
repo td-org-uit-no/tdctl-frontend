@@ -6,15 +6,13 @@ import { JobItem } from 'models/apiModels';
 import TextField from 'components/atoms/textfield/Textfield';
 import { getJobs } from 'api/jobs';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
-import JobForm from 'components/molecules/forms/jobForm/JobForm';
 import JobFilterProvider, {
   FilterContextHook,
 } from 'contexts/filterJobProvider';
 import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
-import useModal from 'hooks/useModal';
-import Modal from 'components/molecules/modal/Modal';
 import Footer from 'components/molecules/footer/Footer';
+import { useHistory } from 'react-router-dom';
 
 interface ChipProps {
   label: string;
@@ -158,7 +156,11 @@ const FilterJobs: React.FC = () => {
 const JobList: React.FC = () => {
   const { role } = useContext(AuthenticateContext);
   const { context, setContext } = useContext(FilterContextHook);
-  const { isOpen, onOpen, onClose } = useModal();
+  const history = useHistory();
+
+  const goToCreate = () => {
+    history.push('/create-job');
+  };
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -183,7 +185,7 @@ const JobList: React.FC = () => {
               type={'plus'}
               size={2}
               color={'rgba(240, 150, 103, 0.3)'}
-              onClick={onOpen}></Icon>
+              onClick={goToCreate}></Icon>
           )}
         </div>
 
@@ -191,11 +193,6 @@ const JobList: React.FC = () => {
           <FilterJobs />
 
           <div className={styles.mainContent}>
-            <Modal title="Lag ny utlysning" isOpen={isOpen} onClose={onClose}>
-              <div className={styles.jobsFormContainer}>
-                <JobForm />
-              </div>
-            </Modal>
             {context.allJobs?.length === 0 && (
               <h5>Ingen stillingsutlysninger</h5>
             )}
