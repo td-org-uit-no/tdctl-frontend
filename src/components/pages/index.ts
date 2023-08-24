@@ -17,6 +17,7 @@ import NewStudentsPage from './newStudent/NewStudent';
 
 import Jobs from './jobs/Jobs';
 import Job from './jobs/Job';
+import CreateJob from './jobs/CreateJob';
 export {
   RegistrerPage,
   HomePage,
@@ -34,6 +35,7 @@ export {
   ResetPasswordPage,
   Jobs,
   Job,
+  CreateJob,
   AboutPage,
   NewStudentsPage,
 };

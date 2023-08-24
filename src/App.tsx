@@ -17,6 +17,7 @@ import {
   ResetPasswordPage,
   Jobs,
   Job,
+  CreateJob,
   AboutPage,
   NewStudentsPage,
 } from 'components/pages';
@@ -50,6 +51,7 @@ const App: React.FC = () => {
           />
           <Route path="/jobs/:id" component={Job} />
           <Route path="/jobs" component={Jobs} />
+          <AdminRoute path="/create-job" component={CreateJob} />
           <Route
             path="/confirmation/:confirmationCode"
             children={<ConfirmationPage />}
