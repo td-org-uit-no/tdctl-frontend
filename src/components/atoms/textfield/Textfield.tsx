@@ -43,7 +43,11 @@ const TextField: React.FC<Props> = ({
             maxWidth: maxWidth ? maxWidth + 'ch' : '100%',
             minWidth: minWidth ? minWidth + 'ch' : '100%',
           }}
-          className={styles.text}
+          className={
+            error !== undefined
+              ? `${styles.text} ${styles.errorMsg}`
+              : `${styles.text}`
+          }
           defaultValue={defaultValue}
           value={value}
           type={type}

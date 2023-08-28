@@ -60,6 +60,19 @@ input:-webkit-autofill:active {
   color: $primary;
 }
 
+.errorMsg {
+  @extend .text;
+  border: 2px solid $error;
+}
+
+.errorMsg::before {
+  background: $error;
+}
+
+.errorMsg:focus {
+  border: 2px solid $error;
+}
+
 .label::before {
   content: '';
   height: 5px;
@@ -89,6 +102,7 @@ input:-webkit-autofill:active {
   flex-direction: column;
   justify-content: center;
   text-align: left;
+  color: $error;
   word-break: break-all;
   word-wrap: break-word;
   overflow-wrap: break-word;
