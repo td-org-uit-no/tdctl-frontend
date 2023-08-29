@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
             isExternal
           />
           <FooterItem
-            header={'Økonimiansvarlig'}
+            header={'Økonomiansvarlig'}
             label={'okonomi@td-uit.no'}
             path={'mailto:okonomi@td-uit.no'}
             isExternal
