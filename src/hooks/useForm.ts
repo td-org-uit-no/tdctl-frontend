@@ -36,10 +36,16 @@ const constructInitialValues = (
   if (initalValue) {
     Object.keys(initalValue).forEach((key) => {
       const value = initalValue[key];
-      const fieldError = validators?.[key](value) ?? undefined;
+      /* Only return error if validator exists on field */
+      const fieldError = () => {
+        if (validators && validators.hasOwnProperty(key)) {
+          return validators?.[key](value);
+        }
+        return undefined;
+      };
       initialFields[key] = {
         value: initalValue[key],
-        error: fieldError,
+        error: fieldError(),
       };
     });
   }

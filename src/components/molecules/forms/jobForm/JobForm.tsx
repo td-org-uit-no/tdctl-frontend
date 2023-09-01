@@ -14,18 +14,23 @@ import {
 } from 'utils/validators';
 import './jobForm.scss';
 import { Button } from '@chakra-ui/react';
-import { createJob, uploadJobPicture } from 'api/jobs';
+import { createJob, updateJob, uploadJobPicture } from 'api/jobs';
 import { useHistory } from 'react-router-dom';
 import Textarea from 'components/atoms/textarea/Textarea';
 import Modal from 'components/molecules/modal/Modal';
-import { JobItem } from 'models/apiModels';
+import { JobItem, JobUpdate } from 'models/apiModels';
 import useModal from 'hooks/useModal';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 import { ValidJob } from 'components/pages/jobs/Job';
 
-const JobForm: React.FC = () => {
+/* Optional job data to edit existing instead of creating new job */
+interface IJobform {
+  job?: JobItem;
+}
+
+const JobForm: React.FC<IJobform> = ({ job }) => {
   const [file, setFile] = useState<File | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
   const [prevData, setPrevData] = useState<JobItem | undefined>(undefined);
@@ -70,6 +75,52 @@ const JobForm: React.FC = () => {
     } as JobItem;
   };
 
+  /* Update the job */
+  const update = async (updatedJob: JobItem, updatedId: string) => {
+    try {
+      await updateJob(updatedId, updatedJob as JobUpdate);
+      if (file) {
+        try {
+          await uploadJobPicture(updatedId, file);
+        } catch (error) {
+          setShouldReupload(true);
+          addToast({
+            title: 'Feil ved opplasting av bilde',
+            status: 'error',
+            description: 'prøv på nytt',
+          });
+          return;
+        }
+      }
+    } catch (error) {
+      if (error.statusCode === 404) {
+        addToast({
+          title: 'Kunne ikke finne stillingsutlysning',
+          status: 'error',
+          description: '',
+        });
+      } else {
+        addToast({
+          title: 'Noe gikk galt',
+          status: 'error',
+          description: '',
+        });
+      }
+      return;
+    }
+    /* Sucsessful update */
+    addToast({
+      title: 'Suksess',
+      status: 'success',
+      description: 'Stillingsutlysningen ble oppdatert',
+    });
+    setTimeout(function () {
+      // reload page after some time for better UX
+      // TODO: apply changes to component, avoiding data to be re fetched
+      history.go(0);
+    }, 300);
+  };
+
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
       fields: fields,
@@ -79,6 +130,12 @@ const JobForm: React.FC = () => {
     if (hasErrors || emptyFields) {
       return;
     }
+    /* If initial job data was provided, should update existing job */
+    if (job) {
+      update(getJob(), job.id);
+      return;
+    }
+    /* Create new job */
     try {
       const data = getJob();
       const resp = await createJob(data);
@@ -122,21 +179,49 @@ const JobForm: React.FC = () => {
     onOpen();
   };
 
-  const { fields, onFieldChange, hasErrors, onSubmitEvent } = useForm({
+  /* Get default values for editing job if supplied */
+  const getInit = () => {
+    if (job) {
+      return {
+        company: job.company,
+        title: job.title,
+        type: job.type,
+        tags: job.tags.join(' '),
+        description_preview: job.description_preview,
+        description: job.description,
+        start_date: job.start_date
+          ? new Date(job.start_date)
+              .toISOString()
+              .split('T')[0] /* Format YYYY-MM-DD */
+          : '',
+        location: job.location,
+        link: job.link,
+        due_date: job.due_date
+          ? new Date(job.due_date).toISOString().split('T')[0]
+          : '',
+        published_date: new Date(job.published_date).toDateString(),
+      };
+    }
+    return undefined;
+  };
+
+  const { fields, onFieldChange, hasErrors } = useForm({
     onSubmit: submit,
     validators: validators,
+    initalValue: getInit(),
   });
 
   // TODO fix date-time alignment and better description textarea
   return (
     <div className={'jobsFormContainer'}>
-      <form onSubmit={onSubmitEvent} className={'jobsForm'}>
+      <form className={'jobsForm'}>
         <div className={'shortInfo'}>
           <TextField
             minWidth={35}
             name={'company'}
             label={'Bedrift'}
             onChange={onFieldChange}
+            value={fields['company'].value ?? ''}
             error={fields['company'].error}
           />
           <TextField
@@ -144,12 +229,14 @@ const JobForm: React.FC = () => {
             name={'type'}
             label={'Type'}
             onChange={onFieldChange}
+            value={fields['type'].value ?? ''}
             error={fields['type'].error}
           />
           <TextField
             minWidth={35}
             name={'tags'}
             label={'Tags(space separated)'}
+            value={fields['tags']?.value ?? ''}
             onChange={onFieldChange}
           />
           <TextField
@@ -157,6 +244,7 @@ const JobForm: React.FC = () => {
             name={'title'}
             label={'Tittel'}
             onChange={onFieldChange}
+            value={fields['title'].value ?? ''}
             error={fields['title'].error}
           />
 
@@ -165,6 +253,7 @@ const JobForm: React.FC = () => {
             name={'location'}
             label={'Lokasjon'}
             onChange={onFieldChange}
+            value={fields['location'].value ?? ''}
             error={fields['location'].error}
           />
           <TextField
@@ -172,12 +261,14 @@ const JobForm: React.FC = () => {
             name={'link'}
             label={'Link til bedrift'}
             onChange={onFieldChange}
+            value={fields['link'].value ?? ''}
             error={fields['link'].error}
           />
           <TextField
             minWidth={33}
             name={'due_date'}
             label={'Søknadsfrist'}
+            value={fields['due_date'].value ?? ''}
             type={'date'}
             onChange={onFieldChange}
           />
@@ -185,6 +276,7 @@ const JobForm: React.FC = () => {
             minWidth={33}
             name={'start_date'}
             label={'Start dato'}
+            value={fields['start_date'].value ?? ''}
             type={'date'}
             onChange={onFieldChange}
           />
@@ -194,7 +286,7 @@ const JobForm: React.FC = () => {
             name={'description_preview'}
             label={'Beskrivelse forhåndsvisning'}
             onChange={onFieldChange}
-            resize={true}
+            value={fields['description_preview'].value ?? ''}
             error={fields['description_preview'].error}
           />
           <Textarea
@@ -202,6 +294,7 @@ const JobForm: React.FC = () => {
             label={'Beskrivelse'}
             resize={true}
             onChange={onFieldChange}
+            value={fields['description'].value ?? ''}
             error={fields['description'].error}
           />
         </div>
@@ -219,11 +312,11 @@ const JobForm: React.FC = () => {
         </div>
       </Modal>
       <ReuploadImageModal
-        title="Last opp stillingsutlysning bilde på nytt"
+        title="Last opp bilde på nytt"
         id={id}
         shouldOpen={shouldReupload}
         prefix={`/jobs`}
-        textOnFinish="Stillingsutlysningen er opprettet"
+        textOnFinish="Bildet ble lastet opp"
         uploadFunction={uploadJobPicture}
       />
       <div>

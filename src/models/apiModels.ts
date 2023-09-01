@@ -140,3 +140,20 @@ export interface TokenInfo {
 }
 
 export type CreateJob = Omit<JobItem, 'id'>;
+
+export type JobUpdate = Partial<
+  Pick<
+    JobItem,
+    | 'company'
+    | 'title'
+    | 'type'
+    | 'tags'
+    | 'description_preview'
+    | 'description'
+    | 'published_date'
+    | 'location'
+    | 'link'
+    | 'start_date'
+    | 'due_date'
+  >
+>;

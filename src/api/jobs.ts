@@ -1,6 +1,6 @@
-import { JobItem, CreateJob } from 'models/apiModels';
+import { JobItem, CreateJob, JobUpdate } from 'models/apiModels';
 
-import { get, post, Delete } from './requests';
+import { get, post, put, Delete } from './requests';
 
 export const getJobs = (): Promise<JobItem[]> => get<JobItem[]>('jobs/');
 
@@ -21,3 +21,8 @@ export const getJobImage = (id: string): Promise<{ image: any }> =>
 
 export const deleteJob = (id: string): Promise<{ id: string }> =>
   Delete<{ id: string }>('jobs/' + id);
+
+export const updateJob = (
+  id: string,
+  job: JobUpdate
+): Promise<{ id: string }> => put<{ id: string }>('jobs/' + id, job);
