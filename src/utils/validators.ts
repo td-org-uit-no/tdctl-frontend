@@ -187,6 +187,11 @@ export const JobTypeValidator = (description: string) => {
 export const JobLocationValidator = (description: string) => {
   return description.length >= 100 ? ['Lokasjon er for lang'] : undefined;
 };
+
+export const JobLinkValidator = (link: string) => {
+  return link.length >= 500 ? ['Lenke er for lang'] : undefined;
+};
+
 export const JobTitleValidator = (title: string) => {
   return title.length >= 50 ? ['Tittel er for lang'] : undefined;
 };
