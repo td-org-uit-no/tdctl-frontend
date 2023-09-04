@@ -10,6 +10,7 @@ import {
   JobLocationValidator,
   JobTitleValidator,
   PNGImageValidator,
+  JobLinkValidator,
 } from 'utils/validators';
 import './jobForm.scss';
 import { Button } from '@chakra-ui/react';
@@ -42,7 +43,7 @@ const JobForm: React.FC = () => {
     due_date: dateValidator,
     start_date: dateValidator,
     location: JobLocationValidator,
-    link: JobLocationValidator,
+    link: JobLinkValidator,
     type: JobTypeValidator,
   };
 
