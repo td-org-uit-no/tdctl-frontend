@@ -308,7 +308,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
             overflowX: 'hidden',
             overflowY: 'auto',
           }}>
-          <ValidJob jobData={prevData} />
+          <ValidJob jobData={prevData} isPreview />
         </div>
       </Modal>
       <ReuploadImageModal

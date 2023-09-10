@@ -20,13 +20,14 @@ import JobForm from 'components/molecules/forms/jobForm/JobForm';
 
 interface IValidJob {
   jobData: JobItem | undefined;
+  isPreview?: boolean;
 }
 
-export const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
+export const ValidJob: React.FC<IValidJob> = ({ jobData, isPreview }) => {
   return (
     <div>
       {jobData !== undefined ? (
-        <ValidJobLayout jobData={jobData} />
+        <ValidJobLayout jobData={jobData} isPreview={isPreview} />
       ) : (
         <p> 404 job not found!</p>
       )}
@@ -35,7 +36,12 @@ export const ValidJob: React.FC<IValidJob> = ({ jobData }) => {
   );
 };
 
-const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
+interface IValidJobLayout {
+  jobData: JobItem;
+  isPreview?: boolean;
+}
+
+const ValidJobLayout: React.FC<IValidJobLayout> = ({ jobData, isPreview }) => {
   useTitle(`${jobData.title}`);
   const isMobile = useMobileScreen();
   const { addToast } = useToast();
@@ -67,17 +73,15 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                       style={{
                         marginBottom: '2rem',
                       }}>
-                      <Icon
-                        type="arrow-left"
-                        size={2}
-                        color=" rgba(240, 150, 103, 0.3)"
-                        onClick={() => {
-                          // id undefined means in preview mode
-                          if (id === undefined) {
-                            return;
-                          }
-                          history.goBack();
-                        }}></Icon>
+                      {!isPreview && (
+                        <Icon
+                          type="arrow-left"
+                          size={2}
+                          color=" rgba(240, 150, 103, 0.3)"
+                          onClick={() => {
+                            history.goBack();
+                          }}></Icon>
+                      )}
                     </div>
                   )}
                   <div className={'logoWrapper'}>
@@ -93,7 +97,7 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                   </div>
                   <hr />
                   <div>
-                    Ansettelsform: <br /> <small>{jobData.type}</small>
+                    Ansettelsesform: <br /> <small>{jobData.type}</small>
                   </div>
                   <hr />
                   <div>
@@ -132,23 +136,25 @@ const ValidJobLayout: React.FC<{ jobData: JobItem }> = ({ jobData }) => {
                     </small>
                   </div>
                   <hr />
-                  <a href={jobData.link} style={{ textDecoration: 'none' }}>
-                    <div className={'applyButton'}>
-                      Søk her!
-                      <Icon type={''} size={1.5} color={'#f09667'}></Icon>
-                    </div>
-                  </a>
-                  {role === Roles.admin && (
+                  <Button
+                    as={Link}
+                    href={jobData.link}
+                    isExternal
+                    mt="2rem"
+                    color="white"
+                    textDecoration="none">
+                    Søk her!
+                  </Button>
+                  {role === Roles.admin && !isPreview && (
                     <>
-                      <div className={'applyButton'} onClick={onOpen}>
+                      <Button onClick={onOpen} mt="3rem" variant="secondary">
                         Slett
-                        <Icon
-                          type={'trash'}
-                          size={1.2}
-                          color={'#f09667'}></Icon>
-                      </div>
-                      <Button onClick={() => setIsEditing(true)} mt="1rem">
-                        rediger
+                      </Button>
+                      <Button
+                        onClick={() => setIsEditing(true)}
+                        mt="1rem"
+                        variant="secondary">
+                        Rediger
                       </Button>
                     </>
                   )}
