@@ -155,7 +155,10 @@ const ValidJobLayout: React.FC<IValidJobLayout> = ({ jobData, isPreview }) => {
                     <h3>{jobData.title}</h3>
                     <hr />
                   </div>
-                  <ReactMarkdown children={jobData.description} />
+                  <ReactMarkdown
+                    children={jobData.description}
+                    className="markdown"
+                  />
                   <div className={'tags_container'}>
                     {jobData?.tags?.map((tag, key) => (
                       <div className={'tags'} key={key}>
