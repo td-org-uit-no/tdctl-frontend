@@ -127,15 +127,6 @@ const ValidJobLayout: React.FC<IValidJobLayout> = ({ jobData, isPreview }) => {
                     </small>
                   </div>
                   <hr />
-                  <div>
-                    Hjemmeside <br />
-                    <small>
-                      <a href={jobData.link} style={{ textDecoration: 'none' }}>
-                        <div style={{ color: '#f09667' }}>{jobData.link}</div>
-                      </a>
-                    </small>
-                  </div>
-                  <hr />
                   <Button
                     as={Link}
                     href={jobData.link}
