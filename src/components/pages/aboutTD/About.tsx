@@ -159,7 +159,7 @@ const TDBoardContactInfo: React.FC = () => {
       />
       <TDBoardPost
         position="Nestleder"
-        members={['Finn Olav Sagen']}
+        members={['Aslak Vik Sørvik']}
         mail={['nestleder@td-uit.no']}
       />
       <TDBoardPost
@@ -169,7 +169,7 @@ const TDBoardContactInfo: React.FC = () => {
       />
       <TDBoardPost
         position="Kommunikasjonsansvarlig"
-        members={['Sera Elstad', 'Aslak Vik Sørvik']}
+        members={['Sera Elstad', 'Eline De Vito']}
         mail={[
           'studentkommunikasjon@td-uit.no',
           'bedriftskommunikasjon@td-uit.no',
@@ -187,8 +187,13 @@ const TDBoardContactInfo: React.FC = () => {
       />
       <TDBoardPost
         position="Økonomisk ansvarlig"
-        members={['Herman Solvang']}
+        members={['Marius Møller-Hansen']}
         mail={['økonomi@td-uit.no']}
+      />
+      <TDBoardPost
+        position="Fagansvarlig"
+        members={['Eindride Kjersheim']}
+        mail={['fagansvarlig@td-uit.no']}
       />
     </Flex>
   );
