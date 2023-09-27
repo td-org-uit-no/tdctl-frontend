@@ -166,7 +166,12 @@ const JobList: React.FC = () => {
     const fetchJobs = async () => {
       try {
         const _jobs = await getJobs();
-        setContext({ ...context, allJobs: _jobs, sortedJobs: _jobs });
+        setContext({
+          ...context,
+          allJobs: _jobs,
+          sortedJobs: _jobs,
+          sort_date: true,
+        });
       } catch (error) {
         // no need to display error as the array will be empty and the component displays "no job listings" message
         return;
