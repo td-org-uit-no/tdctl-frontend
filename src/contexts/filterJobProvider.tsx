@@ -70,11 +70,25 @@ const JobFilterProvider: React.FC<IJobFilterProvider> = ({ children }) => {
             });
       // Sorts the jobs by date
       let sorted = tagFilter.sort(function (a, b) {
-        return filterContext.sort_date
-          ? new Date(b.published_date).getTime() -
-              new Date(a.published_date).getTime()
-          : new Date(a.published_date).getTime() -
-              new Date(b.published_date).getTime();
+        if (filterContext.sort_date) {
+          /* Jobs with no due date pushed to bottom */
+          if (a.due_date === undefined) {
+            return -1;
+          }
+          if (b.due_date === undefined) {
+            return 1;
+          }
+          return a.due_date < b.due_date ? -1 : 1;
+        } else {
+          /* Jobs with no due date pushed to top */
+          if (a.due_date === undefined) {
+            return 1;
+          }
+          if (b.due_date === undefined) {
+            return -1;
+          }
+          return a.due_date < b.due_date ? 1 : -1;
+        }
       });
       return sorted;
     };
