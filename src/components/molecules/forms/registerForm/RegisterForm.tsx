@@ -49,7 +49,7 @@ const RegisterForm = () => {
       return;
     }
     try {
-      const validationCode = await registerMember({
+      await registerMember({
         realName: fields['name'].value + ' ' + fields['lastname'].value,
         email: fields['email'].value,
         password: fields['password'].value,
@@ -57,7 +57,6 @@ const RegisterForm = () => {
         graduated: graduated,
         phone: fields['phone'].value,
       });
-      console.log(validationCode);
     } catch (error) {
       switch (error.statusCode) {
         case 400:
