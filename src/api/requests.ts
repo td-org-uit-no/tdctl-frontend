@@ -22,8 +22,22 @@ export class HttpError extends Error {
   };
 }
 
-export const get = async <T>(url: string) => {
-  const request = new Request(baseUrl + url, {
+interface QueryParams {
+  [key: string]: string;
+}
+
+// parameter adds support for query parameters
+export const get = async <T>(path: string, parameter?: QueryParams) => {
+  let url = baseUrl + path;
+  if (parameter) {
+    const urlObj = new URL(url);
+    const searchParams = urlObj.searchParams;
+    Object.entries(parameter).forEach(([key, value]) => {
+      searchParams.set(key, value);
+    });
+    url = urlObj.href;
+  }
+  const request = new Request(url, {
     credentials: 'include',
     headers: {
       accept: 'application/json, application/pdf',
