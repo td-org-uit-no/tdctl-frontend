@@ -157,3 +157,18 @@ export type JobUpdate = Partial<
     | 'due_date'
   >
 >;
+
+export interface IPageVisit {
+  page: string;
+}
+
+export interface IPageStats {
+  path: string;
+  title: string;
+  count: number;
+}
+
+export interface IVisits {
+  count: number;
+  date: String;
+}
