@@ -14,6 +14,7 @@ import RestorePasswordPage from './restorePassword/RestorePassword';
 import ResetPasswordPage from './resetPassword/ResetPassword';
 import AboutPage from './aboutTD/AboutPage';
 import NewStudentsPage from './newStudent/NewStudent';
+import StatsPage from './stats/StatsPage';
 
 import Jobs from './jobs/Jobs';
 import Job from './jobs/Job';
@@ -38,4 +39,5 @@ export {
   CreateJob,
   AboutPage,
   NewStudentsPage,
+  StatsPage,
 };
