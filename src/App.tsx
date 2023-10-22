@@ -20,15 +20,20 @@ import {
   CreateJob,
   AboutPage,
   NewStudentsPage,
+  StatsPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
 import ToastProvider from 'contexts/toastProvider';
+import AnalyticsProvider from 'contexts/analyticsProvider';
 
 const App: React.FC = () => {
+  // parent path to track visits
+  const monitorPaths = ['jobs', 'event'];
   return (
     <Router>
       <ToastProvider>
+        <AnalyticsProvider paths={monitorPaths}>
         <Navbar />
         <Switch>
           <AuthorizationRoute path="/registrer" component={RegistrerPage} />
@@ -60,6 +65,7 @@ const App: React.FC = () => {
           <Route path="/new-student" component={NewStudentsPage} />
           <Route path="/" component={HomePage} />
         </Switch>
+      </AnalyticsProvider>
       </ToastProvider>
     </Router>
   );
