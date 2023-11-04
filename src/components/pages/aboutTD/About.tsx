@@ -145,6 +145,19 @@ const TDcommittees: React.FC = () => {
           </Link>
         </p>
       </Committe>
+      <Committe name="Fagkomité">
+        <p>
+          {' '}
+          Fagkomiteen jobber med faglige arrangementer. Du kan være med å
+          arrangere IoTD for å lære mer om elektronikk og mikrokontrollere,
+          3D-printing osv. eller bli med å arrangere faglige workshops,
+          TD-talks, programmeringseventer og annen faglig aktivitet du ønsker å
+          bidra til. Er dette noe som høres spennende ut? Ta kontakt med{' '}
+          <Link href="mailto:fagansvarlig@td-uit.no" color="blue.400">
+            fagansvarlig.
+          </Link>
+        </p>
+      </Committe>
     </Flex>
   );
 };
