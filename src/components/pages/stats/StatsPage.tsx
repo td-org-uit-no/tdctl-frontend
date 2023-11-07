@@ -2,6 +2,7 @@ import React from 'react';
 import UniqueVisitsCharts from 'components/molecules/charts/uniqueVisitChart/UniqueVisitChart';
 import { Flex, Heading, Card, CardBody, CardHeader } from '@chakra-ui/react';
 import VisitLastMonthChart from 'components/molecules/charts/pageVisitsLastMonthChart/VistsLastMonthChart';
+import useTitle from 'hooks/useTitle';
 
 const UniqueChartBox: React.FC = () => {
   return (
@@ -35,7 +36,9 @@ const PageVisitChartBox: React.FC = () => {
     </Card>
   );
 };
+
 const StatsPage: React.FC = () => {
+  useTitle('Statistikk');
   return (
     <Flex w="100vw" h="100%" flexDir="column" textAlign="center" mb={50}>
       <Heading mt={2.5}>Statistikk</Heading>
