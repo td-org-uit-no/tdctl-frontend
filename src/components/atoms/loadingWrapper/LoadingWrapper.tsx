@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import React, { useState, HTMLAttributes, useEffect } from 'react';
 import Loading from '../loading/Loading';
 
@@ -64,7 +65,7 @@ const LoadingWrapper: React.FC<LoadingWrapperInterface> = ({
     );
   }
 
-  return <div {...rest}>{render && <div {...rest}>{children} </div>}</div>;
+  return <Flex {...rest}>{render && <Flex {...rest}>{children} </Flex>}</Flex>;
 };
 
 export default LoadingWrapper;
