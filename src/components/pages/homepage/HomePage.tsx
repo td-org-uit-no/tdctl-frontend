@@ -7,11 +7,13 @@ import EventPreview from 'components/molecules/event/eventPreview/EventPreview';
 import useUpcomingEvents from 'hooks/useEvents';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
 import { useMobileScreen } from 'hooks/useMobileScreen';
+import NoUpcomingEvents from 'components/molecules/homePage/noUpcomingEventResponse/evnetResponse';
 
 const RootPage = () => {
-  const { events } = useUpcomingEvents();
   useTitle('Tromsøstudentenes-Dataforening');
+  const { events } = useUpcomingEvents();
   const isMobile = useMobileScreen();
+
   return (
     <div className={styles.root}>
       <HomeHeader />
@@ -40,9 +42,7 @@ const RootPage = () => {
                 </Carousel>
               </div>
             ) : (
-              <h3 style={{ minHeight: '45vh' }}>
-                Ingen kommende arrangementer{' '}
-              </h3>
+              <NoUpcomingEvents />
             )}
           </LoadingWrapper>
         </div>
