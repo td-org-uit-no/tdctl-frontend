@@ -20,3 +20,6 @@ export const logVisit = (payload: IPageVisit): Promise<{}> =>
 
 export const getPageVisitsLastMonth = (): Promise<IPageStats[]> =>
   get<IPageStats[]>('stats/most_visited_pages_last_month');
+
+export const getPageVisit = (page: string): Promise<{ visits: number }> =>
+  get<{ visits: number }>('stats/get-all-page-visits', { page: page });
