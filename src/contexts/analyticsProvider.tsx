@@ -38,7 +38,6 @@ const AnalyticsProvider = ({ paths, localhost, children }: IAnalytics) => {
 
   const validPath = (currentPath: string) => {
     const parentPath = findParentPath(currentPath);
-    console.log(parentPath);
     return parentPath !== undefined ? paths.includes(parentPath) : false;
   };
 
