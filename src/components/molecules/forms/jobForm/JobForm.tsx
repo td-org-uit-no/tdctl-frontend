@@ -66,7 +66,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
           ? new Date(fields['start_date'].value)
           : undefined,
       location: fields['location'].value,
-      link: fields['link'].value,
+      link: 'https://' + fields['link'].value,
       due_date:
         fields['due_date'].value !== ''
           ? new Date(fields['due_date'].value)
@@ -194,7 +194,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
           ? dateToFormString(new Date(job.start_date))
           : '',
         location: job.location,
-        link: job.link,
+        link: job.link.slice(8) /* Remove 'https://' */,
         due_date: job.due_date ? dateToFormString(new Date(job.due_date)) : '',
         published_date: new Date(job.published_date).toDateString(),
       };
@@ -257,6 +257,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
             minWidth={35}
             name={'link'}
             label={'Link til bedrift'}
+            prefix={'https://'}
             onChange={onFieldChange}
             value={fields['link'].value ?? ''}
             error={fields['link'].error}
