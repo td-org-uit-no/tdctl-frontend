@@ -6,6 +6,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   maxWidth?: number;
   minWidth?: number;
   error?: string[] | undefined;
+  prefix?: string;
 }
 
 const TextField: React.FC<Props> = ({
@@ -13,6 +14,7 @@ const TextField: React.FC<Props> = ({
   maxWidth,
   minWidth,
   label,
+  prefix,
   onChange,
   onBlur,
   onFocus,
@@ -37,35 +39,44 @@ const TextField: React.FC<Props> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <input
-          style={{
-            maxWidth: maxWidth ? maxWidth + 'ch' : '100%',
-            minWidth: minWidth ? minWidth + 'ch' : '100%',
-          }}
-          className={
-            error !== undefined
-              ? `${styles.text} ${styles.errorMsg}`
-              : `${styles.text}`
-          }
-          defaultValue={defaultValue}
-          value={value}
-          type={type}
-          onFocus={(e) => {
-            setIsFocused(true);
-            onFocus && onFocus(e);
-          }}
-          onBlur={(e) => {
-            setIsFocused(false);
-            onBlur && onBlur(e);
-          }}
-          onChange={(e) => {
-            setDefaultInput(e.target.value);
-            onChange && onChange(e);
-          }}
-          {...rest}
-        />
-        {label && <label className={getLabelStyle()}>{label}</label>}
+      <div
+        style={{
+          maxWidth: maxWidth ? maxWidth + 'ch' : '100%',
+          minWidth: minWidth ? minWidth + 'ch' : '100%',
+        }}
+        className={styles.inputFlex}>
+        {prefix && <div className={styles.inputPrefix}>{prefix}</div>}
+        <div className={styles.inputContainer}>
+          <input
+            style={{
+              width: '100%',
+              borderTopLeftRadius: prefix ? '0px' : '5px',
+              borderBottomLeftRadius: prefix ? '0px' : '5px',
+            }}
+            className={
+              error !== undefined
+                ? `${styles.text} ${styles.errorMsg}`
+                : `${styles.text}`
+            }
+            defaultValue={defaultValue}
+            value={value}
+            type={type}
+            onFocus={(e) => {
+              setIsFocused(true);
+              onFocus && onFocus(e);
+            }}
+            onBlur={(e) => {
+              setIsFocused(false);
+              onBlur && onBlur(e);
+            }}
+            onChange={(e) => {
+              setDefaultInput(e.target.value);
+              onChange && onChange(e);
+            }}
+            {...rest}
+          />
+          {label && <label className={getLabelStyle()}>{label}</label>}
+        </div>
       </div>
       {error && (
         <div className={styles.errors}>
