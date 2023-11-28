@@ -24,6 +24,7 @@ import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
 import { ValidJob } from 'components/pages/jobs/Job';
+import { dateToFormString } from 'utils/date';
 
 /* Optional job data to edit existing instead of creating new job */
 interface IJobform {
@@ -190,15 +191,11 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
         description_preview: job.description_preview,
         description: job.description,
         start_date: job.start_date
-          ? new Date(job.start_date)
-              .toISOString()
-              .split('T')[0] /* Format YYYY-MM-DD */
+          ? dateToFormString(new Date(job.start_date))
           : '',
         location: job.location,
         link: job.link,
-        due_date: job.due_date
-          ? new Date(job.due_date).toISOString().split('T')[0]
-          : '',
+        due_date: job.due_date ? dateToFormString(new Date(job.due_date)) : '',
         published_date: new Date(job.published_date).toDateString(),
       };
     }
