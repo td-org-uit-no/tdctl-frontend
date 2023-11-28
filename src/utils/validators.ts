@@ -189,7 +189,13 @@ export const JobLocationValidator = (description: string) => {
 };
 
 export const JobLinkValidator = (link: string) => {
-  return link.length >= 500 ? ['Lenke er for lang'] : undefined;
+  if (link.length >= 500) {
+    return ['Lenke er for lang'];
+  }
+  if (link.substring(0, 8) === 'https://') {
+    return ["Ugyldig lenke (fjern 'https://')"];
+  }
+  return undefined;
 };
 
 export const JobTitleValidator = (title: string) => {
