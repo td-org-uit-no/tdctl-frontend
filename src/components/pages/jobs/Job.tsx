@@ -56,7 +56,7 @@ const ValidJobLayout: React.FC<IValidJobLayout> = ({ jobData, isPreview }) => {
   return (
     <div>
       {isEditing ? (
-        <Center mt="2rem">
+        <Center mt="2rem" width="100vw">
           <VStack>
             <Heading>Rediger Stillingsutlysning</Heading>
             <JobForm job={jobData} />
