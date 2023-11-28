@@ -19,3 +19,15 @@ export function manipulateDate(date: Date, dateOpt: DateOptions) {
     date.getSeconds() + (dateOpt?.seconds ?? 0)
   );
 }
+
+/* Given a date, format to YYYY-MM-dd using norwegian locale */
+export function dateToFormString(date: Date) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  };
+  /* Remove default delimiters and format correctly */
+  const parts = date.toLocaleDateString('en-NO', options).split(/\D/);
+  return `${parts[2]}-${parts[0]}-${parts[1]}`;
+}
