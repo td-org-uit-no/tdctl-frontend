@@ -54,9 +54,9 @@ const ValidJobLayout: React.FC<IValidJobLayout> = ({ jobData, isPreview }) => {
   const { isOpen, onOpen, onClose } = useModal();
 
   return (
-    <div>
+    <div style={{ width: '100vw' }}>
       {isEditing ? (
-        <Center mt="2rem" width="100vw">
+        <Center mt="2rem">
           <VStack>
             <Heading>Rediger Stillingsutlysning</Heading>
             <JobForm job={jobData} />
