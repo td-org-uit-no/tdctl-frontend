@@ -1,18 +1,3 @@
-.eventBody {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 20px;
-  background-color: #222136;
-  text-align: center;
-}
-
-.editContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 .header {
   min-height: 35vh;
   border-radius: 20px 20px 0px 0px;
@@ -20,13 +5,6 @@
 
 .adminButtons {
   margin: 1% 0 1% 0;
-  width: 25%;
-}
-
-.settingsIcon {
-  margin: 1% 1% 1% 1%;
-  width: 100%;
-  display: flex;
 }
 
 @media screen and (max-width: 768px) {
