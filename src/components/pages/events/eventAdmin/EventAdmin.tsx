@@ -11,6 +11,8 @@ import useFetchUpdate from 'hooks/useFetchUpdate';
 import { SideBarItem } from 'components/pages/admin/AdminPage';
 import DropdownMenu from 'components/molecules/dropdownMenu/DropdownMenu';
 import { useMobileScreen } from 'hooks/useMobileScreen';
+import { Flex } from '@chakra-ui/react';
+import EventViewCount from 'components/molecules/event/eventViewCount/EventViewCount';
 export interface IValidEvent {
   eventData: Event | undefined;
 }
@@ -84,7 +86,7 @@ interface componentsDict {
   [key: string]: JSX.Element;
 }
 
-const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
+const EventAdmin = () => {
   const [isValid, setIsValid] = useState<boolean | undefined>();
   const [event, setEvent] = useState<Event>();
   const { id } = useParams<{ id: string }>();
@@ -156,28 +158,35 @@ const EventAdmin: React.FC<{ eventData: Event }> = ({ eventData }) => {
   return (
     <div className={styles.adminContent}>
       {!isMobile ? (
-        <div className={styles.side}>
-          <SideBarItem
-            onClick={() => setComponentKey('Settings')}
-            iconType="cog"
-            label="Settings"
-          />
-          <SideBarItem
-            onClick={() => setComponentKey('Responses')}
-            iconType="poll"
-            label="Responses"
-          />
-          <SideBarItem
-            onClick={() => setComponentKey('Statistics')}
-            iconType="chart-line"
-            label="Statistics"
-          />
-          <SideBarItem
-            onClick={() => setComponentKey('Export')}
-            iconType="file-export"
-            label="Export"
-          />
-        </div>
+        <Flex flexDir="column">
+          <div className={styles.side}>
+            <SideBarItem
+              onClick={() => setComponentKey('Settings')}
+              iconType="cog"
+              label="Settings"
+            />
+            <SideBarItem
+              onClick={() => setComponentKey('Responses')}
+              iconType="poll"
+              label="Responses"
+            />
+            <SideBarItem
+              onClick={() => setComponentKey('Statistics')}
+              iconType="chart-line"
+              label="Statistics"
+            />
+            <SideBarItem
+              onClick={() => setComponentKey('Export')}
+              iconType="file-export"
+              label="Export"
+            />
+          </div>
+          {event !== undefined && (
+            <Flex w="100%" height="50%">
+              <EventViewCount page={`/event/${event.eid}`} />
+            </Flex>
+          )}
+        </Flex>
       ) : (
         <div className={styles.top}>
           <DropdownMenu items={dropdownMenuProps}></DropdownMenu>
