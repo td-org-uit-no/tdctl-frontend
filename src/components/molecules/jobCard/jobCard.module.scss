@@ -1,6 +1,7 @@
 @import '../../../styles/colors.scss';
 
 .job_card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: rgb(71, 77, 101, 0.1);

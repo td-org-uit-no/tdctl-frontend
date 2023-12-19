@@ -1,44 +1,5 @@
 @import '../../../styles/colors.scss';
 
-.pageWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100%;
-  color: #ccc;
-  justify-content: center;
-  align-items: center;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  color: #ccc;
-  gap: 5rem;
-}
-.mainContent {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  color: #ccc;
-}
-
-.jobsWrapper {
-  display: flex;
-  width: 80%;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.jobsHeader {
-  margin-top: 5rem;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-
 .icon {
   display: flex;
   align-items: center;
@@ -58,7 +19,6 @@
 .filterWrapper {
   display: flex;
   flex-direction: column;
-  width: 30vw;
   max-width: 500px;
   gap: 1rem;
 }
@@ -109,12 +69,6 @@ hr {
 }
 
 @mixin smallerDevices {
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
   .filterWrapper {
     width: 100%;
   }
@@ -134,10 +88,6 @@ hr {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1001px) {
-  .jobsWrapper {
-    width: 95%;
-    align-items: center;
-  }
   @include smallerDevices;
 }
 

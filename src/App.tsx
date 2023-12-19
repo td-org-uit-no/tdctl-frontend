@@ -55,7 +55,8 @@ const App: React.FC = () => {
               path="/reset-password/:resetPasswordCode"
               component={ResetPasswordPage}
             />
-            <Route path="/jobs/:id" component={Job} />
+            <Route path="/jobs/archive" children={<Jobs isArchive={true} />} />
+            <Route path="/jobs/:id" children={<Job />} />
             <Route path="/jobs" component={Jobs} />
             <AdminRoute path="/create-job" component={CreateJob} />
             <Route
