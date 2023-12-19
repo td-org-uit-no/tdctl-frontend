@@ -23,19 +23,15 @@ const Chip: React.FC<ChipProps> = (props) => {
   const ctxHook = useContext(FilterContextHook);
   const [active, setActive] = useState<boolean>(props.active);
 
-  useEffect(() => {
-    setActive((_active) => !_active);
-  }, [props.active]);
-
   const filterBasedOnTag = (active: boolean) => {
     active
       ? ctxHook?.setContext({
           ...ctxHook?.context,
-          tags: [...ctxHook?.context.tags, props.label],
+          tags: ctxHook?.context.tags.filter((tag) => tag !== props.label),
         })
       : ctxHook?.setContext({
           ...ctxHook?.context,
-          tags: ctxHook?.context.tags.filter((tag) => tag !== props.label),
+          tags: [...ctxHook?.context.tags, props.label],
         });
     setActive(!active);
   };
@@ -45,7 +41,7 @@ const Chip: React.FC<ChipProps> = (props) => {
       className={styles.chip}
       onClick={() => filterBasedOnTag(active)}
       style={{
-        backgroundColor: active ? 'rgba(240, 150, 103, 0.3)' : '#f09667',
+        backgroundColor: active ? '#f09667' : 'rgba(240, 150, 103, 0.3)',
       }}>
       <span>{props.label}</span>
     </div>
