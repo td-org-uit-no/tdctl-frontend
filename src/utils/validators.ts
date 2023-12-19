@@ -132,22 +132,25 @@ export const priceValidator = (price: string) => {
   return price.length ? undefined : ['Arrangement pris må fylles ut'];
 };
 
+export const optionalDateValidator = (date: string) => {
+  if (date) {
+    const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
+    if (new Date(date) < yesterday) {
+      return ['Dato må være i fremtiden'];
+    }
+  }
+  return undefined;
+};
+
 export const dateValidator = (date: string) => {
-  return date.length ? undefined : ['Dato må fylles ut'];
+  if (!date.length) {
+    return ['Dato må fylles ut'];
+  }
+  return optionalDateValidator(date);
 };
 
 export const timeValidator = (time: string) => {
   return time.length ? undefined : ['Tidspunkt må fylles ut'];
-};
-
-/* Empty validators for optional date/time for now */
-/* TODO: find better solution for optional validation */
-export const notRequiredDateValidator = (date: string) => {
-  return undefined;
-};
-
-export const notRequiredTimeValidator = (time: string) => {
-  return undefined;
 };
 
 // description length constraint

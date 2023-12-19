@@ -3,7 +3,7 @@ import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
   JobDescriptionValidator,
-  dateValidator,
+  optionalDateValidator,
   emptyFieldsValidator,
   JobDescriptionPreviewValidator,
   JobTypeValidator,
@@ -46,8 +46,8 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
     title: JobTitleValidator,
     description_preview: JobDescriptionPreviewValidator,
     description: JobDescriptionValidator,
-    due_date: dateValidator,
-    start_date: dateValidator,
+    due_date: optionalDateValidator,
+    start_date: optionalDateValidator,
     location: JobLocationValidator,
     link: JobLinkValidator,
     type: JobTypeValidator,
@@ -267,6 +267,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
             name={'due_date'}
             label={'Søknadsfrist'}
             value={fields['due_date'].value ?? ''}
+            error={fields['due_date'].error}
             type={'date'}
             onChange={onFieldChange}
           />
@@ -275,6 +276,7 @@ const JobForm: React.FC<IJobform> = ({ job }) => {
             name={'start_date'}
             label={'Start dato'}
             value={fields['start_date'].value ?? ''}
+            error={fields['start_date'].error}
             type={'date'}
             onChange={onFieldChange}
           />
