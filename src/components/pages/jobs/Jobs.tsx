@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styles from './jobs.module.scss';
-
 import Icon from 'components/atoms/icons/icon';
 import { JobItem } from 'models/apiModels';
 import TextField from 'components/atoms/textfield/Textfield';
@@ -13,6 +12,16 @@ import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
 import Footer from 'components/molecules/footer/Footer';
 import { useHistory } from 'react-router-dom';
+import {
+  Box,
+  HStack,
+  Heading,
+  Link,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 
 interface ChipProps {
   label: string;
@@ -149,7 +158,11 @@ const FilterJobs: React.FC = () => {
   );
 };
 
-const JobList: React.FC = () => {
+export interface JobsProps {
+  isArchive?: boolean;
+}
+
+const JobList: React.FC<JobsProps> = ({ isArchive = false }) => {
   const { role } = useContext(AuthenticateContext);
   const { context, setContext } = useContext(FilterContextHook);
   const history = useHistory();
@@ -158,20 +171,26 @@ const JobList: React.FC = () => {
     history.push('/create-job');
   };
 
+  const toggleArchive = () => {
+    isArchive ? history.push('/jobs') : history.push('/jobs/archive');
+  };
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const _jobs = await getJobs();
-        const upcomingJobs = _jobs.filter((job) => {
+        const filteredJobs = _jobs.filter((job) => {
           if (job.due_date) {
-            return new Date(job.due_date) >= new Date();
+            const today = new Date();
+            const jobDate = new Date(job.due_date);
+            return isArchive ? jobDate < today : jobDate >= today;
           }
           return true;
         });
         setContext({
           ...context,
-          allJobs: upcomingJobs,
-          sortedJobs: upcomingJobs,
+          allJobs: filteredJobs,
+          sortedJobs: filteredJobs,
           sort_date: true,
         });
       } catch (error) {
@@ -180,45 +199,78 @@ const JobList: React.FC = () => {
       }
     };
     fetchJobs();
-  }, []);
+  }, [isArchive]);
 
   return (
-    <div className={styles.pageWrapper}>
-      <div className={styles.jobsWrapper}>
-        <div className={styles.jobsHeader}>
-          <h4 style={{ padding: 0, margin: 0 }}>Stillingsutlysninger</h4>
-          {role === Roles.admin && (
-            <Icon
-              type={'plus'}
-              size={2}
-              color={'rgba(240, 150, 103, 0.3)'}
-              onClick={goToCreate}></Icon>
-          )}
-        </div>
-
-        <div className={styles.content}>
-          <FilterJobs />
-
-          <div className={styles.mainContent}>
-            {context.allJobs?.length === 0 && (
-              <h5>Ingen stillingsutlysninger</h5>
+    <VStack>
+      <VStack width={{ base: '90vw', lg: '80vw' }} maxW={1500}>
+        <Stack
+          direction={{ base: 'column', lg: 'row' }}
+          mt={{ base: '1rem', lg: '5rem' }}
+          mb={{ base: '.5rem', lg: '2rem' }}
+          align={{ base: 'center', lg: 'end' }}
+          width={'100%'}
+          justify={'space-between'}>
+          <HStack>
+            <Heading size={'xl'} padding={0} margin={0}>
+              Stillingsutlysninger
+            </Heading>
+            {role === Roles.admin && (
+              <Icon
+                type={'plus'}
+                size={2}
+                color={'rgba(240, 150, 103, 0.3)'}
+                onClick={goToCreate}></Icon>
             )}
-            {context.sortedJobs?.map((job, key) => {
-              return <JobCard {...job} key={key} />;
-            })}
-          </div>
-        </div>
-      </div>
+          </HStack>
+          <Box color={'slate.500'}>
+            <ToggleButton
+              label="Arkiv"
+              onChange={toggleArchive}
+              initValue={isArchive}
+            />
+          </Box>
+        </Stack>
+
+        <Stack
+          direction={{ base: 'column', lg: 'row' }}
+          width={'100%'}
+          align={'start'}
+          gap={{ base: '1rem', xl: '5rem' }}>
+          <Box width={{ base: '100%', lg: '420px' }}>
+            <FilterJobs />
+          </Box>
+
+          <Box flexGrow={1} width={{ base: '100%', lg: 'auto' }}>
+            <VStack width={'100%'}>
+              {context.allJobs?.length === 0 && (
+                <Box width={'100%'} textAlign={'left'}>
+                  <Heading size={'lg'}>Ingen stillingsutlysninger</Heading>
+                  <Text fontSize={'.75rem'}>
+                    <Link href="mailto:bedriftskommunikasjon@td-uit.no">
+                      Ta kontakt
+                    </Link>{' '}
+                    for informasjon om hvordan du kan legge ut en annonse
+                  </Text>
+                </Box>
+              )}
+              {context.sortedJobs?.map((job, key) => {
+                return <JobCard {...job} key={key} />;
+              })}
+            </VStack>
+          </Box>
+        </Stack>
+      </VStack>
       <Footer />
-    </div>
+    </VStack>
   );
 };
 
-const Jobs = () => {
+const Jobs: React.FC<JobsProps> = ({ isArchive }) => {
   useTitle('Stillingsutlysninger');
   return (
     <JobFilterProvider>
-      <JobList />
+      <JobList isArchive={isArchive} />
     </JobFilterProvider>
   );
 };
