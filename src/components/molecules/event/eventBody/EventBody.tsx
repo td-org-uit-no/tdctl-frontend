@@ -17,8 +17,7 @@ import {
   timeValidator,
   PNGImageValidator,
   eventTitleValidator,
-  notRequiredDateValidator,
-  notRequiredTimeValidator,
+  optionalDateValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
@@ -75,8 +74,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     address: addressValidator,
     maxParticipants: maxParticipantsValidator,
     price: priceValidator,
-    registerDate: notRequiredDateValidator,
-    registerTime: notRequiredTimeValidator,
+    registerDate: optionalDateValidator,
   };
 
   const submit = async () => {
