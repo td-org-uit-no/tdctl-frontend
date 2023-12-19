@@ -69,28 +69,21 @@ const JobFilterProvider: React.FC<IJobFilterProvider> = ({ children }) => {
               return job.tags.some((tag) => filterContext.tags.includes(tag));
             });
       // Sorts the jobs by date
-      let sorted = tagFilter.sort(function (a, b) {
-        if (filterContext.sort_date) {
-          /* Jobs with no due date pushed to bottom */
-          if (a.due_date === undefined) {
-            return -1;
-          }
-          if (b.due_date === undefined) {
-            return 1;
-          }
-          return a.due_date < b.due_date ? -1 : 1;
-        } else {
-          /* Jobs with no due date pushed to top */
-          if (a.due_date === undefined) {
-            return 1;
-          }
-          if (b.due_date === undefined) {
-            return -1;
-          }
-          return a.due_date < b.due_date ? 1 : -1;
+      function sortByDueDate(a: JobItem, b: JobItem) {
+        if (!a.due_date && !b.due_date) {
+          return 0; // Both with undefined due_dates
         }
-      });
-      return sorted;
+        if (!a.due_date) {
+          return 1;
+        }
+        if (!b.due_date) {
+          return -1;
+        }
+        return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+      }
+      return filterContext.sort_date
+        ? tagFilter.sort(sortByDueDate) // Ascending
+        : tagFilter.sort((a, b) => sortByDueDate(b, a)); // Descending
     };
     setFilterContext({
       ...filterContext,
