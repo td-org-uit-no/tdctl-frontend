@@ -17,6 +17,8 @@
   gap: 5rem;
 }
 .mainContent {
+  width: 100%;
+  display: flex;
   flex-direction: column;
   color: #ccc;
 }

@@ -166,10 +166,16 @@ const JobList: React.FC = () => {
     const fetchJobs = async () => {
       try {
         const _jobs = await getJobs();
+        const upcomingJobs = _jobs.filter((job) => {
+          if (job.due_date) {
+            return new Date(job.due_date) >= new Date();
+          }
+          return true;
+        });
         setContext({
           ...context,
-          allJobs: _jobs,
-          sortedJobs: _jobs,
+          allJobs: upcomingJobs,
+          sortedJobs: upcomingJobs,
           sort_date: true,
         });
       } catch (error) {
