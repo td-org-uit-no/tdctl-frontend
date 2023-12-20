@@ -33,7 +33,7 @@ const AuthNavbar = () => {
     <Menu>
       <MenuItem label={'Hjem'} path={'/'} />
       <MenuItem label={'Profil'} path={'/profile'} />
-      <MenuItem label={'Arrangement oversikt'} path={'/eventoverview'} />
+      <MenuItem label={'Arrangementoversikt'} path={'/eventoverview'} />
       <MenuItem label={'Stillingsutlysninger'} path={'/jobs'} />
       {role === Roles.admin && (
         <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
@@ -42,6 +42,26 @@ const AuthNavbar = () => {
       {role === Roles.admin && <MenuItem label={'Stats'} path={'/stats'} />}
       <MenuItem label={'Logg ut'} path={'/'} onClick={onLogout} />
     </Menu>
+  );
+};
+
+interface NavLinkProps {
+  to: string;
+  children?: React.ReactNode;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
+  return (
+    <Heading
+      size="sm"
+      my={0}
+      mr={{ base: '1em', md: '2em' }}
+      _hover={{
+        textDecoration: 'underline',
+        textDecorationColor: 'red.td',
+      }}>
+      <Link to={to}>{children}</Link>
+    </Heading>
   );
 };
 
@@ -61,16 +81,8 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       <div className={styles.menuContainer}>
-        <Heading
-          size="md"
-          my={0}
-          mr={{ base: '1em', md: '2em' }}
-          _hover={{
-            textDecoration: 'underline',
-            textDecorationColor: 'red.td',
-          }}>
-          <Link to="/new-student">Ny Student</Link>
-        </Heading>
+        <NavLink to="/jobs">Karriere</NavLink>
+        <NavLink to="/new-student">Ny Student</NavLink>
         {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
       </div>
     </div>
