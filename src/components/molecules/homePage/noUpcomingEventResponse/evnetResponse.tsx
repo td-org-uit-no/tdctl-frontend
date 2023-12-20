@@ -10,9 +10,9 @@ const WinterResponse = () => {
         wind={[-0.5, 0.5]}
         radius={[0.5, 4.5]}
       />
-      <Heading>Vi har tatt vinterferie❄️ </Heading>
+      <Heading>Vi har tatt juleferie❄️ </Heading>
       <Center>
-        <Text>Ses neste semester👋</Text>
+        <Text>Sees neste semester👋</Text>
       </Center>
     </Flex>
   );
@@ -38,7 +38,7 @@ const NoUpcomingEvents = () => {
 
   return (
     <Flex w="100%" height="100%" flexDir="column">
-      <Heading>Ingen kommende arrangement 👀</Heading>
+      <Heading>Ingen kommende arrangementer 👀</Heading>
     </Flex>
   );
 };
