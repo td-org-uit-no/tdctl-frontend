@@ -26,7 +26,7 @@ const theme = extendTheme(
       slate: {
         500: '#444658',
         600: '#2b2c3d',
-        700: '#222136',
+        700: '#1b1e2c',
         800: '#161926',
       },
       secondary: '#f8d2cc',

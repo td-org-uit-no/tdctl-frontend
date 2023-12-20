@@ -118,7 +118,7 @@ const Carousel: React.FC<CarouselProps> = ({
   return (
     <div className={styles.carouselContainer}>
       {title && (
-        <Heading as="h4" size="lg">
+        <Heading as="h4" size="lg" mt={'1rem'}>
           {title}
         </Heading>
       )}
@@ -151,7 +151,8 @@ const Carousel: React.FC<CarouselProps> = ({
           variant="primary"
           className={styles.headerButton}
           onClick={handleClick}
-          border={0}>
+          border={0}
+          m={0}>
           Se Alle
         </Button>
       )}
