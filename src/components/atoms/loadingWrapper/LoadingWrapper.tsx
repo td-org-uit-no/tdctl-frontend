@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 import React, { useState, HTMLAttributes, useEffect } from 'react';
 import Loading from '../loading/Loading';
 
@@ -21,7 +21,6 @@ const LoadingWrapper: React.FC<LoadingWrapperInterface> = ({
   animationTime = 250,
   startAfter = 0,
   children,
-  ...rest
 }) => {
   // sets render to opposite to animation since animation true will need to explicit set
   // render for childeren to load and no animation will just render children when defined
@@ -59,13 +58,13 @@ const LoadingWrapper: React.FC<LoadingWrapperInterface> = ({
 
   if (animationRender && !render) {
     return (
-      <div {...rest} style={{ alignItems: 'center' }}>
+      <Center mb={'45vh'} mt={'2rem'}>
         <Loading />
-      </div>
+      </Center>
     );
   }
 
-  return <Flex {...rest}>{render && <Flex {...rest}>{children} </Flex>}</Flex>;
+  return <Flex w={'100%'}>{render && <Box w={'100%'}>{children} </Box>}</Flex>;
 };
 
 export default LoadingWrapper;
