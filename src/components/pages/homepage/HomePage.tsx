@@ -63,11 +63,7 @@ const RootPage = () => {
         </NavCard>
       </Flex> */}
       <Center w={{ base: '85vw', xl: '75vw' }}>
-        <LoadingWrapper
-          data={events}
-          animation={true}
-          startAfter={400}
-          className={styles.wrapper}>
+        <LoadingWrapper data={events} animation={true} startAfter={400}>
           {events && events.length ? (
             <Box w={'100%'}>
               <Carousel
