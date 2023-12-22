@@ -30,6 +30,8 @@ const theme = extendTheme(
         800: '#161926',
       },
       secondary: '#f8d2cc',
+      inputBackground: '#272530',
+      inputBorder: '#2f2c45',
     },
     components: {
       Button: {
