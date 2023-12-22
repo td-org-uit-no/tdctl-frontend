@@ -104,18 +104,16 @@ const RegisterForm = () => {
     useForm({ onSubmit: onSubmit, validators: validators });
 
   return (
-    <div className="contnet">
+    <div className="registerContent">
       <form onSubmit={onSubmitEvent}>
         <TextField
           name={'name'}
-          minWidth={40}
           label={'Fornavn'}
           onChange={onFieldChange}
           error={fields['name'].error}
         />
         <TextField
           name={'lastname'}
-          minWidth={40}
           label={'Etternavn'}
           onChange={onFieldChange}
           error={fields['lastname'].error}
@@ -123,7 +121,6 @@ const RegisterForm = () => {
         <TextField
           name={'email'}
           type="email"
-          minWidth={40}
           label={'E-post'}
           onChange={onFieldChange}
           error={fields['email'].error}
@@ -131,7 +128,6 @@ const RegisterForm = () => {
         <TextField
           name={'password'}
           type="password"
-          minWidth={40}
           label={'Passord'}
           onChange={onFieldChange}
           error={fields['password'].error}
@@ -140,7 +136,6 @@ const RegisterForm = () => {
         <TextField
           name={'classof'}
           type="text"
-          minWidth={40}
           label={'Studiestart'}
           onChange={onFieldChange}
           error={fields['classof'].error}
@@ -154,8 +149,8 @@ const RegisterForm = () => {
           error={fields['phone'].error}
         />
       </form>
-      <div>
-        <ToggleButton onChange={onGraduateToggle} label={'Graduated'} />
+      <div className="clickableSection">
+        <ToggleButton onChange={onGraduateToggle} label={'Uteksaminert'} />
         {errors && <p>{errors}</p>}
         <Button variant={'primary'} onClick={onSubmit} type="submit">
           Registrer
