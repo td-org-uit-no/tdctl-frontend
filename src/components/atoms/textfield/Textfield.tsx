@@ -49,7 +49,6 @@ const TextField: React.FC<Props> = ({
         <div className={styles.inputContainer}>
           <input
             style={{
-              width: '100%',
               borderTopLeftRadius: prefix ? '0px' : '5px',
               borderBottomLeftRadius: prefix ? '0px' : '5px',
             }}
