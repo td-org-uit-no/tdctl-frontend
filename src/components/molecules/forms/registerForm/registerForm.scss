@@ -12,3 +12,15 @@
     gap: 1rem;
   }
 }
+
+.clickableSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .registerContent {
+    width: 100%;
+  }
+}
