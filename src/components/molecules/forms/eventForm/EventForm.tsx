@@ -144,7 +144,7 @@ const EventForm = () => {
         <TextField
           name={'title'}
           label={'Tittel'}
-          minWidth={40}
+          minWidth={20}
           onChange={onFieldChange}
           error={fields['title'].error}
         />
@@ -152,21 +152,21 @@ const EventForm = () => {
           name={'date'}
           label={'Dato'}
           type={'date'}
-          minWidth={40}
+          minWidth={20}
           onChange={onFieldChange}
         />
         <TextField
           name={'time'}
           label={'Tid'}
           type={'time'}
-          minWidth={40}
+          minWidth={20}
           onChange={onFieldChange}
         />
 
         <TextField
           name={'address'}
           label={'Adresse'}
-          minWidth={40}
+          minWidth={20}
           onChange={onFieldChange}
           error={fields['address'].error}
         />
@@ -174,7 +174,7 @@ const EventForm = () => {
         <TextField
           name={'price'}
           label={'Pris'}
-          minWidth={40}
+          minWidth={20}
           type={'number'}
           onChange={onFieldChange}
           error={fields['price'].error}
@@ -183,7 +183,7 @@ const EventForm = () => {
           name={'maxParticipants'}
           label={'Maks antall deltagere (valgfritt)'}
           type={'number'}
-          minWidth={40}
+          minWidth={20}
           onChange={onFieldChange}
           error={fields['maxParticipants'].error}
         />
@@ -191,7 +191,7 @@ const EventForm = () => {
         <Textarea
           name={'description'}
           label={'Beskrivelse'}
-          minWidth={65}
+          minWidth={25}
           onChange={onFieldChange}
           resize={true}
           error={fields['description'].error}
@@ -205,14 +205,14 @@ const EventForm = () => {
               name={'registerDate'}
               label={'Påmeldings dato'}
               type={'date'}
-              minWidth={40}
+              minWidth={20}
               onChange={onFieldChange}
             />
             <TextField
               name={'registerTime'}
               label={'Tid'}
               type={'time'}
-              minWidth={40}
+              minWidth={20}
               onChange={onFieldChange}
             />
           </div>
