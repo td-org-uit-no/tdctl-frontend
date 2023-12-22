@@ -5,6 +5,7 @@
   text-align: center;
   align-items: center;
 }
+
 .toggleContainer {
   display: flex;
   justify-content: center;
@@ -68,7 +69,6 @@ input:checked + .slider:before {
 
 .textContainer {
   text-align: center;
-  height: 100%;
   margin-left: 0.5em;
 }
 
