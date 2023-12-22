@@ -1,14 +1,16 @@
-.contnet {
+.registerContent {
   display: flex;
+  width: 35%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
 
   form {
+    width: 90%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
     gap: 1rem;
   }
 }
