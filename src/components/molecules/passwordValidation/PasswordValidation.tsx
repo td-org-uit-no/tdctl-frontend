@@ -56,7 +56,6 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
     <div className={styles.info}>
       <TextField
         name={'password'}
-        minWidth={40}
         type="password"
         label={'Passord'}
         value={fields['password']?.value ?? ''}
@@ -66,7 +65,6 @@ const PasswordValidation: React.FC<IPasswordValidation> = ({
       <br />
       <TextField
         name={'newPassword'}
-        minWidth={40}
         type="password"
         label={'Nytt passord'}
         value={fields['newPassword']?.value ?? ''}
