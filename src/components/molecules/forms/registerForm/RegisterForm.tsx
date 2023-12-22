@@ -143,7 +143,6 @@ const RegisterForm = () => {
         <TextField
           name={'phone'}
           type="text"
-          minWidth={40}
           label={'Telefon'}
           onChange={onFieldChange}
           error={fields['phone'].error}
