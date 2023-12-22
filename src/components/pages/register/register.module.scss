@@ -5,6 +5,7 @@
   text-align: center;
   align-items: center;
   width: 100%;
+
 }
 
 .registerForm {
@@ -13,5 +14,13 @@
   width: 100%;
   input {
     min-width: 30ch;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .registerPage {
+    h1 {
+      font-size: 3.157rem;
+    }
   }
 }
