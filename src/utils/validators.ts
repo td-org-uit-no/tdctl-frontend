@@ -55,13 +55,20 @@ export const maxParticipantsValidator = (
 };
 
 export const nameValidator = (name: string): string[] | undefined => {
-  const nameReg = /^[a-zæøåA-ZÆØÅ ]+$/; //! note the last space
+  // \p{L} -> letter in any language
+  // \p{Zz} -> allows space
+  // 1,30 is the valid range
+  // must be an range or any name over one char gets an error
+  const nameReg = /^[\p{L}\p{Zs}]{1,30}$/u;
 
   if (name.length === 0) {
     return ['Navn er påkrevd'];
   }
+  if (name.length > 30) {
+    return ['Navnet er for langt, maks 30 bokstaver'];
+  }
   if (!new RegExp(nameReg).test(name)) {
-    return ['Kun bokstavene A-Å'];
+    return ['Kun bokstaver er gyldig'];
   }
   return undefined;
 };
@@ -70,6 +77,11 @@ export const lastNameValidator = (name: string): string[] | undefined => {
   if (name.length === 0) {
     return ['Etternavn er påkrevd'];
   }
+
+  if (name.length > 30) {
+    return ['Etternavnet er for langt, maks 30 bokstaver'];
+  }
+
   return nameValidator(name);
 };
 
