@@ -7,39 +7,7 @@ import useUpcomingEvents from 'hooks/useEvents';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
 import { useMobileScreen } from 'hooks/useMobileScreen';
 import NoUpcomingEvents from 'components/molecules/homePage/noUpcomingEventResponse/evnetResponse';
-import { Flex, VStack, Heading, Text, Box, Center } from '@chakra-ui/react';
-import Icon from 'components/atoms/icons/icon';
-
-interface NavCardProps {
-  header: string;
-  linkTo: string;
-  children?: React.ReactNode;
-}
-
-const NavCard: React.FC<NavCardProps> = ({ header, linkTo, children }) => {
-  return (
-    <Flex
-      direction={'row'}
-      justify={'space-between'}
-      bg={'slate.700'}
-      _hover={{ bg: 'slate.600' }}
-      rounded={'lg'}
-      shadow={'md'}
-      cursor={'pointer'}
-      w={'100%'}
-      p={'1rem'}>
-      <VStack align={'start'}>
-        <Heading size={'md'} p={0} m={0}>
-          {header}
-        </Heading>
-        <Text fontSize={'.75rem'} p={0} m={0}>
-          {children}
-        </Text>
-      </VStack>
-      <Icon type="arrow-right" size={2} />
-    </Flex>
-  );
-};
+import { VStack, Box, Center } from '@chakra-ui/react';
 
 const RootPage = () => {
   useTitle('Tromsøstudentenes-Dataforening');
@@ -49,20 +17,7 @@ const RootPage = () => {
   return (
     <VStack>
       <HomeHeader />
-      {/* <Flex
-        direction={{ base: 'column', lg: 'row' }}
-        justify={'space-between'}
-        width={{ base: '80vw', lg: '60vw' }}
-        gap={{ base: '1rem', lg: '4rem' }}
-        mt={'1rem'}>
-        <NavCard header="Stillingsutlysninger" linkTo="test">
-          Sjekk ut stillingsannonser her
-        </NavCard>
-        <NavCard header="Ny student" linkTo="test">
-          Ofte stilte spørsmål og generell info
-        </NavCard>
-      </Flex> */}
-      <Center w={{ base: '85vw', xl: '75vw' }}>
+      <Center w={{ base: '85vw', xl: '75vw' }} mb={'1rem'}>
         <LoadingWrapper data={events} animation={true} startAfter={400}>
           {events && events.length ? (
             <Box w={'100%'}>
