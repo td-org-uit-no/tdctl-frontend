@@ -118,7 +118,7 @@ const Carousel: React.FC<CarouselProps> = ({
   return (
     <div className={styles.carouselContainer}>
       {title && (
-        <Heading as="h4" size="lg" mt={'1rem'}>
+        <Heading as="h4" size="lg">
           {title}
         </Heading>
       )}
