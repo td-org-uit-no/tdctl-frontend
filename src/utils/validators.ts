@@ -58,8 +58,9 @@ export const nameValidator = (name: string): string[] | undefined => {
   // \p{L} -> letter in any language
   // \p{Zz} -> allows space
   // 1,30 is the valid range
+  // -' allow names with hyphen and apostrophes
   // must be an range or any name over one char gets an error
-  const nameReg = /^[\p{L}\p{Zs}]{1,30}$/u;
+  const nameReg = /^[\p{L}]+(?:[\p{Zs}'-][\p{L}]+)*$/u;
 
   if (name.length === 0) {
     return ['Navn er påkrevd'];
@@ -68,8 +69,9 @@ export const nameValidator = (name: string): string[] | undefined => {
     return ['Navnet er for langt, maks 30 bokstaver'];
   }
   if (!new RegExp(nameReg).test(name)) {
-    return ['Kun bokstaver er gyldig'];
+    return ["Kun bokstaver er gyldig, - og ' må være mellom bokstaver"];
   }
+
   return undefined;
 };
 
