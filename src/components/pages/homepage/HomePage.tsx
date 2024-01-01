@@ -15,7 +15,7 @@ const RootPage = () => {
   const isMobile = useMobileScreen();
 
   return (
-    <VStack>
+    <VStack minH="100vh">
       <HomeHeader />
       <Center w={{ base: '85vw', xl: '75vw' }} mb={'1rem'}>
         <LoadingWrapper data={events} animation={true} startAfter={400}>
