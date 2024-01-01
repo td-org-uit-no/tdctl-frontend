@@ -43,7 +43,7 @@ const NoUpcomingEvents = () => {
   }
 
   return (
-    <Flex w="100%" height="100%" flexDir="column">
+    <Flex w="100%" height="100%" flexDir="column" textAlign="center">
       <Heading>Ingen kommende arrangementer 👀</Heading>
     </Flex>
   );
