@@ -24,10 +24,16 @@ const NoUpcomingEvents = () => {
 
   const isWinterBreak = (today: Date): boolean => {
     const year = today.getFullYear();
-    // winter break
+    const isDecember = today.getMonth() === 11;
+
+    // end date needs to be currentYear + 1 before new years and currentYear after
+    // and start must do the same but with - 1
+    let endYear = isDecember ? year + 1 : year;
+    let startYear = isDecember ? year : year - 1;
+
     // 0 index so winter break starts 01.12
-    const winterBreakStart = new Date(year, 11, 1);
-    const winterBreakEnd = new Date(year + 1, 0, 15);
+    const winterBreakStart = new Date(startYear, 11, 1);
+    const winterBreakEnd = new Date(endYear, 0, 15);
 
     return today >= winterBreakStart && today <= winterBreakEnd;
   };
