@@ -6,6 +6,7 @@ import {
   JoinEventPayload,
   ParticipantsUpdate,
   SetAttendancePayload,
+  ConfirmMessagePayload,
 } from 'models/apiModels';
 import { get, post, put, Delete } from './requests';
 
@@ -78,8 +79,13 @@ export const getQR = (eid: string) => get<Blob>('event/' + eid + '/qr');
 export const exportEvent = (eid: string): Promise<{}> =>
   get<{}>('event/' + eid + '/export');
 
-export const confirmEvent = (eid: string): Promise<{}> =>
-  post<{}>('event/' + eid + '/confirm', {});
+export const getConfirmationMessage = (eid: string) =>
+  get<{ message: string }>('event/' + eid + '/confirm-message');
+
+export const confirmEvent = (
+  eid: string,
+  payload: ConfirmMessagePayload
+): Promise<{}> => post<{}>('event/' + eid + '/confirm', payload);
 
 export const reorderParticipants = (
   eid: string,

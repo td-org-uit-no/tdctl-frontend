@@ -116,6 +116,10 @@ export interface SetAttendancePayload {
   attendance: boolean;
 }
 
+export interface ConfirmMessagePayload {
+  msg?: string;
+}
+
 export interface JobItem {
   id: string;
   company: string;
