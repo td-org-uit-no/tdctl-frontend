@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Table, { ColumnDefinitionType } from 'components/atoms/table/Table';
 import {
+  ConfirmMessagePayload,
   Participant,
   ParticipantsUpdate,
   SetAttendancePayload,
@@ -10,13 +11,27 @@ import { useToast } from 'hooks/useToast';
 import {
   confirmEvent,
   deleteParticipant,
+  getConfirmationMessage,
   registerAbsence,
   reorderParticipants,
   updateAttendance,
 } from 'api';
 import Modal from 'components/molecules/modal/Modal';
 import Icon from 'components/atoms/icons/icon';
-import { Button, HStack } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Flex,
+  HStack,
+  ListItem,
+  Text,
+  UnorderedList,
+} from '@chakra-ui/react';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
 import styles from './eventResponses.module.scss';
 import useModal from 'hooks/useModal';
@@ -78,6 +93,25 @@ const EventResponses: React.FC<{
     onOpen: openAbsenceModal,
     onClose: closeAbsenceModal,
   } = useModal();
+  const [confirmMsg, setConfirmMsg] = useState<string | undefined>();
+
+  useEffect(() => {
+    const fetchConfirmMsg = async () => {
+      try {
+        const res = await getConfirmationMessage(event.eid);
+        setConfirmMsg(res.message);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchConfirmMsg();
+  }, []);
+
+  const onConfirmMsgChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setConfirmMsg(event.target.value);
+  };
 
   const openDeleteColumn = (email: string) => {
     const selected = participants?.find((mem) => {
@@ -90,7 +124,8 @@ const EventResponses: React.FC<{
 
   const adminSubmitParticipants = async () => {
     try {
-      await confirmEvent(event.eid);
+      const payload: ConfirmMessagePayload = { msg: confirmMsg };
+      await confirmEvent(event.eid, payload);
       addToast({
         title: 'Bekreftelse sent',
         status: 'success',
@@ -347,27 +382,43 @@ const EventResponses: React.FC<{
         title="Bekreft plass for arrangement"
         isOpen={isOpenSubmitModal}
         onClose={closeSubmitModal}>
-        <div>
-          <h5>Ved å gå videre vil du</h5>
-          <ul>
-            <li>
-              Sende ut påmelding på mail til alle deltakere som har plass.
-            </li>
-            <li>
+        <Flex direction={'column'} p={5}>
+          <Text size={'lg'}>Ved å gå videre vil du</Text>
+          <UnorderedList mb="1rem">
+            <ListItem>
+              Sende ut bekreftelse på mail til alle deltakere som har plass.
+            </ListItem>
+            <ListItem>
               Deltakere vil ikke lenger kunne redigere sine preferanser til
               dette arrangementet.
-            </li>
-          </ul>
-          <hr />
-          <div className={styles.submitModalButtons}>
-            <Button variant={'secondary'} onClick={closeSubmitModal}>
+            </ListItem>
+          </UnorderedList>
+          <Accordion allowToggle mb="1rem">
+            <AccordionItem>
+              <AccordionButton>
+                <Box as="span" flex="1" textAlign="left" fontStyle="italic">
+                  Se og tilpass bekreftelsesmail
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel>
+                <Textarea
+                  value={confirmMsg}
+                  onChange={onConfirmMsgChange}
+                  style={{ minHeight: '250px' }}
+                />
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+          <Flex direction="row" justifyContent="center" gap="1rem" mt="1rem">
+            <Button variant="primary" onClick={closeSubmitModal}>
               Avbryt
             </Button>
-            <Button variant={'primary'} onClick={adminSubmitParticipants}>
+            <Button variant="secondary" onClick={adminSubmitParticipants}>
               Send
             </Button>
-          </div>
-        </div>
+          </Flex>
+        </Flex>
       </Modal>
       <Modal
         title="Registrer fravær på arrangement"
