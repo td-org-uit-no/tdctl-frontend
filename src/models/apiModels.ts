@@ -120,6 +120,12 @@ export interface ConfirmMessagePayload {
   msg?: string;
 }
 
+export interface EventMailPayload {
+  subject: string;
+  msg: string;
+  confirmedOnly?: boolean;
+}
+
 export interface JobItem {
   id: string;
   company: string;

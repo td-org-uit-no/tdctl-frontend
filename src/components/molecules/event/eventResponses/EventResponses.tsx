@@ -14,6 +14,7 @@ import {
   getConfirmationMessage,
   registerAbsence,
   reorderParticipants,
+  sendMail,
   updateAttendance,
 } from 'api';
 import Modal from 'components/molecules/modal/Modal';
@@ -36,6 +37,15 @@ import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBo
 import styles from './eventResponses.module.scss';
 import useModal from 'hooks/useModal';
 import EventRegistrationQR from '../eventRegistrationQR/EventRegistrationQR';
+import Textarea from 'components/atoms/textarea/Textarea';
+import TextField from 'components/atoms/textfield/Textfield';
+import useForm from 'hooks/useForm';
+import {
+  emptyFieldsValidator,
+  mailContentValidator,
+  mailSubjectValidator,
+} from 'utils/validators';
+import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 
 interface IBindingRegistrationButtons {
   onUpdate: () => void;
@@ -89,11 +99,78 @@ const EventResponses: React.FC<{
     onClose: closeSubmitModal,
   } = useModal();
   const {
+    isOpen: isOpenMailModal,
+    onOpen: openMailModal,
+    onClose: closeMailModal,
+  } = useModal();
+  const {
     isOpen: isOpenAbsenceModal,
     onOpen: openAbsenceModal,
     onClose: closeAbsenceModal,
   } = useModal();
   const [confirmMsg, setConfirmMsg] = useState<string | undefined>();
+
+  /* Email form */
+  const [confirmedOnly, setConfirmedOnly] = useState<boolean>(false);
+  const [mailError, setMailError] = useState<string | undefined>(undefined);
+  const validators = {
+    subject: mailSubjectValidator,
+    mail: mailContentValidator,
+  };
+
+  const submitMail = async () => {
+    const emptyFields = emptyFieldsValidator({
+      fields: fields,
+      optFields: undefined,
+    });
+
+    emptyFields
+      ? setMailError('Alle feltene må fylles ut')
+      : setMailError(undefined);
+
+    if (hasErrors || emptyFields) {
+      return;
+    }
+
+    try {
+      await sendMail(event.eid, {
+        subject: fields['subject']?.value,
+        msg: fields['mail']?.value,
+        confirmedOnly: confirmedOnly,
+      });
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Epost sendt ut',
+      });
+    } catch (error) {
+      addToast({
+        title: 'Kunne ikke sende ut epost',
+        status: 'error',
+        description: 'Kontroller epostfilteret',
+      });
+    }
+    closeMailModal();
+  };
+
+  const { fields, onFieldChange, hasErrors, onSubmitEvent } = useForm({
+    onSubmit: submitMail,
+    validators: validators,
+  });
+
+  const calculateMailRecipients = () => {
+    if (!event.participants) {
+      return 0;
+    }
+    const recipients = event.participants.filter((p) => {
+      if (confirmedOnly) {
+        return p.confirmed == true;
+      }
+      return !p.confirmed;
+    });
+
+    return recipients.length;
+  };
 
   useEffect(() => {
     const fetchConfirmMsg = async () => {
@@ -355,13 +432,16 @@ const EventResponses: React.FC<{
 
   return (
     <div className={styles.contentWrapper}>
-      <HStack mb="1rem" justify="right">
+      <HStack mb="1rem" justify="right" wrap="wrap">
         <BindingRegistrationButtons
           bindingRegistration={event.bindingRegistration}
           onUpdate={updateList}
           onConfirm={openSubmitModal}
           onPenalize={openAbsenceModal}
         />
+        <Button variant={'secondary'} onClick={openMailModal}>
+          Send epost
+        </Button>
         <EventRegistrationQR event={event} />
       </HStack>
       {participants ? (
@@ -436,6 +516,65 @@ const EventResponses: React.FC<{
             </Button>
           </div>
         </div>
+      </Modal>
+      <Modal
+        title="Send ut epost til deltakerne"
+        isOpen={isOpenMailModal}
+        onClose={() => {
+          closeMailModal();
+          /* Reset form */
+          setMailError(undefined);
+          fields['subject'].value = '';
+          fields['mail'].value = '';
+        }}>
+        <Flex direction="column" gap="1rem" p="1rem">
+          <form onSubmit={onSubmitEvent}>
+            <Flex
+              direction="column"
+              gap="1rem"
+              minW="600px"
+              w="75vw"
+              maxW="900px">
+              <TextField
+                name="subject"
+                label="Emne"
+                minWidth={20}
+                onChange={onFieldChange}
+                error={fields['subject'].error}
+              />
+              <Textarea
+                name="mail"
+                label="Innhold"
+                onChange={onFieldChange}
+                error={fields['mail'].error}
+                resize={true}
+              />
+              <ToggleButton
+                onChange={() => {
+                  setConfirmedOnly(!confirmedOnly);
+                }}
+                initValue={confirmedOnly}
+                label="Kun send til de med bekreftet plass"
+              />
+            </Flex>
+          </form>
+
+          <Flex direction="row" justifyContent="end" w="100%">
+            {mailError && (
+              <Text flexGrow={1} fontStyle="italic" color="red.td">
+                {mailError}
+              </Text>
+            )}
+            <Flex direction="column" justifyContent="end" mr={2}>
+              <Text fontSize="xs" fontStyle="italic" color="slate.400" m={0}>
+                Eposten vil bli sendt til {calculateMailRecipients()} studenter
+              </Text>
+            </Flex>
+            <Button variant="secondary" onClick={submitMail}>
+              Send
+            </Button>
+          </Flex>
+        </Flex>
       </Modal>
       <Modal
         title={`Remove ${selectedParticipant?.realName ?? ''}?`}

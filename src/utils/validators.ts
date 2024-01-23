@@ -134,6 +134,24 @@ export const phoneValidator = (num: string): string[] | undefined => {
   return undefined;
 };
 
+export const mailSubjectValidator = (subject: string) => {
+  if (subject.length) {
+    return subject.length <= 50
+      ? undefined
+      : ['Emnefelt kan ikke overstige 50 tegn'];
+  }
+  return ['Emnefelt må fylles ut'];
+};
+
+export const mailContentValidator = (content: string) => {
+  if (content.length) {
+    return content.length <= 5000
+      ? undefined
+      : ['Epost kan ikke overstige 5000 tegn'];
+  }
+  return ['Epostinnhold må fylles ut'];
+};
+
 export const eventTitleValidator = (title: string) => {
   return title.length ? undefined : ['Arrangement tittelen må fylles ut'];
 };
