@@ -63,7 +63,7 @@ const EventRegistrationQR: React.FC<{ event: Event }> = ({ event }) => {
   return (
     <div>
       <Button
-        variant={'secondary'}
+        variant={'primary'}
         onClick={() => {
           handleButtonClick(event.eid);
         }}>
