@@ -18,7 +18,7 @@ const EventViewCount: React.FC<{ page: string }> = ({ page }) => {
   return (
     <Center
       w="100%"
-      height="20%"
+      height={100}
       borderRadius="lg"
       border="1px"
       borderColor="#fffff"
