@@ -164,7 +164,7 @@ const EventResponses: React.FC<{
     }
     const recipients = event.participants.filter((p) => {
       if (confirmedOnly) {
-        return p.confirmed == true;
+        return p.confirmed === true;
       }
       return !p.confirmed;
     });
