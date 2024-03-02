@@ -97,6 +97,13 @@ const Footer: React.FC = () => {
           <FooterItem label={'Om TD'} path={'/about-us'} />
           <FooterItem label={'For nye studenter'} path={'/new-student'} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
+          <FooterItem
+            label={'Bidra til utviklingen av nettsiden!'}
+            path={
+              'https://github.com/td-org-uit-no/tdctl-frontend/wiki/Getting-started'
+            }
+            isExternal
+          />
         </FooterList>
         <FooterList header={`Kontakt`}>
           <FooterItem
