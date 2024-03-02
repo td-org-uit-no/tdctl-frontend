@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Button } from '@chakra-ui/react';
 import logo from 'assets/td-full-logo.png';
 import styles from './homeHeader.module.scss';
-import { useHistory } from 'react-router-dom';
 import { AuthenticateContext } from 'contexts/authProvider';
 import { Link as ReactRouterLink } from 'react-router-dom';
 

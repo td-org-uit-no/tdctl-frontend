@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import { logout } from 'api';
 import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/menu/Menu';
 import logo from 'assets/td-logo.png';
 import { Heading } from '@chakra-ui/react';
-import { Link as ReactRouterLink } from 'react-router-dom';
 
 const DefaultNavbar = () => {
   return (
@@ -68,15 +67,14 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
 
 const Navbar: React.FC = () => {
   const { authenticated } = useContext(AuthenticateContext);
-  const history = useHistory();
 
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
-          <ReactRouterLink to={'/'}>
+          <Link to={'/'}>
             <img src={logo} alt="logo" />
-          </ReactRouterLink>
+          </Link>
         </div>
       </div>
       <div className={styles.menuContainer}>
