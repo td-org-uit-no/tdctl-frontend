@@ -29,7 +29,7 @@ import AnalyticsProvider from 'contexts/analyticsProvider';
 
 const App: React.FC = () => {
   // parent path to track visits
-  const monitorPaths = ['jobs', 'event'];
+  const monitorPaths = ['jobs', 'event', 'new-student'];
   return (
     <Router>
       <ToastProvider>
