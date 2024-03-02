@@ -1,5 +1,5 @@
 import styles from './footerLogos.module.scss';
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { Icon } from '@iconify/react';
 import Modal from 'components/molecules/modal/Modal';
@@ -58,6 +58,18 @@ const FooterLogos = () => {
               onClick={() => {
                 window.open(
                   'https://www.facebook.com/tromsodataforening',
+                  '_blank'
+                );
+              }}
+            />
+          </div>
+          <div className={styles.logoItem}>
+            <FaLinkedin
+              size={'2.5em'}
+              color={'#F8D2CC'}
+              onClick={() => {
+                window.open(
+                  'https://no.linkedin.com/company/troms%C3%B8studentenes-dataforening',
                   '_blank'
                 );
               }}
