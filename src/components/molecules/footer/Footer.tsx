@@ -95,6 +95,13 @@ const Footer: React.FC = () => {
       <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'Om TD'} path={'/about-us'} />
+          <FooterItem
+            label={'TD kalender'}
+            path={
+              'https://calendar.google.com/calendar/u/1?cid=Y19mNDQ4Y2I1MDU0ODIwZGQyMDE0Yjk1NTkzNWZlZDZmMTA1YTdkNzBlZGEwM2NhNDAzMDc2ODMzNmI5N2Y1NjlmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'
+            }
+            isExternal
+          />
           <FooterItem label={'For nye studenter'} path={'/new-student'} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
           <FooterItem
