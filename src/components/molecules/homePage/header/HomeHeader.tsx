@@ -28,7 +28,7 @@ const HomeHeader = () => {
             <Button variant="primary" onClick={moveToLoginPage} tabIndex={1}>
               Logg inn
             </Button>
-            <Button variant="secondary" ml="1rem" onClick={moveToRegisterPage}>
+            <Button variant="secondary" ml="1rem" onClick={moveToRegisterPage} tabIndex={2}>
               Bli medlem
             </Button>
           </div>
