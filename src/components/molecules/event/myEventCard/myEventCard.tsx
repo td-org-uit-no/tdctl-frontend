@@ -118,6 +118,9 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
         /* Event is not confirmed yet */
         setSpotStatus(unConfStatus);
       }
+    } else if (eventData.maxParticipants === undefined) {
+      /* Open event with no max participants */
+      setSpotStatus(confStatus);
     } else if (
       'maxParticipants' in eventData &&
       eventData.maxParticipants !== undefined
