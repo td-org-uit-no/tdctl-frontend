@@ -3,6 +3,7 @@ import styles from './adminPage.module.scss';
 import { MemberTable, EventTable } from 'components/molecules/tables';
 import Icon from 'components/atoms/icons/icon';
 
+
 const WIP = () => {
   return (
     <div style={{ height: '10vh', textAlign: 'center' }}>

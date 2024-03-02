@@ -57,6 +57,7 @@ export interface ChangePasswordPayload {
 export interface MemberUpdate {
   realName?: string;
   email?: string;
+  major?: string;
   classof?: string;
   phone?: string;
 }
