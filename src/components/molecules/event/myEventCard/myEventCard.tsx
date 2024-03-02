@@ -120,7 +120,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
       }
     } else if (
       'maxParticipants' in eventData &&
-      eventData.maxParticipants !== undefined
+      typeof eventData.maxParticipants === 'number'
     ) {
       try {
         /* Get member */
