@@ -6,6 +6,7 @@ import styles from './navbar.module.scss';
 import Menu, { MenuItem } from 'components/molecules/menu/Menu';
 import logo from 'assets/td-logo.png';
 import { Heading } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 const DefaultNavbar = () => {
   return (
@@ -77,7 +78,9 @@ const Navbar: React.FC = () => {
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
-          <img src={logo} alt="logo" onClick={moveToHomePage} />
+          <ReactRouterLink to={'/'}>
+            <img src={logo} alt="logo"/>
+          </ReactRouterLink>
         </div>
       </div>
       <div className={styles.menuContainer}>
