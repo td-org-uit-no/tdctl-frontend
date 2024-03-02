@@ -7,9 +7,6 @@ import {
   Image,
   Link,
   Text,
-  Show,
-  Divider,
-  Center,
   Box,
   Heading,
   Flex,
@@ -119,15 +116,8 @@ const Footer: React.FC = () => {
           />
         </FooterList>
       </Flex>
-      <Show below="lg">
-        <Center>
-          <Divider my=".5rem" width="80vw" />
-        </Center>
-      </Show>
       <SponsorBanner />
-      <Show above="lg">
-        <FooterLogos />
-      </Show>
+      <FooterLogos />
     </Flex>
   );
 };
