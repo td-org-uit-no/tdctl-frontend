@@ -1,10 +1,11 @@
 import styles from './footerLogos.module.scss';
-import { FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { FaDiscord, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { Icon } from '@iconify/react';
 import Modal from 'components/molecules/modal/Modal';
 import discordInvite from 'assets/IFI-discord-invite.png';
 import useModal from 'hooks/useModal';
+import { Show } from '@chakra-ui/react';
 
 const FooterLogos = () => {
   const { isOpen, onOpen, onClose } = useModal();
@@ -33,24 +34,43 @@ const FooterLogos = () => {
               }}
             />
           </div>
-          <div className={styles.logoItem}>
-            <Icon
-              icon="simple-icons:discord"
-              width={'2.5em'}
-              height={'2.5em'}
-              color={'#F8D2CC'}
-              onClick={onOpen}
-            />
-            <Modal
-              title="Invitasjon til vår discord"
-              isOpen={isOpen}
-              onClose={onClose}
-              minWidth={45}>
-              <div>
-                <img src={discordInvite} alt="Link to discord" />
-              </div>
-            </Modal>
-          </div>
+          <Show above="lg">
+            <div className={styles.logoItem}>
+              <Icon
+                icon="simple-icons:discord"
+                width={'2.5em'}
+                height={'2.5em'}
+                color={'#F8D2CC'}
+                onClick={onOpen}
+              />
+              <Modal
+                title="Invitasjon til vår discord! Klikk eller scan"
+                isOpen={isOpen}
+                onClose={onClose}
+                minWidth={45}>
+                <div>
+                  <a href="https://discord.com/invite/F4r4nzGWZE">
+                    {' '}
+                    <img src={discordInvite} alt="Link to discord" />
+                  </a>
+                </div>
+              </Modal>
+            </div>
+          </Show>
+          <Show below="lg">
+            <div className={styles.logoItem}>
+              <FaDiscord
+                size={'2.5em'}
+                color={'#F8D2CC'}
+                onClick={() => {
+                  window.open(
+                    'https://discord.com/invite/F4r4nzGWZE',
+                    '_blank'
+                  );
+                }}
+              />
+            </div>
+          </Show>
           <div className={styles.logoItem}>
             <FaFacebook
               size={'2.5em'}
