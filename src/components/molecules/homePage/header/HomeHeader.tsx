@@ -18,7 +18,7 @@ const HomeHeader = () => {
         <div className={styles.imageContainer}>
           <img src={logo} alt="" />
         </div>
-        {!authenticated && ( 
+        {!authenticated && (
           <div className={styles.buttonWrapper}>
             <Button variant="primary" as={ReactRouterLink} to={'/login'}>
               Logg inn
