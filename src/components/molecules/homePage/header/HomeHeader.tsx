@@ -7,7 +7,6 @@ import { AuthenticateContext } from 'contexts/authProvider';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 const HomeHeader = () => {
-  const history = useHistory();
   const { authenticated } = useContext(AuthenticateContext);
 
   return (
