@@ -70,10 +70,6 @@ const Navbar: React.FC = () => {
   const { authenticated } = useContext(AuthenticateContext);
   const history = useHistory();
 
-  const moveToHomePage = () => {
-    history.push('/');
-  };
-
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
