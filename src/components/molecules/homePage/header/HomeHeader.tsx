@@ -4,17 +4,19 @@ import logo from 'assets/td-full-logo.png';
 import styles from './homeHeader.module.scss';
 import { useHistory } from 'react-router-dom';
 import { AuthenticateContext } from 'contexts/authProvider';
+import { useNavigateWithNewTab } from 'hooks/useNavigateWithNewTab';
 
 const HomeHeader = () => {
   const history = useHistory();
+  const navigate = useNavigateWithNewTab();
   const { authenticated } = useContext(AuthenticateContext);
 
-  const moveToLoginPage = () => {
-    history.push('/login');
+  const moveToLoginPage = (event : React.MouseEvent<HTMLButtonElement>) => {
+    navigate('/login', event);
   };
 
-  const moveToRegisterPage = () => {
-    history.push('/registrer');
+  const moveToRegisterPage = (event : React.MouseEvent<HTMLButtonElement>) => {
+    navigate('/registrer', event);
   };
 
   return (
@@ -23,7 +25,7 @@ const HomeHeader = () => {
         <div className={styles.imageContainer}>
           <img src={logo} alt="" />
         </div>
-        {!authenticated && (
+        {!authenticated && ( 
           <div className={styles.buttonWrapper}>
             <Button variant="primary" onClick={moveToLoginPage}>
               Logg inn
