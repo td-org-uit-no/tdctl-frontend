@@ -7,6 +7,8 @@ import Textarea from 'components/atoms/textarea/Textarea';
 import { Button } from '@chakra-ui/react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { Text } from '@chakra-ui/react';
+import { ListItem, List, ListIcon } from '@chakra-ui/react';
+import { MdCheckCircle, MdBlock } from 'react-icons/md';
 import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
 import {
   addressValidator,
@@ -446,22 +448,22 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
           <p>{participantsHeader}</p>
           {participantsText}
           {role === 'admin' && (
-            <ol>
-              {event.participants?.map((p, i, arr) => {
-                return (
-                  <li
-                    key={i}
-                    style={{
-                      color:
-                        (event.maxParticipants ?? arr.length) < i + 1
-                          ? 'red'
-                          : 'none',
-                    }}>
-                    {p.realName}
-                  </li>
-                );
-              })}
-            </ol>
+            <div style={{ overflowY: 'scroll', maxHeight: '90vh' }}>
+              <List spacing={1}>
+                {event.participants?.map((p, i, arr) => {
+                  return (
+                    <ListItem key={i}>
+                      {(event.maxParticipants ?? arr.length) < i + 1 ? (
+                        <ListIcon as={MdBlock} color="red" />
+                      ) : (
+                        <ListIcon as={MdCheckCircle} color="green" />
+                      )}
+                      {p.realName}
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </div>
           )}
         </div>
       </div>
