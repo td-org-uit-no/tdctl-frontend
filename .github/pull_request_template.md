@@ -1,5 +1,7 @@
 # :gem: Changes
 
+Closes [Issue number]
+
 <!-- Explain what you are changing and WHY you are changing it.
 Use a list to express the changes if there are multiple:
 - A change
