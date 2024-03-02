@@ -1,7 +1,7 @@
 import React from 'react';
 import './horizontal.scss';
 import { Event } from 'models/apiModels';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import { transformDate } from 'utils/timeConverter';
 
@@ -13,7 +13,8 @@ const HorizontalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
   };
 
   return (
-    <div className="landscapeView" onClick={moveToEventPage}>
+    <>
+    <Link to={`event/${eventData.eid}`} className="landscapeView">
       <div className="landscapeViewContainer">
         <div className="landscapeViewDate">
           <p>{transformDate(new Date(eventData.date))}</p>
@@ -30,7 +31,8 @@ const HorizontalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
           <EventHeader id={eventData.eid} />
         </div>
       </div>
-    </div>
+    </Link>
+  </>
   );
 };
 

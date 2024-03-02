@@ -1,19 +1,14 @@
 import React from 'react';
 import { Event } from 'models/apiModels';
-import { useHistory } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import Icon from 'components/atoms/icons/icon';
 import { transformDate } from 'utils/timeConverter';
 import { Box, Center, Flex, HStack, Heading, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
-  const history = useHistory();
-
-  const moveToEventPage = () => {
-    history.push(`event/${eventData.eid}`);
-  };
-
-  return (
+ return (
+  <>
     <Center
       bg={'slate.600'}
       rounded={'xl'}
@@ -22,7 +17,10 @@ const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
       cursor={'pointer'}
       height={'100%'}
       width={'100%'}
-      onClick={moveToEventPage}>
+      as={Link}
+      to={`/event/${eventData.eid}`}
+      >
+
       <Flex direction={'column'} justify={'space-evenly'} w={'80%'} h={'100%'}>
         <Heading size={'sm'} pt={'.5rem'} pb={0} m={0}>
           {eventData.title}
@@ -52,6 +50,8 @@ const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
         </Flex>
       </Flex>
     </Center>
+    {/* </Link> */}
+  </>
   );
 };
 
