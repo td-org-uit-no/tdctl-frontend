@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
           <ReactRouterLink to={'/'}>
-            <img src={logo} alt="logo"/>
+            <img src={logo} alt="logo" />
           </ReactRouterLink>
         </div>
       </div>
