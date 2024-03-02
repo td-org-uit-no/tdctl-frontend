@@ -25,7 +25,7 @@ const HomeHeader = () => {
         </div>
         {!authenticated && (
           <div className={styles.buttonWrapper}>
-            <Button variant="primary" onClick={moveToLoginPage}>
+            <Button variant="primary" onClick={moveToLoginPage} tabIndex={1}>
               Logg inn
             </Button>
             <Button variant="secondary" ml="1rem" onClick={moveToRegisterPage}>
