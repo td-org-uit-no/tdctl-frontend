@@ -10,8 +10,6 @@ const HomeHeader = () => {
   const history = useHistory();
   const { authenticated } = useContext(AuthenticateContext);
 
-
-
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerWrapper}>
@@ -20,10 +18,19 @@ const HomeHeader = () => {
         </div>
         {!authenticated && (
           <div className={styles.buttonWrapper}>
-            <Button variant="primary" as={ReactRouterLink} to={'/login'}>
+            <Button
+              variant="primary"
+              tabIndex={1}
+              as={ReactRouterLink}
+              to={'/login'}>
               Logg inn
             </Button>
-            <Button variant="secondary" ml="1rem" as={ReactRouterLink} to={'/registrer'} >
+            <Button
+              variant="secondary"
+              ml="1rem"
+              tabIndex={2}
+              as={ReactRouterLink}
+              to={'/registrer'}>
               Bli medlem
             </Button>
           </div>
