@@ -1,7 +1,7 @@
 import React from 'react';
 import './horizontal.scss';
 import { Event } from 'models/apiModels';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import EventHeader from '../../eventHeader/EventHeader';
 import { transformDate } from 'utils/timeConverter';
 
