@@ -50,7 +50,6 @@ const VerticalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
         </Flex>
       </Flex>
     </Center>
-    {/* </Link> */}
   </>
   );
 };
