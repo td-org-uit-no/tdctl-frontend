@@ -6,12 +6,6 @@ import EventHeader from '../../eventHeader/EventHeader';
 import { transformDate } from 'utils/timeConverter';
 
 const HorizontalView: React.FC<{ eventData: Event }> = ({ eventData }) => {
-  const history = useHistory();
-
-  const moveToEventPage = () => {
-    history.push(`event/${eventData.eid}`);
-  };
-
   return (
     <>
       <Link to={`event/${eventData.eid}`} className="landscapeView">
