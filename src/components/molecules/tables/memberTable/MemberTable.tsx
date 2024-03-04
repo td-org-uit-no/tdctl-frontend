@@ -228,11 +228,11 @@ const MemberTable = () => {
 
     const accordianMemberList = () => {
         return (
-            <Accordion allowMultiple >
+            <Accordion allowMultiple color="red">
                     <Table variant="simple">
                         <Thead>
                             <Tr>
-                                <Th>More</Th>
+                                <Th id="Th">More</Th>
                                 <Th>Name</Th>
                                 <Th>E-mail</Th>
                                 <Th>Class of</Th>
