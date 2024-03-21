@@ -21,6 +21,7 @@ import {
   AboutPage,
   NewStudentsPage,
   StatsPage,
+  TDBytesPage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
@@ -65,6 +66,7 @@ const App: React.FC = () => {
             />
             <Route path="/about-us" component={AboutPage} />
             <Route path="/new-student" component={NewStudentsPage} />
+            <Route path="/tdbytes" component={TDBytesPage} />
             <Route path="/" component={HomePage} />
           </Switch>
         </AnalyticsProvider>
