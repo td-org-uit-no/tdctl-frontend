@@ -182,3 +182,13 @@ export interface IVisits {
   count: number;
   date: String;
 }
+
+export interface ProductSuggestionPayload {
+  product: string;
+}
+
+export interface ProductSuggestion {
+  product: string;
+  timestamp: Date;
+  memberId: string;
+}
