@@ -34,6 +34,12 @@ const theme = extendTheme(
       inputBorder: '#2f2c45',
     },
     components: {
+      // TODO: Somehow get global card styles to work
+      Card: {
+        baseStyle: {
+          backgroundColor: 'slate.600',
+        },
+      },
       Button: {
         baseStyle: {
           border: '1px solid',
@@ -66,6 +72,12 @@ const theme = extendTheme(
           sm: {
             fontSize: '.8rem',
           },
+        },
+      },
+      CardBody: {
+        baseStyle: {
+          borderRadius: '99999px',
+          background: 'red.td',
         },
       },
       Link: {
