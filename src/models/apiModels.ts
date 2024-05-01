@@ -190,5 +190,5 @@ export interface ProductSuggestionPayload {
 export interface ProductSuggestion {
   product: string;
   timestamp: Date;
-  memberId: string;
+  username: string;
 }

@@ -12,15 +12,16 @@ import {
   CardHeader,
   Button,
   Divider,
+  Link,
 } from '@chakra-ui/react';
 import Footer from 'components/molecules/footer/Footer';
 import useTitle from 'hooks/useTitle';
 import tdbytesQR from 'assets/tdbytes-qr.png';
 import tdbytesMap from 'assets/tdbytes-location.png';
 import TextField from 'components/atoms/textfield/Textfield';
-import { useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthenticateContext } from 'contexts/authProvider';
+import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import useForm from 'hooks/useForm';
 import { useToast } from 'hooks/useToast';
 import { ProductSuggestionPayload } from 'models/apiModels';
@@ -29,7 +30,7 @@ import { addSuggestion } from 'api/kiosk';
 const TDBytesPage = () => {
   useTitle('TD Bytes');
   const history = useHistory();
-  const { authenticated } = useContext(AuthenticateContext);
+  const { authenticated, role } = useContext(AuthenticateContext);
   const { addToast } = useToast();
 
   const moveToLoginPage = () => {
@@ -187,6 +188,16 @@ const TDBytesPage = () => {
                 </>
               )}
             </Flex>
+            {role === Roles.admin && (
+              <Box mt=".5rem">
+                <Link
+                  as={RouterLink}
+                  variant="secondary"
+                  to="/tdbytes/suggestions">
+                  Gå til forslagsoversikt
+                </Link>
+              </Box>
+            )}
           </CardBody>
         </Card>
       </Center>
