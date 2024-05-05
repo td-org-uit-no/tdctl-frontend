@@ -188,6 +188,7 @@ export interface ProductSuggestionPayload {
 }
 
 export interface ProductSuggestion {
+  id: string;
   product: string;
   timestamp: Date;
   username: string;
