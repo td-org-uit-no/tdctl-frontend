@@ -67,10 +67,7 @@ const App: React.FC = () => {
             />
             <Route path="/about-us" component={AboutPage} />
             <Route path="/new-student" component={NewStudentsPage} />
-            <AdminRoute
-              path="/tdbytes/suggestions"
-              component={SuggestionsPage}
-            />
+            <Route path="/tdbytes/suggestions" component={SuggestionsPage} />
             <Route path="/tdbytes" component={TDBytesPage} />
             <Route path="/" component={HomePage} />
           </Switch>

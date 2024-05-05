@@ -305,6 +305,11 @@ const MemberTable = () => {
                   value: 'admin',
                 },
                 {
+                  key: 'kiosk_admin',
+                  label: 'Kiosk admin',
+                  value: 'kiosk_admin',
+                },
+                {
                   key: 'member',
                   label: 'Member',
                   value: 'member',

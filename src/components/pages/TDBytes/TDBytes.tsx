@@ -33,6 +33,8 @@ const TDBytesPage = () => {
   const { authenticated, role } = useContext(AuthenticateContext);
   const { addToast } = useToast();
 
+  const hasAuthorization = role === Roles.admin || role === Roles.kiosk_admin;
+
   const moveToLoginPage = () => {
     history.push('/login');
   };
@@ -188,7 +190,7 @@ const TDBytesPage = () => {
                 </>
               )}
             </Flex>
-            {role === Roles.admin && (
+            {hasAuthorization && (
               <Box mt=".5rem">
                 <Link
                   as={RouterLink}
