@@ -137,9 +137,9 @@ const TDBytesPage = () => {
                 lættis på.
               </Text>
               <Text>
-                Kontoret skal i utgangspunktet være åpent i skoletidene, men
-                dersom du finner det låst har alle i TD-styret tilgang til å
-                låse det opp. Finner du en av oss kan vi swipe deg inn!
+                Kontoret skal være åpent for alle studenter ved IFI, på lik
+                linje med labene. Swipe deg inn med studentkortet og ta deg en
+                kikk!
               </Text>
             </Box>
           </Flex>
