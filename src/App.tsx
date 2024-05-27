@@ -67,7 +67,10 @@ const App: React.FC = () => {
             />
             <Route path="/about-us" component={AboutPage} />
             <Route path="/new-student" component={NewStudentsPage} />
-            <Route path="/tdbytes/suggestions" component={SuggestionsPage} />
+            <PrivateRoute
+              path="/tdbytes/suggestions"
+              component={SuggestionsPage}
+            />
             <Route path="/tdbytes" component={TDBytesPage} />
             <Route path="/" component={HomePage} />
           </Switch>
