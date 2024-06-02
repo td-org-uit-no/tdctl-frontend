@@ -123,10 +123,10 @@ const SuggestionsPage = () => {
                   suggestions.map((suggestion) => (
                     <Tr key={suggestion.timestamp.toString()}>
                       <Td>{transformDate(new Date(suggestion.timestamp))}</Td>
-                      <Td>{suggestion.product}</Td>
+                      <Td style={{whiteSpace:"normal", wordWrap:"break-word"}}> {suggestion.product} </Td>
                       <Td>{suggestion.username}</Td>
                       {role === Roles.admin && (
-                        <Td maxW="42px">
+                        <Td maxW="100%">
                           <Icon
                             size={2}
                             type="trash"
