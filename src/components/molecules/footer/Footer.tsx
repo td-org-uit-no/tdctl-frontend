@@ -85,14 +85,12 @@ const Footer: React.FC = () => {
   // uses margin auto, needs parent page to have minHeight=100vh if content is not over 100vh
   return (
     <Flex
-      my="0rem"
+      my="2rem"
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
       mt="auto"
-      style={{background: theme.colors.darkerBackground, paddingTop: '2rem'}}>
-      <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}
-            
-        >
+      style={{ background: theme.colors.darkerBackground, paddingTop: '2rem' }}>
+      <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'Om TD'} path={'/about-us'} />
           <FooterItem
