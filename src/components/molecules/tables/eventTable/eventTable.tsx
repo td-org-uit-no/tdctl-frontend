@@ -98,11 +98,23 @@ const EventTable = () => {
         return (
           <>
             {active ? (
-              <Icon type="calendar-check" cursor="default" color="green" size={2}></Icon>
-            ) : (dateOri.getTime() > dateNow2.getTime()) ? (
-              <Icon type="calendar-day" cursor="default" color="orange" size={2}></Icon>
+              <Icon
+                type="calendar-check"
+                cursor="default"
+                color="green"
+                size={2}></Icon>
+            ) : dateOri.getTime() > dateNow2.getTime() ? (
+              <Icon
+                type="calendar-day"
+                cursor="default"
+                color="orange"
+                size={2}></Icon>
             ) : (
-              <Icon type="calendar-times" cursor="default" color="red" size={2}></Icon>
+              <Icon
+                type="calendar-times"
+                cursor="default"
+                color="red"
+                size={2}></Icon>
             )}
           </>
         );
