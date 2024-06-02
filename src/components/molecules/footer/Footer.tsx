@@ -11,7 +11,7 @@ import {
   Heading,
   Flex,
 } from '@chakra-ui/react';
-
+import theme from '../../../theme';
 interface FooterListProps {
   header: string;
   children?: React.ReactNode;
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
       mt="auto"
-      style={{background: '#11131d', paddingTop: '2rem'}}>
+      style={{background: theme.colors.darkerBackground, paddingTop: '2rem'}}>
       <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}
             
         >

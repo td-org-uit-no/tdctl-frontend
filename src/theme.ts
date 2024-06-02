@@ -23,6 +23,7 @@ const theme = extendTheme(
         td: '#C7323A' /* TD red */,
       },
       primary: '#ffffff',
+      darkerBackground: '#11131d', 
       slate: {
         500: '#444658',
         600: '#2b2c3d',
