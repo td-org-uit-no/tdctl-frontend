@@ -70,8 +70,25 @@ const AdminPage = () => {
         />
       </div>
       <div className={styles.content}>
-        <h4>{componentKey}</h4>
-        <div style={{ width: '100%', display: 'flex' }}>
+      <div>
+          <h4 style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>{componentKey}</span>
+            {componentKey === 'Events' && (
+              <span style={{display: 'flex', flexDirection: 'row'}}>
+                <p style={{ fontSize: '20px', margin: '0 8px' }}>
+                  Active: <Icon type="calendar-check" color="green" style={{ fontSize: '20px', cursor: 'default'}}/>
+                </p>
+                <p style={{ fontSize: '20px', margin: '0 8px' }}>
+                  Upcoming: <Icon type="calendar-day" color="orange" style={{ fontSize: '20px', cursor: 'default' }}/>
+                </p>
+                <p style={{ fontSize: '20px', margin: '0 8px' }}>
+                  Inactive: <Icon type="calendar-times" color="red" style={{ fontSize: '20px', cursor: 'default' }}/>
+                </p>
+              </span>
+            )}
+          </h4>
+        </div>
+        <div style={{ width: '100%', display: 'flex', gap: '5rem', justifyContent: 'space-between'}}>
           {components[componentKey]}
         </div>
       </div>
