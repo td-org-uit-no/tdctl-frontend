@@ -70,25 +70,55 @@ const AdminPage = () => {
         />
       </div>
       <div className={styles.content}>
-      <div>
-          <h4 style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <h4
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
             <span>{componentKey}</span>
             {componentKey === 'Events' && (
-              <span style={{display: 'flex', flexDirection: 'row'}}>
+              <span style={{ display: 'flex', flexDirection: 'row' }}>
                 <p style={{ fontSize: '20px', margin: '0 8px' }}>
-                  Active: <Icon type="calendar-check" color="green" style={{ fontSize: '20px', cursor: 'default'}}/>
+                  Active:{' '}
+                  <Icon
+                    type="calendar-check"
+                    cursor="default"
+                    color="green"
+                    style={{ fontSize: '20px'}}
+                    />
                 </p>
                 <p style={{ fontSize: '20px', margin: '0 8px' }}>
-                  Upcoming: <Icon type="calendar-day" color="orange" style={{ fontSize: '20px', cursor: 'default' }}/>
+                  Upcoming:{' '}
+                  <Icon
+                    type="calendar-day"
+                    cursor="default"
+                    color="orange"
+                    style={{ fontSize: '20px'}}
+                    />
                 </p>
                 <p style={{ fontSize: '20px', margin: '0 8px' }}>
-                  Inactive: <Icon type="calendar-times" color="red" style={{ fontSize: '20px', cursor: 'default' }}/>
+                  Inactive:{' '}
+                  <Icon
+                    type="calendar-times"
+                    cursor="default"
+                    color="red"
+                    style={{ fontSize: '20px' }}
+                  />
                 </p>
               </span>
             )}
           </h4>
         </div>
-        <div style={{ width: '100%', display: 'flex', gap: '5rem', justifyContent: 'space-between'}}>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            gap: '5rem',
+            justifyContent: 'space-between',
+          }}>
           {components[componentKey]}
         </div>
       </div>
