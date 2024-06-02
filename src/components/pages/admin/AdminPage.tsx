@@ -87,8 +87,8 @@ const AdminPage = () => {
                     type="calendar-check"
                     cursor="default"
                     color="green"
-                    style={{ fontSize: '20px'}}
-                    />
+                    style={{ fontSize: '20px' }}
+                  />
                 </p>
                 <p style={{ fontSize: '20px', margin: '0 8px' }}>
                   Upcoming:{' '}
@@ -96,8 +96,8 @@ const AdminPage = () => {
                     type="calendar-day"
                     cursor="default"
                     color="orange"
-                    style={{ fontSize: '20px'}}
-                    />
+                    style={{ fontSize: '20px' }}
+                  />
                 </p>
                 <p style={{ fontSize: '20px', margin: '0 8px' }}>
                   Inactive:{' '}
