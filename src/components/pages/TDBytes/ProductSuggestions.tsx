@@ -123,7 +123,14 @@ const SuggestionsPage = () => {
                   suggestions.map((suggestion) => (
                     <Tr key={suggestion.timestamp.toString()}>
                       <Td>{transformDate(new Date(suggestion.timestamp))}</Td>
-                      <Td style={{whiteSpace:"normal", wordWrap:"break-word"}}> {suggestion.product} </Td>
+                      <Td
+                        style={{
+                          whiteSpace: 'normal',
+                          wordWrap: 'break-word',
+                        }}>
+                        {' '}
+                        {suggestion.product}{' '}
+                      </Td>
                       <Td>{suggestion.username}</Td>
                       {role === Roles.admin && (
                         <Td maxW="100%">
