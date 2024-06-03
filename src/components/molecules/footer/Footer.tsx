@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
   // uses margin auto, needs parent page to have minHeight=100vh if content is not over 100vh
   return (
     <Flex
-      my="2rem"
+      my="0rem"
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
       mt="auto"
