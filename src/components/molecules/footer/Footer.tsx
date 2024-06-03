@@ -89,7 +89,8 @@ const Footer: React.FC = () => {
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
       mt="auto"
-      style={{ background: theme.colors.darkerBackground, paddingTop: '2rem' }}>
+      bgColor="slate.900"
+      style={{ paddingTop: '2rem' }}>
       <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'Om TD'} path={'/about-us'} />
