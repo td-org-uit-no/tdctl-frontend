@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker_command=""
 path=".docker/docker-compose.development.yml" 
