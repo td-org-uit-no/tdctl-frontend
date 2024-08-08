@@ -1,16 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import hsp from 'assets/bekk-logo.svg';
 import FooterLogos from './footerLogos/FooterLogos';
-import {
-  VStack,
-  Image,
-  Link,
-  Text,
-  Box,
-  Heading,
-  Flex,
-} from '@chakra-ui/react';
+import { Link, Text, Box, Heading, Flex } from '@chakra-ui/react';
 
 interface FooterListProps {
   header: string;
@@ -57,27 +48,6 @@ const FooterItem: React.FC<FooterItemProps> = ({
         )}
       </Text>
     </Box>
-  );
-};
-
-const SponsorBanner = () => {
-  return (
-    <Link
-      href="https://www.bekk.no/"
-      isExternal
-      _hover={{ textDecoration: 'none' }}
-      pt={{ base: '1.5rem', md: 0 }}>
-      <VStack>
-        <Image
-          src={hsp}
-          alt="BEKK logo"
-          height={{ base: '100px', md: '150px' }}
-        />
-        <Text size="xs" mb={0} mt=".5rem" textColor="slate.500">
-          Hovedsamarbeidspartner
-        </Text>
-      </VStack>
-    </Link>
   );
 };
 
@@ -132,7 +102,6 @@ const Footer: React.FC = () => {
           />
         </FooterList>
       </Flex>
-      <SponsorBanner />
       <FooterLogos />
     </Flex>
   );
