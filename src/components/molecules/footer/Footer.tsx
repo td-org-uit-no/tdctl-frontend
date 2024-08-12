@@ -1,19 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import hsp from 'assets/bekk-logo.svg';
 import FooterLogos from './footerLogos/FooterLogos';
-import {
-  VStack,
-  Image,
-  Link,
-  Text,
-  Show,
-  Divider,
-  Center,
-  Box,
-  Heading,
-  Flex,
-} from '@chakra-ui/react';
+import { Link, Text, Box, Heading, Flex } from '@chakra-ui/react';
 
 interface FooterListProps {
   header: string;
@@ -63,40 +51,35 @@ const FooterItem: React.FC<FooterItemProps> = ({
   );
 };
 
-const SponsorBanner = () => {
-  return (
-    <Link
-      href="https://www.bekk.no/"
-      isExternal
-      _hover={{ textDecoration: 'none' }}
-      pt={{ base: '1.5rem', md: 0 }}>
-      <VStack>
-        <Image
-          src={hsp}
-          alt="BEKK logo"
-          height={{ base: '100px', md: '150px' }}
-        />
-        <Text size="xs" mb={0} mt=".5rem" textColor="slate.500">
-          Hovedsamarbeidspartner
-        </Text>
-      </VStack>
-    </Link>
-  );
-};
-
 const Footer: React.FC = () => {
   // uses margin auto, needs parent page to have minHeight=100vh if content is not over 100vh
   return (
     <Flex
-      my="2rem"
+      my="0rem"
       w="100%"
       direction={{ base: 'column', lg: 'row' }}
-      mt="auto">
+      mt="auto"
+      bgColor="slate.900"
+      style={{ paddingBottom: '1rem', paddingTop: '2rem' }}>
       <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'Om TD'} path={'/about-us'} />
+          <FooterItem
+            label={'TD kalender'}
+            path={
+              'https://calendar.google.com/calendar/u/1?cid=Y19mNDQ4Y2I1MDU0ODIwZGQyMDE0Yjk1NTkzNWZlZDZmMTA1YTdkNzBlZGEwM2NhNDAzMDc2ODMzNmI5N2Y1NjlmQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20'
+            }
+            isExternal
+          />
           <FooterItem label={'For nye studenter'} path={'/new-student'} />
           <FooterItem label={'Stillingsutlysninger'} path={'/jobs'} />
+          <FooterItem
+            label={'Bidra til utviklingen av nettsiden!'}
+            path={
+              'https://github.com/td-org-uit-no/tdctl-frontend/wiki/Getting-started'
+            }
+            isExternal
+          />
         </FooterList>
         <FooterList header={`Kontakt`}>
           <FooterItem
@@ -119,15 +102,7 @@ const Footer: React.FC = () => {
           />
         </FooterList>
       </Flex>
-      <Show below="lg">
-        <Center>
-          <Divider my=".5rem" width="80vw" />
-        </Center>
-      </Show>
-      <SponsorBanner />
-      <Show above="lg">
-        <FooterLogos />
-      </Show>
+      <FooterLogos />
     </Flex>
   );
 };

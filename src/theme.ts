@@ -28,6 +28,7 @@ const theme = extendTheme(
         600: '#2b2c3d',
         700: '#1b1e2c',
         800: '#161926',
+        900: '#11131d',
       },
       secondary: '#f8d2cc',
       inputBackground: '#272530',

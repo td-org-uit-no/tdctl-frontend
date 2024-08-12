@@ -9,7 +9,7 @@ export const AuthenticateContext = createContext({
   updateCredentials: () => {},
 });
 
-export type RoleOptions = 'unconfirmed' | 'member' | 'admin';
+export type RoleOptions = 'unconfirmed' | 'member' | 'admin' | 'kiosk_admin';
 
 interface Role {
   [key: string]: RoleOptions;
@@ -19,6 +19,7 @@ export const Roles = {
   admin: 'admin',
   member: 'member',
   unconfirmed: 'unconfirmed',
+  kiosk_admin: 'kiosk_admin',
 } as Role;
 
 interface IAuthProvider {

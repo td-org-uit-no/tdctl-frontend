@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthenticateContext, Roles } from 'contexts/authProvider';
 import { logout } from 'api';
 import styles from './navbar.module.scss';
@@ -35,6 +35,7 @@ const AuthNavbar = () => {
       <MenuItem label={'Profil'} path={'/profile'} />
       <MenuItem label={'Arrangementoversikt'} path={'/eventoverview'} />
       <MenuItem label={'Stillingsutlysninger'} path={'/jobs'} />
+      <MenuItem label={'TD Bytes'} path={'/tdbytes'} />
       {role === Roles.admin && (
         <MenuItem label={'Opprett Arrangement'} path={'/create-event'} />
       )}
@@ -67,17 +68,14 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
 
 const Navbar: React.FC = () => {
   const { authenticated } = useContext(AuthenticateContext);
-  const history = useHistory();
-
-  const moveToHomePage = () => {
-    history.push('/');
-  };
 
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
-          <img src={logo} alt="logo" onClick={moveToHomePage} />
+          <Link to={'/'}>
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
       </div>
       <div className={styles.menuContainer}>

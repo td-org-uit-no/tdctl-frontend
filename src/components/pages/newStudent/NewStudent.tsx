@@ -24,6 +24,7 @@ import FAQ from './FAQ';
 import About from '../aboutTD/About';
 import faddere from 'assets/new-student/faddere.jpg';
 import pils from 'assets/new-student/pils-crop.jpeg';
+import agendaImage from 'assets/new-student/fadderuka-agenda.png';
 import { useContext } from 'react';
 
 const FadderUka = () => {
@@ -35,15 +36,16 @@ const FadderUka = () => {
         justify="space-between"
         direction={{ base: 'column', lg: 'row' }}>
         <Text width={{ base: '100%', lg: '50%' }}>
-          Fadderordningen ved UiT heter DebutUKA, og denne tilbyr et morsomt,
-          spennende og inkluderende opplegg for å kickstarte studiestarten, for
-          alle nye studenter på universitetet. Gjennom to uker er det lagt opp
-          til mange forskjellige aktiviteter som omvisning på campus, konserter
-          og den tradisjonelle{' '}
-          <span style={{ fontStyle: 'italic' }}>Lysløypa.</span> DebutUKA varer
-          i år fra 14. - 28. August. Fullstendig program finner du{' '}
-          <Link href="https://debutuka.no/nb/program" isExternal>
-            her.
+          Fadderordningen ved UiT tilbyr et morsomt, spennende og inkluderende
+          opplegg for å kickstarte studiestarten, for alle nye studenter på
+          universitetet. Gjennom to uker er det lagt opp til mange forskjellige
+          aktiviteter som omvisning på campus, konserter og lavterskel
+          idrettsarrangementer. Fadderuka varer i år fra 12. - 26. August.
+          Fullstendig program finner du{' '}
+          <Link
+            href="https://samskipnaden.no/kalenderen?campus=Troms%25C3%25B8&topic=Fadderuka"
+            isExternal>
+            hos Samskipnaden.
           </Link>
         </Text>
         <Box width={{ base: '100%', lg: '45%' }}>
@@ -73,9 +75,10 @@ const FadderUka = () => {
           I tillegg til programmet fra DebutUKA tilbyr vi i TD også et eget
           opplegg for nye informatikkstudenter. I år arrangeres blant annet
           TD-dagen, hvor du får en god introduksjon til din nye linjeforening,
-          og TD-fest på pust med flytende badstu og forfriskninger servert av
-          vårt eget bryggelag, TD på Tapp. Disse vil du ikke gå glipp av! Lag
-          deg en bruker og sjekk ut{' '}
+          en smakebit av hardwaregruppen vår IoTD, hvor du kan prøve deg på
+          lodding eller bruk av 3d-printer, samt fotballturnering og diverse
+          temafester. Disse vil du ikke gå glipp av! Lag deg en bruker og sjekk
+          ut{' '}
           <Link as={ReactRouterLink} to="/eventoverview">
             arrangementsoversikten
           </Link>{' '}
@@ -157,12 +160,16 @@ const NewStudentsPage = () => {
               isFitted>
               <TabList>
                 <Tab>Fadderuka</Tab>
+                <Tab>Program</Tab>
                 <Tab>Om TD</Tab>
                 <Tab>FAQ</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
                   <FadderUka />
+                </TabPanel>
+                <TabPanel>
+                  <Image src={agendaImage} />
                 </TabPanel>
                 <TabPanel>
                   <About />

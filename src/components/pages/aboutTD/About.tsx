@@ -153,7 +153,7 @@ const TDcommittees: React.FC = () => {
           3D-printing osv. eller bli med å arrangere faglige workshops,
           TD-talks, programmeringseventer og annen faglig aktivitet du ønsker å
           bidra til. Er dette noe som høres spennende ut? Ta kontakt med{' '}
-          <Link href="mailto:fagansvarlig@td-uit.no" color="blue.400">
+          <Link href="mailto:fagkomite@td-uit.no" color="blue.400">
             fagansvarlig.
           </Link>
         </p>
@@ -206,7 +206,7 @@ const TDBoardContactInfo: React.FC = () => {
       <TDBoardPost
         position="Fagansvarlig"
         members={['Eindride Kjersheim']}
-        mail={['fagansvarlig@td-uit.no']}
+        mail={['fagkomite@td-uit.no']}
       />
     </Flex>
   );

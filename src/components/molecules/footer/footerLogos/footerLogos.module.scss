@@ -23,6 +23,9 @@
 
 @media screen and (max-width: 800px) {
   .logosContainer {
-    display: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.5rem;
   }
 }
