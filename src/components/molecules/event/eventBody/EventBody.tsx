@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState, Suspense, lazy } from 'react';
 import styles from './eventBody.module.scss';
 import { transformDate } from 'utils/timeConverter';
 import EventButton from '../eventButton/EventButton';
@@ -25,6 +25,8 @@ import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
 import ReactMarkdown from 'react-markdown';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
+// import MarkdownEditor from 'components/atoms/markdown/MarkdownEditor';
+const Lazycomponent = lazy(() => import('components/atoms/markdown/MarkdownEditor'));
 
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
@@ -200,14 +202,35 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
               style={{ boxSizing: 'border-box', width: '100%' }}
             />
             <br />
-            <Textarea
+            <div>
+
+              <Suspense fallback={<div>Loading...</div>}>
+                <Lazycomponent
+                  name={'description'}
+                  onChange={onFieldChange}
+                  label={'Beskrivelse'}
+                  value={fields['description'].value ?? ''}
+                  error={fields['description'].error}
+                  style={{ boxSizing: 'border-box', width: '100%' }}
+                />
+              </Suspense>
+            </div>
+            {/* <MarkdownEditor
               name={'description'}
               onChange={onFieldChange}
               label={'Beskrivelse'}
               value={fields['description'].value ?? ''}
               error={fields['description'].error}
               style={{ boxSizing: 'border-box', width: '100%' }}
-            />
+            /> */}
+            {/* <Textarea
+              name={'description'}
+              onChange={onFieldChange}
+              label={'Beskrivelse'}
+              value={fields['description'].value ?? ''}
+              error={fields['description'].error}
+              style={{ boxSizing: 'border-box', width: '100%' }}
+            /> */}
             <FileSelector
               setFile={setFile}
               text="Endre arrangementbilde"

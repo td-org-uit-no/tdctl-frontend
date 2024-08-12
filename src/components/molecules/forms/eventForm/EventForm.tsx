@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Suspense, lazy } from 'react';
 import useForm from 'hooks/useForm';
 import TextField from 'components/atoms/textfield/Textfield';
 import {
@@ -17,8 +17,9 @@ import styles from './eventForm.module.scss';
 import { Button } from '@chakra-ui/react';
 import { createEvent, uploadEventPicture } from 'api';
 import { useHistory } from 'react-router-dom';
-import Textarea from 'components/atoms/textarea/Textarea';
+// import Textarea from 'components/atoms/textarea/Textarea';
 import MarkdownEditor from 'components/atoms/markdown/MarkdownEditor';
+const Lazycomponent = lazy(() => import('components/atoms/markdown/MarkdownEditor'));
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
@@ -189,14 +190,26 @@ const EventForm = () => {
           error={fields['maxParticipants'].error}
         />
 
-        <Textarea
+        {/* <Suspense fallback={<div>Loading...</div>}>
+          <Lazycomponent
+            name={'description'}
+            label={'Beskrivelse'}
+            minWidth={25}
+            onChange={onFieldChange}
+            resize={true}
+            error={fields['description'].error}
+          />
+        </Suspense> */}
+
+
+        {/* <Textarea
           name={'description'}
           label={'Beskrivelse'}
           minWidth={25}
           onChange={onFieldChange}
           resize={true}
           error={fields['description'].error}
-        />
+        /> */}
 
         <MarkdownEditor
           name={'description'}
