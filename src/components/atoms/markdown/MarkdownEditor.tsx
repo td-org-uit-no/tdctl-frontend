@@ -104,17 +104,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   };
 
   const onClickEmoji = (EmojiObject: EmojiClickData) => {
-    const textarea = textareaRef.current;
-    if (textarea !== null) {
-      const position = textarea.selectionStart;
-      const before = textarea.value.substring(0, position);
-      const after = textarea.value.substring(position, textarea.value.length);
-
-      // Insert the new text at the cursor position
-      textarea.value = before + EmojiObject.emoji + after;
-      setInput(textarea.value);
-      textarea.selectionStart = textarea.selectionEnd =
-        position + EmojiObject.emoji.length;
+    insertText(EmojiObject.emoji, 0);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
     }
   };
 
