@@ -6,7 +6,14 @@ import React, {
 } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './markdown.module.scss';
-import { Button, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Stack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
 import { MdInsertLink } from 'react-icons/md';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
@@ -91,8 +98,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     insertText(text, 1);
   };
 
-  const insertHeader = () => {
-    const text = '### ';
+  const insertHeader = (level: number) => {
+    const text = '#'.repeat(level) + ' ';
     insertText(text, 0);
   };
 
@@ -151,13 +158,41 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             onClick={() => handleButtonClick(insertItalic)}>
             Italic
           </Button>
-          <Button
-            size="xs"
-            colorScheme="purple"
-            variant="outline"
-            onClick={() => handleButtonClick(insertHeader)}>
-            H
-          </Button>
+          <Menu>
+            <MenuButton
+              as={Button}
+              colorScheme="purple"
+              size="xs"
+              variant="outline">
+              H
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(1))}>
+                H1
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(2))}>
+                H2
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(3))}>
+                H3
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(4))}>
+                H4
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(5))}>
+                H5
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButtonClick(() => insertHeader(6))}>
+                H6
+              </MenuItem>
+            </MenuList>
+          </Menu>
           <Button
             size="xs"
             colorScheme="purple"
