@@ -1,17 +1,9 @@
-import React, { useState, ChangeEvent, TextareaHTMLAttributes, useEffect, Suspense, useRef} from 'react';
+import React, { useState, TextareaHTMLAttributes, useEffect, useRef} from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './markdown.module.scss';
 import { Button, Stack } from '@chakra-ui/react'
-import { MdInsertLink , MdFormatBold, MdFormatItalic } from "react-icons/md"
+import { MdInsertLink } from "react-icons/md"
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-// const Lazycomponent = lazy(() => import('emoji-picker-react'))
-
-
-// const Lazycomponent = React.lazy(() =>
-//   import("emoji-picker-react").then(module => {
-//     return { default: module.default };
-//   })
-// );
 
 
 interface MarkdownEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -34,18 +26,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     ...rest
 }) => {
     const [input, setInput] = useState(value ? value : "");
-    // const [input, setInput] = useState(value);
     const [isFocused, setIsFocused] = useState(false);
     // 2 is textarea default value for rows
     const [rows, setRows] = useState(2);
     const [view, setShowPreview] = useState(false); // Add state variable for toggle
     const [showEmoji, setShowEmoji] = useState(false);
-
-    // const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    //     setInput(event.target.value);
-    // };
-
-
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleButtonClick = (callback: () => void) => {
@@ -71,71 +56,45 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       }, [input, resize]);
 
     
+    const insertText = (text: string, offset: number) => {
+
+        const textarea = textareaRef.current;
+        if (textarea === null) {
+            return;
+        }
+        const position = textarea.selectionStart;
+        const before = textarea.value.substring(0, position);
+        const after = textarea.value.substring(position, textarea.value.length);
+
+        // Insert the new text at the cursor position
+        textarea.value = before + text + after;
+        setInput(textarea.value)
+        textarea.selectionStart = textarea.selectionEnd = position + text.length-offset;   
+    }
+
+
     const insertLink = () => {
-        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
-        const textarea = textareaRef.current;
-        const text = "[Display text](URL)"
-        if (textarea !== null){
-            const position = textarea.selectionStart;
-            // const end = position + text.length;
-            // textarea.setRangeText(text, position, end, 'select');
-            const before = textarea.value.substring(0, position);
-            const after = textarea.value.substring(position, textarea.value.length);
-
-            // Insert the new text at the cursor position
-            textarea.value = before + text + after;
-            setInput(textarea.value)
-            textarea.selectionStart = textarea.selectionEnd = position + text.length-1;            
-        }
+        const text = "[Display text](https://www.example.com)"
+        insertText(text, 1)
     };
+
     const insertBold = () => {
-        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
-        const textarea = textareaRef.current;
         const text = "****"
-        if (textarea !== null){
-            const position = textarea.selectionStart;
-            const before = textarea.value.substring(0, position);
-            const after = textarea.value.substring(position, textarea.value.length);
-
-            // Insert the new text at the cursor position
-            textarea.value = before + text + after;
-            setInput(textarea.value)
-            textarea.selectionStart = textarea.selectionEnd = position + text.length-2;
-        }
+        insertText(text, 2)
     };
+
     const insertItalic = () => {
-        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
-        const textarea = textareaRef.current;
         const text = "**"
-        if (textarea !== null){
-            const position = textarea.selectionStart;
-            const before = textarea.value.substring(0, position);
-            const after = textarea.value.substring(position, textarea.value.length);
-
-            // Insert the new text at the cursor position
-            textarea.value = before + text + after;
-            setInput(textarea.value)
-            textarea.selectionStart = textarea.selectionEnd = position + text.length-1;
-        }
+        insertText(text, 1)
     };
-    const insertHeader = () => {
-        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
-        const textarea = textareaRef.current;
-        const text = "### "
-        if (textarea !== null){
-            const position = textarea.selectionStart;
-            const before = textarea.value.substring(0, position);
-            const after = textarea.value.substring(position, textarea.value.length);
 
-            // Insert the new text at the cursor position
-            textarea.value = before + text + after;
-            setInput(textarea.value)
-            textarea.selectionStart = textarea.selectionEnd = position + text.length;
-        }
+    const insertHeader = () => {
+        const text = "### "
+        insertText(text, 0)
     };
 
     const onClickEmoji = (EmojiObject: EmojiClickData) => {
-        const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        const textarea = textareaRef.current;
         if (textarea !== null){
             const position = textarea.selectionStart;
             const before = textarea.value.substring(0, position);
@@ -151,11 +110,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     
 
     return (
-        <div className={styles.markdown_container}>
+        <div className={styles.markdownContainer}>
 
-            
-
-            <div className={styles.fuck}>
+            <div className={styles.buttonContainer}>
                 <Stack direction='row' spacing={2} justify={'space-between'}>
                     <Button size='xs' colorScheme='purple' variant={view ? ('outline'):('solid')} onClick={() => setShowPreview(false)}>
                         Write
@@ -174,14 +131,13 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
             </div>
             <div className={styles.container}>
-                {/* <Stack direction='row' spacing={2} justify={'end'}>
-                </Stack> */}
+
+                {label && <label className={getLabelStyle()}>{label}</label>}
 
                 {view ? ( // Conditionally render markdown or preview based on toggle state
                     <ReactMarkdown className={styles.preview}>{input}</ReactMarkdown>
                     ) : (<div className={styles.inputContainer}>
                         <textarea
-                            id='myEditor'
                             ref={textareaRef}
                             style={{
                                 maxWidth: maxWidth ? maxWidth + 'ch' : '',
@@ -196,15 +152,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                                 setInput(e.target.value);
                                 onChange && onChange(e);
                               }}
-                            // placeholder="Beskrivelse"
-                            // cols={50}
+                            cols={50}
                             {...rest}
                             />
                     </div>)
                 }
-                {label && <label className={getLabelStyle()}>{label}</label>}
-                
-
                 
                 {showEmoji ? (
                     <div style={{display: 'flex'}}>
@@ -214,12 +166,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                         <EmojiPicker onEmojiClick={onClickEmoji} />
                     </div>)
                 }
-
-                
-                {/* <Suspense fallback={<div>Loading...</div>}>
-                    <Lazycomponent/>
-                </Suspense> */}
-                
+         
 
                 {error && (
                     <div className={styles.errors}>
@@ -230,9 +177,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                 )}
                 
             </div>
-            {/* <Suspense fallback={<div>Loading...</div>}>
-                <Lazycomponent/>
-            </Suspense> */}
         </div>
     );
 };
