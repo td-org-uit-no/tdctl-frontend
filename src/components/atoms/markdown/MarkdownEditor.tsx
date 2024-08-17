@@ -224,7 +224,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
         {showEmoji ? (
           <div style={{ display: 'flex' }}>
-            <EmojiPicker theme={Theme.AUTO} lazyLoadEmojis={true} onEmojiClick={onClickEmoji} />
+            <EmojiPicker
+              theme={Theme.AUTO}
+              lazyLoadEmojis={true}
+              onEmojiClick={onClickEmoji}
+            />
           </div>
         ) : (
           <div style={{ display: 'none' }}>
