@@ -15,7 +15,7 @@ import {
   MenuItem,
 } from '@chakra-ui/react';
 import { MdInsertLink } from 'react-icons/md';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import EmojiPicker, { EmojiClickData, Theme } from 'emoji-picker-react';
 
 interface MarkdownEditorProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -224,7 +224,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
         {showEmoji ? (
           <div style={{ display: 'flex' }}>
-            <EmojiPicker onEmojiClick={onClickEmoji} />
+            <EmojiPicker theme={Theme.AUTO} lazyLoadEmojis={true} onEmojiClick={onClickEmoji} />
           </div>
         ) : (
           <div style={{ display: 'none' }}>
