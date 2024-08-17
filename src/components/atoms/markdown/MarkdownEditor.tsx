@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, TextareaHTMLAttributes, useEffect, Suspense} from 'react';
+import React, { useState, ChangeEvent, TextareaHTMLAttributes, useEffect, Suspense, useRef} from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './markdown.module.scss';
 import { Button, Stack } from '@chakra-ui/react'
@@ -7,11 +7,11 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 // const Lazycomponent = lazy(() => import('emoji-picker-react'))
 
 
-const Lazycomponent = React.lazy(() =>
-  import("emoji-picker-react").then(module => {
-    return { default: module.default };
-  })
-);
+// const Lazycomponent = React.lazy(() =>
+//   import("emoji-picker-react").then(module => {
+//     return { default: module.default };
+//   })
+// );
 
 
 interface MarkdownEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -45,6 +45,16 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     //     setInput(event.target.value);
     // };
 
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleButtonClick = (callback: () => void) => {
+        callback();
+        if (textareaRef.current) {
+            textareaRef.current.focus();
+        }
+    };
+
     const getLabelStyle = () => {
         return !!input || isFocused
           ? `${styles.label} ${styles.styledLabel}`
@@ -62,7 +72,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
     
     const insertLink = () => {
-        const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        const textarea = textareaRef.current;
         const text = "[Display text](URL)"
         if (textarea !== null){
             const position = textarea.selectionStart;
@@ -74,11 +85,12 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
             // Insert the new text at the cursor position
             textarea.value = before + text + after;
             setInput(textarea.value)
-            textarea.selectionStart = textarea.selectionEnd = position + text.length-1;
+            textarea.selectionStart = textarea.selectionEnd = position + text.length-1;            
         }
     };
     const insertBold = () => {
-        const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        const textarea = textareaRef.current;
         const text = "****"
         if (textarea !== null){
             const position = textarea.selectionStart;
@@ -92,7 +104,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         }
     };
     const insertItalic = () => {
-        const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        const textarea = textareaRef.current;
         const text = "**"
         if (textarea !== null){
             const position = textarea.selectionStart;
@@ -106,7 +119,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         }
     };
     const insertHeader = () => {
-        const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        // const textarea = document.getElementById('myEditor') as HTMLTextAreaElement;
+        const textarea = textareaRef.current;
         const text = "### "
         if (textarea !== null){
             const position = textarea.selectionStart;
@@ -149,12 +163,12 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                     <Button size='xs' colorScheme='purple' variant={view ? ('solid'):('outline')} onClick={() => setShowPreview(true)}>
                         Preview
                     </Button>
-                    <Button size='xs' rightIcon={<MdInsertLink/>} colorScheme='purple' variant='outline' onClick={insertLink}>
+                    <Button size='xs' rightIcon={<MdInsertLink/>} colorScheme='purple' variant='outline' onClick={() => handleButtonClick(insertLink)}>
                         Link
                     </Button>
-                    <Button size='xs' colorScheme='purple' variant='outline' onClick={insertBold}>B</Button>
-                    <Button size='xs' colorScheme='purple' variant='outline' onClick={insertItalic}>Italic</Button>
-                    <Button size='xs' colorScheme='purple' variant='outline' onClick={insertHeader}>H</Button>
+                    <Button size='xs' colorScheme='purple' variant='outline' onClick={() => handleButtonClick(insertBold)}>B</Button>
+                    <Button size='xs' colorScheme='purple' variant='outline' onClick={() => handleButtonClick(insertItalic)}>Italic</Button>
+                    <Button size='xs' colorScheme='purple' variant='outline' onClick={() => handleButtonClick(insertHeader)}>H</Button>
                     <Button size='xs' colorScheme='purple' variant={showEmoji ? 'solid' : 'outline'} onClick={() =>setShowEmoji(!showEmoji)}>Emoji</Button>
                 </Stack>
 
@@ -168,6 +182,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
                     ) : (<div className={styles.inputContainer}>
                         <textarea
                             id='myEditor'
+                            ref={textareaRef}
                             style={{
                                 maxWidth: maxWidth ? maxWidth + 'ch' : '',
                                 minWidth: minWidth ? minWidth + 'ch' : '',
