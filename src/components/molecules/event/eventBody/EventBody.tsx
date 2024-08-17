@@ -28,7 +28,6 @@ import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
 import MarkdownEditor from 'components/atoms/markdown/MarkdownEditor';
 
-
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   event,

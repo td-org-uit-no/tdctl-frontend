@@ -179,7 +179,7 @@ const EventForm = () => {
           onChange={onFieldChange}
           error={fields['price'].error}
         />
-        
+
         <TextField
           name={'maxParticipants'}
           label={'Maks antall deltagere (valgfritt)'}
