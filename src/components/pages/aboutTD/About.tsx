@@ -167,26 +167,23 @@ const TDBoardContactInfo: React.FC = () => {
     <Flex wrap="wrap" justify="space-between" gap="1rem">
       <TDBoardPost
         position="Leder"
-        members={['Hauk Storjord']}
+        members={['Aslak Vik Sørvik']}
         mail={['leder@td-uit.no']}
       />
       <TDBoardPost
         position="Nestleder"
-        members={['Aslak Vik Sørvik']}
+        members={['Keyvan Sadeghi']}
         mail={['nestleder@td-uit.no']}
       />
       <TDBoardPost
         position="Arrangementsansvarlig"
-        members={['Ask Thomassen', 'Keyvan Sadeghi']}
-        mail={['arrangementsansvarlig@td-uit.no']}
+        members={['Ging Enoksen', 'Marie Stenhaug']}
+        mail={['arrangement@td-uit.no']}
       />
       <TDBoardPost
         position="Kommunikasjonsansvarlig"
         members={['Sera Elstad', 'Eline De Vito']}
-        mail={[
-          'studentkommunikasjon@td-uit.no',
-          'bedriftskommunikasjon@td-uit.no',
-        ]}
+        mail={['bedriftskommunikasjon@td-uit.no']}
       />
       <TDBoardPost
         position="Nettsideansvarlig"
