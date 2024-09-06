@@ -17,7 +17,7 @@ import styles from './eventForm.module.scss';
 import { Button } from '@chakra-ui/react';
 import { createEvent, uploadEventPicture } from 'api';
 import { useHistory } from 'react-router-dom';
-import Textarea from 'components/atoms/textarea/Textarea';
+import MarkdownEditor from 'components/atoms/markdown/MarkdownEditor';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHeader';
 import { useToast } from 'hooks/useToast';
@@ -179,6 +179,7 @@ const EventForm = () => {
           onChange={onFieldChange}
           error={fields['price'].error}
         />
+
         <TextField
           name={'maxParticipants'}
           label={'Maks antall deltagere (valgfritt)'}
@@ -188,7 +189,7 @@ const EventForm = () => {
           error={fields['maxParticipants'].error}
         />
 
-        <Textarea
+        <MarkdownEditor
           name={'description'}
           label={'Beskrivelse'}
           minWidth={25}
