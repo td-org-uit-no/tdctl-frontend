@@ -57,10 +57,8 @@ export const getUpcomingEvents = (): Promise<Event[]> =>
 
 export const getPastEvents = (skip: number, limit: number): Promise<Event[]> =>
   get<Event[]>(`event/past-events?skip=${skip}&limit=${limit}`);
-export const getPastEventsCount = (): Promise<number> =>
-  get<{ count: number }>('event/past-events/count').then(
-    (response) => response.count
-  );
+export const getPastEventsCount = (): Promise<{ count: number }> =>
+  get<{ count: number }>('event/past-events/count');
 
 export const getJoinedEvents = (): Promise<Event[]> =>
   get<Event[]>('event/joined-events');

@@ -10,7 +10,6 @@ import { Event } from 'models/apiModels';
 import { getJoinedEvents, getPastEvents } from 'api';
 import { sortDate } from 'utils/sorting';
 import { useToast } from 'hooks/useToast';
-import { Button } from '@chakra-ui/react';
 import { getPastEventsCount } from 'api';
 
 interface IEventOverview {
@@ -83,8 +82,17 @@ const EventOverview: React.FC = () => {
   }, [skip]);
   useEffect(() => {
     const fetchTotalEvents = async () => {
-      const total = await getPastEventsCount();
-      setTotalEvents(total);
+      try {
+        const data = await getPastEventsCount();
+        setTotalEvents(data.count);
+      } catch (error) {
+        console.error('Error fetching total past events:', error);
+        setTotalEvents(0);
+        addToast({
+          title: 'Failed to fetch past events count',
+          status: 'error',
+        });
+      }
     };
     fetchTotalEvents();
   }, []);
