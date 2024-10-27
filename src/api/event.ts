@@ -55,8 +55,10 @@ export const deleteEvent = (eid: string) => Delete<{}>('event/' + eid);
 export const getUpcomingEvents = (): Promise<Event[]> =>
   get<Event[]>('event/upcoming');
 
-export const getPastEvents = (): Promise<Event[]> =>
-  get<Event[]>('event/past-events');
+export const getPastEvents = (skip: number): Promise<Event[]> =>
+  get<Event[]>(`event/past-events?skip=${skip}`);
+export const getPastEventsCount = (): Promise<{ count: number }> =>
+  get<{ count: number }>('event/past-events/count');
 
 export const getJoinedEvents = (): Promise<Event[]> =>
   get<Event[]>('event/joined-events');
