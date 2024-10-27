@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './eventOverview.scss';
+import Icon from 'components/atoms/icons/icon';
 import EventPreview from 'components/molecules/event/eventPreview/EventPreview';
 import useUpcomingEvents from 'hooks/useEvents';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
@@ -9,6 +10,8 @@ import { Event } from 'models/apiModels';
 import { getJoinedEvents, getPastEvents } from 'api';
 import { sortDate } from 'utils/sorting';
 import { useToast } from 'hooks/useToast';
+import { Button } from '@chakra-ui/react';
+import { getPastEventsCount } from 'api';
 
 interface IEventOverview {
   events: Event[];
@@ -46,6 +49,11 @@ const EventOverview: React.FC = () => {
   const [pastEvents, setPastEvents] = useState<Event[] | undefined>();
   const [pastErrorMsg, setPastErrorMsg] = useState<string>('');
   const { addToast } = useToast();
+  const [skip, setSkip] = useState<number>(0);
+  const [limit, setlimit] = useState<number>(10);
+  const [totalEvents, setTotalEvents] = useState<number>(0);
+  const totalPages = Math.ceil(totalEvents / limit);
+  const currentPage = Math.floor(skip / limit) + 1;
 
   const fetchEvents = async () => {
     try {
@@ -61,7 +69,7 @@ const EventOverview: React.FC = () => {
     }
     try {
       /* Get past events */
-      const past = await getPastEvents();
+      const past = await getPastEvents(skip, limit);
       past.sort((a: Event, b: Event) =>
         sortDate(new Date(b.date), new Date(a.date))
       );
@@ -70,6 +78,16 @@ const EventOverview: React.FC = () => {
       setPastErrorMsg('En ukjent feil skjedde');
     }
   };
+  useEffect(() => {
+    fetchEvents();
+  }, [skip]);
+  useEffect(() => {
+    const fetchTotalEvents = async () => {
+      const total = await getPastEventsCount();
+      setTotalEvents(total);
+    };
+    fetchTotalEvents();
+  }, []);
 
   useEffect(() => {
     if (eventContent === 'my events' && joinedErrorMsg.length) {
@@ -87,10 +105,48 @@ const EventOverview: React.FC = () => {
     }
   }, [eventContent, joinedErrorMsg, pastErrorMsg, addToast]);
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setSkip((prevSkip) => prevSkip + limit);
+    }
+  };
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setSkip((prevSkip) => Math.max(prevSkip - limit, 0));
+    }
+  };
+
+  const generatePages = () => {
+    const pages = [];
+
+    // Always show the first page
+    pages.push(1);
+
+    // Show ellipsis if there are several pages between the first and the current page
+    if (currentPage > 3) {
+      pages.push('...');
+    }
+
+    // Add pages around the current page
+    for (
+      let i = Math.max(2, currentPage - 1);
+      i <= Math.min(totalPages - 1, currentPage + 1);
+      i++
+    ) {
+      pages.push(i);
+    }
+
+    // Add ellipsis and the last page if necessary
+    if (currentPage < totalPages - 2) {
+      pages.push('...');
+    }
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
   return (
     <div className="eventOverview">
       <div className="eventContent">
@@ -132,6 +188,57 @@ const EventOverview: React.FC = () => {
                 />
               </LoadingWrapper>
             )}
+            <div
+              className="paginationControls"
+              style={{ marginBottom: '20px' }}>
+              {eventContent === 'past events' && (
+                <>
+                  <div
+                    onClick={currentPage === 1 ? undefined : handlePreviousPage}
+                    style={{
+                      opacity: currentPage === 1 ? 0.5 : 1,
+                      cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                      pointerEvents: currentPage === 1 ? 'none' : 'auto',
+                    }}>
+                    <Icon type="angle-double-left" size={1.5} />
+                  </div>
+
+                  {generatePages().map((page, index) =>
+                    page === '...' ? (
+                      <span key={index} className="paginationEllipsis">
+                        ...
+                      </span>
+                    ) : (
+                      <button
+                        key={index}
+                        className={`pageButton ${
+                          currentPage === page ? 'active' : ''
+                        }`}
+                        onClick={() => {
+                          setSkip((Number(page) - 1) * limit);
+                          fetchEvents();
+                        }}>
+                        {page}
+                      </button>
+                    )
+                  )}
+
+                  <div
+                    onClick={
+                      currentPage === totalPages ? undefined : handleNextPage
+                    }
+                    style={{
+                      opacity: currentPage === totalPages ? 0.5 : 1,
+                      cursor:
+                        currentPage === totalPages ? 'not-allowed' : 'pointer',
+                      pointerEvents:
+                        currentPage === totalPages ? 'none' : 'auto',
+                    }}>
+                    <Icon type="angle-double-right" size={1.5} />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
