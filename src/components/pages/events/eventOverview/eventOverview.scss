@@ -39,7 +39,7 @@
 .eventOverview {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 50vh;
 }
 
 .eventContent {
@@ -92,6 +92,43 @@
     padding-left: 1rem;
   }
 }
+.headerButton {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+.paginationControls {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.pageButton {
+  background: none;
+  border: 1px solid #ccc;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.pageButton.active {
+  background-color: #2b2c3d;
+  color: white;
+  border: 1px solid white;
+}
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 @media screen and (max-width: 768px) {
   .eventOverviewContainer {
     width: 95%;
