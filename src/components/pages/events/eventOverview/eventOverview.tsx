@@ -49,7 +49,7 @@ const EventOverview: React.FC = () => {
   const [pastErrorMsg, setPastErrorMsg] = useState<string>('');
   const { addToast } = useToast();
   const [skip, setSkip] = useState<number>(0);
-  const [limit, setlimit] = useState<number>(10);
+  const [limit] = useState<number>(10);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const totalPages = Math.ceil(totalEvents / limit);
   const currentPage = Math.floor(skip / limit) + 1;
