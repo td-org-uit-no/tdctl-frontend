@@ -31,6 +31,13 @@ import {
   HStack,
   ListItem,
   Text,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
   UnorderedList,
 } from '@chakra-ui/react';
 import ConfirmationBox from 'components/molecules/confirmationBox/ConfirmationBox';
@@ -350,7 +357,25 @@ const EventResponses: React.FC<{
               <Icon type="ban" color="gray"></Icon>
             )}
             {dietaryRestrictions !== '' && food === true && (
-              <Icon type="allergies" color="#fdd835 "></Icon>
+                <Popover>
+                  <PopoverTrigger>
+                    <Button
+                      height={0}
+                      width={0}
+                      border="undefined"
+                      display="normal"
+                      verticalAlign="baseline"
+                      >
+                      <Icon type="allergies" color="#fdd835 " />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Allergener</PopoverHeader>
+                    <PopoverBody>{dietaryRestrictions}</PopoverBody>
+                  </PopoverContent>
+                </Popover>
             )}
           </div>
         );
