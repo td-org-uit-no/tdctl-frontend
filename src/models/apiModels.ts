@@ -68,6 +68,11 @@ export interface AdminMemberUpdate extends MemberUpdate {
   penalty?: number;
 }
 
+export interface CustomPreference {
+  name: string;
+  textField?: string;
+}
+
 export interface Event {
   eid: string;
   title: string;
@@ -84,6 +89,7 @@ export interface Event {
   building?: string;
   participants?: Participant[];
   food: boolean;
+  customFields: CustomPreference[];
   transportation: boolean;
   public: boolean;
   registrationOpeningDate?: string;

@@ -12,7 +12,7 @@ import {
   PNGImageValidator,
   eventTitleValidator,
 } from 'utils/validators';
-import { Text } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 import styles from './eventForm.module.scss';
 import { Button } from '@chakra-ui/react';
 import { createEvent, uploadEventPicture } from 'api';
@@ -23,6 +23,54 @@ import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHea
 import { useToast } from 'hooks/useToast';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
+import { CustomPreference } from 'models/apiModels';
+
+interface CustomFieldProps {
+  field: CustomPreference;
+  setField: (field: CustomPreference) => void;
+}
+
+/* A sub-form for adding custom options/preferences for participants */
+const CustomFieldInput: React.FC<CustomFieldProps> = ({ field, setField }) => {
+  const [isTextField, setIsTextField] = useState<boolean>(false);
+  const setFieldName = (newName: string) => {
+    setField({ ...field, name: newName });
+  };
+  const setTextFieldLabel = (label: string) => {
+    setField({ ...field, textField: label });
+  };
+
+  return (
+    <>
+      <HStack>
+        <TextField
+          name={field.name}
+          label={'Navn på felt'}
+          minWidth={20}
+          onChange={(e) => {
+            setFieldName(e.target.value);
+          }}
+        />
+        <ToggleButton
+          onChange={() => {
+            setIsTextField(!isTextField);
+          }}
+          label={'Tekstfelt'}
+          initValue={isTextField}></ToggleButton>
+        {isTextField && (
+          <TextField
+            name={field.name + 'TextField'}
+            label={'Beskrivelse tekstfelt'}
+            minWidth={20}
+            onChange={(e) => {
+              setTextFieldLabel(e.target.value);
+            }}
+          />
+        )}
+      </HStack>
+    </>
+  );
+};
 
 const EventForm = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -34,6 +82,8 @@ const EventForm = () => {
   const [shouldOpen, setShouldOpen] = useState<boolean>(false);
   const [bindingRegistration, setBindingRegistration] =
     useState<boolean>(false);
+  const [hasCustomFields, setHasCustomFields] = useState<boolean>(false);
+  const [customFields, setCustomFields] = useState<CustomPreference[]>([]);
   const { addToast } = useToast();
   const history = useHistory();
 
@@ -76,6 +126,7 @@ const EventForm = () => {
         maxParticipants: maxParticipants,
         price: price,
         food: food,
+        customFields: customFields,
         transportation: transportation,
         public: publicEvent,
         bindingRegistration: bindingRegistration,
@@ -242,6 +293,16 @@ const EventForm = () => {
             }}
             label={'Bindende påmelding'}
             initValue={bindingRegistration}></ToggleButton>
+          <ToggleButton
+            onChange={() => {
+              setHasCustomFields(!hasCustomFields);
+            }}
+            label={'Egendefinerte felter'}
+            initValue={hasCustomFields}></ToggleButton>
+          {hasCustomFields &&
+            customFields.map((field) => (
+              <CustomFieldInput field={field} setField={() => {}} />
+            ))}
         </div>
         <FileSelector
           setFile={setFile}
