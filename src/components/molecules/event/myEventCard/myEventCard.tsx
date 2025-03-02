@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './myEventCard.module.scss';
-import { Event, JoinEventPayload } from 'models/apiModels';
+import { Event, EventPrefsPayload } from 'models/apiModels';
 import EventHeader from '../eventHeader/EventHeader';
 import Icon from 'components/atoms/icons/icon';
 import { Link } from 'react-router-dom';
@@ -41,13 +41,13 @@ export interface MyEventCardProps {
 
 const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
   /* Options pulled from backend */
-  const [options, setOptions] = useState<JoinEventPayload>({
+  const [options, setOptions] = useState<EventPrefsPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
   });
   /* Payload to send */
-  const [editPrefsPayload, setEditPrefsPayload] = useState<JoinEventPayload>({
+  const [editPrefsPayload, setEditPrefsPayload] = useState<EventPrefsPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
@@ -175,7 +175,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
   };
 
   /* Handle change of preferences in modal */
-  const handlePrefsChange = (prefs: JoinEventPayload) => {
+  const handlePrefsChange = (prefs: EventPrefsPayload) => {
     setEditPrefsPayload(prefs);
   };
 

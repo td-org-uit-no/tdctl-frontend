@@ -3,7 +3,7 @@ import {
   EventUpdate,
   Participant,
   Event,
-  JoinEventPayload,
+  EventPrefsPayload,
   ParticipantsUpdate,
   SetAttendancePayload,
   ConfirmMessagePayload,
@@ -23,8 +23,8 @@ export const uploadEventPicture = async (id: string, imageFile: File) => {
 export const getEventById = (id: string): Promise<Event> =>
   get<Event>('event/' + id);
 
-export const joinEvent = (id: string, joinEventPayload: JoinEventPayload) =>
-  post<{ max: boolean }>('event/' + id + '/join', joinEventPayload);
+export const joinEvent = (id: string) =>
+  post<{ max: boolean }>('event/' + id + '/join', {});
 
 export const leaveEvent = (id: string) =>
   post<{ max: boolean }>('event/' + id + '/leave', {});
@@ -35,11 +35,11 @@ export const isJoinedEvent = (id: string): Promise<{ joined: boolean }> =>
 export const isConfirmedEvent = (id: string): Promise<{ confirmed: boolean }> =>
   get<{ confirmed: boolean }>('event/' + id + '/confirmed');
 
-export const getEventOptions = (id: string): Promise<JoinEventPayload> =>
-  get<JoinEventPayload>('event/' + id + '/options');
+export const getEventOptions = (id: string): Promise<EventPrefsPayload> =>
+  get<EventPrefsPayload>('event/' + id + '/options');
 
-export const updateEventOptions = (id: string, payload: JoinEventPayload) =>
-  put<JoinEventPayload>('event/' + id + '/update-options', payload);
+export const updateEventOptions = (id: string, payload: EventPrefsPayload) =>
+  put<EventPrefsPayload>('event/' + id + '/update-options', payload);
 
 export const getEventImage = (eid: string): Promise<{ image: any }> =>
   get<{ image: any }>('event/' + eid + '/image');

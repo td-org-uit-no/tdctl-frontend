@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import TextField from 'components/atoms/textfield/Textfield';
-import { JoinEventPayload } from 'models/apiModels';
+import { EventPrefsPayload } from 'models/apiModels';
 import styles from './EventPreferences.module.scss';
 
 export interface EventPreferencesProps {
-  prefs: JoinEventPayload;
+  prefs: EventPrefsPayload;
   isfood: boolean | undefined;
   istransportation: boolean | undefined;
-  changePrefs: (prefs: JoinEventPayload) => void;
+  changePrefs: (prefs: EventPrefsPayload) => void;
 }
 
 const EventPreferences: React.FC<EventPreferencesProps> = ({

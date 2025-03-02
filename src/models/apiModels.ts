@@ -105,7 +105,7 @@ export type EventUpdate = Partial<
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
 
-export interface JoinEventPayload {
+export interface EventPrefsPayload {
   food?: boolean;
   transportation?: boolean;
   dietaryRestrictions?: string;

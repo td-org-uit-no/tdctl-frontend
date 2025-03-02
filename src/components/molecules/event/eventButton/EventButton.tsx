@@ -6,10 +6,16 @@ import React, {
 } from 'react';
 import { Button } from '@chakra-ui/react';
 import { AuthenticateContext } from 'contexts/authProvider';
-import { joinEvent, leaveEvent, isJoinedEvent, getEventById } from 'api';
+import {
+  joinEvent,
+  leaveEvent,
+  isJoinedEvent,
+  getEventById,
+  updateEventOptions,
+} from 'api';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useToast } from 'hooks/useToast';
-import { JoinEventPayload } from 'models/apiModels';
+import { EventPrefsPayload } from 'models/apiModels';
 import { Event } from 'models/apiModels';
 import styles from './eventButton.module.scss';
 import Modal from 'components/molecules/modal/Modal';
@@ -37,11 +43,13 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
   const [buttonText, setButtonText] = useState('');
   const [event, setEvent] = useState<Event>();
   const [isValidCancellation, setValidCancellation] = useState<boolean>(true);
-  const [joinEventPayload, setJoinEventPayload] = useState<JoinEventPayload>({
-    food: false,
-    transportation: false,
-    dietaryRestrictions: '',
-  });
+  const [eventPrefsPayload, setEventPrefsPayload] = useState<EventPrefsPayload>(
+    {
+      food: false,
+      transportation: false,
+      dietaryRestrictions: '',
+    }
+  );
   const { addToast } = useToast();
   const { isOpen, onOpen, onClose } = useModal();
   const {
@@ -92,10 +100,12 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const joinEventAction = async () => {
     try {
-      await joinEvent(id, joinEventPayload);
+      await joinEvent(id);
 
       setIsjoined(!isJoined);
-      closePreferences();
+      if (!preferencesOpen && (event?.transportation || event?.food)) {
+        openPreferences();
+      }
       if (onClick) {
         try {
           onClick();
@@ -126,17 +136,30 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     }
   };
 
+  const updatePrefsAction = async () => {
+    try {
+      await updateEventOptions(id, eventPrefsPayload);
+
+      closePreferences();
+
+      addToast({
+        title: 'Suksess',
+        status: 'success',
+        description: 'Valgene dine ble lagret',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /* Set payload on form change */
-  const handlePrefsChange = (prefs: JoinEventPayload) => {
-    setJoinEventPayload(prefs);
+  const handlePrefsChange = (prefs: EventPrefsPayload) => {
+    setEventPrefsPayload(prefs);
   };
 
   const handleButtonAction = () => {
     if (!isJoined) {
-      !preferencesOpen && (event?.transportation || event?.food)
-        ? openPreferences()
-        : joinEventAction();
-      return;
+      joinEventAction();
     } else {
       leaveEventAction();
     }
@@ -200,19 +223,19 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
       </Modal>
 
       <Modal
-        title={'Påmelding'}
+        title={'Din plass er reservert!'}
         isOpen={preferencesOpen}
         onClose={closePreferences}
         maxWidth={100}>
         <div className={styles.formContent}>
           <EventPreferences
-            prefs={joinEventPayload}
+            prefs={eventPrefsPayload}
             isfood={event?.food}
             istransportation={event?.transportation}
             changePrefs={handlePrefsChange}
           />
-          <Button variant="secondary" onClick={joinEventAction}>
-            Meld på
+          <Button variant="secondary" onClick={updatePrefsAction}>
+            Send inn
           </Button>
         </div>
       </Modal>
