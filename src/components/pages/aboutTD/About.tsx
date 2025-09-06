@@ -167,43 +167,48 @@ const TDBoardContactInfo: React.FC = () => {
     <Flex wrap="wrap" justify="space-between" gap="1rem">
       <TDBoardPost
         position="Leder"
-        members={['Aslak Vik Sørvik']}
+        members={['Victor Zimmer']}
         mail={['leder@td-uit.no']}
       />
       <TDBoardPost
         position="Nestleder"
-        members={['Keyvan Sadeghi']}
+        members={['Siri Helene Grøttheim Møller-Pettersen']}
         mail={['nestleder@td-uit.no']}
       />
       <TDBoardPost
         position="Arrangementsansvarlig"
-        members={['Ging Enoksen', 'Marie Stenhaug']}
+        members={['Frode Eggenfellner', 'Erik Bjella Ebbestad']}
         mail={['arrangement@td-uit.no']}
       />
       <TDBoardPost
         position="Kommunikasjonsansvarlig"
-        members={['Sera Elstad', 'Eline De Vito']}
+        members={['Camilla Charlotte Nilsen Vik', 'Marius Rungmanee Solaas']}
         mail={['bedriftskommunikasjon@td-uit.no']}
       />
       <TDBoardPost
         position="Nettsideansvarlig"
-        members={['Ole Tytlandsvik']}
+        members={['Torgrim Limstrand']}
         mail={['nettside-ansvarlig@td-uit.no']}
       />
       <TDBoardPost
         position="Teknisk ansvarlig"
-        members={['Jørgen Molde Bårli']}
+        members={['Adrian Eriksen']}
         mail={['teknisk@td-uit.no']}
       />
       <TDBoardPost
         position="Økonomisk ansvarlig"
-        members={['Marius Møller-Hansen']}
+        members={['Hugo Sæther']}
         mail={['økonomi@td-uit.no']}
       />
       <TDBoardPost
         position="Fagansvarlig"
-        members={['Eindride Kjersheim']}
+        members={['Kathryn Ann Emblow']}
         mail={['fagkomite@td-uit.no']}
+      />
+      <TDBoardPost
+        position="TD-bytes ansvarlig"
+        members={['Christoffer Vikholt Larsen']}
+        mail={['post@td-uit.no']}
       />
     </Flex>
   );
