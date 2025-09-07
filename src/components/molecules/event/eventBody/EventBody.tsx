@@ -3,7 +3,6 @@ import styles from './eventBody.module.scss';
 import { transformDate } from 'utils/timeConverter';
 import EventButton from '../eventButton/EventButton';
 import TextField from 'components/atoms/textfield/Textfield';
-import Textarea from 'components/atoms/textarea/Textarea';
 import { Button } from '@chakra-ui/react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { Text } from '@chakra-ui/react';
@@ -27,6 +26,7 @@ import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
 import ReactMarkdown from 'react-markdown';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import { useToast } from 'hooks/useToast';
+import MarkdownEditor from 'components/atoms/markdown/MarkdownEditor';
 
 // TODO extend the admin features
 export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
@@ -202,7 +202,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
               style={{ boxSizing: 'border-box', width: '100%' }}
             />
             <br />
-            <Textarea
+            <MarkdownEditor
               name={'description'}
               onChange={onFieldChange}
               label={'Beskrivelse'}

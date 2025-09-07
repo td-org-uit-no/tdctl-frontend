@@ -1,0 +1,22 @@
+@import 'styles/text.scss';
+
+.markdownContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.buttonContainer {
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 3%;
+}
+
+.preview {
+  padding: 5%;
+  border: 2px solid plum;
+  border-radius: 5px;
+  text-align: start;
+}
