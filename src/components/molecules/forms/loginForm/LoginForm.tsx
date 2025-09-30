@@ -7,6 +7,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import './loginForm.scss';
 import { AuthenticateContext } from 'contexts/authProvider';
 
+
 interface LocationState {
   from: { pathname: string };
 }
@@ -60,6 +61,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const { fields, onFieldChange, onSubmitEvent } = useForm({
     onSubmit: onSubmit,
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <form onSubmit={onSubmitEvent}>
@@ -67,11 +73,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <TextField name={'email'} label={'E-post'} onChange={onFieldChange} />
         <div className="passwordContainer">
           <TextField
-            name={'password'}
-            label={'Passord'}
-            type={'password'}
-            onChange={onFieldChange}
-          />
+          name={'password'}
+          label={'Passord'}
+          type={showPassword ? 'text' : 'password'}
+          onChange={onFieldChange}
+/>
           <Link to={'restore-password'}>Glemt passord?</Link>
           {error !== '' && <p style={{ margin: 0 }}>{error}</p>}
         </div>
@@ -88,6 +94,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
             </Button>
           )}
         </div>
+        <div className="passwordContainer">
+  <Button
+    size="sm"
+    variant="ghost"
+    onClick={togglePasswordVisibility}
+    style={{ marginTop: '0.5rem' }}
+  >
+    {showPassword ? 'Skjul passord' : 'Vis passord'}
+  </Button>
+  {error !== '' && <p style={{ margin: 0 }}>{error}</p>}
+</div>
       </div>
     </form>
   );
