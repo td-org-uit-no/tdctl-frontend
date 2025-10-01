@@ -412,6 +412,9 @@ const EventResponses: React.FC<{
 
     try {
       await reorderParticipants(event.eid, { updateList: updateList });
+      // "ghost participants" may have been deleted during reorder,
+      // so we update the table in case.
+      setFetchUpdateHook(true);
       addToast({
         title: 'Suksess',
         status: 'success',
