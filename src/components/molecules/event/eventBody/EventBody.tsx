@@ -9,7 +9,12 @@ import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { Text } from '@chakra-ui/react';
 import { ListItem, List, ListIcon } from '@chakra-ui/react';
 import { MdCheckCircle, MdBlock } from 'react-icons/md';
-import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
+import {
+  getJoinedParticipants,
+  updateEvent,
+  uploadEventPicture,
+  getMemberAssociatedWithToken,
+} from 'api';
 import {
   addressValidator,
   dateValidator,
@@ -49,6 +54,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const [file, setFile] = useState<File | undefined>();
   const { addToast } = useToast();
 
+  const prioritizedRegistrationTimeDate = event.prioritizedRegistrationDate
+    ? new Date(event.prioritizedRegistrationDate)
+    : undefined;
+
   const initalValue = {
     title: event.title,
     description: event.description,
@@ -62,6 +71,14 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
         ':' +
         registrationTimeDate.getMinutes()
       : '',
+    prioritizedRegisterDate:
+      event.prioritizedRegistrationDate?.split('T')[0] ?? '',
+    prioritizedRegisterTime: prioritizedRegistrationTimeDate
+      ? prioritizedRegistrationTimeDate.getHours() +
+        ':' +
+        prioritizedRegistrationTimeDate.getMinutes()
+      : '',
+    prioritizedYears: event.prioritizedYears?.join(',') ?? '',
     // maxParticipants is set to "" when event does not have maxParticipants
     // since "" is the init value for fields["maxParticipants"]
     maxParticipants: event.maxParticipants?.toString() ?? '',
@@ -114,6 +131,29 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
           fields['registerDate'].value === ''
             ? null
             : fields['registerDate'].value + ' ' + fields['registerTime'].value,
+      }),
+      ...(fields['prioritizedRegisterDate']?.value +
+        'T' +
+        fields['prioritizedRegisterTime']?.value !==
+        initalValue.prioritizedRegisterDate +
+          'T' +
+          initalValue.prioritizedRegisterTime && {
+        prioritizedRegistrationDate:
+          fields['prioritizedRegisterDate'].value === ''
+            ? null
+            : fields['prioritizedRegisterDate'].value +
+              ' ' +
+              fields['prioritizedRegisterTime'].value,
+      }),
+      ...(fields['prioritizedYears']?.value !==
+        initalValue.prioritizedYears && {
+        prioritizedYears:
+          fields['prioritizedYears'].value === ''
+            ? null
+            : fields['prioritizedYears'].value
+                .split(',')
+                .map((year: string) => parseInt(year.trim()))
+                .filter((year: number) => !isNaN(year)),
       }),
       ...(toggleFood !== event.food && {
         food: toggleFood,
@@ -289,6 +329,28 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   value={fields['registerTime'].value ?? ''}
                   onChange={onFieldChange}
                 />
+                <Text>Prioritert registrering åpner:</Text>
+                <TextField
+                  name={'prioritizedRegisterDate'}
+                  label={'Dato'}
+                  type={'date'}
+                  value={fields['prioritizedRegisterDate']?.value ?? ''}
+                  onChange={onFieldChange}
+                />
+                <TextField
+                  name={'prioritizedRegisterTime'}
+                  label={'Tid'}
+                  type={'time'}
+                  value={fields['prioritizedRegisterTime']?.value ?? ''}
+                  onChange={onFieldChange}
+                />
+                <TextField
+                  name={'prioritizedYears'}
+                  label={'Prioriterte årskull (kommaseparert)'}
+                  placeholder={'2022,2023,2024'}
+                  value={fields['prioritizedYears']?.value ?? ''}
+                  onChange={onFieldChange}
+                />
                 <div className={styles.toggleWrapper}>
                   <ToggleButton
                     initValue={toggleFood}
@@ -337,16 +399,37 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   );
 };
 
-const validJoin = (role: RoleOptions, eventRegString: string | undefined) => {
-  if (eventRegString === undefined) {
-    return false;
-  }
+const validJoin = (role: RoleOptions, event: Event, userClassof?: string) => {
   if (role === Roles.admin) {
     return true;
   }
+
   const now = new Date();
-  const openingDate = new Date(eventRegString);
-  return now >= openingDate;
+
+  // Check if user is eligible for prioritized registration
+  if (
+    userClassof &&
+    event.prioritizedRegistrationDate &&
+    event.prioritizedYears
+  ) {
+    const userYear = parseInt(userClassof);
+    const isPrioritizedUser = event.prioritizedYears.includes(userYear);
+
+    if (isPrioritizedUser) {
+      const prioritizedDate = new Date(event.prioritizedRegistrationDate);
+      if (now >= prioritizedDate) {
+        return true;
+      }
+    }
+  }
+
+  // Check regular registration date
+  if (event.registrationOpeningDate) {
+    const regularDate = new Date(event.registrationOpeningDate);
+    return now >= regularDate;
+  }
+
+  return false;
 };
 
 export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
@@ -355,8 +438,9 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
 }) => {
   const [participantsHeader, setParticipantHeader] = useState('');
   const [participantsText, setParticipantText] = useState('');
-  const canJoinEvent = validJoin(role, event.registrationOpeningDate);
+  const [userClassof, setUserClassof] = useState<string | undefined>();
   const { authenticated } = useContext(AuthenticateContext);
+  const canJoinEvent = validJoin(role, event, userClassof);
 
   // sets correct header and text based on what the user should see
   function getParticipantsText(
@@ -399,6 +483,22 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   }, [event.eid, event?.maxParticipants]);
 
   useEffect(() => {
+    const fetchUserInfo = async () => {
+      if (authenticated && role !== Roles.admin) {
+        try {
+          const userInfo = await getMemberAssociatedWithToken();
+          setUserClassof(userInfo.classof);
+        } catch (error) {
+          // If we can't get user info, user will see regular registration logic
+          setUserClassof(undefined);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, [authenticated, role]);
+
+  useEffect(() => {
     // only fetch participants list when the list is actually used
     // the list/number of participants should only be displayed for admins and events with no cap
     getNumberOfParticipants();
@@ -425,21 +525,58 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
             <EventButton id={event.eid} onClick={getNumberOfParticipants} />
           ) : (
             <div>
-              {event.registrationOpeningDate ? (
-                <p style={{ fontWeight: 'lighter' }}>
-                  {' '}
-                  {transformDate(new Date(event.registrationOpeningDate))}
-                </p>
+              {event.registrationOpeningDate ||
+              event.prioritizedRegistrationDate ? (
+                <div>
+                  {/* Show prioritized registration date if user is eligible */}
+                  {userClassof &&
+                  event.prioritizedRegistrationDate &&
+                  event.prioritizedYears?.includes(parseInt(userClassof)) ? (
+                    <div>
+                      {event.registrationOpeningDate && (
+                        <p className={styles.registrationDate}>
+                          {transformDate(
+                            new Date(event.registrationOpeningDate)
+                          )}
+                        </p>
+                      )}
+                      <Text
+                        fontSize="0.75rem"
+                        className={styles.prioritizedInfo}>
+                        For årskull {event.prioritizedYears.join(', ')}:{' '}
+                        {transformDate(
+                          new Date(event.prioritizedRegistrationDate)
+                        )}
+                      </Text>
+                    </div>
+                  ) : event.registrationOpeningDate ? (
+                    <p className={styles.registrationDate}>
+                      {transformDate(new Date(event.registrationOpeningDate))}
+                    </p>
+                  ) : (
+                    <p> Påmelding kommer </p>
+                  )}
+                </div>
               ) : (
                 <p> Påmelding kommer </p>
               )}
             </div>
           )}
-          {role === 'admin' && event.registrationOpeningDate && (
-            <Text fontSize="0.75rem" style={{ fontStyle: 'italic' }}>
-              Åpner for alle{' '}
-              {transformDate(new Date(event.registrationOpeningDate))}
-            </Text>
+          {role === 'admin' && (
+            <div>
+              {event.prioritizedRegistrationDate && event.prioritizedYears && (
+                <Text fontSize="0.75rem" className={styles.prioritizedInfo}>
+                  Åpner for årskull {event.prioritizedYears.join(', ')}{' '}
+                  {transformDate(new Date(event.prioritizedRegistrationDate))}
+                </Text>
+              )}
+              {event.registrationOpeningDate && (
+                <Text fontSize="0.75rem" className={styles.adminInfo}>
+                  Åpner for alle{' '}
+                  {transformDate(new Date(event.registrationOpeningDate))}
+                </Text>
+              )}
+            </div>
           )}
           <p>Sted</p>
           {event.address}

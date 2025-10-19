@@ -7,14 +7,21 @@ interface Props extends React.HtmlHTMLAttributes<HTMLDivElement> {
   title: string;
 }
 
-const DropdownHeader: React.FC<Props> = ({ title, children, ...rest }) => {
+const DropdownHeader: React.FC<Props> = ({
+  title,
+  children,
+  className,
+  ...rest
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   const onExpand = () => setExpanded(!expanded);
 
   return (
     <div className={styles.container}>
-      <div className={styles.box} {...rest}>
+      <div
+        className={className ? `${styles.box} ${className}` : styles.box}
+        {...rest}>
         <div className={styles.base} onClick={onExpand}>
           <div className={styles.item2}>
             <p>{title}</p>

@@ -11,6 +11,7 @@ import {
   maxParticipantsValidator,
   PNGImageValidator,
   eventTitleValidator,
+  prioritizedYearsValidator,
 } from 'utils/validators';
 import { Text } from '@chakra-ui/react';
 import styles from './eventForm.module.scss';
@@ -45,9 +46,10 @@ const EventForm = () => {
     address: addressValidator,
     price: priceValidator,
     maxParticipants: maxParticipantsValidator,
+    prioritizedYears: prioritizedYearsValidator,
   };
-  // allows maxParticipants to be empty
-  const optionalKeys = ['maxParticipants'];
+  // allows maxParticipants and prioritied years to be empty
+  const optionalKeys = ['maxParticipants', 'prioritizedYears'];
 
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
@@ -56,6 +58,49 @@ const EventForm = () => {
     });
 
     emptyFields ? setError('Alle feltene må fylles ut') : setError(undefined);
+
+    // Validate prioritized registration date comes before general registration date
+    if (
+      fields['prioritizedRegisterDate']?.value &&
+      fields['registerDate']?.value
+    ) {
+      const prioritizedDateTime = new Date(
+        fields['prioritizedRegisterDate']?.value +
+          ' ' +
+          (fields['prioritizedRegisterTime']?.value || '00:00')
+      );
+      const generalDateTime = new Date(
+        fields['registerDate']?.value +
+          ' ' +
+          (fields['registerTime']?.value || '00:00')
+      );
+
+      if (prioritizedDateTime >= generalDateTime) {
+        setError(
+          'Prioritert påmeldingsdato må være før den generelle påmeldingsdatoen'
+        );
+        return;
+      }
+    }
+
+    // Validate that prioritized years are provided if prioritized date is set
+    if (
+      fields['prioritizedRegisterDate']?.value &&
+      !fields['prioritizedYears']?.value?.trim()
+    ) {
+      setError('Årskull må spesifiseres når prioritert påmeldingsdato er satt');
+      return;
+    }
+
+    if (
+      fields['prioritizedYears']?.value?.trim() &&
+      !fields['prioritizedRegisterDate']?.value
+    ) {
+      setError(
+        'Prioritert påmeldingsdato må settes når årskull er spesifisert'
+      );
+      return;
+    }
 
     if (hasErrors || emptyFields) {
       return;
@@ -67,6 +112,23 @@ const EventForm = () => {
       if (fields['registerDate']?.value && fields['registerTime']?.value) {
         regDate =
           fields['registerDate']?.value + ' ' + fields['registerTime']?.value;
+      }
+      let prioritizedRegDate = undefined;
+      if (
+        fields['prioritizedRegisterDate']?.value &&
+        fields['prioritizedRegisterTime']?.value
+      ) {
+        prioritizedRegDate =
+          fields['prioritizedRegisterDate']?.value +
+          ' ' +
+          fields['prioritizedRegisterTime']?.value;
+      }
+      let parsedPrioritizedYears = undefined;
+      if (fields['prioritizedYears']?.value?.trim()) {
+        parsedPrioritizedYears = fields['prioritizedYears'].value
+          .split(',')
+          .map((year: string) => parseInt(year.trim()))
+          .filter((year: number) => !isNaN(year));
       }
       const resp = await createEvent({
         title: fields['title']?.value,
@@ -80,6 +142,8 @@ const EventForm = () => {
         public: publicEvent,
         bindingRegistration: bindingRegistration,
         registrationOpeningDate: regDate,
+        prioritizedRegistrationDate: prioritizedRegDate,
+        prioritizedYears: parsedPrioritizedYears,
       });
       setEid(resp.eid);
       if (file) {
@@ -199,23 +263,47 @@ const EventForm = () => {
 
         <DropdownHeader
           title={'Valgfritt: Sett dato for når påmeldingen åpner'}
-          style={{ width: '100%' }}>
-          <div className={styles.registerContainer}>
-            <TextField
-              name={'registerDate'}
-              label={'Påmeldings dato'}
-              type={'date'}
-              minWidth={20}
-              onChange={onFieldChange}
-            />
-            <TextField
-              name={'registerTime'}
-              label={'Tid'}
-              type={'time'}
-              minWidth={20}
-              onChange={onFieldChange}
-            />
-          </div>
+          className={styles.dropdownWithPadding}>
+          <TextField
+            name={'registerDate'}
+            label={'Påmeldings dato'}
+            type={'date'}
+            minWidth={20}
+            onChange={onFieldChange}
+          />
+          <TextField
+            name={'registerTime'}
+            label={'Tid'}
+            type={'time'}
+            minWidth={20}
+            onChange={onFieldChange}
+          />
+        </DropdownHeader>
+        <DropdownHeader
+          title={'Valgfritt: Prioritert påmelding for spesifikke årskull'}
+          className={styles.dropdownWithPadding}>
+          <TextField
+            name={'prioritizedRegisterDate'}
+            label={'Prioritert påmeldings dato'}
+            type={'date'}
+            minWidth={20}
+            onChange={onFieldChange}
+          />
+          <TextField
+            name={'prioritizedRegisterTime'}
+            label={'Tid'}
+            type={'time'}
+            minWidth={20}
+            onChange={onFieldChange}
+          />
+          <TextField
+            name={'prioritizedYears'}
+            label={'Årskull, kommaseparert'}
+            placeholder={'2022,2023,2024'}
+            minWidth={20}
+            onChange={onFieldChange}
+            error={fields['prioritizedYears'].error}
+          />
         </DropdownHeader>
         <div className={styles.toggleContainer}>
           <ToggleButton

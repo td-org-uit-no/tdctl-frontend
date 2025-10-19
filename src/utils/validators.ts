@@ -240,3 +240,33 @@ export const JobTitleValidator = (title: string) => {
 export const PNGImageValidator = (file: File) => {
   return file.type !== 'image/png' ? 'Kun PNG filer er støttet' : undefined;
 };
+
+export const prioritizedYearsValidator = (
+  years: string
+): string[] | undefined => {
+  if (!years.trim()) {
+    return undefined; // Optional field
+  }
+
+  const yearArray = years.split(',');
+  const errors: string[] = [];
+
+  for (const year of yearArray) {
+    const trimmedYear = year.trim();
+    if (!numberValidator(trimmedYear)) {
+      errors.push('Alle årskull må være tall');
+      break;
+    }
+    if (trimmedYear.length !== 4) {
+      errors.push('Årskull må være på formen YYYY');
+      break;
+    }
+    const currentYear = new Date().getFullYear();
+    if (Number(trimmedYear) > currentYear || Number(trimmedYear) < 1968) {
+      errors.push('Ikke godkjent årstall');
+      break;
+    }
+  }
+
+  return errors.length > 0 ? errors : undefined;
+};

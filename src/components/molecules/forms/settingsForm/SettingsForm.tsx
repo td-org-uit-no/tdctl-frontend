@@ -121,6 +121,7 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
             type="number"
             onChange={onFieldChange}
             error={fields['classof'].error}
+            disabled={!!init?.classof}
           />
           {init?.phone ? (
             <>
