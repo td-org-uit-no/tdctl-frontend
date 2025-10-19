@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import styles from './adminPage.module.scss';
-import { MemberTable, EventTable } from 'components/molecules/tables';
+import {
+  MemberTable,
+  EventTable,
+  CommitteeTable,
+} from 'components/molecules/tables';
 import Icon from 'components/atoms/icons/icon';
 
 const WIP = () => {
@@ -11,7 +15,7 @@ const WIP = () => {
     </div>
   );
 };
-type componentOptions = 'Members' | 'Events' | 'Announcements';
+type componentOptions = 'Members' | 'Events' | 'Committees' | 'Announcements';
 
 // TODO only allow componentOptions keys
 interface componentsDict {
@@ -45,6 +49,7 @@ const AdminPage = () => {
   const components = {
     Members: <MemberTable />,
     Events: <EventTable />,
+    Committees: <CommitteeTable />,
     Announcements: <WIP />,
   } as componentsDict;
 
@@ -62,6 +67,11 @@ const AdminPage = () => {
           onClick={() => setComponentKey('Events')}
           iconType="calendar"
           label="Events"
+        />
+        <SideBarItem
+          onClick={() => setComponentKey('Committees')}
+          iconType="sitemap"
+          label="Committees"
         />
         <SideBarItem
           onClick={() => setComponentKey('Announcements')}
