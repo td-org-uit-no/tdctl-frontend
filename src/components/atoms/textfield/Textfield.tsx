@@ -21,13 +21,19 @@ const TextField: React.FC<Props> = ({
   value,
   defaultValue,
   type,
+  placeholder,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [defaultInput, setDefaultInput] = useState(defaultValue);
   const styleLabel = () => {
     return (
-      value || defaultInput || isFocused || type === 'date' || type === 'time'
+      value ||
+      defaultInput ||
+      isFocused ||
+      type === 'date' ||
+      type === 'time' ||
+      placeholder
     );
   };
 
@@ -60,6 +66,7 @@ const TextField: React.FC<Props> = ({
             defaultValue={defaultValue}
             value={value}
             type={type}
+            placeholder={placeholder}
             onFocus={(e) => {
               setIsFocused(true);
               onFocus && onFocus(e);

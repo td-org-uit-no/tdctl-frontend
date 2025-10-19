@@ -263,7 +263,7 @@ const EventForm = () => {
 
         <DropdownHeader
           title={'Valgfritt: Sett dato for når påmeldingen åpner'}
-          style={{ width: '100%', padding: '20px' }}>
+          className={styles.dropdownWithPadding}>
           <TextField
             name={'registerDate'}
             label={'Påmeldings dato'}
@@ -281,7 +281,7 @@ const EventForm = () => {
         </DropdownHeader>
         <DropdownHeader
           title={'Valgfritt: Prioritert påmelding for spesifikke årskull'}
-          style={{ width: '100%', padding: '20px' }}>
+          className={styles.dropdownWithPadding}>
           <TextField
             name={'prioritizedRegisterDate'}
             label={'Prioritert påmeldings dato'}

@@ -534,7 +534,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
                   event.prioritizedYears?.includes(parseInt(userClassof)) ? (
                     <div>
                       {event.registrationOpeningDate && (
-                        <p style={{ fontWeight: 'lighter' }}>
+                        <p className={styles.registrationDate}>
                           {transformDate(
                             new Date(event.registrationOpeningDate)
                           )}
@@ -542,7 +542,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
                       )}
                       <Text
                         fontSize="0.75rem"
-                        style={{ fontStyle: 'italic', color: '#4CAF50' }}>
+                        className={styles.prioritizedInfo}>
                         For årskull {event.prioritizedYears.join(', ')}:{' '}
                         {transformDate(
                           new Date(event.prioritizedRegistrationDate)
@@ -550,7 +550,7 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
                       </Text>
                     </div>
                   ) : event.registrationOpeningDate ? (
-                    <p style={{ fontWeight: 'lighter' }}>
+                    <p className={styles.registrationDate}>
                       {transformDate(new Date(event.registrationOpeningDate))}
                     </p>
                   ) : (
@@ -565,15 +565,13 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
           {role === 'admin' && (
             <div>
               {event.prioritizedRegistrationDate && event.prioritizedYears && (
-                <Text
-                  fontSize="0.75rem"
-                  style={{ fontStyle: 'italic', color: '#4CAF50' }}>
+                <Text fontSize="0.75rem" className={styles.prioritizedInfo}>
                   Åpner for årskull {event.prioritizedYears.join(', ')}{' '}
                   {transformDate(new Date(event.prioritizedRegistrationDate))}
                 </Text>
               )}
               {event.registrationOpeningDate && (
-                <Text fontSize="0.75rem" style={{ fontStyle: 'italic' }}>
+                <Text fontSize="0.75rem" className={styles.adminInfo}>
                   Åpner for alle{' '}
                   {transformDate(new Date(event.registrationOpeningDate))}
                 </Text>
