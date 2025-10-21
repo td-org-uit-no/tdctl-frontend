@@ -64,6 +64,7 @@ const Footer: React.FC = () => {
       <Flex justify="space-evenly" width={{ base: '100%', lg: '60%' }}>
         <FooterList header={'Ressurser'}>
           <FooterItem label={'Om TD'} path={'/about-us'} />
+          <FooterItem label={'Komitéer'} path={'/komite'} />
           <FooterItem
             label={'TD kalender'}
             path={
