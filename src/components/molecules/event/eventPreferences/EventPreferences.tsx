@@ -79,6 +79,16 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
           }}
         />
       )}
+      <ToggleButton
+        label={'Jeg godtar videresending av mine personopplysninger til bedriften i henhold til GDPR'}
+        initValue={prefs.gdprConsent}
+        onChange={() => {
+          changePrefs({
+            ...prefs,
+            gdprConsent: !prefs.gdprConsent,
+          });
+        }}
+      />
     </div>
   );
 };

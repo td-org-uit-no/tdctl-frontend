@@ -30,6 +30,7 @@ export interface Participant {
   food: boolean;
   transportation: boolean;
   dietaryRestrictions?: string;
+  gdprConsent: boolean;
   submitDate: string;
   penalty: number;
   confirmed?: boolean;
@@ -109,6 +110,7 @@ export interface JoinEventPayload {
   food?: boolean;
   transportation?: boolean;
   dietaryRestrictions?: string;
+  gdprConsent?: boolean;
 }
 
 export interface SetAttendancePayload {

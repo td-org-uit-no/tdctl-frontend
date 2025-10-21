@@ -41,6 +41,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    gdprConsent: false,
   });
   const { addToast } = useToast();
   const { isOpen, onOpen, onClose } = useModal();

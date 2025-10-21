@@ -45,12 +45,14 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    gdprConsent: false,
   });
   /* Payload to send */
   const [editPrefsPayload, setEditPrefsPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    gdprConsent: false,
   });
 
   /* Predefined statuses */
@@ -251,6 +253,14 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
                   {options.dietaryRestrictions}
                   {' }'}
                 </span>
+              )}
+            </div>
+            <div>
+              GDPR Samtykke{' '}
+              {options.gdprConsent ? (
+                <Icon type={'check'} color={'green'} />
+              ) : (
+                <Icon type={'ban'} color={'red'} />
               )}
             </div>
           </div>
