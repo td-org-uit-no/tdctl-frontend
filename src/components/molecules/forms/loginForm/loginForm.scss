@@ -31,3 +31,33 @@
     }
   }
 }
+
+.passwordActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.passwordInputWrapper {
+  position: relative;
+  
+  .passwordToggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+}
+
+.passwordContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.errorMessage {
+  color: var(--chakra-colors-red-500, #e53e3e);
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
