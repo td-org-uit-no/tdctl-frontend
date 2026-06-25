@@ -9,7 +9,12 @@ import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { Text } from '@chakra-ui/react';
 import { ListItem, List, ListIcon } from '@chakra-ui/react';
 import { MdCheckCircle, MdBlock } from 'react-icons/md';
-import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
+import {
+  getJoinedParticipants,
+  getMemberAssociatedWithToken,
+  updateEvent,
+  uploadEventPicture,
+} from 'api';
 import {
   addressValidator,
   dateValidator,
@@ -357,6 +362,31 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
   const [participantsText, setParticipantText] = useState('');
   const canJoinEvent = validJoin(role, event.registrationOpeningDate);
   const { authenticated } = useContext(AuthenticateContext);
+  const [numParticipants, setNumParticipants] = useState(0);
+  const [queuePosition, setQueuePosition] = useState(0);
+
+  const getQueuePosition = async () => {
+    if (!authenticated) return;
+    try {
+      const member = await getMemberAssociatedWithToken();
+      if (!member) return;
+      const participants = await getJoinedParticipants(event.eid);
+      if (!participants) return;
+      const participant = participants?.find(
+        (participant) => participant.id === member.id
+      );
+      if (!participant) {
+        setQueuePosition(0);
+        return;
+      }
+      const pos = participants?.indexOf(participant);
+      if (!pos) return;
+      setQueuePosition(pos + 1 - (event.maxParticipants || 0));
+    } catch (error) {
+      console.log(error);
+      setQueuePosition(0);
+    }
+  };
 
   // sets correct header and text based on what the user should see
   function getParticipantsText(
@@ -374,8 +404,14 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
       setParticipantHeader('Antall deltakere');
       return `${participants} skal`;
     }
-    setParticipantHeader('Antall plasser totalt');
-    return `${maxParticipants} plasser`;
+    if (!participants) {
+      setParticipantHeader('Antall plasser totalt');
+      return `${maxParticipants} plasser`;
+    }
+    setParticipantHeader('Antall påmeldte');
+    return `${
+      participants > maxParticipants ? maxParticipants : participants
+    } / ${maxParticipants} påmeldt`;
   }
 
   const getNumberOfParticipants = useCallback(async () => {
@@ -385,8 +421,10 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
     }
     try {
       const resp = await getJoinedParticipants(event.eid);
+      setNumParticipants(resp.length);
       const str = getParticipantsText(event?.maxParticipants, resp.length);
       setParticipantText(str);
+      getQueuePosition();
     } catch (error) {
       if (error.statusCode === 401) {
         const str = getParticipantsText(event?.maxParticipants);
@@ -402,7 +440,8 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
     // only fetch participants list when the list is actually used
     // the list/number of participants should only be displayed for admins and events with no cap
     getNumberOfParticipants();
-  }, [getNumberOfParticipants, authenticated]);
+    getQueuePosition();
+  }, [getNumberOfParticipants, queuePosition, authenticated]);
 
   return (
     <div className={styles.contentContainer}>
@@ -447,6 +486,14 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
           {transformDate(new Date(event.date))}
           <p>{participantsHeader}</p>
           {participantsText}
+          {queuePosition >= 1 &&
+            event.maxParticipants &&
+            numParticipants > event.maxParticipants && (
+              <>
+                <p>Kø</p>
+                Du er #{queuePosition} i køa
+              </>
+            )}
           {role === 'admin' && (
             <div style={{ overflowY: 'scroll', maxHeight: '90vh' }}>
               <List spacing={1}>
