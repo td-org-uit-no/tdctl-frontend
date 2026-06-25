@@ -24,13 +24,13 @@ import FAQ from './FAQ';
 import About from '../aboutTD/About';
 import faddere from 'assets/new-student/faddere.jpg';
 import pils from 'assets/new-student/pils-crop.jpeg';
-import agendaImage from 'assets/new-student/fadderuka-agenda.png';
+import agendaImage from 'assets/new-student/coming_soon.png';
 import { useContext } from 'react';
 
 const FadderUka = () => {
   return (
     <Box width={{ base: '100%', xl: '950px' }}>
-      <Heading mt=".5rem">Fadderuka med TD og DebutUKA</Heading>
+      <Heading mt=".5rem">Fadderuka med TD</Heading>
       <Flex
         mb="2rem"
         justify="space-between"
@@ -168,9 +168,12 @@ const NewStudentsPage = () => {
                 <TabPanel>
                   <FadderUka />
                 </TabPanel>
-                <TabPanel>
-                  <Image src={agendaImage} />
+                <TabPanel bg="transparent">
+                  <Flex justify="center" align="center" minH="300px">
+                    <Image src={agendaImage} alt="Coming soon" />
+                  </Flex>
                 </TabPanel>
+
                 <TabPanel>
                   <About />
                 </TabPanel>
