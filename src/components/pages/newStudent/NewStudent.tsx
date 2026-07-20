@@ -24,7 +24,7 @@ import FAQ from './FAQ';
 import About from '../aboutTD/About';
 import faddere from 'assets/new-student/faddere.jpg';
 import pils from 'assets/new-student/pils-crop.jpeg';
-import agendaImage from 'assets/new-student/coming_soon.png';
+import agendaImage from 'assets/new-student/fadderuka-agenda.png';
 import { useContext } from 'react';
 
 const FadderUka = () => {
