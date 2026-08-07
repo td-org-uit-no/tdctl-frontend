@@ -383,6 +383,19 @@ const EventResponses: React.FC<{
     },
     {
       cell: (cellValues) => {
+        const { gdprConsent } = cellValues;
+        return (
+          <>
+            <Icon
+              type={gdprConsent ? 'check' : 'ban'}
+              color={gdprConsent ? '#00ff00' : 'gray'}></Icon>
+          </>
+        );
+      },
+      header: 'GDPR',
+    },
+    {
+      cell: (cellValues) => {
         const { email } = cellValues;
         return (
           <>
