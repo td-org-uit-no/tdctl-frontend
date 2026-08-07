@@ -87,6 +87,8 @@ export interface Event {
   transportation: boolean;
   public: boolean;
   registrationOpeningDate?: string;
+  prioritizedRegistrationDate?: string;
+  prioritizedYears?: number[];
   confirmed?: boolean;
 }
 
@@ -101,6 +103,8 @@ export type EventUpdate = Partial<
     | 'maxParticipants'
     | 'public'
     | 'confirmed'
+    | 'prioritizedRegistrationDate'
+    | 'prioritizedYears'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
@@ -192,4 +196,11 @@ export interface ProductSuggestion {
   product: string;
   timestamp: Date;
   username: string;
+}
+
+// Priority feature models
+export interface Priority {
+  id: string;
+  value: number;
+  type: string;
 }

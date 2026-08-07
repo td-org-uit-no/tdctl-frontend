@@ -120,6 +120,19 @@ input[type='time']::-webkit-calendar-picker-indicator {
   gap: 0.25rem;
 }
 
+.registrationDate {
+  font-weight: lighter;
+}
+
+.prioritizedInfo {
+  font-style: italic;
+  color: #4caf50;
+}
+
+.adminInfo {
+  font-style: italic;
+}
+
 @mixin mobile_base {
   .contentContainer {
     display: inline;
