@@ -124,6 +124,7 @@ export interface EventMailPayload {
   subject: string;
   msg: string;
   confirmedOnly?: boolean;
+  waitListOnly?: boolean;
 }
 
 export interface JobItem {
