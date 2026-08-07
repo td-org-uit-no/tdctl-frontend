@@ -4,6 +4,7 @@
 // TODO: Use text.scss for some of this
 .container {
   outline: none;
+  width: 100%;
 }
 
 .wrapper {
@@ -11,14 +12,23 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  width: 100%;
 }
 
 .text {
   line-height: normal;
-  // TODO: Find a better way than hardcoding pixels
-  height: 22px;
   position: relative;
   display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid $input-border;
+  background: $input-background;
+  border-radius: 5px;
+  color: $primary;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding-right: 2.2rem; // space for dropdown icon
 }
 
 .icon {

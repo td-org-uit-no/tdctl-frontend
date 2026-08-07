@@ -23,6 +23,7 @@ import {
   StatsPage,
   TDBytesPage,
   SuggestionsPage,
+  KomitePage,
 } from 'components/pages';
 import { PrivateRoute, AuthorizationRoute, AdminRoute } from 'routes';
 import Navbar from 'components/molecules/navbar/Navbar';
@@ -66,6 +67,7 @@ const App: React.FC = () => {
               children={<ConfirmationPage />}
             />
             <Route path="/about-us" component={AboutPage} />
+            <Route path="/komite" component={KomitePage} />
             <Route path="/new-student" component={NewStudentsPage} />
             <PrivateRoute
               path="/tdbytes/suggestions"

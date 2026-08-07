@@ -80,6 +80,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className={styles.menuContainer}>
         <NavLink to="/jobs">Karriere</NavLink>
+        <NavLink to="/komite">Komitéer</NavLink>
         <NavLink to="/new-student">Ny Student</NavLink>
         {authenticated ? <AuthNavbar /> : <DefaultNavbar />}
       </div>

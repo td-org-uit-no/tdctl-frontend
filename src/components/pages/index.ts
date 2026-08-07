@@ -17,6 +17,7 @@ import NewStudentsPage from './newStudent/NewStudent';
 import TDBytesPage from './TDBytes/TDBytes';
 import SuggestionsPage from './TDBytes/ProductSuggestions';
 import StatsPage from './stats/StatsPage';
+import KomitePage from './committees/KomitePage';
 
 import Jobs from './jobs/Jobs';
 import Job from './jobs/Job';
@@ -44,4 +45,5 @@ export {
   TDBytesPage,
   SuggestionsPage,
   StatsPage,
+  KomitePage,
 };

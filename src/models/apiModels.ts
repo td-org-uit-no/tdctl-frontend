@@ -193,3 +193,59 @@ export interface ProductSuggestion {
   timestamp: Date;
   username: string;
 }
+
+// Committee models
+export type CommitteeStatus = 'active' | 'inactive';
+
+export interface CommitteeInput {
+  name: string;
+  description?: string;
+  hasOpenSpots: boolean;
+  status: CommitteeStatus;
+  slug?: string;
+  email?: string;
+}
+
+export interface Committee {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  status: CommitteeStatus;
+  hasOpenSpots: boolean;
+  email?: string;
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
+  createdBy: string; // email
+  memberCount: number; // current-year member count
+}
+
+export type CommitteeUpdate = Partial<CommitteeInput>;
+
+export interface CommitteeMemberInput {
+  userId: string;
+  year?: number; // defaults to current year on backend
+}
+
+export type CommitteeMemberRole =
+  | 'admin'
+  | 'member'
+  | 'unconfirmed'
+  | 'kiosk_admin';
+
+export interface CommitteeMemberListItem {
+  id: string;
+  realName: string;
+  email: string;
+  classYear: string;
+  phone?: string;
+  year: number;
+  role: CommitteeMemberRole;
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+}
