@@ -15,8 +15,7 @@ jobs:
       - name: login to server and launch newest image
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: "${{ secrets.HOST }}:2222"
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: "2222"
           script: ./pull-and-run-frontend.sh
