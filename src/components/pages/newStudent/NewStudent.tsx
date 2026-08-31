@@ -40,8 +40,7 @@ const FadderUka = () => {
           opplegg for å kickstarte studiestarten, for alle nye studenter på
           universitetet. Gjennom to uker er det lagt opp til mange forskjellige
           aktiviteter som omvisning på campus, konserter og lavterskel
-          idrettsarrangementer. Fadderuka varer i år fra 10. - 22. August.
-          Fullstendig program finner du{' '}
+          idrettsarrangementer.
           <Link
             href="https://samskipnaden.no/kalenderen?campus=Troms%25C3%25B8&topic=Fadderuka"
             isExternal>
