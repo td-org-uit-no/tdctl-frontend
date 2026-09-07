@@ -167,7 +167,7 @@ const TDBoardContactInfo: React.FC = () => {
     <Flex wrap="wrap" justify="space-between" gap="1rem">
       <TDBoardPost
         position="Leder"
-        members={['Frode Eggenfeller']}
+        members={['Frode Eggenfellner']}
         mail={['leder@td-uit.no']}
       />
       <TDBoardPost
