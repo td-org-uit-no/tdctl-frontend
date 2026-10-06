@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { getUpcomingEvents } from 'api';
+import { getJoinedEvents, getUpcomingEvents } from 'api';
 import { Event } from 'models/apiModels';
 import { AuthenticateContext } from 'contexts/authProvider';
+import { sortDate } from 'utils/sorting';
 
 const useUpcomingEvents = () => {
   const [events, setEvents] = useState<Event[] | undefined>();
@@ -34,5 +35,27 @@ const useUpcomingEvents = () => {
 
   return { isFetching, events, setEvents, error, fetchEvents };
 };
+
+/** The member's upcoming joined events, by date, fetched when asked. */
+export function useJoinedEvents() {
+  const [joinedEvents, setJoinedEvents] = useState<Event[] | undefined>();
+  const [joinedErrorMsg, setJoinedErrorMsg] = useState<string>('');
+
+  async function fetchJoinedEvents() {
+    try {
+      /* Get joined events */
+      const joined = await getJoinedEvents();
+      joined.sort((a: Event, b: Event) =>
+        sortDate(new Date(a.date), new Date(b.date))
+      );
+      setJoinedEvents(joined);
+    } catch (error) {
+      // 404 and 500 gets same message as 404 here should not happen
+      setJoinedErrorMsg('En ukjent feil skjedde');
+    }
+  }
+
+  return { joinedEvents, joinedErrorMsg, setJoinedErrorMsg, fetchJoinedEvents };
+}
 
 export default useUpcomingEvents;

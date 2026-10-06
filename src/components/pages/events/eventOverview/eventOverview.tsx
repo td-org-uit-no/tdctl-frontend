@@ -3,11 +3,12 @@ import './eventOverview.scss';
 import Icon from 'components/atoms/icons/icon';
 import EventPreview from 'components/molecules/event/eventPreview/EventPreview';
 import useUpcomingEvents from 'hooks/useEvents';
+import { useJoinedEvents } from 'hooks/useEvents';
 import LoadingWrapper from 'components/atoms/loadingWrapper/LoadingWrapper';
 import Footer from 'components/molecules/footer/Footer';
 import { DisplayMyEvents } from '../myEvents/MyEvents';
 import { Event } from 'models/apiModels';
-import { getJoinedEvents, getPastEvents } from 'api';
+import { getPastEvents } from 'api';
 import { sortDate } from 'utils/sorting';
 import { useToast } from 'hooks/useToast';
 import { getPastEventsCount } from 'api';
@@ -43,8 +44,8 @@ type eventContent = 'overview' | 'my events' | 'past events';
 const EventOverview: React.FC = () => {
   const [eventContent, setEventContent] = useState<eventContent>('overview');
   const { events } = useUpcomingEvents();
-  const [joinedEvents, setJoinedEvents] = useState<Event[] | undefined>();
-  const [joinedErrorMsg, setJoinedErrorMsg] = useState<string>('');
+  const { joinedEvents, joinedErrorMsg, setJoinedErrorMsg, fetchJoinedEvents } =
+    useJoinedEvents();
   const [pastEvents, setPastEvents] = useState<Event[] | undefined>();
   const [pastErrorMsg, setPastErrorMsg] = useState<string>('');
   const { addToast } = useToast();
@@ -65,17 +66,7 @@ const EventOverview: React.FC = () => {
 
   const fetchEvents = async () => {
     setPastEvents([]);
-    try {
-      /* Get joined events */
-      const joined = await getJoinedEvents();
-      joined.sort((a: Event, b: Event) =>
-        sortDate(new Date(a.date), new Date(b.date))
-      );
-      setJoinedEvents(joined);
-    } catch (error) {
-      // 404 and 500 gets same message as 404 here should not happen
-      setJoinedErrorMsg('En ukjent feil skjedde');
-    }
+    await fetchJoinedEvents();
     try {
       /* Get past events */
       const past = await getPastEvents(skip);
