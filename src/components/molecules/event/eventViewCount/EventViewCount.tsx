@@ -7,8 +7,16 @@ const EventViewCount: React.FC<{ page: string }> = ({ page }) => {
   const [views, setViews] = useState<number | undefined>();
 
   const fetchPageVisist = async () => {
-    const response = await getPageVisit(page);
-    setViews(response.visits);
+    try {
+      const response = await getPageVisit(page);
+      setViews(response.visits);
+    } catch (error) {
+      // Pages without registered visits return 404, so fall back to "N/A"
+      if (error.statusCode !== 404) {
+        console.error(error);
+      }
+      setViews(undefined);
+    }
   };
 
   useEffect(() => {
