@@ -57,18 +57,15 @@
   margin: 0;
   font-size: 14px;
   text-align: left;
+
+  // wrap to two lines, then ellipsis: validation messages are long
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-
-  // If we want to wrap the description after two lines
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // display: -webkit-box;
-  // -webkit-box-orient: vertical;
-  // -webkit-line-clamp: 2; /* number of lines to show */
-  // line-height: 18px; /* fallback */
-  // max-height: 36px; /* fallback */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-height: 18px; /* fallback */
+  max-height: 36px; /* fallback */
 }
 
 .toast-icon {
