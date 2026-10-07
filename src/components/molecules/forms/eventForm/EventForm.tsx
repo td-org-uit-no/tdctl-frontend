@@ -11,6 +11,7 @@ import {
   maxParticipantsValidator,
   PNGImageValidator,
   eventTitleValidator,
+  optionalEmailValidator,
 } from 'utils/validators';
 import { Text } from '@chakra-ui/react';
 import styles from './eventForm.module.scss';
@@ -45,9 +46,10 @@ const EventForm = () => {
     address: addressValidator,
     price: priceValidator,
     maxParticipants: maxParticipantsValidator,
+    contactEmail: optionalEmailValidator,
   };
   // allows maxParticipants to be empty
-  const optionalKeys = ['maxParticipants'];
+  const optionalKeys = ['maxParticipants', 'contactEmail'];
 
   const submit = async () => {
     const emptyFields = emptyFieldsValidator({
@@ -74,6 +76,8 @@ const EventForm = () => {
         date: fields['date']?.value + ' ' + fields['time']?.value,
         address: fields['address']?.value,
         maxParticipants: maxParticipants,
+        // empty means "not set", the API rejects an empty string
+        contactEmail: fields['contactEmail']?.value || undefined,
         price: price,
         food: food,
         transportation: transportation,
@@ -169,6 +173,15 @@ const EventForm = () => {
           minWidth={20}
           onChange={onFieldChange}
           error={fields['address'].error}
+        />
+
+        <TextField
+          name={'contactEmail'}
+          label={'Kontakt-e-post ved sen avmelding (valgfritt)'}
+          type={'email'}
+          minWidth={20}
+          onChange={onFieldChange}
+          error={fields['contactEmail']?.error}
         />
 
         <TextField

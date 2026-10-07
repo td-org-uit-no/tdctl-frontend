@@ -54,6 +54,9 @@ import {
 } from 'utils/validators';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 
+/* Who the event email is sent to. */
+type MailAudience = 'all' | 'confirmed' | 'waitlist';
+
 interface IBindingRegistrationButtons {
   onUpdate: () => void;
   onConfirm: () => void;
@@ -118,7 +121,7 @@ const EventResponses: React.FC<{
   const [confirmMsg, setConfirmMsg] = useState<string | undefined>();
 
   /* Email form */
-  const [confirmedOnly, setConfirmedOnly] = useState<boolean>(false);
+  const [mailAudience, setMailAudience] = useState<MailAudience>('all');
   const [mailError, setMailError] = useState<string | undefined>(undefined);
   const validators = {
     subject: mailSubjectValidator,
@@ -143,7 +146,8 @@ const EventResponses: React.FC<{
       await sendMail(event.eid, {
         subject: fields['subject']?.value,
         msg: fields['mail']?.value,
-        confirmedOnly: confirmedOnly,
+        confirmedOnly: mailAudience === 'confirmed',
+        waitListOnly: mailAudience === 'waitlist',
       });
       addToast({
         title: 'Suksess',
@@ -170,10 +174,13 @@ const EventResponses: React.FC<{
       return 0;
     }
     const recipients = event.participants.filter((p) => {
-      if (confirmedOnly) {
+      if (mailAudience === 'confirmed') {
         return p.confirmed === true;
       }
-      return !p.confirmed;
+      if (mailAudience === 'waitlist') {
+        return !p.confirmed;
+      }
+      return true;
     });
 
     return recipients.length;
@@ -551,6 +558,7 @@ const EventResponses: React.FC<{
           closeMailModal();
           /* Reset form */
           setMailError(undefined);
+          setMailAudience('all');
           fields['subject'].value = '';
           fields['mail'].value = '';
         }}>
@@ -577,11 +585,22 @@ const EventResponses: React.FC<{
                 resize={true}
               />
               <ToggleButton
-                onChange={() => {
-                  setConfirmedOnly(!confirmedOnly);
-                }}
-                initValue={confirmedOnly}
+                onChange={() =>
+                  setMailAudience(
+                    mailAudience === 'confirmed' ? 'all' : 'confirmed'
+                  )
+                }
+                initValue={mailAudience === 'confirmed'}
                 label="Kun send til de med bekreftet plass"
+              />
+              <ToggleButton
+                onChange={() =>
+                  setMailAudience(
+                    mailAudience === 'waitlist' ? 'all' : 'waitlist'
+                  )
+                }
+                initValue={mailAudience === 'waitlist'}
+                label="Kun send til de på venteliste"
               />
             </Flex>
           </form>
