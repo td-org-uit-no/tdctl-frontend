@@ -19,6 +19,21 @@ export const emailValidator = (email: string) => {
   return errors.length > 0 ? errors : undefined;
 };
 
+/* Same as emailValidator, but an empty value means "not set" and is allowed.
+   Also rejects whitespace and consecutive dots — the two most likely paste
+   mistakes the shared regex lets through but the API's EmailStr refuses.
+   Other edge cases (a leading dot, a doubled @) still reach the API and come
+   back as a 422; the form shows the API's own reason for those. */
+export const optionalEmailValidator = (email: string) => {
+  if (!email) {
+    return undefined;
+  }
+  if (/\s/.test(email) || email.includes('..')) {
+    return ['Eposten er ikke gyldig'];
+  }
+  return emailValidator(email);
+};
+
 export const passwordValidator = (password: string): string[] | undefined => {
   const errors: string[] = [];
 
