@@ -1,7 +1,7 @@
 import {
   CreateEvent,
   EventUpdate,
-  Participant,
+  ParticipantsResponse,
   Event,
   JoinEventPayload,
   ParticipantsUpdate,
@@ -44,8 +44,10 @@ export const updateEventOptions = (id: string, payload: JoinEventPayload) =>
 export const getEventImage = (eid: string): Promise<{ image: any }> =>
   get<{ image: any }>('event/' + eid + '/image');
 
-export const getJoinedParticipants = (eid: string): Promise<Participant[]> =>
-  get<Participant[]>('event/' + eid + '/participants');
+export const getJoinedParticipants = (
+  eid: string
+): Promise<ParticipantsResponse> =>
+  get<ParticipantsResponse>('event/' + eid + '/participants');
 
 export const updateEvent = (eid: string, eventUpdate: EventUpdate) =>
   put<EventUpdate>('event/' + eid, eventUpdate);
