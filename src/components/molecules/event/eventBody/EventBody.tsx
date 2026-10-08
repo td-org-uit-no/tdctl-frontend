@@ -385,7 +385,8 @@ export const EventInfo: React.FC<{ event: Event; role: RoleOptions }> = ({
     }
     try {
       const resp = await getJoinedParticipants(event.eid);
-      const str = getParticipantsText(event?.maxParticipants, resp.length);
+      const participantCount = Array.isArray(resp) ? resp.length : resp.count;
+      const str = getParticipantsText(event?.maxParticipants, participantCount);
       setParticipantText(str);
     } catch (error) {
       if (error.statusCode === 401) {
