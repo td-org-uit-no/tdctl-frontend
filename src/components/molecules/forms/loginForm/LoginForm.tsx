@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import useForm from 'hooks/useForm';
-import { login } from 'api';
+import { login, sendNewVerificationEmail } from 'api';
 import { Button } from '@chakra-ui/react';
 import TextField from 'components/atoms/textfield/Textfield';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -23,11 +23,22 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   const { updateCredentials } = useContext(AuthenticateContext);
   const [error, setError] = useState('');
+  const [canResend, setCanResend] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
   const history = useHistory();
   const location = useLocation<LocationState | null>();
 
   const moveToRegisterPage = () => {
     history.push('/registrer');
+  };
+
+  const resendConfirmation = async () => {
+    try {
+      await sendNewVerificationEmail(fields['email']?.value ?? '');
+    } catch {
+      // the endpoint answers the same way for every address
+    }
+    setResendSent(true);
   };
 
   const onSubmit = async () => {
@@ -53,6 +64,19 @@ const LoginForm: React.FC<LoginFormProps> = ({
         setError('E-posten er ikke på riktig format');
         return;
       }
+      // the API throttles repeated attempts from one caller or for one account
+      if (error.statusCode === 429) {
+        setError('For mange forsøk. Vent litt og prøv igjen.');
+        return;
+      }
+      // the account exists, but the e-mail address has not been confirmed yet
+      if (error.statusCode === 403) {
+        setCanResend(true);
+        setError(
+          'E-posten er ikke bekreftet. Sjekk innboksen din for bekreftelseslenken.'
+        );
+        return;
+      }
       setError('En ukjent feil skjedde.');
     }
   };
@@ -74,6 +98,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
           />
           <Link to={'restore-password'}>Glemt passord?</Link>
           {error !== '' && <p style={{ margin: 0 }}>{error}</p>}
+          {canResend && !resendSent && (
+            <Button variant={'secondary'} onClick={resendConfirmation}>
+              Send ny bekreftelses-e-post
+            </Button>
+          )}
+          {resendSent && (
+            <p style={{ margin: 0 }}>Ny bekreftelses-e-post er sendt.</p>
+          )}
         </div>
         <div className="buttonContainer">
           <Button variant={'primary'} type="submit">
