@@ -1,12 +1,12 @@
 {
-    email nettside-ansvarlig@td-uit.no
+	email nettside-ansvarlig@td-uit.no
 }
 
-https://td.org.uit.no {
-    redir https://td-uit.no permanent
+td.org.uit.no, www.td-uit.no {
+	redir https://td-uit.no{uri} permanent
 }
 
-https://td-uit.no {
-        file_server
-        try_files {path} /index.html
+td-uit.no {
+	file_server
+	try_files {path} /index.html
 }
