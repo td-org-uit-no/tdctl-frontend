@@ -156,7 +156,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       }
     } catch (error) {
       const detail = await error.getText();
-      if (error.statusCode === 400) {
+      if (error.statusCode === 400 || error.statusCode === 422) {
         addToast({
           title: 'Ikke godkjent oppdatering',
           status: 'error',

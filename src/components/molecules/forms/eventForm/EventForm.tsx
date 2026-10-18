@@ -119,7 +119,9 @@ const EventForm = () => {
           setError('Ugyldig dato');
           return;
         case 422:
-          setError('Alle feltene må fylles ut');
+          // the API names the field it rejected and why, so show that instead of
+          // claiming the form is empty when it plainly is not
+          setError((await error.getText()) || 'Alle feltene må fylles ut');
           return;
         default:
           addToast({
