@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './carousel.module.scss';
 import Icon from 'components/atoms/icons/icon';
 import { useMobileScreen } from 'hooks/useMobileScreen';
@@ -41,16 +41,15 @@ const Carousel: React.FC<CarouselProps> = ({
   title,
   height,
   dir,
-  viewItems,
+  viewItems = 3,
   spacing,
   children,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const nSlides = Math.ceil(React.Children.count(children) / viewItems);
+  const itemSize = 100 / viewItems;
+  const transformation = dir === 'column' ? 'translateY' : 'translateX';
   const [touchPosition, setTouchPosition] = useState<number | null>(null);
-  const [transformation, setTransformation] = useState('');
-  const [nSlides, setSlides] = useState(0);
-  const [itemSize, setItemSize] = useState(0);
-  const [transitionLength, setTransistionLength] = useState(0);
   const itemRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileScreen();
   // 12.5% of given space is used as spacing between items
@@ -70,26 +69,6 @@ const Carousel: React.FC<CarouselProps> = ({
   const handleClick = () => {
     history.push('/eventoverview');
   };
-  // handle mount before data is fetched
-  useEffect(() => {
-    // calculates the translation factor based on direction and the width of each item
-    function calcCarouselVariables() {
-      const nItems = React.Children.count(children);
-      const nViewItems = viewItems ? viewItems : 3;
-      const slides = Math.ceil(nItems / nViewItems);
-      const width = 100 / nViewItems;
-      setItemSize(width);
-      setSlides(slides);
-
-      setTransistionLength(100);
-    }
-    calcCarouselVariables();
-  }, [children, dir, viewItems]);
-
-  useEffect(() => {
-    setTransformation(dir === 'column' ? 'translateY' : 'translateX');
-  }, [activeIndex, dir, transitionLength]);
-
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const touchDown = e.touches[0].clientY;
     setTouchPosition(touchDown);
@@ -131,8 +110,8 @@ const Carousel: React.FC<CarouselProps> = ({
         <div
           className={styles.inner}
           style={{
-            // translate `translateLength` in x or y dir based on direction
-            transform: `${transformation}(-${activeIndex * transitionLength}%)`,
+            // move the cards one carousel width or height per slide
+            transform: `${transformation}(-${activeIndex * 100}%)`,
             flexWrap: dir === 'column' ? 'wrap' : undefined,
           }}>
           {React.Children.map(children, (child) => {
