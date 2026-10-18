@@ -2,7 +2,10 @@
 	email nettside-ansvarlig@td-uit.no
 }
 
-td.org.uit.no, www.td-uit.no {
+td.org.uit.no, www.td-uit.no,
+www.td.org.uit.no,
+tsdf.no, www.tsdf.no,
+tromsostudentenesdataforening.no, www.tromsostudentenesdataforening.no {
 	redir https://td-uit.no{uri} permanent
 }
 
