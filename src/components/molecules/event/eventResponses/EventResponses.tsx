@@ -119,6 +119,7 @@ const EventResponses: React.FC<{
 
   /* Email form */
   const [confirmedOnly, setConfirmedOnly] = useState<boolean>(false);
+  const [waitListOnly, setWaitListOnly] = useState<boolean>(false);
   const [mailError, setMailError] = useState<string | undefined>(undefined);
   const validators = {
     subject: mailSubjectValidator,
@@ -144,7 +145,9 @@ const EventResponses: React.FC<{
         subject: fields['subject']?.value,
         msg: fields['mail']?.value,
         confirmedOnly: confirmedOnly,
+        waitListOnly: waitListOnly,
       });
+
       addToast({
         title: 'Suksess',
         status: 'success',
@@ -165,7 +168,7 @@ const EventResponses: React.FC<{
     validators: validators,
   });
 
-  const calculateMailRecipients = () => {
+  const calculateNrMailRecipients = () => {
     if (!event.participants) {
       return 0;
     }
@@ -173,7 +176,10 @@ const EventResponses: React.FC<{
       if (confirmedOnly) {
         return p.confirmed === true;
       }
-      return !p.confirmed;
+      if (waitListOnly) {
+        return p.confirmed === false;
+      }
+      return true;
     });
 
     return recipients.length;
@@ -579,9 +585,18 @@ const EventResponses: React.FC<{
               <ToggleButton
                 onChange={() => {
                   setConfirmedOnly(!confirmedOnly);
+                  if (!confirmedOnly) setWaitListOnly(false);
                 }}
                 initValue={confirmedOnly}
                 label="Kun send til de med bekreftet plass"
+              />
+              <ToggleButton
+                onChange={() => {
+                  setWaitListOnly(!waitListOnly);
+                  if (!waitListOnly) setConfirmedOnly(false);
+                }}
+                initValue={waitListOnly}
+                label="Kun send til de på venteliste"
               />
             </Flex>
           </form>
@@ -593,8 +608,9 @@ const EventResponses: React.FC<{
               </Text>
             )}
             <Flex direction="column" justifyContent="end" mr={2}>
-              <Text fontSize="xs" fontStyle="italic" color="slate.400" m={0}>
-                Eposten vil bli sendt til {calculateMailRecipients()} studenter
+              <Text fontSize="s" fontStyle="italic" color="slate.400" m={0}>
+                Eposten vil bli sendt til {calculateNrMailRecipients()}{' '}
+                studenter
               </Text>
             </Flex>
             <Button variant="secondary" onClick={submitMail}>
