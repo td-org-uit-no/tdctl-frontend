@@ -128,6 +128,9 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
         const uid = memberResp.id;
         /* Get event participants */
         const participantsResp = await getJoinedParticipants(eventData.eid);
+        if (!Array.isArray(participantsResp)) {
+          return;
+        }
         /* Determine spot in queue */
         const spot = participantsResp.findIndex((p) => p.id === uid);
         spot + 1 < eventData.maxParticipants

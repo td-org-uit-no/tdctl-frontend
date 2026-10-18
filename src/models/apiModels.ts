@@ -36,6 +36,8 @@ export interface Participant {
   attended?: boolean;
 }
 
+export type ParticipantsResponse = Participant[] | { count: number };
+
 export interface TokenPair {
   accessToken: string;
   refreshToken: string;
