@@ -75,6 +75,7 @@ export interface Event {
   date: string;
   host: string;
   address: string;
+  contactEmail?: string;
   price: number;
   bindingRegistration: boolean;
   duration?: number;
@@ -97,10 +98,14 @@ export type EventUpdate = Partial<
     | 'description'
     | 'date'
     | 'address'
+    | 'contactEmail'
     | 'price'
     | 'maxParticipants'
     | 'public'
     | 'confirmed'
+    | 'food'
+    | 'transportation'
+    | 'registrationOpeningDate'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
@@ -124,6 +129,7 @@ export interface EventMailPayload {
   subject: string;
   msg: string;
   confirmedOnly?: boolean;
+  waitListOnly?: boolean;
 }
 
 export interface JobItem {
