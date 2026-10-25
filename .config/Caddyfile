@@ -6,10 +6,16 @@ td.org.uit.no, www.td-uit.no,
 www.td.org.uit.no,
 tsdf.no, www.tsdf.no,
 tromsostudentenesdataforening.no, www.tromsostudentenesdataforening.no {
+	tls {
+		protocols tls1.3
+	}
 	redir https://td-uit.no{uri} permanent
 }
 
 td-uit.no {
+	tls {
+		protocols tls1.3
+	}
 	file_server
 	try_files {path} /index.html
 }
