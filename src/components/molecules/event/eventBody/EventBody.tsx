@@ -19,6 +19,7 @@ import {
   timeValidator,
   PNGImageValidator,
   eventTitleValidator,
+  optionalEmailValidator,
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
@@ -65,6 +66,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     // maxParticipants is set to "" when event does not have maxParticipants
     // since "" is the init value for fields["maxParticipants"]
     maxParticipants: event.maxParticipants?.toString() ?? '',
+    contactEmail: event.contactEmail ?? '',
   };
 
   const validators = {
@@ -75,6 +77,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     address: addressValidator,
     maxParticipants: maxParticipantsValidator,
     price: priceValidator,
+    contactEmail: optionalEmailValidator,
   };
 
   const submit = async () => {
@@ -95,6 +98,10 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       }),
       ...(fields['address']?.value !== event.address && {
         address: fields['address']?.value,
+      }),
+      ...(fields['contactEmail']?.value !== initalValue.contactEmail && {
+        // null (not undefined) is how the API unsets an optional field
+        contactEmail: fields['contactEmail']?.value || null,
       }),
       ...(fields['price']?.value !== event.price.toString() && {
         price: Number(fields['price']?.value),
@@ -229,6 +236,16 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                   label={'Sted'}
                   value={fields['address'].value ?? ''}
                   error={fields['address'].error}
+                  style={{ boxSizing: 'border-box', width: '100%' }}
+                />
+                <TextField
+                  name={'contactEmail'}
+                  type={'email'}
+                  maxWidth={60}
+                  onChange={onFieldChange}
+                  label={'Kontakt-e-post'}
+                  value={fields['contactEmail']?.value ?? ''}
+                  error={fields['contactEmail']?.error}
                   style={{ boxSizing: 'border-box', width: '100%' }}
                 />
                 <TextField

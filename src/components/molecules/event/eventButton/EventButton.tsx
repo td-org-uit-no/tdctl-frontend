@@ -157,6 +157,11 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     updateText();
   }, [isJoined, id]);
 
+  // Where participants should write if they have to cancel late. The API only
+  // sends contactEmail to a logged-in caller inside the 24h window, which is
+  // the only case this notice renders, so it is there when we need it.
+  const contactAddress = event?.contactEmail ?? event?.host ?? 'post@td-uit.no';
+
   return (
     <div>
       {!preferencesOpen && (
@@ -188,7 +193,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
                 </u>
                 . To eller flere merknader vil gi nedsatt prioritet på andre
                 arrangementer ut semesteret. Har du gyldig grunn ta kontakt med{' '}
-                <a href="mailto:">{event?.host ?? 'kontakt@td-uit.no'}</a>
+                <a href={'mailto:' + contactAddress}>{contactAddress}</a>
               </p>
             )}
           </div>
