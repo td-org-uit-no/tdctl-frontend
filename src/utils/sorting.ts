@@ -8,17 +8,13 @@ export type SortOption = {
 
 export const sortString = new Intl.Collator('nb').compare;
 
-export const sortNumber = (a: number, b: number) => {
-  return a > b ? 1 : -1;
-};
+export const sortNumber = (a: number, b: number) => a - b;
 
 export const sortDate = (a: Date, b: Date) => {
   return Number(a) - Number(b);
 };
 
-export const sortBoolean = (a: boolean, b: boolean) => {
-  return a > b ? 1 : -1;
-};
+export const sortBoolean = (a: boolean, b: boolean) => Number(a) - Number(b);
 
 type KeyMap = Record<keyof SortOption, (a: any, b: any) => number>;
 
