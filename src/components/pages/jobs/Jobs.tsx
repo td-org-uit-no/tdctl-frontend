@@ -12,6 +12,7 @@ import JobCard from 'components/molecules/jobCard/JobCard';
 import useTitle from 'hooks/useTitle';
 import Footer from 'components/molecules/footer/Footer';
 import { useHistory } from 'react-router-dom';
+import { sortString } from 'utils/sorting';
 import {
   Box,
   HStack,
@@ -68,7 +69,7 @@ const FilterJobs: React.FC = () => {
         }
       });
     });
-    return tags.sort();
+    return tags.sort(sortString);
   };
   const ctxHook = useContext(FilterContextHook);
   const [uniqueTags, setUniqueTags] = useState<string[]>(
