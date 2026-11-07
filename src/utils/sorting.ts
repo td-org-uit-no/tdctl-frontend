@@ -6,9 +6,7 @@ export type SortOption = {
   bool: boolean;
 };
 
-export const sortString = (a: string, b: string) => {
-  return a.toLocaleLowerCase() > b.toLocaleLowerCase() ? 1 : -1;
-};
+export const sortString = new Intl.Collator('nb').compare;
 
 export const sortNumber = (a: number, b: number) => {
   return a > b ? 1 : -1;
