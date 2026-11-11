@@ -165,19 +165,9 @@ const EventResponses: React.FC<{
     validators: validators,
   });
 
-  const calculateMailRecipients = () => {
-    if (!event.participants) {
-      return 0;
-    }
-    const recipients = event.participants.filter((p) => {
-      if (confirmedOnly) {
-        return p.confirmed === true;
-      }
-      return !p.confirmed;
-    });
-
-    return recipients.length;
-  };
+  const mailRecipients = confirmedOnly
+    ? event.participants?.filter((p) => p.confirmed)
+    : event.participants?.filter((p) => !p.confirmed);
 
   useEffect(() => {
     const fetchConfirmMsg = async () => {
@@ -594,7 +584,8 @@ const EventResponses: React.FC<{
             )}
             <Flex direction="column" justifyContent="end" mr={2}>
               <Text fontSize="xs" fontStyle="italic" color="slate.400" m={0}>
-                Eposten vil bli sendt til {calculateMailRecipients()} studenter
+                Eposten vil bli sendt til {mailRecipients?.length ?? 0}{' '}
+                studenter
               </Text>
             </Flex>
             <Button variant="secondary" onClick={submitMail}>
