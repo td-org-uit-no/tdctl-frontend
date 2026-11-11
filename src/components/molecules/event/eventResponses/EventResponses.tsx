@@ -167,7 +167,7 @@ const EventResponses: React.FC<{
 
   const mailRecipients = confirmedOnly
     ? event.participants?.filter((p) => p.confirmed)
-    : event.participants?.filter((p) => !p.confirmed);
+    : event.participants;
 
   useEffect(() => {
     const fetchConfirmMsg = async () => {
