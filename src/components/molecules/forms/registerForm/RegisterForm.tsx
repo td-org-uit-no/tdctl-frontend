@@ -72,6 +72,9 @@ const RegisterForm = () => {
         case 422:
           setErrors('Alle feltene må fylles ut');
           return;
+        case 429:
+          setErrors('For mange forsøk. Vent litt og prøv igjen.');
+          return;
         default:
           setErrors('Noe gikk galt');
           return;

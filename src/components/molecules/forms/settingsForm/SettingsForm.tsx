@@ -73,6 +73,10 @@ const SettingsForm: React.FC<Props> = ({ init }) => {
         setError('Ikke gyldig epost');
         return;
       }
+      if (error.statusCode === 409) {
+        setError('Epost er allerede i bruk');
+        return;
+      }
       if (error.statusCode === 500) {
         setError('Internal server error');
         return;
