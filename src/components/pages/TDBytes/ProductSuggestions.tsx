@@ -22,7 +22,6 @@ import { useToast } from 'hooks/useToast';
 import { ProductSuggestion } from 'models/apiModels';
 import { useContext, useEffect, useState } from 'react';
 import { sortDate } from 'utils/sorting';
-import { transformDate } from 'utils/timeConverter';
 
 const SuggestionsPage = () => {
   const [suggestions, setSuggestions] = useState<
@@ -122,7 +121,12 @@ const SuggestionsPage = () => {
                   !errMsg &&
                   suggestions.map((suggestion) => (
                     <Tr key={suggestion.timestamp.toString()}>
-                      <Td>{transformDate(new Date(suggestion.timestamp))}</Td>
+                      <Td>
+                        {new Date(suggestion.timestamp).toLocaleDateString(
+                          'nb',
+                          { dateStyle: 'short' }
+                        )}
+                      </Td>
                       <Td
                         style={{
                           whiteSpace: 'normal',
