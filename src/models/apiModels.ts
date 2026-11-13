@@ -88,6 +88,7 @@ export interface Event {
   public: boolean;
   registrationOpeningDate?: string;
   confirmed?: boolean;
+  moviePoll?: MoviePoll | null;
 }
 
 export type EventUpdate = Partial<
@@ -101,6 +102,7 @@ export type EventUpdate = Partial<
     | 'maxParticipants'
     | 'public'
     | 'confirmed'
+    | 'moviePoll'
   >
 >;
 export type CreateEvent = Omit<Event, 'eid' | 'host'>;
@@ -109,6 +111,7 @@ export interface JoinEventPayload {
   food?: boolean;
   transportation?: boolean;
   dietaryRestrictions?: string;
+  movieVotes?: string[];
 }
 
 export interface SetAttendancePayload {
@@ -193,3 +196,14 @@ export interface ProductSuggestion {
   timestamp: Date;
   username: string;
 }
+
+export interface MoviePollOption {
+  id: string;
+  title: string;
+}
+
+export interface MoviePoll {
+  options: MoviePollOption[];
+}
+
+

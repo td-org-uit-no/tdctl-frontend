@@ -34,3 +34,13 @@
     transform: translateY(0);
   }
 }
+.moviePoll {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.moviePollTitle {
+  margin: 0;
+  font-weight: bold;
+}

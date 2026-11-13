@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import TextField from 'components/atoms/textfield/Textfield';
-import { JoinEventPayload } from 'models/apiModels';
+import { JoinEventPayload, MoviePollOption } from 'models/apiModels';
 import styles from './EventPreferences.module.scss';
 
 export interface EventPreferencesProps {
@@ -9,6 +9,7 @@ export interface EventPreferencesProps {
   isfood: boolean | undefined;
   istransportation: boolean | undefined;
   changePrefs: (prefs: JoinEventPayload) => void;
+  movieOptions?: MoviePollOption[];
 }
 
 const EventPreferences: React.FC<EventPreferencesProps> = ({
@@ -16,10 +17,19 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
   isfood,
   istransportation,
   changePrefs,
+  movieOptions,
 }) => {
   const [showAllergies, setShowAllergies] = useState<boolean>(
     prefs.dietaryRestrictions ? true : false
   );
+
+  const toggleMovieVote = (id: string) => {
+    const current = prefs.movieVotes ?? [];
+    const updated = current.includes(id)
+      ? current.filter((v) => v !== id)
+      : [...current, id];
+    changePrefs({ ...prefs, movieVotes: updated });
+  };
 
   return (
     <div className={styles.formToggles}>
@@ -78,6 +88,19 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
             });
           }}
         />
+      )}
+      {movieOptions && movieOptions.length > 0 && (
+        <div className={styles.moviePoll}>
+          <p className={styles.moviePollTitle}>Hvilke filmer vil du se?</p>
+          {movieOptions.map((option) => (
+            <ToggleButton
+              key={option.id}
+              label={option.title}
+              initValue={prefs.movieVotes?.includes(option.id) ?? false}
+              onChange={() => toggleMovieVote(option.id)}
+            />
+          ))}
+        </div>
       )}
     </div>
   );

@@ -45,12 +45,14 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    movieVotes: [],
   });
   /* Payload to send */
   const [editPrefsPayload, setEditPrefsPayload] = useState<JoinEventPayload>({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    movieVotes: [],
   });
 
   /* Predefined statuses */
@@ -162,7 +164,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
       });
     } else if (
       !preferencesOpen &&
-      (eventData?.food || eventData?.transportation)
+      (eventData?.food || eventData?.transportation || eventData?.moviePoll?.options.length)
     ) {
       openPreferences();
     } else {
@@ -200,6 +202,10 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
       });
     }
   };
+
+  const votedTitles = (eventData?.moviePoll?.options ?? [])
+    .filter((o) => options.movieVotes?.includes(o.id))
+    .map((o) => o.title);
 
   return (
     <div className={styles.myEventCard}>
@@ -253,6 +259,16 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
                 </span>
               )}
             </div>
+            <div>
+              Film{' '}
+              {votedTitles.length > 0 ? (
+                <span>{votedTitles.join(', ')}</span>
+              ) : eventData?.moviePoll?.options.length ? (
+                <Icon type={'ban'} color={'red'} />
+              ) : (
+                <NA />
+              )}
+            </div>
           </div>
           <div className={styles.rightWrapper}>
             <div className={styles.statusWrapper}>
@@ -293,6 +309,7 @@ const MyEventCard: React.FC<MyEventCardProps> = ({ eventData }) => {
             isfood={eventData?.food}
             istransportation={eventData?.transportation}
             changePrefs={handlePrefsChange}
+            movieOptions={eventData?.moviePoll?.options}
           />
           <Button onClick={editPrefsAction}>Oppdater</Button>
         </div>

@@ -41,6 +41,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
     food: false,
     transportation: false,
     dietaryRestrictions: '',
+    movieVotes: [],
   });
   const { addToast } = useToast();
   const { isOpen, onOpen, onClose } = useModal();
@@ -133,7 +134,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
 
   const handleButtonAction = () => {
     if (!isJoined) {
-      !preferencesOpen && (event?.transportation || event?.food)
+      !preferencesOpen && (event?.transportation || event?.food || event?.moviePoll?.options.length)
         ? openPreferences()
         : joinEventAction();
       return;
@@ -210,6 +211,7 @@ const AuthEventButton: React.FC<AuthButtonProps> = ({
             isfood={event?.food}
             istransportation={event?.transportation}
             changePrefs={handlePrefsChange}
+            movieOptions={event?.moviePoll?.options}
           />
           <Button variant="secondary" onClick={joinEventAction}>
             Meld på

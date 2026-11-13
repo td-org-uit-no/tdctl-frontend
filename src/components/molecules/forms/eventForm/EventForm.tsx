@@ -23,12 +23,17 @@ import DropdownHeader from 'components/atoms/dropdown/dropdownHeader/DropdownHea
 import { useToast } from 'hooks/useToast';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
 import ReuploadImageModal from 'components/molecules/modals/reuploadModal/ReuploadModal';
+import MoviePollEditor, {validateMovieOptions} from 'components/molecules/forms/moviePollEditor/MoviePollEditor';
+import { MoviePollOption } from 'models/apiModels';
+
 
 const EventForm = () => {
   const [file, setFile] = useState<File | undefined>();
   const [eid, setEid] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>(undefined);
   const [food, setFood] = useState<boolean>(false);
+  const [moviePollEnabled, setMoviePollEnabled] = useState<boolean>(false);
+  const [movieOptions, setMovieOptions] = useState<MoviePollOption[]>([]);
   const [transportation, setTransportation] = useState<boolean>(false);
   const [publicEvent, setPublicEvent] = useState<boolean>(false);
   const [shouldOpen, setShouldOpen] = useState<boolean>(false);
@@ -60,6 +65,14 @@ const EventForm = () => {
     if (hasErrors || emptyFields) {
       return;
     }
+
+    if (moviePollEnabled) {
+      const pollError = validateMovieOptions(movieOptions);
+      if (pollError) {
+        setError(pollError);
+        return;
+      }
+    }
     try {
       const price = parseInt(fields['price']?.value);
       const maxParticipants = parseInt(fields['maxParticipants']?.value);
@@ -80,6 +93,11 @@ const EventForm = () => {
         public: publicEvent,
         bindingRegistration: bindingRegistration,
         registrationOpeningDate: regDate,
+        ...(moviePollEnabled && {
+          moviePoll: {
+            options: movieOptions.map((o) => ({ ...o, title: o.title.trim() })),
+          },
+        }),
       });
       setEid(resp.eid);
       if (file) {
@@ -232,6 +250,12 @@ const EventForm = () => {
             initValue={transportation}></ToggleButton>
           <ToggleButton
             onChange={() => {
+              setMoviePollEnabled(!moviePollEnabled);
+            }}
+            label={'Filmavstemning'}
+            initValue={moviePollEnabled}></ToggleButton>
+          <ToggleButton
+            onChange={() => {
               setPublicEvent(!publicEvent);
             }}
             label={'Offentlig (synlig for vanlige brukere)'}
@@ -243,6 +267,9 @@ const EventForm = () => {
             label={'Bindende påmelding'}
             initValue={bindingRegistration}></ToggleButton>
         </div>
+        {moviePollEnabled && (
+          <MoviePollEditor options={movieOptions} onChange={setMovieOptions} />
+        )}
         <FileSelector
           setFile={setFile}
           text="Last opp bilde til arrangementet"

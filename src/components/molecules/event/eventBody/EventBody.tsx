@@ -9,6 +9,8 @@ import ToggleButton from 'components/atoms/toggleButton/ToggleButton';
 import { Text } from '@chakra-ui/react';
 import { ListItem, List, ListIcon } from '@chakra-ui/react';
 import { MdCheckCircle, MdBlock } from 'react-icons/md';
+import {Event, MoviePollOption} from 'models/apiModels'
+import MoviePollEditor, {validateMovieOptions} from 'components/molecules/forms/moviePollEditor/MoviePollEditor';
 import { getJoinedParticipants, updateEvent, uploadEventPicture } from 'api';
 import {
   addressValidator,
@@ -22,7 +24,6 @@ import {
 } from 'utils/validators';
 import useForm from 'hooks/useForm';
 import { useHistory } from 'react-router-dom';
-import { Event } from 'models/apiModels';
 import { AuthenticateContext, RoleOptions, Roles } from 'contexts/authProvider';
 import ReactMarkdown from 'react-markdown';
 import FileSelector from 'components/atoms/fileSelector/FileSelector';
@@ -46,8 +47,17 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   const [toggleTransportation, setToggleTransportation] = useState<boolean>(
     event.transportation ?? false
   );
+
+  const initialMovieOptions = event.moviePoll?.options ?? [];
+  const [moviePollEnabled, setMoviePollEnabled] = useState<boolean>(
+    initialMovieOptions.length > 0
+  );
+  const [movieOptions, setMovieOptions] = 
+    useState<MoviePollOption[]>(initialMovieOptions);
+
   const [file, setFile] = useState<File | undefined>();
   const { addToast } = useToast();
+
 
   const initalValue = {
     title: event.title,
@@ -77,9 +87,23 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
     price: priceValidator,
   };
 
+  const moviePollChanged = () => {
+    const before = JSON.stringify(initialMovieOptions);
+    const after = JSON.stringify(moviePollEnabled ? movieOptions : []);
+    return before !== after;
+  };
+
   const submit = async () => {
     if (hasErrors) {
       return;
+    }
+    
+    if (moviePollEnabled) {
+      const pollError = validateMovieOptions(movieOptions);
+      if (pollError) {
+        setError(pollError);
+        return;
+      }
     }
 
     const updatePayload = {
@@ -123,6 +147,12 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
       }),
       ...(togglePublic !== event.public && {
         public: togglePublic,
+      }),
+      ...(moviePollChanged() && { 
+        moviePoll: moviePollEnabled
+        ? { options: movieOptions.map((o) => ({ ...o, title: o.title.trim() }))
+      }
+          : null,
       }),
     } as Event;
 
@@ -301,6 +331,13 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
                     }
                     label={'Transport'}></ToggleButton>
                   <ToggleButton
+                    initValue={moviePollEnabled}
+                    onChange={() => setMoviePollEnabled(!moviePollEnabled)}
+                    label={'Filmavstemning'}></ToggleButton>
+                  {moviePollEnabled && ( 
+                    <MoviePollEditor options={movieOptions} onChange={setMovieOptions} />
+                  )}
+                  <ToggleButton
                     initValue={togglePublic}
                     onChange={() => setTogglePublic(!togglePublic)}
                     label={'Offentlig'}></ToggleButton>
@@ -337,7 +374,7 @@ export const EditEvent: React.FC<{ event: Event; setEdit: () => void }> = ({
   );
 };
 
-const validJoin = (role: RoleOptions, eventRegString: string | undefined) => {
+const validJoin =(role: RoleOptions, eventRegString: string | undefined) => {
   if (eventRegString === undefined) {
     return false;
   }
