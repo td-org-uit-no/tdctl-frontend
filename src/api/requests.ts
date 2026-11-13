@@ -14,8 +14,22 @@ export class HttpError extends Error {
   public getText = async () => {
     try {
       let res = await this.text;
-      const reason = JSON.parse(res);
-      return reason.detail;
+      const { detail } = JSON.parse(res);
+      // FastAPI validation errors arrive as a list, one entry per offending
+      // field, so turn them into one line we can actually show the user.
+      if (Array.isArray(detail)) {
+        return detail
+          .map(({ loc, msg }) => {
+            // loc looks like ["body", "contactEmail"]. The last entry is only a
+            // field name when it is a string — for an array field it is an index.
+            const field = Array.isArray(loc) ? loc[loc.length - 1] : '';
+            return typeof field === 'string' && field
+              ? `${field}: ${msg}`
+              : msg;
+          })
+          .join(', ');
+      }
+      return detail;
     } catch (error) {
       return '';
     }
